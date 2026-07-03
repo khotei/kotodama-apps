@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.turbo/
+.vite/
+storybook-static/
+
+# Environment — keep .env.example, ignore everything else
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Editor config — local only, never shared
+.idea/
+.vscode/
+
+# Claude Code runtime — machine-local session state, never commit
+.claude/scheduled_tasks.lock
+
+# Note: bun.lock is committed (do NOT ignore it).
+# Note: packages/fe-api-client/src/schema.gen.ts IS committed — the OpenAPI
+# drift gate diffs the regenerated file against the committed one.

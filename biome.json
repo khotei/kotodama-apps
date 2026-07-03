@@ -1,0 +1,242 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.2/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!**/dist", "!**/storybook-static", "!**/schema.gen.ts"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "domains": {
+      "react": "recommended"
+    },
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noUnusedImports": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error"
+      },
+      "style": {
+        "useImportType": "error"
+      }
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["packages/fe-tokens/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/*"],
+                    "message": "Leaf violation: packages/fe-tokens is the design-system leaf — it must import NOTHING internal. Tokens are the platform-agnostic source everything else consumes. (F-PLAT-014 §7, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/fe-api-client/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/fe-core",
+                      "@kotodama/fe-store",
+                      "@kotodama/fe-theme",
+                      "@kotodama/fe-ui",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: packages/fe-api-client is the base of the spine — it imports NO internal package (only openapi-fetch + its own generated schema.gen). (F-PLAT-014 §5, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/fe-core/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/fe-store",
+                      "@kotodama/fe-theme",
+                      "@kotodama/fe-ui",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: packages/fe-core is pure domain logic — it may import fe-api-client TYPES only, never store, the web design-system, or apps. (F-PLAT-014 §5, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/fe-store/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/fe-theme", "@kotodama/fe-ui", "@kotodama/web"],
+                    "message": "Layer violation: packages/fe-store composes fe-api-client + fe-core into queryOptions factories — it must not import the web design-system (theme/ui) or apps. It is platform-agnostic spine. (F-PLAT-014 §5, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/fe-theme/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/fe-api-client",
+                      "@kotodama/fe-core",
+                      "@kotodama/fe-store",
+                      "@kotodama/fe-ui",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: packages/fe-theme consumes ONLY fe-tokens (a Chakra system over semantic tokens). It must not import the spine, fe-ui, or apps. (F-PLAT-014 §5, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/fe-ui/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/fe-api-client",
+                      "@kotodama/fe-core",
+                      "@kotodama/fe-store",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: packages/fe-ui is presentational (Chakra + Ark over fe-theme/fe-tokens) — it takes data via props and must not import the spine or apps. (F-PLAT-014 §5, AC-3)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/web/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/fe-api-client", "@kotodama/fe-api-client/**"],
+                    "message": "Layer violation: apps/web reaches the API ONLY through fe-store's queryOptions factories, never the transport client directly. A component/route importing fe-api-client bypasses the store seam. (F-PLAT-014 §7 S1, AC-2)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/web/src/features/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/fe-api-client",
+                      "@kotodama/fe-api-client/**",
+                      "**/routes/**",
+                      "**/router",
+                      "**/entry-client*",
+                      "**/entry-server*",
+                      "**/server"
+                    ],
+                    "message": "Layer violation: apps/web/src/features/* is BELOW the render layer — it must not import routes, the router, the SSR entries, or the Bun server (render composes features, not the reverse). This is the one intra-app relative-import edge (V1); validated by the walking skeleton. (F-PLAT-014 §5 S1, AC-2)"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
