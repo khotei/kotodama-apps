@@ -1,0 +1,14 @@
+# Bun workspace config.
+#
+# linker = "hoisted" is NON-NEGOTIABLE for this repo: React must resolve to a
+# SINGLE instance across every workspace or hooks/context break at runtime
+# (two React copies => "Invalid hook call" / duplicate context). Bun 1.3's
+# default `isolated` linker combined with catalogs has an open dedupe bug that
+# yields multiple React copies (oven-sh/bun#23615), so we pin the classic
+# hoisted node_modules layout until that closes.
+#
+# Net-new vs the backend template: the backend has no bunfig.toml and no
+# single-instance requirement (no React). Re-evaluate `hoisted` once #23615 is
+# fixed. See .claude/rules/tooling.md.
+[install]
+linker = "hoisted"
