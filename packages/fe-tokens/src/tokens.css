@@ -1,0 +1,30 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --color-brand-500: #6d28d9;
+  --color-brand-600: #5b21b6;
+  --color-brand-700: #4c1d95;
+  --color-gray-50: #f9fafb;
+  --color-gray-200: #e5e7eb;
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-white: #ffffff;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --bg-canvas: #f9fafb;
+  --bg-surface: #ffffff;
+  --fg-default: #111827;
+  --fg-muted: #6b7280;
+  --border-subtle: #e5e7eb;
+  --accent-default: #5b21b6;
+  --accent-emphasis: #4c1d95;
+}
