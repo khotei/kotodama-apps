@@ -7,12 +7,13 @@ Scaffold a new workspace at `$ARGUMENTS`, following the existing conventions.
 
 The mechanical scaffolder is `scripts/new-package.ts` — run it, then adjust deps:
 
-1. **Validate the layer + platform.** The target must be under `apps/` or `packages/` (there are no
-   db/use-cases/infra tiers). Confirm the intended dependencies respect
-   `@.claude/rules/frontend-layering.md`. Decide `--dom`: pass it ONLY for a web workspace that
-   renders (apps/web, packages/fe-theme, fe-ui). OMIT it for the platform-agnostic spine
-   (fe-api-client / fe-core / fe-store / fe-tokens) so a stray `document`/`window`/react-dom import
-   is a `tsc` error (S2/V2 — the DOM-free tsconfig is the primary web↔native enforcer).
+1. **Validate the layer + platform.** The target must be under `apps/`, a top-level tier
+   (`core`/`repositories`/`store`/`use-cases`), or `packages/`. Confirm the intended dependencies
+   respect `@.claude/rules/frontend-layering.md`. Decide `--dom`: pass it ONLY for a web workspace
+   that renders (apps/web, packages/ui). OMIT it for the platform-agnostic tiers
+   (core / repositories / store / packages/api-client) so a stray `document`/`window`/react-dom
+   import is a `tsc` error (S2/V2 — the DOM-free tsconfig is the primary web↔native enforcer).
+   `use-cases` is DOM-free but hand-authored with `jsx` for its provider (scaffold, then add jsx).
 2. **Run the scaffolder:** `bun --bun scripts/new-package.ts <layer>/<name> [--dom]`. It emits
    `package.json` (`@kotodama/<flattened-name>`, `private`, `exports → ./src/index.ts`, and the
    REQUIRED `bun --bun`-prefixed `typecheck`/`test` scripts the root aggregators enumerate),

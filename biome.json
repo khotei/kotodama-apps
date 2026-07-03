@@ -56,7 +56,7 @@
   },
   "overrides": [
     {
-      "includes": ["packages/fe-tokens/**"],
+      "includes": ["packages/api-client/**"],
       "linter": {
         "rules": {
           "style": {
@@ -66,7 +66,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/*"],
-                    "message": "Leaf violation: packages/fe-tokens is the design-system leaf — it must import NOTHING internal. Tokens are the platform-agnostic source everything else consumes. (F-PLAT-014 §7, AC-3)"
+                    "message": "Layer violation: packages/api-client is the transport base — it imports NO internal package (only openapi-fetch + its own generated schema.gen). See frontend-layering.md."
                   }
                 ]
               }
@@ -76,7 +76,27 @@
       }
     },
     {
-      "includes": ["packages/fe-api-client/**"],
+      "includes": ["packages/ui/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/*"],
+                    "message": "Leaf violation: packages/ui is the design-system leaf (Chakra + tokens + components) — it imports NOTHING internal and takes data via props. See frontend-layering.md."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["core/**"],
       "linter": {
         "rules": {
           "style": {
@@ -86,13 +106,13 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/fe-core",
-                      "@kotodama/fe-store",
-                      "@kotodama/fe-theme",
-                      "@kotodama/fe-ui",
+                      "@kotodama/repositories",
+                      "@kotodama/store",
+                      "@kotodama/use-cases",
+                      "@kotodama/ui",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: packages/fe-api-client is the base of the spine — it imports NO internal package (only openapi-fetch + its own generated schema.gen). (F-PLAT-014 §5, AC-3)"
+                    "message": "Layer violation: core is pure domain logic — it may import @kotodama/api-client TYPES only, never repositories/store/use-cases, the design system, or apps."
                   }
                 ]
               }
@@ -102,7 +122,7 @@
       }
     },
     {
-      "includes": ["packages/fe-core/**"],
+      "includes": ["repositories/**"],
       "linter": {
         "rules": {
           "style": {
@@ -112,12 +132,13 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/fe-store",
-                      "@kotodama/fe-theme",
-                      "@kotodama/fe-ui",
+                      "@kotodama/core",
+                      "@kotodama/store",
+                      "@kotodama/use-cases",
+                      "@kotodama/ui",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: packages/fe-core is pure domain logic — it may import fe-api-client TYPES only, never store, the web design-system, or apps. (F-PLAT-014 §5, AC-3)"
+                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never core/store/use-cases, the design system, or apps."
                   }
                 ]
               }
@@ -127,7 +148,7 @@
       }
     },
     {
-      "includes": ["packages/fe-store/**"],
+      "includes": ["store/**"],
       "linter": {
         "rules": {
           "style": {
@@ -136,8 +157,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/fe-theme", "@kotodama/fe-ui", "@kotodama/web"],
-                    "message": "Layer violation: packages/fe-store composes fe-api-client + fe-core into queryOptions factories — it must not import the web design-system (theme/ui) or apps. It is platform-agnostic spine. (F-PLAT-014 §5, AC-3)"
+                    "group": ["@kotodama/use-cases", "@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: store composes repositories + core into queryOptions — it must not import use-cases, the design system, or apps. It is platform-agnostic spine."
                   }
                 ]
               }
@@ -147,7 +168,7 @@
       }
     },
     {
-      "includes": ["packages/fe-theme/**"],
+      "includes": ["use-cases/**"],
       "linter": {
         "rules": {
           "style": {
@@ -156,39 +177,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": [
-                      "@kotodama/fe-api-client",
-                      "@kotodama/fe-core",
-                      "@kotodama/fe-store",
-                      "@kotodama/fe-ui",
-                      "@kotodama/web"
-                    ],
-                    "message": "Layer violation: packages/fe-theme consumes ONLY fe-tokens (a Chakra system over semantic tokens). It must not import the spine, fe-ui, or apps. (F-PLAT-014 §5, AC-3)"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["packages/fe-ui/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/fe-api-client",
-                      "@kotodama/fe-core",
-                      "@kotodama/fe-store",
-                      "@kotodama/web"
-                    ],
-                    "message": "Layer violation: packages/fe-ui is presentational (Chakra + Ark over fe-theme/fe-tokens) — it takes data via props and must not import the spine or apps. (F-PLAT-014 §5, AC-3)"
+                    "group": ["@kotodama/repositories", "@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: use-cases reach data through @kotodama/store, never repositories directly; and never the design system or apps. (api-client types are fine — it is a leaf package.) Keep it DOM-free."
                   }
                 ]
               }
@@ -207,36 +197,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/fe-api-client", "@kotodama/fe-api-client/**"],
-                    "message": "Layer violation: apps/web reaches the API ONLY through fe-store's queryOptions factories, never the transport client directly. A component/route importing fe-api-client bypasses the store seam. (F-PLAT-014 §7 S1, AC-2)"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["apps/web/src/features/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/fe-api-client",
-                      "@kotodama/fe-api-client/**",
-                      "**/routes/**",
-                      "**/router",
-                      "**/entry-client*",
-                      "**/entry-server*",
-                      "**/server"
-                    ],
-                    "message": "Layer violation: apps/web/src/features/* is BELOW the render layer — it must not import routes, the router, the SSR entries, or the Bun server (render composes features, not the reverse). This is the one intra-app relative-import edge (V1); validated by the walking skeleton. (F-PLAT-014 §5 S1, AC-2)"
+                    "group": ["@kotodama/repositories", "@kotodama/repositories/**"],
+                    "message": "Layer violation: apps/web reaches data through @kotodama/use-cases hooks (or @kotodama/store loaders), never the raw fetchX in repositories. See frontend-layering.md."
                   }
                 ]
               }

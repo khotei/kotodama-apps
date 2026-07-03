@@ -1,4 +1,4 @@
-import { createApiClient } from '@kotodama/fe-store'
+import { createApiClient } from '@kotodama/api-client'
 import { type DehydratedState, hydrate, QueryClient } from '@tanstack/react-query'
 import { createBrowserHistory } from '@tanstack/react-router'
 import { hydrateRoot } from 'react-dom/client'
@@ -33,7 +33,7 @@ async function main() {
   // Resolve loaders from the hydrated cache before the first render.
   await router.load()
 
-  hydrateRoot(root, <App router={router} queryClient={queryClient} />)
+  hydrateRoot(root, <App router={router} queryClient={queryClient} apiClient={apiClient} />)
 }
 
 void main()

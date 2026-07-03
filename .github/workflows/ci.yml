@@ -90,7 +90,7 @@ jobs:
       - name: Install
         run: bun install --frozen-lockfile
       - name: Build Storybook
-        run: bun run --filter '@kotodama/fe-ui' build-storybook
+        run: bun run --filter '@kotodama/ui' build-storybook
 
   # OpenAPI drift gate (D4): regenerate schema.gen.ts from the backend's LIVE
   # /api/openapi.json and fail on a dirty diff. There is no committed
@@ -116,7 +116,7 @@ jobs:
           KOTODAMA_API_URL: ${{ vars.KOTODAMA_API_URL }}
       - name: Fail on drift
         run: |
-          if ! git diff --exit-code packages/fe-api-client/src/schema.gen.ts; then
+          if ! git diff --exit-code packages/api-client/src/schema.gen.ts; then
             echo "::error::schema.gen.ts is out of date — run 'bun run gen:api' and commit the result."
             exit 1
           fi

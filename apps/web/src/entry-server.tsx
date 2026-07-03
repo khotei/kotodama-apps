@@ -1,4 +1,4 @@
-import { createApiClient } from '@kotodama/fe-store'
+import { createApiClient } from '@kotodama/api-client'
 import { type DehydratedState, dehydrate, QueryClient } from '@tanstack/react-query'
 import { createMemoryHistory } from '@tanstack/react-router'
 import { renderToReadableStream } from 'react-dom/server'
@@ -33,7 +33,9 @@ export async function renderPage(
 
   await router.load()
 
-  const stream = await renderToReadableStream(<App router={router} queryClient={queryClient} />)
+  const stream = await renderToReadableStream(
+    <App router={router} queryClient={queryClient} apiClient={apiClient} />,
+  )
   await stream.allReady
   const html = await new Response(stream).text()
 

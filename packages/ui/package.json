@@ -1,0 +1,37 @@
+{
+  "name": "@kotodama/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/tokens.css"
+  },
+  "scripts": {
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun --bun vitest run",
+    "build": "bun --bun scripts/build-tokens.ts",
+    "storybook:dev": "bunx --bun storybook dev -p 6006 --no-open",
+    "build-storybook": "bunx --bun storybook build"
+  },
+  "dependencies": {
+    "@chakra-ui/react": "catalog:ui",
+    "@ark-ui/react": "catalog:ui"
+  },
+  "peerDependencies": {
+    "react": "catalog:react",
+    "react-dom": "catalog:react"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:runtime",
+    "@types/react-dom": "catalog:react",
+    "react": "catalog:react",
+    "react-dom": "catalog:react",
+    "storybook": "catalog:ui",
+    "@storybook/react-vite": "catalog:ui",
+    "vite": "catalog:ui",
+    "style-dictionary": "^5.5.0"
+  }
+}

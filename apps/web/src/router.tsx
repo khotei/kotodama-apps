@@ -1,4 +1,5 @@
-import { type ApiClient, type Language, wordQueryOptions } from '@kotodama/fe-store'
+import type { ApiClient, Language } from '@kotodama/api-client'
+import { wordQueryOptions } from '@kotodama/store'
 import type { QueryClient } from '@tanstack/react-query'
 import {
   createRootRouteWithContext,
@@ -51,8 +52,9 @@ const wordRoute = createRoute({
 
 function WordRouteComponent() {
   const { language, word } = wordRoute.useParams()
-  const { apiClient } = wordRoute.useRouteContext()
-  return <WordPage apiClient={apiClient} language={language as Language} word={word} />
+  // The client is injected app-wide via ApiClientProvider (entry-*), so the
+  // feature reads it from context rather than a prop.
+  return <WordPage language={language as Language} word={word} />
 }
 
 const routeTree = rootRoute.addChildren([indexRoute, wordRoute])

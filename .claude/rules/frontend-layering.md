@@ -1,49 +1,42 @@
 # Frontend layering (the rule the scaffolding protects)
 
-**Always-loaded rule.** Two enforced import gradients — one across packages, one inside `apps/web`.
-Never the reverse. Getting a new file into the right layer is the whole point of this doc.
-
-## Cross-package (mirrors backend `everything → packages`, `packages → nothing internal`)
+**Always-loaded rule.** The FE mirrors the backend's top-level tiers. Getting a new file into the
+right tier is the whole point of this doc.
 
 ```
-apps/web ─► packages/{fe-ui, fe-theme} ─► packages/fe-tokens     (web design-system: ui ◄ theme ◄ tokens)
-apps/web ─► packages/{fe-store, fe-core, fe-api-client}          (platform-agnostic SPINE — a future apps/mobile reuses it unchanged)
-packages/fe-tokens ─► (nothing internal — a leaf)
+Packages (leaves — import nothing internal):
+  packages/api-client   transport: openapi-fetch client + generated schema.gen   [agnostic]
+  packages/ui           web design system: Chakra + tokens + components           [web-only]
+
+Top-level tiers (one-way, mirror backend apps → use-cases → core → repositories):
+  api-client ◄ core ◄ store ◄ use-cases ◄ apps/web
+  api-client ◄ repositories ◄ store
+                (core + repositories are parallel; store composes both)
 ```
 
-- **Spine** = `fe-api-client ◄ fe-core ◄ fe-store` (a one-way chain): the client + fetchX at the
-  base, pure view-models (`fe-core`) above, `queryOptions` factories (`fe-store`) on top. It is the
-  cross-platform reuse unit; it must not import the web design-system or `apps/*`.
-- **Web design-system** = `fe-tokens ◄ fe-theme ◄ fe-ui`: `fe-tokens` is a neutral leaf; `fe-theme`
-  is Chakra `createSystem` over its **semantic tokens** (intent names like `bg.canvas`, never raw
-  colours — the web↔native seam); `fe-ui` is presentational, prop-driven, and imports neither the
-  spine nor `apps/*`.
-
-## Intra-`apps/web/src` (post-S1: `repositories` folded INTO fe-api-client)
-
-```
-fe-api-client (client + fetchX) ◄ fe-core ◄ fe-store ◄ features/<name> ◄ render (routes · entry-* · server · router)
-```
-
-- `apps/web` reaches the API **only** through `fe-store`'s `queryOptions` — a component/route
-  importing `@kotodama/fe-api-client` directly bypasses the store seam and fails lint (AC-2).
-- The one surviving relative edge is `features → render`: a `features/*` file must not import
-  routes, the router, the SSR entries, or the Bun server (render composes features, not the
-  reverse). There is **no** `apps/web/src/repositories/` — the fetchX functions live in the
-  `fe-api-client` package.
+- **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `api-client`,
+  `core`, `repositories`, `store`, `use-cases`. **Web-only:** `ui`, `apps/web`.
+- **`api-client` is a leaf package importable by every tier** (for the client + contract types —
+  "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it; the
+  agnostic tiers must not (it is DOM/Chakra-bound and would break portability).
+- **Tier direction:** `core` = pure view-models; `repositories` = raw fetchX; `store` = TanStack
+  Query `queryOptions` (composes repositories + core); `use-cases` = React hooks over `store`;
+  `apps/web` = the web app (SSR/router/render + feature components). Never import upward, and the
+  agnostic tiers never import `ui`/`apps`. `apps/web` reaches data through `use-cases` hooks (or
+  `store` loaders), never the raw `repositories` fetchX.
 
 ## Two enforcement planes
 
-1. **DOM-free `tsconfig.base.json` is PRIMARY (S2/V2).** The spine compiles `lib: ["esnext"]` with
-   no `"dom"`, so any `document`/`window`/react-dom leak — or a dependency that pulls DOM types — is
-   a **`tsc` error before Biome runs**. Web workspaces opt into `lib:["dom",…]` + `jsx` +
-   `@types/react` in their own tsconfig (via the `--dom` scaffold). This is a correct-by-
-   construction guarantee an import denylist can't match.
-2. **Biome `noRestrictedImports` = layer-DIRECTION bans only** (`biome.json`, per-glob overrides):
-   the leaf/edge/chain rules above. Biome is the sole *import-direction* enforcement (transitive
-   checking is out of scope). Run `/scan-deps`.
+1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `core`, `repositories`, `store`,
+   `use-cases` compile with `lib: ["esnext"]` and no `"dom"`, so any `document`/`window`/react-dom
+   leak — or a dependency that pulls DOM types (e.g. Chakra) — is a **`tsc` error before Biome
+   runs**. `use-cases` opts into `jsx` (for its provider) but stays DOM-free. `ui` + `apps/web` opt
+   into `lib:["dom",…]` + `jsx` + `@types/react`. A correct-by-construction guarantee an import
+   denylist can't match.
+2. **Biome `noRestrictedImports` = tier-direction bans** (`biome.json`, per-glob overrides): the
+   leaf rules (`api-client`/`ui` import nothing internal) + the one-way tier chain + the
+   agnostic-tiers-never-import-`ui`/`apps` rule. Run `/scan-deps`.
 
-**The invariant both protect: the web↔native boundary.** `fe-api-client`/`fe-core`/`fe-store`/
-`fe-tokens` are the spine a future `apps/mobile` reuses unchanged; `fe-theme`/`fe-ui` are DOM-bound
-and do not port — only their semantic-token *contract* does. A spine package that reaches for the
-DOM, Chakra, or React-DOM silently breaks mobile reuse and must fail review.
+**The invariant both protect: the web↔native boundary.** The agnostic spine is what a future
+`apps/mobile` reuses unchanged; `ui`/`apps/web` are DOM-bound and do not port — only `ui`'s
+semantic-token *contract* does. A spine tier that reaches for the DOM, Chakra, or `ui` must fail.
