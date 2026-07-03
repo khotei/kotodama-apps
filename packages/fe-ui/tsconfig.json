@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "react-jsx",
+    "types": ["bun-types", "@types/react"]
+  },
+  "include": ["src/**/*", "test/**/*", "*.config.ts", "../../testing-matchers.d.ts"]
+}

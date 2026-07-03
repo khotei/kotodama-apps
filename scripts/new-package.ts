@@ -90,7 +90,9 @@ const tsconfig = dom
         jsx: 'react-jsx',
         types: ['bun-types', '@types/react'],
       },
-      include: ['src/**/*', 'test/**/*', '*.config.ts'],
+      // The shared ambient d.ts makes @testing-library/jest-dom matchers visible
+      // to tsc (they are registered at runtime by vitest.setup.ts).
+      include: ['src/**/*', 'test/**/*', '*.config.ts', `${toRoot}/testing-matchers.d.ts`],
     }
   : {
       $schema: 'https://json.schemastore.org/tsconfig',
