@@ -8,26 +8,25 @@ Packages (leaves — import nothing internal):
   packages/api-client   transport: openapi-fetch client + generated schema.gen   [agnostic]
   packages/ui           web design system: Chakra + tokens + components           [web-only]
 
-Top-level tiers (one-way, mirror backend apps → use-cases → core → repositories):
-  api-client ◄ core ◄ store ◄ use-cases ◄ apps/web
-  api-client ◄ repositories ◄ store
-                (core + repositories are parallel; store composes both)
+Top-level tiers (one-way linear chain, mirrors the backend):
+  api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web
 ```
 
 - **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `api-client`,
-  `core`, `repositories`, `store`, `use-cases`. **Web-only:** `ui`, `apps/web`.
-- **`api-client` is a leaf package importable by every tier** (for the client + contract types —
+  `repositories`, `store`, `use-cases`. **Web-only:** `ui`, `apps/web`.
+- **`api-client` is a leaf package importable by every tier** (for the client + raw `operations` —
   "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it; the
   agnostic tiers must not (it is DOM/Chakra-bound and would break portability).
-- **Tier direction:** `core` = pure view-models; `repositories` = raw fetchX; `store` = TanStack
-  Query `queryOptions` (composes repositories + core); `use-cases` = React hooks over `store`;
-  `apps/web` = the web app (SSR/router/render + feature components). Never import upward, and the
-  agnostic tiers never import `ui`/`apps`. `apps/web` reaches data through `use-cases` hooks (or
-  `store` loaders), never the raw `repositories` fetchX.
+- **Tier direction:** `repositories` = raw fetchX + the contract entity types (`*Entity`); `store` =
+  TanStack Query `queryOptions` + the domain model derivation (`narrowWordState`, run in `select`);
+  `use-cases` = React hooks over `store`; `apps/web` = the web app (SSR/router/render + feature
+  components + view shapes). Never import upward, and the agnostic tiers never import `ui`/`apps`.
+  `apps/web` reaches data through `use-cases` hooks (or `store` loaders), never the raw
+  `repositories` fetchX.
 
 ## Two enforcement planes
 
-1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `core`, `repositories`, `store`,
+1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `repositories`, `store`,
    `use-cases` compile with `lib: ["esnext"]` and no `"dom"`, so any `document`/`window`/react-dom
    leak — or a dependency that pulls DOM types (e.g. Chakra) — is a **`tsc` error before Biome
    runs**. `use-cases` opts into `jsx` (for its provider) but stays DOM-free. `ui` + `apps/web` opt

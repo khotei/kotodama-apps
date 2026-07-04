@@ -1,5 +1,5 @@
-import type { ApiClient, Language } from '@kotodama/api-client'
-import { wordQueryOptions } from '@kotodama/store'
+import type { ApiClient } from '@kotodama/api-client'
+import { type Language, wordQueryOptions } from '@kotodama/store'
 import type { QueryClient } from '@tanstack/react-query'
 import {
   createRootRouteWithContext,

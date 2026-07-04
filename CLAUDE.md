@@ -19,11 +19,12 @@ Effect on the frontend. Details: `.claude/rules/tooling.md`.
 packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
 packages/ui           web design system (Chakra + tokens + components)  [leaf · web-only]
 
-api-client ◄ core ◄ store ◄ use-cases ◄ apps/web        (core = view-models, store = queryOptions,
-api-client ◄ repositories ◄ store                        use-cases = React hooks, apps/web = render)
+api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web   (repositories = fetchX + entity types,
+                                                           store = queryOptions + model,
+                                                           use-cases = React hooks, apps/web = render)
 ```
 
-Agnostic spine (reused by any future `apps/*`): `api-client`, `core`, `repositories`, `store`,
+Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`,
 `use-cases`. Web-only: `ui`, `apps/web`. A domain is a `src/<domain>/` folder inside a tier.
 Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM/Chakra leak into an agnostic tier is a
 `tsc` error (the primary web↔native enforcer); and (2) **Biome `noRestrictedImports`** — tier-
@@ -63,7 +64,7 @@ Claude Code auto-discovers every `.claude/rules/*.md`. Cross-cutting load **alwa
 
 ## Per-layer context
 
-`apps/web/CLAUDE.md` + one `CLAUDE.md` per tier (`core`, `repositories`, `store`, `use-cases`) and per leaf package (`packages/api-client`, `packages/ui`). Ancestor `CLAUDE.md` (this file) always
+`apps/web/CLAUDE.md` + one `CLAUDE.md` per tier (`repositories`, `store`, `use-cases`) and per leaf package (`packages/api-client`, `packages/ui`). Ancestor `CLAUDE.md` (this file) always
 loads; a package's loads when you touch its subtree. Content rule (why-not-what):
 `.claude/rules/claude-md.md`. **Don't churn these on exploratory edits** — refresh only when a real
 change is about to land, as part of the commit.

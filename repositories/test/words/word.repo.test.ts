@@ -1,6 +1,6 @@
-import { createApiClient } from '@kotodama/api-client'
+import { ApiError, createApiClient } from '@kotodama/api-client'
 import { describe, expect, it } from 'vitest'
-import { ApiError, fetchWord, searchWords } from '../../src/index'
+import { fetchWord, searchWords } from '../../src/index'
 
 // A fake fetch lets the fetchX functions be exercised without a backend. The
 // generated types already prove the response SHAPE compiles (the type system is

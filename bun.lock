@@ -35,13 +35,6 @@
         "@types/react-dom": "catalog:react",
       },
     },
-    "core": {
-      "name": "@kotodama/core",
-      "version": "0.0.0",
-      "dependencies": {
-        "@kotodama/api-client": "workspace:*",
-      },
-    },
     "packages/api-client": {
       "name": "@kotodama/api-client",
       "version": "0.0.0",
@@ -83,7 +76,6 @@
       "version": "0.0.0",
       "dependencies": {
         "@kotodama/api-client": "workspace:*",
-        "@kotodama/core": "workspace:*",
         "@kotodama/repositories": "workspace:*",
         "@tanstack/react-query": "catalog:tanstack",
       },
@@ -368,8 +360,6 @@
     "@jsonjoy.com/util": ["@jsonjoy.com/util@1.9.0", "", { "dependencies": { "@jsonjoy.com/buffers": "^1.0.0", "@jsonjoy.com/codegen": "^1.0.0" }, "peerDependencies": { "tslib": "2" } }, "sha512-pLuQo+VPRnN8hfPqUTLTHk126wuYdXVxE6aDmjSeV4NCAgyxWbiOIeNJVtID3h1Vzpoi9m4jXezf73I6LgabgQ=="],
 
     "@kotodama/api-client": ["@kotodama/api-client@workspace:packages/api-client"],
-
-    "@kotodama/core": ["@kotodama/core@workspace:core"],
 
     "@kotodama/repositories": ["@kotodama/repositories@workspace:repositories"],
 

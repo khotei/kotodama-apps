@@ -5,11 +5,5 @@
 
 export type { ApiClient, ApiClientOptions } from './client'
 export { createApiClient } from './client'
-export type {
-  JobStatus,
-  Language,
-  Word,
-  WordCounts,
-  WordSearchResult,
-  WordStateView,
-} from './types'
+export type { operations, paths } from './schema.gen'
+export { ApiError, unwrap } from './unwrap'

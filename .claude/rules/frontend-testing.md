@@ -26,13 +26,15 @@ paths:
 A test covers the decisions **its own layer owns**; a higher layer fakes the layer below and asserts
 only what it *adds* — never re-asserting the lower layer's branch logic.
 
-- **core** — the real logic (`narrowWordState`): fully unit-tested, happy + each failure branch.
-- **store factory** — asserts the key + `staleTime` + that `select` routes through `core`
-  (fake the fetchX). One representative test; don't re-assert core's branches.
+- **store model** (`narrowWordState`) — the real logic: fully unit-tested, happy + each failure
+  branch.
+- **store factory** — asserts the key + `staleTime` + that `select` routes through
+  `narrowWordState` (fake the fetchX). One representative test; don't re-assert the model's branches.
 - **repositories fetchX** — one success decode + one typed error shape against a fake `fetch`
   (the generated types already prove the response shape compiles — the type system is the test).
 - **use-cases hook** — one integration test: render `useWord` under jsdom with a fixture client,
-  assert it returns the narrowed state (exercises client → repositories → store → core).
+  assert it returns the narrowed state (exercises client → repositories → store `select` →
+  `narrowWordState`).
 - **the slice (`apps/web`)** — the load-bearing integration test: render the feature under jsdom
   with a faked store, assert the Chakra component shows the word content typed by the generated
   client (no `any`). SSR/hydration is verified by its own harness (render → put in a jsdom

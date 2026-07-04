@@ -1,6 +1,6 @@
-import type { WordStateView } from '@kotodama/api-client'
+import type { WordStateEntity } from '@kotodama/repositories'
 import { describe, expect, it } from 'vitest'
-import { narrowWordState } from '../../src/index'
+import { narrowWordState } from '../../src/words/word-state.model'
 
 // narrowWordState only reads `status`, `word`, `stages`, so the fixtures carry
 // just those — cast to the wire type (the generated type guards the shape at
@@ -8,10 +8,10 @@ import { narrowWordState } from '../../src/index'
 const succeeded = {
   status: 'succeeded',
   word: { word: 'lumen', language: 'en', status: 'succeeded' },
-} as unknown as WordStateView
+} as unknown as WordStateEntity
 
 const building = (status: 'pending' | 'running' | 'failed') =>
-  ({ status, stages: { definition: status } }) as unknown as WordStateView
+  ({ status, stages: { definition: status } }) as unknown as WordStateEntity
 
 describe('narrowWordState', () => {
   it('routes a succeeded state to the ready branch, carrying the word', () => {

@@ -1,7 +1,7 @@
 import { Badge, Box, Heading, Stack, Text } from '@chakra-ui/react'
 
 // The one skeleton component. Presentational: it takes PRIMITIVE props (never
-// core's NarrowedWordState — ui may not import the spine), so the feature
+// the store's WordStateModel — ui may not import the spine), so the feature
 // layer maps domain → props. Chakra v3 + the semantic tokens from theme
 // (`bg.surface`, `fg.default`, …) — never raw colors.
 

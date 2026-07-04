@@ -1,5 +1,4 @@
-import type { Language } from '@kotodama/api-client'
-import { wordQueryOptions } from '@kotodama/store'
+import { type Language, wordQueryOptions } from '@kotodama/store'
 import { useQuery } from '@tanstack/react-query'
 import { useApiClient } from '../api-client-context'
 

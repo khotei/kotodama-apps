@@ -55,7 +55,7 @@ if (isTierRoot && segments.length !== 1) {
   process.exit(1)
 }
 
-// A tier root is its own name (`core` -> @kotodama/core); nested folders flatten
+// A tier root is its own name (`store` -> @kotodama/store); nested folders flatten
 // to a dashed name (`apps/web` -> @kotodama/web, `packages/api-client` ->
 // @kotodama/api-client). Mirrors naming.md.
 const flatName = isTierRoot ? layer : segments.slice(1).join('-')

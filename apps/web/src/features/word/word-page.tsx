@@ -1,6 +1,5 @@
-import type { Language } from '@kotodama/api-client'
 import { WordCard } from '@kotodama/ui'
-import { useWord } from '@kotodama/use-cases'
+import { type Language, useWord } from '@kotodama/use-cases'
 
 // The web feature glue: call the platform-agnostic `useWord` hook (use-cases)
 // and map the narrowed domain shape onto `ui`'s primitive props. All Chakra

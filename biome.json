@@ -96,32 +96,6 @@
       }
     },
     {
-      "includes": ["core/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/repositories",
-                      "@kotodama/store",
-                      "@kotodama/use-cases",
-                      "@kotodama/ui",
-                      "@kotodama/web"
-                    ],
-                    "message": "Layer violation: core is pure domain logic — it may import @kotodama/api-client TYPES only, never repositories/store/use-cases, the design system, or apps."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
       "includes": ["repositories/**"],
       "linter": {
         "rules": {
@@ -132,13 +106,12 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/core",
                       "@kotodama/store",
                       "@kotodama/use-cases",
                       "@kotodama/ui",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never core/store/use-cases, the design system, or apps."
+                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store/use-cases, the design system, or apps."
                   }
                 ]
               }

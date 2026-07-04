@@ -2,5 +2,13 @@
 // over the transport client. Platform-agnostic (no DOM). `store` builds
 // queryOptions on top of these.
 
+export type {
+  JobStatus,
+  Language,
+  WordCountsEntity,
+  WordEntity,
+  WordSearchResultEntity,
+  WordStateEntity,
+} from './words/word.entity'
 export type { SearchWordsParams } from './words/word.repo'
-export { ApiError, fetchWord, fetchWordState, searchWords } from './words/word.repo'
+export { fetchWord, fetchWordState, searchWords } from './words/word.repo'
