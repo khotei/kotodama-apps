@@ -5,9 +5,10 @@ paths:
 
 # Next.js (App Router) — the render-shell rules
 
-Scoped to `apps/web/**`. **Framework API facts come from the bundled docs** (`@AGENTS.md` →
-`node_modules/next/dist/docs/`) — read them before coding, not training data. This file holds only
-the project invariants Next itself won't tell you. Tier direction (never import
+Scoped to `apps/web/**`. **Framework API facts come from the bundled docs**
+(`node_modules/next/dist/docs/`, version-matched to the installed Next) — read them before coding,
+not training data (`apps/web/CLAUDE.md` says the same at the top). This file holds only the project
+invariants Next itself won't tell you. Tier direction (never import
 `@kotodama/repositories`; reach data through `use-cases`/`store`) lives in `frontend-layering.md`.
 
 ## The load-bearing invariant — the public tree stays statically generable
