@@ -96,6 +96,26 @@ jobs:
       - name: Build Storybook
         run: bun run --filter '@kotodama/ui' build-storybook
 
+  # Human-docs link integrity (human-docs.md clause 6): a renamed link target is a
+  # broken link. `--offline` checks ONLY the relative links in `readme.md` + `docs/**`
+  # against the checked-out tree — the exact thing a rename breaks. External URLs
+  # (badges, the Notion specs) aren't a code-change drift vector and only add network
+  # flakiness, so they're skipped.
+  links:
+    name: docs link check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --offline
+            --no-progress
+            readme.md
+            './docs/**/*.md'
+          fail: true
+
   # End-to-end (Playwright) against the in-repo fake backend. Node is a required
   # prerequisite — Playwright closed Bun support, so it runs via `bunx playwright
   # test`, NEVER `--bun` (oven-sh/bun#8222). The current spec uses the JS-free
