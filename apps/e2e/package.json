@@ -1,0 +1,16 @@
+{
+  "name": "@kotodama/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "bunx playwright test",
+    "typecheck": "bun --bun tsc --noEmit"
+  },
+  "devDependencies": {
+    "@kotodama/api-client": "workspace:*",
+    "@playwright/test": "catalog:test",
+    "@types/node": "catalog:runtime",
+    "bun-types": "catalog:runtime"
+  }
+}
