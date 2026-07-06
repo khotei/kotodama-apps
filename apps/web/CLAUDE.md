@@ -8,8 +8,14 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
   `@kotodama/ui`, `@kotodama/api-client` (the client factories), TanStack Query, React/Next.
   **Never `@kotodama/repositories`** (raw fetchX — go through use-cases/store).
 - **`app/`** is the App Router tree: `layout.tsx` (RSC root, imports `globals.css`) → `providers.tsx`
-  (`'use client'`, next-themes) → `(public)/words/[language]/[word]/page.tsx` (RSC, SSG via
-  `generateStaticParams` + `revalidate`; non-ASCII params decoded at the boundary).
+  (`'use client'`: QueryClient + ApiClient (browser) + next-themes) → `(public)/words/[language]/[word]/`
+  `page.tsx` (RSC, SSG via `generateStaticParams` + `revalidate`; non-ASCII params decoded at the
+  boundary).
+- **Data path (RSC → client):** the page prefetches `wordQueryOptions` with the STATIC client into a
+  per-request `getQueryClient()`, `dehydrate`s it under a `HydrationBoundary`; the `'use client'`
+  `word-view.tsx` reads `useWord` and is the ONE place domain (`WordStateModel`) → WordCard props
+  mapping lives. `prefetchQuery` never throws, so a backend-less build hydrates nothing and WordView
+  renders the loading/error arm. Import the app's own source via `@/*` (tsconfig path).
 - **`globals.css`** imports `@kotodama/ui/styles.css` and `@source`s the ui package so Tailwind
   detects its classes; PostCSS via `@tailwindcss/postcss`.
 - **Client config is one file — `src/api-client.ts`:** three factories — `createBrowserApiClient`
@@ -20,5 +26,3 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
   `/api/:path*` rewrite → `KOTODAMA_API_URL` (inlined at BUILD time — build per env), `typedRoutes`.
 - **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. Never `next build` to typecheck —
   `next typegen && tsc --noEmit`.
-- **NOTE (skeleton):** the word route renders a placeholder `WordCard`; the real data path (RSC
-  prefetch → dehydrate → `useWord`) is the next task.

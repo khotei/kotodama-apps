@@ -22,7 +22,10 @@
       "version": "0.0.0",
       "dependencies": {
         "@kotodama/api-client": "workspace:*",
+        "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
+        "@kotodama/use-cases": "workspace:*",
+        "@tanstack/react-query": "catalog:tanstack",
         "next": "catalog:next",
         "next-themes": "catalog:style",
         "react": "catalog:react",

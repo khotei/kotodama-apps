@@ -91,7 +91,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/*"],
-                    "message": "Leaf violation: packages/ui is the design-system leaf (Chakra + tokens + components) — it imports NOTHING internal and takes data via props. See frontend-layering.md."
+                    "message": "Leaf violation: packages/ui is the design-system leaf (Tailwind + shadcn primitives + tokens) — it imports NOTHING internal and takes data via props. See frontend-layering.md."
                   }
                 ]
               }

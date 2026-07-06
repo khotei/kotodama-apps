@@ -12,6 +12,12 @@ import { defineProject } from 'vitest/config'
 // `bun run --filter '*' test`) sidesteps that and yields correct per-package
 // exit codes, mirroring the `tsc` typecheck design.
 export default defineProject({
+  // Pin the automatic JSX runtime for the transform. Vite/esbuild otherwise
+  // reads each workspace's tsconfig `jsx`, and apps/web sets `preserve` (Next
+  // owns the JSX transform) — which esbuild can't emit, so it falls back to the
+  // classic `React.createElement` and test renders die with "React is not
+  // defined". Automatic here makes every workspace transform JSX identically.
+  esbuild: { jsx: 'automatic' },
   test: {
     // jsdom: the FE tiers + components are tested against a DOM. The agnostic
     // spine (api-client/core/repositories/store/use-cases) is DOM-free at TYPE

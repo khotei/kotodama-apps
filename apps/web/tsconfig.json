@@ -10,6 +10,7 @@
     "noEmit": true,
     "incremental": true,
     "types": ["node", "@types/react"],
+    "paths": { "@/*": ["./*"] },
     "plugins": [{ "name": "next" }]
   },
   "include": [

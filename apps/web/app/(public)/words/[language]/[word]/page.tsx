@@ -1,4 +1,9 @@
-import { Button, WordCard } from '@kotodama/ui'
+import { type Language, wordQueryOptions } from '@kotodama/store'
+import { Button } from '@kotodama/ui'
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { createStaticApiClient } from '@/src/api-client'
+import { getQueryClient } from '../../../../get-query-client'
+import { WordView } from './word-view'
 
 export const revalidate = 10
 export const dynamicParams = true
@@ -15,14 +20,22 @@ export default async function WordPage({
 }) {
   const { language, word } = await params
   const decodedWord = decodeURIComponent(word)
+
+  // Public tree → the STATIC client (no cookies, so the route stays SSG-able).
+  // The route segment is a bare string; the backend rejects an unknown language
+  // at decode, so the cast is the honest seam, not a validation hole.
+  const queryClient = getQueryClient()
+  await queryClient.prefetchQuery(
+    wordQueryOptions(createStaticApiClient(), language as Language, decodedWord),
+  )
+
   return (
     <main className="min-h-dvh space-y-4 p-8">
-      <WordCard
-        word={decodedWord}
-        language={language}
-        status="succeeded"
-        coreDefinition={`A placeholder definition for “${decodedWord}”. The real word-fetch data path (RSC prefetch → dehydrate → useWord) lands in the next task.`}
-      />
+      {/* prefetchQuery never throws — a backend-less build dehydrates nothing
+          and WordView renders the loading/error arm. */}
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <WordView language={language as Language} word={decodedWord} />
+      </HydrationBoundary>
       <Button variant="outline" size="sm">
         Regenerate
       </Button>
