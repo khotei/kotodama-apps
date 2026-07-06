@@ -4,6 +4,7 @@ import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import type { Metadata } from 'next'
 import { cache } from 'react'
 import { createStaticApiClient } from '@/src/api-client'
+import { WORD_SEED } from '@/src/word-seed'
 import { getQueryClient } from '../../../../get-query-client'
 import { WordView } from './word-view'
 
@@ -12,7 +13,7 @@ export const dynamicParams = true
 
 export function generateStaticParams() {
   // Decoded, NOT percent-encoded — Next matches the decoded segment (gate f).
-  return [{ language: 'ja', word: '言葉' }]
+  return WORD_SEED.map(({ language, word }) => ({ language, word }))
 }
 
 // ONE fetch per request shared by generateMetadata and the page: React.cache
