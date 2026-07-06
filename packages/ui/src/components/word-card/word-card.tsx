@@ -1,5 +1,5 @@
-import { Badge } from './badge'
-import { Card, CardContent, CardHeader, CardTitle } from './card'
+import { Badge } from '../badge'
+import { Card, CardContent, CardHeader, CardTitle } from '../card'
 
 // The one skeleton component. Presentational: it takes PRIMITIVE props (never
 // the store's WordStateModel — ui may not import the spine), so the feature

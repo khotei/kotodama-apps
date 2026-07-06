@@ -4,6 +4,9 @@ The web design system in ONE package: Tailwind v4 + shadcn/ui primitives (cva va
 semantic `@theme` token layer (`styles.css`), and the presentational components built on top.
 Web-only (DOM-bound); does not port to native. Storybook consumes it directly.
 
+- **Layout:** one folder per component — `components/<name>/` (component + story + `index.ts`
+  barrel); shared helpers in `lib/`; `styles.css` at the root is the Tailwind entry. `src/index.ts`
+  re-exports the public surface.
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
   `lucide-react`, `react`. **Imports nothing internal** (leaf). Never the spine or `apps/*` —
   components take data via props.

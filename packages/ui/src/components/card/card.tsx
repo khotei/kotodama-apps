@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import { cn } from './cn'
+import { cn } from '../../lib/cn'
 
 export function Card({ className, ...props }: ComponentProps<'div'>) {
   return (
