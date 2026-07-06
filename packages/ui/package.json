@@ -7,7 +7,9 @@
   "types": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./styles.css": "./src/styles.css"
+    "./styles.css": "./src/styles.css",
+    "./lib/*": "./src/lib/*.ts",
+    "./components/*": "./src/components/*.tsx"
   },
   "scripts": {
     "typecheck": "bun --bun tsc --noEmit",
@@ -20,6 +22,7 @@
     "class-variance-authority": "catalog:style",
     "clsx": "catalog:style",
     "lucide-react": "catalog:style",
+    "radix-ui": "catalog:style",
     "tailwind-merge": "catalog:style"
   },
   "peerDependencies": {

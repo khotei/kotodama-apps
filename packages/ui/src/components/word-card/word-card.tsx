@@ -1,10 +1,10 @@
-import { Badge } from '../badge'
-import { Card, CardContent, CardHeader, CardTitle } from '../card'
+import { Badge } from '../ui/badge'
+import { Card, CardContent, CardHeader } from '../ui/card'
 
-// The one skeleton component. Presentational: it takes PRIMITIVE props (never
+// The one skeleton composition. Presentational: it takes PRIMITIVE props (never
 // the store's WordStateModel — ui may not import the spine), so the feature
-// layer maps domain → props. Tailwind + shadcn primitives over the semantic
-// tokens (`bg-surface`, `text-foreground`, …) — never raw colors.
+// layer maps domain → props. Built from the shadcn primitives over the semantic
+// tokens (`bg-card`, `text-muted-foreground`, …) — never raw colors.
 
 const STATUS_LABEL: Record<WordCardProps['status'], string> = {
   pending: 'Queued',
@@ -23,9 +23,11 @@ export interface WordCardProps {
 export function WordCard({ word, language, status, coreDefinition }: WordCardProps) {
   return (
     <Card className="max-w-lg">
-      <CardHeader>
-        <CardTitle>{word}</CardTitle>
-        <Badge>{language}</Badge>
+      <CardHeader className="flex-row items-center justify-between gap-2">
+        <h1 className="text-lg font-semibold leading-none tracking-tight">{word}</h1>
+        <Badge variant="secondary" className="uppercase">
+          {language}
+        </Badge>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm text-muted-foreground">{STATUS_LABEL[status]}</p>

@@ -5,7 +5,10 @@
     "outDir": "dist",
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "react-jsx",
-    "types": ["bun-types", "@types/react"]
+    "types": ["bun-types", "@types/react"],
+    "paths": {
+      "@kotodama/ui/*": ["./src/*"]
+    }
   },
   "include": [
     "src/**/*",
