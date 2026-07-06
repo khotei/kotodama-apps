@@ -48,6 +48,8 @@ subset and exits 0 on failure; per-workspace runs give correct exit codes.
 `#!/usr/bin/env node` shebang and die on a node-less machine, so **every per-package script prefixes
 the bin with `bun --bun`**. Storybook is the exception: `bunx --bun storybook <cmd>` — a bare
 `bun --bun storybook` collides with the `storybook` script name and recurses. `bun test` invokes
-Bun's built-in runner and ignores the `test` script — always `bun run test`. **The app is Next 16
-(App Router, Turbopack — never `--webpack`; Tailwind is zero-runtime so Emotion's Turbopack
-hydration bug can't occur); Vite lives only inside Storybook.**
+Bun's built-in runner and ignores the `test` script — always `bun run test`. **Playwright is the
+opposite exception: `apps/e2e` runs `bunx playwright test` — plain, NEVER `--bun`** (upstream closed
+Bun support; `--bun` hangs/segfaults, oven-sh/bun#8222). Node is an accepted prerequisite there only.
+**The app is Next 16 (App Router, Turbopack — never `--webpack`; Tailwind is zero-runtime so
+Emotion's Turbopack hydration bug can't occur); Vite lives only inside Storybook.**

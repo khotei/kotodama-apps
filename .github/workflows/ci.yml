@@ -38,6 +38,10 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Typecheck
         run: bun run tsc
+        # next.config.ts reads KOTODAMA_API_URL (rewrites); `next typegen` has a
+        # localhost fallback, but pin it so typegen is deterministic in CI.
+        env:
+          KOTODAMA_API_URL: http://localhost:3000
       - name: Lint
         run: bun run lint
 
@@ -91,6 +95,45 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Build Storybook
         run: bun run --filter '@kotodama/ui' build-storybook
+
+  # End-to-end (Playwright) against the in-repo fake backend. Node is a required
+  # prerequisite — Playwright closed Bun support, so it runs via `bunx playwright
+  # test`, NEVER `--bun` (oven-sh/bun#8222). The current spec uses the JS-free
+  # `request` fixture so chromium isn't strictly needed, but install it so
+  # page-based specs added later work without touching CI.
+  e2e:
+    name: e2e (playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.10'
+      - name: Setup Node (Playwright runs on Node, never --bun)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Cache Bun install
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-1.3.10-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-1.3.10-
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Install Playwright browsers
+        run: bunx playwright install --with-deps chromium
+        working-directory: apps/e2e
+      - name: Run e2e
+        run: bun run --filter '@kotodama/e2e' test:e2e
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/e2e/playwright-report/
+          retention-days: 7
 
   # OpenAPI drift gate (D4): regenerate schema.gen.ts from the backend's LIVE
   # /api/openapi.json and fail on a dirty diff. There is no committed
