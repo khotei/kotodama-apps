@@ -58,8 +58,8 @@ Claude Code auto-discovers every `.claude/rules/*.md`. Cross-cutting load **alwa
 - **Always:** `frontend-layering` · `tooling` · `naming` · `comments` · `commits` · `pull-requests`
   · `claude-md`.
 - **Path-scoped:** `frontend-state` → `apps/web/src/**`, `store/**`, `repositories/**`, `use-cases/**` ·
-  `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` · `sdd` →
-  `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
+  `nextjs` → `apps/web/**` · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
+  `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
   modern-typescript, type-fest, commit-examples, tailwind-shadcn.
 

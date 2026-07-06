@@ -1,3 +1,5 @@
+@AGENTS.md
+
 # apps/web — `@kotodama/web`
 
 The web app: the render layer + the walking-skeleton word slice, on **Next 16 (App Router,
