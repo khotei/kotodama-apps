@@ -9,15 +9,15 @@ backend's `words` HTTP API; the ONLY bridge is a typed client generated from
 ## Runtime
 
 **Bun 1.3** (pinned via `packageManager`, runs `.ts` directly, `linker="hoisted"`) · **TypeScript
-strict, DOM-free base** · **React 19** · **TanStack Router (raw) + Query + Form** · **Chakra v3 +
-Ark** · **openapi-fetch / openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. No
-Effect on the frontend. Details: `.claude/rules/tooling.md`.
+strict, DOM-free base** · **React 19** · **Next 16 (App Router, Turbopack)** · **TanStack Query +
+Form** · **Tailwind v4 + shadcn/ui** · **openapi-fetch / openapi-typescript** · **Zod**. Versions
+pinned via Bun catalogs. No Effect on the frontend. Details: `.claude/rules/tooling.md`.
 
 ## Structure — top-level tiers (mirror the backend)
 
 ```
 packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
-packages/ui           web design system (Chakra + tokens + components)  [leaf · web-only]
+packages/ui           web design system (Tailwind v4 + shadcn primitives + @theme tokens)  [leaf · web-only]
 
 api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web   (repositories = fetchX + entity types,
                                                            store = queryOptions + model,
@@ -26,9 +26,10 @@ api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web   (repositories
 
 Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`,
 `use-cases`. Web-only: `ui`, `apps/web`. A domain is a `src/<domain>/` folder inside a tier.
-Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM/Chakra leak into an agnostic tier is a
-`tsc` error (the primary web↔native enforcer); and (2) **Biome `noRestrictedImports`** — tier-
-direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run `/scan-deps`.
+Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM leak (or a DOM-bound dep) into an
+agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Biome
+`noRestrictedImports`** — tier-direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run
+`/scan-deps`.
 
 ## Root scripts
 
@@ -41,7 +42,7 @@ direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run `/scan-deps
 | `bun run check` | `lint` + `tsc` |
 | `bun run gen:api` | regenerate `packages/api-client/src/schema.gen.ts` from the live backend (D4) |
 | `bun --bun scripts/new-package.ts <layer>/<name> [--dom]` | scaffold a workspace |
-| `bun run --filter '@kotodama/web' {dev,build,prerender}` | run the hand-rolled Bun SSR app |
+| `bun run --filter '@kotodama/web' {dev,build,start}` | run the Next app (Turbopack) |
 
 ## Commits & the pre-commit gate
 
@@ -60,7 +61,7 @@ Claude Code auto-discovers every `.claude/rules/*.md`. Cross-cutting load **alwa
   `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` · `sdd` →
   `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
-  modern-typescript, type-fest, commit-examples.
+  modern-typescript, type-fest, commit-examples, tailwind-shadcn.
 
 ## Per-layer context
 

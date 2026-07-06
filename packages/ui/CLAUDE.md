@@ -1,20 +1,21 @@
 # packages/ui — `@kotodama/ui`
 
-The web design system in ONE package: the DTCG token contract, the Chakra `createSystem` over it,
-the `UiProvider`, and the presentational components we build on top of Chakra. Web-only (DOM-bound);
-does not port to native. Storybook consumes it directly.
+The web design system in ONE package: Tailwind v4 + shadcn/ui primitives (cva variants + `cn`), the
+semantic `@theme` token layer (`styles.css`), and the presentational components built on top.
+Web-only (DOM-bound); does not port to native. Storybook consumes it directly.
 
-- **May import:** `@chakra-ui/react`, `@ark-ui/react`, `react`. **Imports nothing internal** (leaf —
-  tokens + theme live inside it). Never the spine (`api-client`/`repositories`/`store`/
-  `use-cases`) or `apps/*` — components take data via props.
+- **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
+  `lucide-react`, `react`. **Imports nothing internal** (leaf). Never the spine or `apps/*` —
+  components take data via props.
 - **Imported by:** `apps/web` (feature components) + Storybook.
-- **Tokens:** DTCG source in `tokens/`; `bun run build` (Style Dictionary) regenerates the committed,
-  Biome-excluded `src/tokens.gen.ts` (the nested value map `src/tokens.ts` re-exports) + `src/tokens.css`.
-  Edit `tokens/`, never the generated files. Consumers speak only the `semantic` intents
-  (`bg.canvas`, `fg.default`) — the stable web↔native seam.
+- **`styles.css` is the Tailwind entry** (exported as `./styles.css`): `@import "tailwindcss"` + the
+  `dark` variant + the semantic token layer (`:root`/`.dark` CSS vars) + the `@theme inline` mapping
+  that emits the utilities. apps/web imports it. Consumers speak only semantic utilities
+  (`bg-surface`, `text-foreground`) — never raw hex — the stable web↔native seam.
+- **`cn` = `twMerge(clsx(...))`** — every component wraps its final className in it so a consumer's
+  `className` (passed last) predictably overrides the defaults. Skipping it is a bug.
+- **Variants via `cva`** (`Badge`): a typed, prop-based API (`variant` + `defaultVariants`). Not
+  `tailwind-variants` — cva is the shadcn default; reach for TV only for multi-part `slots`.
 - **Props are primitives, never domain types.** `WordCard` takes `word`/`status`/…, not the store's
   `WordStateModel`; the app maps domain → props.
-- **`UiProvider`** binds the Chakra `system`; `apps/web` wraps both its SSR + client entries with it
-  so server + client render against the same system (else hydration drifts).
-- **Storybook:** `bun run build-storybook` (`bunx --bun storybook build`). A story is the component's
-  render test.
+- **Correct-usage standard:** `.claude/agent-patterns/tailwind-shadcn.md`.

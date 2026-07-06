@@ -1,9 +1,10 @@
-import { Badge, Box, Heading, Stack, Text } from '@chakra-ui/react'
+import { Badge } from './badge'
+import { Card, CardContent, CardHeader, CardTitle } from './card'
 
 // The one skeleton component. Presentational: it takes PRIMITIVE props (never
 // the store's WordStateModel — ui may not import the spine), so the feature
-// layer maps domain → props. Chakra v3 + the semantic tokens from theme
-// (`bg.surface`, `fg.default`, …) — never raw colors.
+// layer maps domain → props. Tailwind + shadcn primitives over the semantic
+// tokens (`bg-surface`, `text-foreground`, …) — never raw colors.
 
 const STATUS_LABEL: Record<WordCardProps['status'], string> = {
   pending: 'Queued',
@@ -21,34 +22,19 @@ export interface WordCardProps {
 
 export function WordCard({ word, language, status, coreDefinition }: WordCardProps) {
   return (
-    <Box
-      as="article"
-      bg="bg.surface"
-      color="fg.default"
-      borderWidth="1px"
-      borderColor="border.subtle"
-      borderRadius="lg"
-      padding="6"
-      maxW="lg"
-    >
-      <Stack direction="row" justify="space-between" align="center" mb="2">
-        <Heading as="h1" size="lg">
-          {word}
-        </Heading>
-        <Badge colorPalette="purple" textTransform="uppercase">
-          {language}
-        </Badge>
-      </Stack>
-      <Text color="fg.muted" fontSize="sm" mb="4">
-        {STATUS_LABEL[status]}
-      </Text>
-      {coreDefinition ? (
-        <Text>{coreDefinition}</Text>
-      ) : (
-        <Text color="fg.muted" fontStyle="italic">
-          Definition is still being generated.
-        </Text>
-      )}
-    </Box>
+    <Card className="max-w-lg">
+      <CardHeader>
+        <CardTitle>{word}</CardTitle>
+        <Badge>{language}</Badge>
+      </CardHeader>
+      <CardContent>
+        <p className="mb-4 text-sm text-muted-foreground">{STATUS_LABEL[status]}</p>
+        {coreDefinition ? (
+          <p>{coreDefinition}</p>
+        ) : (
+          <p className="text-muted-foreground italic">Definition is still being generated.</p>
+        )}
+      </CardContent>
+    </Card>
   )
 }

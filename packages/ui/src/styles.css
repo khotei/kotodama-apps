@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* The design-system Tailwind entry. apps/web (and Storybook) import THIS as the
+   single stylesheet — it pulls Tailwind, the dark variant, the semantic token
+   layer, and the utility mapping. Consumers speak only semantic utilities
+   (`bg-surface`, `text-foreground`), never raw hex — the web↔native seam. */
+
+@custom-variant dark (&:is(.dark *));
+
+/* Semantic token contract — raw values (the ported seam). Dark mode remaps the
+   same names, so components never change. Kept without a color-function wrapper
+   so `@theme inline` can reference them and dark-mode overrides resolve. */
+:root {
+  --background: #f9fafb;
+  --surface: #ffffff;
+  --foreground: #111827;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --primary: #5b21b6;
+  --primary-emphasis: #4c1d95;
+  --primary-foreground: #ffffff;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: #111827;
+  --surface: #1f2937;
+  --foreground: #f9fafb;
+  --muted-foreground: #9ca3af;
+  --border: #374151;
+  --primary: #7c3aed;
+  --primary-emphasis: #6d28d9;
+  --primary-foreground: #ffffff;
+}
+
+/* inline: the value is another CSS var, so Tailwind must reference (not inline)
+   it for dark-mode remapping to work. Emits `bg-surface`, `text-foreground`, … */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-foreground: var(--foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-emphasis: var(--primary-emphasis);
+  --color-primary-foreground: var(--primary-foreground);
+  --radius-card: var(--radius);
+}

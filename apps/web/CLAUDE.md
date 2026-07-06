@@ -1,20 +1,24 @@
 # apps/web — `@kotodama/web`
 
-The web app: the render layer + the walking-skeleton word slice, on **hand-rolled Bun SSR over raw
-TanStack Router** (no TanStack Start — D2). Vite is never the app bundler; `Bun.build` is.
+The web app: the render layer + the walking-skeleton word slice, on **Next 16 (App Router,
+Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (why Turbopack, not
+`--webpack`; see the feature Change log).
 
-- **May import:** `@kotodama/use-cases` (feature hooks), `@kotodama/store` (route loaders),
-  `@kotodama/ui`, `@kotodama/api-client` (`createApiClient`, to construct + inject the client),
-  TanStack Router/Query, React. **Never `@kotodama/repositories`** (raw fetchX — go through
-  use-cases/store).
-- **Intra-app edge:** `features/*` must not import the render layer (routes/router/entries/server).
-- **SSR flow (owned code):** `server.ts` (`Bun.serve` + builds the client bundle on startup) →
-  `entry-server.tsx` (per-request QueryClient + ApiClient + router over memory history →
-  `router.load()` prefetches via `@kotodama/store` → `renderToReadableStream` → `dehydrate`) →
-  `html-template.ts` inlines the dehydrated cache → `entry-client.tsx` (hydrate cache →
-  `router.load()` from it → `hydrateRoot`). `App` provides the QueryClient + `ApiClientProvider`
-  (same client the loader uses) + `UiProvider`. `scripts/prerender.ts` emits SSG artifacts.
-- **Data source:** `KOTODAMA_API_URL` + global fetch against the real backend; otherwise the
-  self-contained `data/demo-fetch` fixture (so `bun run dev` + tests work offline) — the ONLY
-  non-real seam; the spine above it is real and typed.
-- **Run:** `bun run --filter '@kotodama/web' {dev,build,prerender}`.
+- **May import:** `@kotodama/use-cases` (feature hooks), `@kotodama/store` (loaders/prefetch),
+  `@kotodama/ui`, `@kotodama/api-client` (the client factories), TanStack Query, React/Next.
+  **Never `@kotodama/repositories`** (raw fetchX — go through use-cases/store).
+- **`app/`** is the App Router tree: `layout.tsx` (RSC root, imports `globals.css`) → `providers.tsx`
+  (`'use client'`, next-themes) → `(public)/words/[language]/[word]/page.tsx` (RSC, SSG via
+  `generateStaticParams` + `revalidate`; non-ASCII params decoded at the boundary).
+- **`globals.css`** imports `@kotodama/ui/styles.css` and `@source`s the ui package so Tailwind
+  detects its classes; PostCSS via `@tailwindcss/postcss`.
+- **Client config is one file — `src/api-client.ts`:** three factories — `createBrowserApiClient`
+  (same-origin, providers only), `createStaticApiClient` (anon backend URL — the ONLY client legal in
+  the public tree; cookies would kill SSG), `createServerApiClient` (async, authed tree; cookie
+  forwarding is design-bound — no backend auth yet).
+- **`next.config.ts`:** absolute Turbopack root, `transpilePackages` (the five `@kotodama/*`),
+  `/api/:path*` rewrite → `KOTODAMA_API_URL` (inlined at BUILD time — build per env), `typedRoutes`.
+- **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. Never `next build` to typecheck —
+  `next typegen && tsc --noEmit`.
+- **NOTE (skeleton):** the word route renders a placeholder `WordCard`; the real data path (RSC
+  prefetch → dehydrate → `useWord`) is the next task.

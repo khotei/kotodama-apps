@@ -6,7 +6,7 @@ right tier is the whole point of this doc.
 ```
 Packages (leaves — import nothing internal):
   packages/api-client   transport: openapi-fetch client + generated schema.gen   [agnostic]
-  packages/ui           web design system: Chakra + tokens + components           [web-only]
+  packages/ui           web design system: Tailwind v4 + shadcn primitives + @theme tokens  [web-only]
 
 Top-level tiers (one-way linear chain, mirrors the backend):
   api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web
@@ -16,10 +16,10 @@ Top-level tiers (one-way linear chain, mirrors the backend):
   `repositories`, `store`, `use-cases`. **Web-only:** `ui`, `apps/web`.
 - **`api-client` is a leaf package importable by every tier** (for the client + raw `operations` —
   "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it; the
-  agnostic tiers must not (it is DOM/Chakra-bound and would break portability).
+  agnostic tiers must not (it is DOM-bound and would break portability).
 - **Tier direction:** `repositories` = raw fetchX + the contract entity types (`*Entity`); `store` =
   TanStack Query `queryOptions` + the domain model derivation (`narrowWordState`, run in `select`);
-  `use-cases` = React hooks over `store`; `apps/web` = the web app (SSR/router/render + feature
+  `use-cases` = React hooks over `store`; `apps/web` = the web app (Next App Router render + feature
   components + view shapes). Never import upward, and the agnostic tiers never import `ui`/`apps`.
   `apps/web` reaches data through `use-cases` hooks (or `store` loaders), never the raw
   `repositories` fetchX.
@@ -28,8 +28,8 @@ Top-level tiers (one-way linear chain, mirrors the backend):
 
 1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `repositories`, `store`,
    `use-cases` compile with `lib: ["esnext"]` and no `"dom"`, so any `document`/`window`/react-dom
-   leak — or a dependency that pulls DOM types (e.g. Chakra) — is a **`tsc` error before Biome
-   runs**. `use-cases` opts into `jsx` (for its provider) but stays DOM-free. `ui` + `apps/web` opt
+   leak — or a dependency that pulls DOM types (e.g. a Radix primitive or `next`) — is a **`tsc`
+   error before Biome runs**. `use-cases` opts into `jsx` (for its provider) but stays DOM-free. `ui` + `apps/web` opt
    into `lib:["dom",…]` + `jsx` + `@types/react`. A correct-by-construction guarantee an import
    denylist can't match.
 2. **Biome `noRestrictedImports` = tier-direction bans** (`biome.json`, per-glob overrides): the
@@ -38,4 +38,5 @@ Top-level tiers (one-way linear chain, mirrors the backend):
 
 **The invariant both protect: the web↔native boundary.** The agnostic spine is what a future
 `apps/mobile` reuses unchanged; `ui`/`apps/web` are DOM-bound and do not port — only `ui`'s
-semantic-token *contract* does. A spine tier that reaches for the DOM, Chakra, or `ui` must fail.
+semantic-token *contract* does. A spine tier that reaches for the DOM, `ui`, or a web-only dep must
+fail.
