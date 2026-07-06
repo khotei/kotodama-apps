@@ -1,8 +1,9 @@
 import type { Preview } from '@storybook/react-vite'
+import '../src/styles.css'
 
-// Stories render the components directly — Tailwind + shadcn primitives are
-// plain class strings, so there is no provider to wrap. (Tailwind CSS wiring for
-// the Storybook build is a follow-up.)
+// The design-system stylesheet (Tailwind + tokens) is loaded once here so every
+// story renders with real styling; @tailwindcss/vite (see main.ts) compiles it.
+// No provider to wrap — shadcn primitives are plain class strings.
 const preview: Preview = {}
 
 export default preview
