@@ -14,14 +14,14 @@ paths:
   `tsc` sees them via `testing-matchers.d.ts` (included by every `--dom` workspace).
 - **Run:** `bun run test` (never `bun test`); per package `bun run --filter '@kotodama/<name>' test`.
   The `--bun` flag and the ban on aggregate multi-project `vitest run` are in
-  `@.claude/rules/tooling.md` — don't restructure the scripts without reading it.
+  `.claude/rules/tooling.md` — don't restructure the scripts without reading it.
 - **Files:** `*.test.ts(x)` in each workspace's `test/` folder (sibling of `src/`), imported via
   `../src/…`; the folder is in tsconfig `include` so `tsc` checks tests. **Every workspace keeps
   ≥1 test** — `vitest run` exits 1 on zero test files, which would fail the gate. **The sole
   exception is `apps/e2e`** (Playwright, no Vitest): its gate is `test:e2e`, and `bun run test`
   skips it because `--filter '*'` only targets packages that define a `test` script.
 - **Playwright (`apps/e2e`) runs `bunx playwright test`, NEVER `--bun`** (oven-sh/bun#8222 —
-  hangs/segfaults); Node is an accepted prerequisite there only. See `@.claude/rules/tooling.md`.
+  hangs/segfaults); Node is an accepted prerequisite there only. See `.claude/rules/tooling.md`.
 - **Naming:** `describe` names the seam; `it` is a behaviour sentence; keep a trailing `(AC-n)` when
   a test maps to a feature AC `/sdd:verify` checks (the one allowed provenance tag).
 

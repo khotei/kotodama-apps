@@ -22,7 +22,7 @@ Re-evaluate once it closes. Versions are pinned via **catalogs**
 
 **Biome:** single root `biome.json` (2-space, single quotes, semicolons as-needed, width 100) + the
 `react` domain. Encodes the layer gradients via `style/noRestrictedImports` per-glob overrides — see
-`@.claude/rules/frontend-layering.md`. Generated files (`schema.gen.ts`, `tokens.gen.ts`,
+`.claude/rules/frontend-layering.md`. Generated files (`schema.gen.ts`, `tokens.gen.ts`,
 `tokens.css`) are Biome-excluded so formatting can't perturb them.
 
 **Husky pre-commit:** `biome check --staged` + `bun run tsc`. Tests are CI-only. `--no-verify`
