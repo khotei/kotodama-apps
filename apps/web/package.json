@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:style",
+    "babel-plugin-react-compiler": "catalog:next",
     "@types/node": "catalog:runtime",
     "@types/react": "catalog:runtime",
     "@types/react-dom": "catalog:react",

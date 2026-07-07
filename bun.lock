@@ -47,6 +47,7 @@
         "@types/node": "catalog:runtime",
         "@types/react": "catalog:runtime",
         "@types/react-dom": "catalog:react",
+        "babel-plugin-react-compiler": "catalog:next",
         "tailwindcss": "catalog:style",
       },
     },
@@ -128,6 +129,7 @@
       "zod": "^4.4.0",
     },
     "next": {
+      "babel-plugin-react-compiler": "^1.0.0",
       "next": "^16.2.10",
     },
     "react": {

@@ -22,7 +22,8 @@
       "@types/react-dom": "^19.2.0"
     },
     "next": {
-      "next": "^16.2.10"
+      "next": "^16.2.10",
+      "babel-plugin-react-compiler": "^1.0.0"
     },
     "tanstack": {
       "@tanstack/react-query": "^5.101.0",

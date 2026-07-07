@@ -2,6 +2,11 @@ import { resolve } from 'node:path'
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
+  // React Compiler (stable in Next 16): auto-memoizes components, so manual
+  // useMemo/useCallback/React.memo are the exception, not the rule. Next applies
+  // the Babel compiler only to JSX/Hook files via an SWC pre-pass, so Turbopack
+  // builds stay fast.
+  reactCompiler: true,
   typedRoutes: true,
   // Absolute monorepo root so Turbopack's workspace inference is deterministic.
   turbopack: { root: resolve(import.meta.dirname, '../..') },
