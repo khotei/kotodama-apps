@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import react from '@vitejs/plugin-react'
 import { defineProject } from 'vitest/config'
 
 // Shared Vitest project settings. Every workspace's one-line vitest.config.ts
@@ -12,12 +13,12 @@ import { defineProject } from 'vitest/config'
 // `bun run --filter '*' test`) sidesteps that and yields correct per-package
 // exit codes, mirroring the `tsc` typecheck design.
 export default defineProject({
-  // Pin the automatic JSX runtime for the transform. Vite/esbuild otherwise
-  // reads each workspace's tsconfig `jsx`, and apps/web sets `preserve` (Next
-  // owns the JSX transform) — which esbuild can't emit, so it falls back to the
-  // classic `React.createElement` and test renders die with "React is not
-  // defined". Automatic here makes every workspace transform JSX identically.
-  esbuild: { jsx: 'automatic' },
+  // The React plugin owns the JSX transform (automatic runtime), so tests use the
+  // SAME transformer as dev — the canonical Vitest+React setup. Without it, the
+  // bundler reads each workspace's tsconfig `jsx`, and apps/web sets `preserve`
+  // (Next owns the transform), so JSX falls back to classic `React.createElement`
+  // and renders die with "React is not defined".
+  plugins: [react()],
   test: {
     // jsdom: the FE tiers + components are tested against a DOM. The agnostic
     // spine (api-client/core/repositories/store/use-cases) is DOM-free at TYPE
@@ -33,9 +34,5 @@ export default defineProject({
     // absolute path off THIS file so it works no matter how deep the including
     // workspace sits (packages/* or apps/*).
     setupFiles: [fileURLToPath(new URL('./vitest.setup.ts', import.meta.url))],
-    // A cold first SSR render / hydrate round-trip in the walking-skeleton slice
-    // can exceed Vitest's 5s default on slower CI runners — raise the per-test
-    // ceiling in one place.
-    testTimeout: 30_000,
   },
 })
