@@ -14,7 +14,6 @@
         "bun-types": "catalog:runtime",
         "husky": "^9.1.7",
         "jsdom": "catalog:test",
-        "openapi-typescript": "catalog:api",
         "typescript": "catalog:runtime",
         "vitest": "catalog:test",
       },
@@ -62,6 +61,7 @@
       },
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
+        "openapi-typescript": "catalog:api",
       },
     },
     "packages/tooling": {

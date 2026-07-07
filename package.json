@@ -64,7 +64,6 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
     "@kotodama/tooling": "workspace:*",
-    "openapi-typescript": "catalog:api",
     "@testing-library/dom": "catalog:test",
     "@testing-library/jest-dom": "catalog:test",
     "@testing-library/react": "catalog:test",
@@ -83,7 +82,6 @@
     "tsc": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "check": "bun run lint && bun run tsc",
-    "new-package": "bun --bun scripts/new-package.ts",
-    "gen:api": "bun --bun scripts/gen-api.ts"
+    "gen:api": "bun run --filter '@kotodama/api-client' gen:api"
   }
 }
