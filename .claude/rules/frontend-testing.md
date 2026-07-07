@@ -10,8 +10,9 @@ paths:
 # Testing
 
 - **Runner:** Vitest under `jsdom` + `@testing-library/react`. Import test helpers from `vitest`.
-  Matchers (`toBeInTheDocument`, …) + auto-cleanup are registered once in the root `vitest.setup.ts`;
-  `tsc` sees them via `testing-matchers.d.ts` (included by every `--dom` workspace).
+  Matchers (`toBeInTheDocument`, …) + auto-cleanup are registered once in
+  `@kotodama/tooling/vitest.setup.ts`; `tsc` sees them via the `@testing-library/jest-dom/vitest`
+  entry in each `--dom` workspace's tsconfig `types` (no ambient `.d.ts`).
 - **Run:** `bun run test` (never `bun test`); per package `bun run --filter '@kotodama/<name>' test`.
   The `--bun` flag and the ban on aggregate multi-project `vitest run` are in
   `.claude/rules/tooling.md` — don't restructure the scripts without reading it.

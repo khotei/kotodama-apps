@@ -32,7 +32,8 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
   (same-origin, providers only), `createStaticApiClient` (anon backend URL — the ONLY client legal in
   the public tree; cookies would kill SSG), `createServerApiClient` (async, authed tree; cookie
   forwarding is design-bound — no backend auth yet).
-- **`next.config.ts`:** absolute Turbopack root, `transpilePackages` (the five `@kotodama/*`),
-  `/api/:path*` rewrite → `KOTODAMA_API_URL` (inlined at BUILD time — build per env), `typedRoutes`.
+- **`next.config.ts`:** absolute Turbopack root, `reactCompiler`, `/api/:path*` rewrite →
+  `KOTODAMA_API_URL` (inlined at BUILD time — build per env), `typedRoutes`. No `transpilePackages` —
+  Turbopack auto-transpiles the workspace `@kotodama/*` packages.
 - **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. Never `next build` to typecheck —
   `next typegen && tsc --noEmit`.

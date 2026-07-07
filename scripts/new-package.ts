@@ -70,9 +70,6 @@ if (existsSync(dir)) {
   process.exit(1)
 }
 
-// Depth to the repo root, e.g. core -> ".." , apps/web -> "../.." .
-const toRoot = segments.map(() => '..').join('/')
-
 const packageJson = {
   name: pkgName,
   version: '0.0.0',
@@ -81,6 +78,9 @@ const packageJson = {
   main: './src/index.ts',
   types: './src/index.ts',
   exports: { '.': './src/index.ts' },
+  // Shared tsconfig/vitest presets + the Biome base live in @kotodama/tooling;
+  // every workspace resolves them by package specifier (never a relative path).
+  devDependencies: { '@kotodama/tooling': 'workspace:*' },
   scripts: {
     // The `bun --bun` prefix is REQUIRED: the tsc/vitest bins ship a
     // `#!/usr/bin/env node` shebang and die on a node-less machine. Both root
@@ -95,20 +95,21 @@ const packageJson = {
 const tsconfig = dom
   ? {
       $schema: 'https://json.schemastore.org/tsconfig',
-      extends: `${toRoot}/tsconfig.base.json`,
+      // The DOM tier: inherits `lib: ["dom", …]` from the tooling preset.
+      extends: '@kotodama/tooling/tsconfig.dom.json',
       compilerOptions: {
         outDir: 'dist',
-        lib: ['dom', 'dom.iterable', 'esnext'],
         jsx: 'react-jsx',
-        types: ['bun-types', '@types/react'],
+        // jest-dom matchers (toBeInTheDocument, …) are registered at runtime by
+        // vitest.setup.ts; this types entry makes them visible to tsc.
+        types: ['bun-types', '@types/react', '@testing-library/jest-dom/vitest'],
       },
-      // The shared ambient d.ts makes @testing-library/jest-dom matchers visible
-      // to tsc (they are registered at runtime by vitest.setup.ts).
-      include: ['src/**/*', 'test/**/*', '*.config.ts', `${toRoot}/testing-matchers.d.ts`],
+      include: ['src/**/*', 'test/**/*', '*.config.ts'],
     }
   : {
       $schema: 'https://json.schemastore.org/tsconfig',
-      extends: `${toRoot}/tsconfig.base.json`,
+      // The DOM-free agnostic base — a `document`/`window` use is a tsc error.
+      extends: '@kotodama/tooling/tsconfig.base.json',
       compilerOptions: { outDir: 'dist' },
       include: ['src/**/*', 'test/**/*', '*.config.ts'],
     }
@@ -132,7 +133,10 @@ await mkdir(join(dir, 'src'), { recursive: true })
 await mkdir(join(dir, 'test'), { recursive: true })
 await writeFile(join(dir, 'package.json'), `${JSON.stringify(packageJson, null, 2)}\n`)
 await writeFile(join(dir, 'tsconfig.json'), `${JSON.stringify(tsconfig, null, 2)}\n`)
-await writeFile(join(dir, 'vitest.config.ts'), `export { default } from '${toRoot}/vitest.base'\n`)
+await writeFile(
+  join(dir, 'vitest.config.ts'),
+  "export { default } from '@kotodama/tooling/vitest.base'\n",
+)
 await writeFile(join(dir, 'src', 'index.ts'), 'export {}\n')
 await writeFile(join(dir, 'test', 'smoke.test.ts'), smokeTest)
 await writeFile(join(dir, 'CLAUDE.md'), claudeMd)

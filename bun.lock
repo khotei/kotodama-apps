@@ -6,6 +6,7 @@
       "name": "kotodama-frontend",
       "devDependencies": {
         "@biomejs/biome": "^2.4.16",
+        "@kotodama/tooling": "workspace:*",
         "@testing-library/dom": "catalog:test",
         "@testing-library/jest-dom": "catalog:test",
         "@testing-library/react": "catalog:test",
@@ -23,6 +24,7 @@
       "version": "0.0.0",
       "devDependencies": {
         "@kotodama/api-client": "workspace:*",
+        "@kotodama/tooling": "workspace:*",
         "@playwright/test": "catalog:test",
         "@types/node": "catalog:runtime",
         "bun-types": "catalog:runtime",
@@ -43,6 +45,7 @@
         "react-dom": "catalog:react",
       },
       "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
         "@tailwindcss/postcss": "catalog:style",
         "@types/node": "catalog:runtime",
         "@types/react": "catalog:runtime",
@@ -57,6 +60,19 @@
       "dependencies": {
         "openapi-fetch": "catalog:api",
       },
+      "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
+      },
+    },
+    "packages/tooling": {
+      "name": "@kotodama/tooling",
+      "version": "0.0.0",
+      "dependencies": {
+        "@testing-library/jest-dom": "catalog:test",
+        "@testing-library/react": "catalog:test",
+        "@vitejs/plugin-react": "catalog:test",
+        "vitest": "catalog:test",
+      },
     },
     "packages/ui": {
       "name": "@kotodama/ui",
@@ -70,6 +86,7 @@
         "tailwind-merge": "catalog:style",
       },
       "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
         "@storybook/react-vite": "catalog:ui",
         "@tailwindcss/vite": "catalog:style",
         "@types/react": "catalog:runtime",
@@ -91,6 +108,9 @@
       "dependencies": {
         "@kotodama/api-client": "workspace:*",
       },
+      "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
+      },
     },
     "store": {
       "name": "@kotodama/store",
@@ -101,6 +121,7 @@
         "@tanstack/react-query": "catalog:tanstack",
       },
       "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
         "@types/react": "catalog:runtime",
         "react": "catalog:react",
       },
@@ -114,6 +135,7 @@
         "@tanstack/react-query": "catalog:tanstack",
       },
       "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
         "@types/react": "catalog:runtime",
         "react": "catalog:react",
       },
@@ -390,6 +412,8 @@
     "@kotodama/repositories": ["@kotodama/repositories@workspace:repositories"],
 
     "@kotodama/store": ["@kotodama/store@workspace:store"],
+
+    "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
 
     "@kotodama/ui": ["@kotodama/ui@workspace:packages/ui"],
 

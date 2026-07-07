@@ -7,11 +7,11 @@ import { defineProject } from 'vitest/config'
 // list — the project set is still implied by package.json#workspaces, and each
 // workspace is run independently (see root `test` script + .claude/rules/tooling.md).
 //
-// Why per-package configs at all: on Bun 1.3.10 + Vitest 3.2.x a single
-// `vitest run` over many `projects` is unreliable — it runs only ~9/16 and
-// exits 0 even on failure. Running each workspace as its own `vitest run` (via
-// `bun run --filter '*' test`) sidesteps that and yields correct per-package
-// exit codes, mirroring the `tsc` typecheck design.
+// Why per-package configs at all: a single `vitest run` over many `projects`
+// was unreliable on Bun 1.3 + Vitest 3.2.x — it ran only ~9/16 and exited 0
+// even on failure. Kept on Vitest 4 (not re-verified against that bug); running
+// each workspace as its own `vitest run` (via `bun run --filter '*' test`)
+// yields correct per-package exit codes, mirroring the `tsc` typecheck design.
 export default defineProject({
   // The React plugin owns the JSX transform (automatic runtime), so tests use the
   // SAME transformer as dev — the canonical Vitest+React setup. Without it, the

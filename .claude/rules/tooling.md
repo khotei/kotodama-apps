@@ -20,8 +20,10 @@ Re-evaluate once it closes. Versions are pinned via **catalogs**
 (`runtime`/`react`/`next`/`tanstack`/`style`/`ui`/`api`/`test`) — add an external dep as
 `catalog:<group>`, internal as `workspace:*`.
 
-**Biome:** single root `biome.json` (2-space, single quotes, semicolons as-needed, width 100) + the
-`react` domain. Encodes the layer gradients via `style/noRestrictedImports` per-glob overrides — see
+**Biome:** no root config — the single config is `@kotodama/tooling/biome.base.json`, threaded
+through every invocation via `--config-path` (the `lint`/`format` scripts + husky), mirroring
+kotodama-core. 2-space, single quotes, semicolons as-needed, width 100 + the `react` domain. Encodes
+the layer gradients via `style/noRestrictedImports` per-glob overrides — see
 `.claude/rules/frontend-layering.md`. Generated files (`schema.gen.ts`, `tokens.gen.ts`,
 `tokens.css`) are Biome-excluded so formatting can't perturb them.
 
@@ -36,11 +38,15 @@ backend. `schema.gen.ts` is committed + never hand-edited.
 ## Single source of truth: `package.json#workspaces`
 
 No root `tsconfig.json`, no root `vitest.config.ts` — never reintroduce one to hand-list packages.
-Each workspace `tsconfig.json` extends `tsconfig.base.json`; packages resolve each other's **source**
-via `workspace:*` + `moduleResolution: bundler`, so per-workspace `tsc --noEmit` is correct without
-project references. Each workspace owns a one-line `vitest.config.ts` re-exporting `vitest.base.ts`.
-**Aggregate multi-project `vitest run` is banned** — on Bun 1.3.10 + Vitest 3.2.x it silently runs a
-subset and exits 0 on failure; per-workspace runs give correct exit codes.
+Shared presets live in the config-only **`@kotodama/tooling`** workspace: `tsconfig.base.json`
+(DOM-free agnostic) + `tsconfig.dom.json` (adds `lib:["dom",…]`, extended by `apps/web` + `ui`) +
+`vitest.base.ts`/`vitest.setup.ts` + `biome.base.json`. Each workspace `tsconfig.json` extends
+`@kotodama/tooling/tsconfig.{base,dom}.json` and owns a one-line `vitest.config.ts` re-exporting
+`@kotodama/tooling/vitest.base` — both by package specifier (a `workspace:*` dep, resolved via the
+`hoisted` linker). Packages resolve each other's **source** via `workspace:*` + `moduleResolution:
+bundler`, so per-workspace `tsc --noEmit` is correct without project references.
+**Aggregate multi-project `vitest run` is banned** — on Bun 1.3 + Vitest 3.2.x it silently ran a
+subset and exited 0 on failure (kept on Vitest 4, not re-verified); per-workspace runs are correct.
 
 ## Every script runs under Bun (`--bun`), never node
 

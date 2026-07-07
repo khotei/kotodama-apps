@@ -11,6 +11,9 @@
   "dependencies": {
     "@kotodama/api-client": "workspace:*"
   },
+  "devDependencies": {
+    "@kotodama/tooling": "workspace:*"
+  },
   "scripts": {
     "typecheck": "bun --bun tsc --noEmit",
     "test": "bun --bun vitest run"
