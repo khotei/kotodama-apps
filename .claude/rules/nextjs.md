@@ -39,9 +39,9 @@ invariants Next itself won't tell you. Tier direction (never import
 
 ## ISR / revalidation
 
-- `export const revalidate` (literal) is the safety net; `POST /api/revalidate` does precise
-  `revalidatePath` on the **decoded** word path (matches the SSG prerender key). The secret is read
-  per request and **fails closed** — a missing `REVALIDATE_SECRET` 401s every call.
+- `export const revalidate` (literal, on the word page) is the sole revalidation mechanism:
+  time-based only, so a succeeded word refreshes on the next request after the window elapses. No
+  backend webhook / on-demand `revalidatePath` route handler.
 
 ## Bundler & tooling
 
@@ -53,8 +53,7 @@ invariants Next itself won't tell you. Tier direction (never import
   packages resolve via their `package.json` `exports` subpaths, NOT the consuming app's tsconfig
   paths — including CSS: `globals.css` is `@import "@kotodama/ui/styles.css"` (the ui entry
   `@source`s its own tree, so the app declares no `../` paths).
-- `KOTODAMA_API_URL`, `KOTODAMA_SITE_URL`, `REVALIDATE_SECRET` are inlined at build — **build per
-  environment**.
+- `KOTODAMA_API_URL`, `KOTODAMA_SITE_URL` are inlined at build — **build per environment**.
 
 ## Optional: Next.js MCP (user scope, not committed)
 
