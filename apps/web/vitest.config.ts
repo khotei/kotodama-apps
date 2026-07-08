@@ -7,7 +7,7 @@ export default mergeConfig(base, {
   test: {
     env: {
       KOTODAMA_API_URL: 'http://localhost:3000',
-      KOTODAMA_SITE_URL: 'http://localhost:3000',
+      KOTODAMA_SITE_URL: 'http://localhost:3001',
     },
   },
 })

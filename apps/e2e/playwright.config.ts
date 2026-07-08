@@ -29,7 +29,7 @@ export default defineConfig({
       reuseExistingServer: !process.env.CI,
       // build + start is slow — give it room on cold CI runners.
       timeout: 120_000,
-      env: { KOTODAMA_API_URL: `http://127.0.0.1:${FAKE_PORT}` },
+      env: { KOTODAMA_API_URL: `http://127.0.0.1:${FAKE_PORT}`, KOTODAMA_SITE_URL: APP_URL },
     },
   ],
 })

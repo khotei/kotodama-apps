@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun next dev",
+    "dev": "bun --bun next dev -p 3001",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
     "typecheck": "KOTODAMA_API_URL=http://localhost KOTODAMA_SITE_URL=http://localhost bun --bun next typegen && bun --bun tsc --noEmit",
