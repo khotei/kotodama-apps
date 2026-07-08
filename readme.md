@@ -84,7 +84,7 @@ detail.
 | `use-cases/` | React feature hooks over `store` (`useWord`) | one place a data concern is composed |
 | `packages/ui` | the web design system: Tailwind v4 + shadcn primitives + `@theme` tokens | web-only, prop-driven leaf |
 | `apps/web` | the Next App Router render layer + feature components + SEO | the web process boundary |
-| `apps/e2e` | Playwright over a fake backend | the crawlability proof (JS off) |
+| `apps/e2e` | Playwright against a running app + real backend | the crawlability proof (JS off) |
 
 **Dependency direction** (enforced by Biome + a DOM-free `tsconfig`):
 `api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web`, and everything → `packages`. The
@@ -96,9 +96,10 @@ web-bound and don't port. Full rule + enforcement:
 
 - **[Bun](https://bun.com/) 1.3.x** — `curl -fsSL https://bun.com/install | bash`
 - **Node** — for the Playwright e2e only (upstream closed Bun support); any recent Node via `fnm` or system.
-- **A running [kotodama-core](https://github.com/khotei/kotodama-core) backend** for real data. The
-  app renders a loading state without one; the committed typed client (`schema.gen.ts`) means a fresh
-  clone builds offline, and the e2e runs against an in-repo fake backend.
+- **A running [kotodama-core](https://github.com/khotei/kotodama-core) backend** for real data — and
+  for the e2e suite, which now runs against a live backend (no in-repo stub). The app renders a
+  loading state without one; the committed typed client (`schema.gen.ts`) means typecheck + unit
+  tests still run offline.
 
 ## Run it
 
@@ -109,14 +110,16 @@ bun install
 # 2. Health — lint + typecheck + unit tests across every workspace.
 bun run check && bun run test
 
-# 3. The web app (Next App Router, Turbopack). Point KOTODAMA_API_URL at a running kotodama-core
-#    backend; /api/* is proxied there. (The backend serves :3000, so Next takes the next free port.)
-KOTODAMA_API_URL=http://localhost:3000 bun run --filter '@kotodama/web' dev
+# 3. The web app (Next App Router, Turbopack) — dev serves on :4000. Copy apps/web/.env.example to
+#    apps/web/.env first (KOTODAMA_API_URL → the core backend on :3000; KOTODAMA_SITE_URL → this app).
+#    /api/* is proxied to the backend. No silent defaults — a missing var fails the build.
+bun run --filter '@kotodama/web' dev
 
 # 4. The design system in isolation (Storybook — the only place Vite runs).
 bun run --filter '@kotodama/ui' storybook:dev
 
-# 5. End-to-end against an in-repo fake backend — the crawlability proof (JS off).
+# 5. End-to-end (crawlability proof, JS off) against the app + real backend from step 3, already
+#    running. Point Playwright at it with E2E_BASE_URL if the app isn't on :4000.
 bun run --filter '@kotodama/e2e' test:e2e
 ```
 

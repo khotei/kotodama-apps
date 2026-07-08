@@ -45,9 +45,11 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
 - **the slice (`apps/web`)** — the load-bearing integration test: render the feature (`word-view`)
   under jsdom with a seeded query cache, assert the presentational component (Tailwind/shadcn,
   prop-driven) shows the word content typed by the generated client (no `any`).
-- **e2e (`apps/e2e`)** — Playwright over `next build && next start` against a fake backend: the first
-  spec asserts word content + JSON-LD in the raw SSR HTML with JS disabled (AC-9). Turbopack
-  hydration cleanliness is a manual harness check (see the feature Change log), not a committed test.
+- **e2e (`apps/e2e`)** — Playwright against a running app + a REAL backend (you start both; no stub,
+  no auto-launch — `E2E_BASE_URL` points at the app): the first spec asserts the word + JSON-LD
+  STRUCTURE in the raw SSR HTML with JS disabled (AC-9), not the backend-generated definition text.
+  Turbopack hydration cleanliness is a manual harness check (see the feature Change log), not a
+  committed test.
 - **ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
   testing-library mount for assertions.
 
