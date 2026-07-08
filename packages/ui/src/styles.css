@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+/* The design system owns its content globs, resolved relative to THIS file, so
+   any consumer just `@import "@kotodama/ui/styles.css"` — no path knowledge, no
+   ../../../ escape out of the app into this package. */
+@source "./**/*.{ts,tsx}";
+
 /* The design-system Tailwind entry. apps/web (and Storybook) import THIS as the
    single stylesheet — Tailwind + the dark variant + the STANDARD shadcn token
    set + the utility mapping. Components (ours and any pulled via `bunx shadcn

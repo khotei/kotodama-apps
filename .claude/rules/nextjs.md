@@ -51,7 +51,8 @@ invariants Next itself won't tell you. Tier direction (never import
   hangs/segfaults). The one place Node is an accepted prerequisite.
 - Import the app's own source via the `@/*` tsconfig path (resolves under Turbopack). Workspace
   packages resolve via their `package.json` `exports` subpaths, NOT the consuming app's tsconfig
-  paths.
+  paths — including CSS: `globals.css` is `@import "@kotodama/ui/styles.css"` (the ui entry
+  `@source`s its own tree, so the app declares no `../` paths).
 - `KOTODAMA_API_URL`, `KOTODAMA_SITE_URL`, `REVALIDATE_SECRET` are inlined at build — **build per
   environment**.
 

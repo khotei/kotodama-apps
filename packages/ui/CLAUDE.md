@@ -22,8 +22,10 @@ Web-only (DOM-bound); does not port to native. Storybook consumes it directly.
 - **`styles.css` is the Tailwind entry** (exported as `./styles.css`): `@import "tailwindcss"` + the
   `dark` variant + the **standard shadcn token set** (`:root`/`.dark` CSS vars — so registry
   components drop in already styled; `--primary` is the Kotodama purple) + the `@theme inline`
-  mapping + a base layer. apps/web imports it. Consumers speak only semantic utilities (`bg-card`,
-  `text-muted-foreground`) — never raw hex — the stable web↔native seam.
+  mapping + a base layer. It also `@source`s its own tree (relative to the file), so consumers just
+  `@import "@kotodama/ui/styles.css"` by package name — no path escape into this package. Consumers
+  speak only semantic utilities (`bg-card`, `text-muted-foreground`) — never raw hex — the stable
+  web↔native seam.
 - **`cn` = `twMerge(clsx(...))`** — every component wraps its final className in it so a consumer's
   `className` (passed last) predictably overrides the defaults. Skipping it is a bug.
 - **Variants via `cva`** (`Badge`): a typed, prop-based API (`variant` + `defaultVariants`). Not

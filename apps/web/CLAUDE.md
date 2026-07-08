@@ -26,8 +26,9 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
   only when the word is ready; its `JSON.stringify` MUST `<`→`<`-escape (dangerouslySetInnerHTML
   does not) or a value breaks out of `<script>`. `metadataBase` (root layout, per-env) resolves the
   `opengraph-image.tsx` URL. Unready/absent word → `robots:{index:false}`.
-- **`globals.css`** imports `@kotodama/ui/styles.css` and `@source`s the ui package so Tailwind
-  detects its classes; PostCSS via `@tailwindcss/postcss`.
+- **`globals.css`** is one line — `@import "@kotodama/ui/styles.css"` (by package name, via the ui
+  `exports`). The ui entry `@source`s its own tree, so the app declares no paths; PostCSS via
+  `@tailwindcss/postcss`.
 - **Client config is one file — `src/api-client.ts`:** three factories — `createBrowserApiClient`
   (same-origin, providers only), `createStaticApiClient` (anon backend URL — the ONLY client legal in
   the public tree; cookies would kill SSG), `createServerApiClient` (async, authed tree; cookie
