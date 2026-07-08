@@ -39,3 +39,23 @@ One tier owns each decision. Put a new data concern in the tier that owns it; do
 - **The client is injected, never a singleton.** The app builds one `createApiClient(...)` and
   provides it via `ApiClientProvider` (for hooks) + the router context (for loaders) — the SAME
   instance, so server and client agree.
+
+## Server vs client — one definition, two consumptions
+
+`repositories`/`store` are isomorphic; only HOW they are consumed (and which client binds) differs
+by side. This is what makes "plain fetch vs React Query, server vs client" a non-choice: the spine
+is the fetch, the hooks wrap it.
+
+- **Read · server** — `await prefetchQuery(wordQueryOptions(staticClient, …))` → `dehydrate` →
+  `<HydrationBoundary>`. Prefetch to seed the cache only; never `fetchQuery`-to-render, and **never a
+  Server Action as a `queryFn`** (Server Actions run serially → the query hangs `pending`; TanStack
+  SSR guide).
+- **Read · client** — a `use-cases` hook (`useQuery`). Top-level `await` is server-only.
+- **Write · server** — a Server Action does a plain `await fetchX(serverClient, dto)` +
+  `revalidatePath`; no `useMutation` (no hooks on the server).
+- **Write · client** — `useMutation`, whose `mutationFn` MAY call a Server Action (the endorsed
+  write path).
+
+The one injected `client` binds a different instance per side — `createStaticApiClient` (server ·
+anon · SSG-safe) vs the browser same-origin client vs future `createServerApiClient` (per-request ·
+cookie-forwarding). `next/headers` (cookies) is read ONLY at that `apps/web` edge, never in the spine.
