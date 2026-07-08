@@ -67,9 +67,7 @@ const button = cva(
   },
 )
 
-export interface ButtonProps
-  extends React.ComponentProps<'button'>,
-    VariantProps<typeof button> {}
+export type ButtonProps = React.ComponentProps<'button'> & VariantProps<typeof button>
 
 export function Button({ className, variant, size, ...props }: ButtonProps) {
   return <button className={cn(button({ variant, size }), className)} {...props} />

@@ -40,7 +40,8 @@ keep conventional names: `server.ts`, `router.tsx`, `entry-server.tsx`, `entry-c
 
 ## Symbols
 
-- **Components** are `PascalCase` (`WordCard`, `UiProvider`); prop interface `<Component>Props`.
+- **Components** are `PascalCase` (`WordCard`, `UiProvider`); prop type `<Component>Props` (a `type`
+  alias, never an `interface` — see `typescript.md`).
 - **fetchX** functions are verb-first (`fetchWord`, `searchWords`), taking the `client` first.
 - **Store factories** are `<domain>QueryOptions` (`wordQueryOptions`) — a factory, never a hook.
 - **Hooks** are `use<X>` (`useWord`, `useApiClient`). A **model** is a `<Domain>Model` type

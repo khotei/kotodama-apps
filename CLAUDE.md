@@ -60,8 +60,8 @@ Cross-cutting rules load **always**; the rest are **path-scoped** via `paths:` f
 only when you touch a matching file, keeping the always-on context lean (Claude Code guidance: target
 < 200 lines of always-loaded context per file; bloat reduces adherence).
 
-- **Always:** `frontend-layering` · `tooling` · `naming` · `comments` · `commits` · `pull-requests`
-  · `claude-md`.
+- **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` · `commits` ·
+  `pull-requests` · `claude-md`.
 - **Path-scoped:** `frontend-state` → `apps/web/src/**`, `store/**`, `repositories/**`, `use-cases/**` ·
   `nextjs` → `apps/web/**` · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
   `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
