@@ -41,6 +41,6 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
 - **`next.config.ts`:** absolute Turbopack root, `reactCompiler`, `/api/:path*` rewrite →
   `env().KOTODAMA_API_URL` (baked into the route manifest at build — build per env), `typedRoutes`.
   No `transpilePackages` — Turbopack auto-transpiles the workspace `@kotodama/*` packages.
-- **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. **Dev runs on port 3001** (`next
-  dev -p 3001`) — the core backend (`KOTODAMA_API_URL`) owns 3000, so 3001 is this app's origin
+- **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. **Dev runs on port 4000** (`next
+  dev -p 4000`) — the core backend (`KOTODAMA_API_URL`) owns 3000, so 4000 is this app's origin
   (`KOTODAMA_SITE_URL`). Never `next build` to typecheck — `next typegen && tsc --noEmit`.
