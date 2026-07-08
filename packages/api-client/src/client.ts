@@ -29,7 +29,7 @@ const jsonMiddleware: Middleware = {
  * module-level singleton so the SSR server, the browser entry, and tests each
  * supply their own base URL / fetch without shared mutable state.
  */
-export function createApiClient(options: ApiClientOptions = {}): Client<paths> {
+export function createApiClient(options: ApiClientOptions = {}) {
   const client = createClient<paths>({
     baseUrl: options.baseUrl ?? process.env.KOTODAMA_API_URL ?? 'http://localhost:3000',
     fetch: options.fetch,

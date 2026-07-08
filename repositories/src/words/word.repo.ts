@@ -1,27 +1,19 @@
 import type { operations } from '@kotodama/api-client'
 import { type ApiClient, unwrap } from '@kotodama/api-client'
-import type { Language, WordEntity, WordSearchResultEntity, WordStateEntity } from './word.entity'
+import type { Language } from './word.entity'
 
 // The data-access tier: bare `fetchX` functions over the transport client — the
 // ONLY code that speaks path-strings + query params. Returns plain Promises of
 // the generated contract types (the type system is the test). Platform-agnostic;
 // `store` builds queryOptions on top of these.
 
-export function fetchWord(
-  client: ApiClient,
-  language: Language,
-  word: string,
-): Promise<WordEntity> {
+export function fetchWord(client: ApiClient, language: Language, word: string) {
   return client
     .GET('/api/words/{language}/{word}', { params: { path: { language, word } } })
     .then(unwrap)
 }
 
-export function fetchWordState(
-  client: ApiClient,
-  language: Language,
-  word: string,
-): Promise<WordStateEntity | null> {
+export function fetchWordState(client: ApiClient, language: Language, word: string) {
   return client
     .GET('/api/words/{language}/{word}/state', { params: { path: { language, word } } })
     .then(unwrap)
@@ -39,11 +31,7 @@ export type SearchWordsParams = Omit<
   limit: number
 }
 
-export function searchWords(
-  client: ApiClient,
-  language: Language,
-  params: SearchWordsParams,
-): Promise<WordSearchResultEntity> {
+export function searchWords(client: ApiClient, language: Language, params: SearchWordsParams) {
   return client
     .GET('/api/words/{language}/search', {
       params: {
