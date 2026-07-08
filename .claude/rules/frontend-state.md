@@ -59,3 +59,20 @@ is the fetch, the hooks wrap it.
 The one injected `client` binds a different instance per side — `createStaticApiClient` (server ·
 anon · SSG-safe) vs the browser same-origin client vs future `createServerApiClient` (per-request ·
 cookie-forwarding). `next/headers` (cookies) is read ONLY at that `apps/web` edge, never in the spine.
+
+## React Query vs plain props — decide per query, not per page
+
+Whether a datum lives in React Query is decided ONCE per domain entity, in its `store` factory —
+never at a fetch call-site. A datum is RQ data on EVERY page or none; mixing "plain fetch here,
+`useQuery` there" for the SAME data is the only thing that leaves a cache empty after a soft nav.
+
+- **Default domain reads to the `queryOptions` path.** If an entity is ever polled / mutated /
+  refreshed on the client anywhere (a word polls until `succeeded`), it goes through its factory on
+  every page: server `prefetchQuery` + client hook. The factory is the single door, so a mixed path
+  is impossible by construction.
+- **Each page hydrates its OWN data.** App Router re-runs a route's Server Components on soft
+  navigation, so page B's `prefetchQuery` seeds the cache on arrival — it never depends on page A.
+- **Graceful, not fragile.** Skipping server prefetch isn't a break: the client hook fetches on
+  mount (a spinner). Hydration is UX polish (no flash), not correctness.
+- **Plain RSC → props** is only for page-local, never-live data (a static blurb) — unshared, so it
+  can't cause cross-nav inconsistency. Presentational children (`ui`, dumb views) always take props.
