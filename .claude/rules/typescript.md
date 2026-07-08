@@ -28,7 +28,7 @@ Keep a return annotation **only** when it does work the body can't assert on its
 - a **generic assertion** `tsc` cannot infer — `unwrap<T>(): T` (`data` is `T | undefined`);
 - a **contract check that must fail the build** — `narrowWordState(): WordStateModel` forces the
   `else`-arm assignability check that turns a new backend status into a compile error;
-- a **framework / external contract validated nowhere else** — Next `robots`/`sitemap`/
-  `generateMetadata`, or a test fake typed `: typeof fetch`.
+- a **framework / external contract validated nowhere else** — e.g. Next `robots`/`sitemap`/
+  `generateMetadata`.
 
 Inferable ≠ load-bearing: strip the first, keep the second.

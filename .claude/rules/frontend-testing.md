@@ -36,11 +36,12 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
   branch.
 - **store factory** — asserts the key + `staleTime` + that `select` routes through
   `narrowWordState` (fake the fetchX). One representative test; don't re-assert the model's branches.
-- **repositories fetchX** — one success decode + one typed error shape against a fake `fetch`
-  (the generated types already prove the response shape compiles — the type system is the test).
-- **use-cases hook** — one integration test: render `useWord` under jsdom with a fixture client,
-  assert it returns the narrowed state (exercises client → repositories → store `select` →
-  `narrowWordState`).
+- **repositories fetchX** — one success decode + one typed error shape against a Vitest-mocked
+  `fetch` (`vi.fn<typeof fetch>()` resolving a `Response.json(...)`; no hand-rolled fake, no nock).
+  The generated types already prove the response shape compiles — the type system is the test.
+- **use-cases hook** — one integration test: render `useWord` under jsdom with a client whose
+  `fetch` is a `vi.fn` (same mocking approach), assert it returns the narrowed state (exercises
+  client → repositories → store `select` → `narrowWordState`).
 - **the slice (`apps/web`)** — the load-bearing integration test: render the feature (`word-view`)
   under jsdom with a seeded query cache, assert the presentational component (Tailwind/shadcn,
   prop-driven) shows the word content typed by the generated client (no `any`).
