@@ -7,7 +7,7 @@
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "typecheck": "bun --bun next typegen && bun --bun tsc --noEmit",
+    "typecheck": "KOTODAMA_API_URL=http://localhost KOTODAMA_SITE_URL=http://localhost bun --bun next typegen && bun --bun tsc --noEmit",
     "test": "bun --bun vitest run"
   },
   "dependencies": {
@@ -19,7 +19,8 @@
     "next": "catalog:next",
     "next-themes": "catalog:style",
     "react": "catalog:react",
-    "react-dom": "catalog:react"
+    "react-dom": "catalog:react",
+    "zod": "catalog:api"
   },
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",

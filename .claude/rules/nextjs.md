@@ -53,7 +53,11 @@ invariants Next itself won't tell you. Tier direction (never import
   packages resolve via their `package.json` `exports` subpaths, NOT the consuming app's tsconfig
   paths — including CSS: `globals.css` is `@import "@kotodama/ui/styles.css"` (the ui entry
   `@source`s its own tree, so the app declares no `../` paths).
-- `KOTODAMA_API_URL`, `KOTODAMA_SITE_URL` are inlined at build — **build per environment**.
+- **Env is read in ONE place — `src/env.ts`** (Zod-validated, memoized `env()`); never scattered
+  `process.env.X ?? default`. `KOTODAMA_API_URL`/`KOTODAMA_SITE_URL` are required — a missing/invalid
+  value throws at build (SSG, metadata, rewrites all call `env()`), never a silent localhost. Read
+  server-side only (build for the static/proxy paths, runtime for dynamic render) — never in the
+  browser bundle, since the browser client is same-origin (`baseUrl: ''`). **Build per environment.**
 
 ## Optional: Next.js MCP (user scope, not committed)
 

@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
 import type { NextConfig } from 'next'
+import { env } from './src/env'
 
 const nextConfig: NextConfig = {
   // React Compiler (stable in Next 16): auto-memoizes components, so manual
@@ -14,11 +15,11 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   // Absolute monorepo root so Turbopack's workspace inference is deterministic.
   turbopack: { root: resolve(import.meta.dirname, '../..') },
-  // Same-origin `/api/*` → backend. NOTE: KOTODAMA_API_URL is inlined at BUILD
-  // time, so build per environment.
+  // Same-origin `/api/*` → backend. The destination is baked into the route
+  // manifest at build, so build per environment; KOTODAMA_API_URL comes from the
+  // validated env() (one source, no silent localhost default).
   async rewrites() {
-    const backend = process.env.KOTODAMA_API_URL ?? 'http://localhost:3000'
-    return [{ source: '/api/:path*', destination: `${backend}/api/:path*` }]
+    return [{ source: '/api/:path*', destination: `${env().KOTODAMA_API_URL}/api/:path*` }]
   },
 }
 

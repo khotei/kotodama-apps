@@ -29,12 +29,17 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
 - **`globals.css`** is one line — `@import "@kotodama/ui/styles.css"` (by package name, via the ui
   `exports`). The ui entry `@source`s its own tree, so the app declares no paths; PostCSS via
   `@tailwindcss/postcss`.
-- **Client config is one file — `src/api-client.ts`:** three factories — `createBrowserApiClient`
-  (same-origin, providers only), `createStaticApiClient` (anon backend URL — the ONLY client legal in
-  the public tree; cookies would kill SSG), `createServerApiClient` (async, authed tree; cookie
-  forwarding is design-bound — no backend auth yet).
+- **`src/env.ts` is the ONE place `process.env` is read** — a Zod-validated, memoized `env()`; no
+  scattered `process.env.X ?? default`. A missing/invalid var throws at build (SSG, metadata,
+  rewrites all touch it), never a silent localhost. Server-only: the browser client is same-origin
+  so it never calls `env()`. `.env.example` lists the vars; copy to `.env` for dev. The
+  `typecheck` script feeds `next typegen` throwaway URLs (types don't depend on the value).
+- **Client config is `src/api-client.ts`:** `createBrowserApiClient` (same-origin `baseUrl: ''`, no
+  env, providers only), `createStaticApiClient` / `createServerApiClient` (backend URL from
+  `env().KOTODAMA_API_URL`; static is the ONLY client legal in the public tree — cookies would kill
+  SSG; server is async + cookie-forwarding, design-bound, no backend auth yet).
 - **`next.config.ts`:** absolute Turbopack root, `reactCompiler`, `/api/:path*` rewrite →
-  `KOTODAMA_API_URL` (inlined at BUILD time — build per env), `typedRoutes`. No `transpilePackages` —
-  Turbopack auto-transpiles the workspace `@kotodama/*` packages.
+  `env().KOTODAMA_API_URL` (baked into the route manifest at build — build per env), `typedRoutes`.
+  No `transpilePackages` — Turbopack auto-transpiles the workspace `@kotodama/*` packages.
 - **Run:** `bun run --filter '@kotodama/web' {dev,build,start}`. Never `next build` to typecheck —
   `next typegen && tsc --noEmit`.

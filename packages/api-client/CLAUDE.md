@@ -18,3 +18,6 @@ tsconfig having no `"dom"` lib.
   script). CI fails the drift gate on a dirty diff; it is Biome-excluded so formatting can't perturb it.
 - **`createApiClient({ baseUrl, fetch })`** — an openapi-fetch instance + JSON middleware. A factory,
   not a singleton: the SSR server, the browser entry, and tests each pass their own base URL / fetch.
+  **`baseUrl` is required and this leaf reads NO env** — the app resolves the origin from its own
+  validated `env()` and injects it (`''` for the same-origin browser client); a future `apps/mobile`
+  has no `KOTODAMA_API_URL`, so a default here would couple the leaf to Next.
