@@ -22,7 +22,6 @@
       "name": "@kotodama/e2e",
       "version": "0.0.0",
       "devDependencies": {
-        "@kotodama/api-client": "workspace:*",
         "@kotodama/tooling": "workspace:*",
         "@playwright/test": "catalog:test",
         "@types/node": "catalog:runtime",
