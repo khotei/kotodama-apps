@@ -13,7 +13,7 @@ const STATUS_LABEL: Record<WordCardProps['status'], string> = {
   failed: 'Failed',
 }
 
-export interface WordCardProps {
+export type WordCardProps = {
   word: string
   language: string
   status: 'pending' | 'running' | 'succeeded' | 'failed'

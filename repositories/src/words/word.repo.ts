@@ -30,8 +30,10 @@ export function fetchWordState(
 // `q` + `status` are the contract's query params verbatim; only `page`/`limit`
 // diverge — the wire wants strings, a typed caller passes `number` (searchWords
 // stringifies). So derive from the generated query and override just those two.
-export interface SearchWordsParams
-  extends Omit<operations['words.search']['parameters']['query'], 'page' | 'limit'> {
+export type SearchWordsParams = Omit<
+  operations['words.search']['parameters']['query'],
+  'page' | 'limit'
+> & {
   /** 1-based page index; the backend rejects an out-of-range limit at decode. */
   page: number
   limit: number

@@ -18,9 +18,10 @@ const badgeVariants = cva(
   },
 )
 
-export interface BadgeProps extends ComponentProps<'span'>, VariantProps<typeof badgeVariants> {
-  asChild?: boolean
-}
+export type BadgeProps = ComponentProps<'span'> &
+  VariantProps<typeof badgeVariants> & {
+    asChild?: boolean
+  }
 
 export function Badge({ className, variant, asChild = false, ...props }: BadgeProps) {
   const Comp = asChild ? Slot : 'span'

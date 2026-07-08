@@ -7,7 +7,7 @@ import type { paths } from './schema.gen'
 // future apps/mobile reuses it unchanged). No Effect on the frontend (§8): the
 // client is Promise-based and surfaces no typed error channel.
 
-export interface ApiClientOptions {
+export type ApiClientOptions = {
   /** Backend origin, e.g. `http://localhost:3000` or a deployed URL. */
   baseUrl?: string
   /** Injectable fetch — the SSR server and tests pass their own. */
