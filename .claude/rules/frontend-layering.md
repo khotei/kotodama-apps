@@ -14,32 +14,44 @@ Top-level tiers (one-way linear chain, mirrors the backend):
 ```
 
 - **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `api-client`,
-  `repositories`, `store`, `use-cases`. **Web-only:** `ui`, `apps/web`.
+  `repositories`, `store`. **Web-only:** `ui`, `use-cases`, `apps/web`. The web↔native line falls
+  **below `use-cases`**: `use-cases` renders (DOM), so it does NOT port; a native app reuses only the
+  agnostic spine and builds its own feature/render tier on top.
+- **`use-cases` is the web-only FEATURE tier:** domain-aware assemblies (RSC views + `'use client'`
+  islands) composed from `ui` primitives + `store` models. **Next-free + prop-driven** — it sits below
+  the app, so it can't import the app's loaders/actions (upward); the app injects everything
+  runtime-specific as **serializable** props (a resolved `model`, a Server Action reference, a URL
+  string). A feature that would need heavier, non-serializable wiring lives in `apps/web` directly
+  (the sanctioned bypass), not here.
 - **`api-client` is a leaf package importable by every tier** (for the client + raw `operations` —
-  "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it; the
-  agnostic tiers must not (it is DOM-bound and would break portability).
+  "everything → packages"). **`ui` is a leaf too, but web-only:** only `use-cases` + `apps/web` may
+  import it; the agnostic spine must not (it is DOM-bound and would break portability).
 - **`config` is the env base leaf — the single home for env keys, importable by ALL** (mirrors the
   backend `@kotodama/config`). Its library imports nothing internal; the `api-client` leaf's
   `gen-api.ts` build script is Biome-exempted to reuse its `loadRootEnv`. The `api-client` *library*
   still reads no env — it takes `baseUrl` injected.
 - **Tier direction:** `repositories` = raw fetchX + the contract entity types (`*Entity`); `store` =
-  TanStack Query `queryOptions` + the domain model derivation (`narrowWordState`, run in `select`);
-  `use-cases` = React hooks over `store`; `apps/web` = the web app (Next App Router render + feature
-  components + view shapes). Never import upward, and the agnostic tiers never import `ui`/`apps`.
-  `apps/web` reaches data through `use-cases` hooks (or `store` loaders), never the raw
-  `repositories` fetchX.
+  the domain model derivation (`narrowWordState` + the `*Model` types); `use-cases` = web-only feature
+  assemblies (views + islands) over `ui` + `store`; `apps/web` = the Next shell (routing + the server
+  data layer + wiring). Never import upward, and the agnostic spine never imports `ui`/`use-cases`/`apps`.
+- **`apps/web` splits in two internally:** `src/server/**` is the RSC data layer — the ONE place in
+  the app allowed to import `@kotodama/repositories` (it composes fetchX + `store` models + `config`
+  into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**` is the routing shell that composes
+  `use-cases` components, injecting the loaders' data + the actions. `src/server` must not import `ui`
+  or `use-cases` — presentation lives in `use-cases`, data in `src/server`.
 
 ## Two enforcement planes
 
-1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `repositories`, `store`,
-   `use-cases` compile with `lib: ["esnext"]` and no `"dom"`, so any `document`/`window`/react-dom
-   leak — or a dependency that pulls DOM types (e.g. a Radix primitive or `next`) — is a **`tsc`
-   error before Biome runs**. `use-cases` opts into `jsx` (for its provider) but stays DOM-free. `ui` + `apps/web` opt
-   into `lib:["dom",…]` + `jsx` + `@types/react`. A correct-by-construction guarantee an import
-   denylist can't match.
-2. **Biome `noRestrictedImports` = tier-direction bans** (`biome.json`, per-glob overrides): the
+1. **DOM-free `tsconfig.base.json` is PRIMARY.** `api-client`, `repositories`, `store` compile with
+   `lib: ["esnext"]` and no `"dom"`, so any `document`/`window`/react-dom leak — or a dependency that
+   pulls DOM types (e.g. a Radix primitive or `next`) — is a **`tsc` error before Biome runs**. `ui`,
+   `use-cases` + `apps/web` opt into `lib:["dom",…]` + `jsx` + `@types/react`. A correct-by-construction
+   guarantee an import denylist can't match.
+2. **Biome `noRestrictedImports` = tier-direction bans** (`biome.base.json`, per-glob overrides): the
    leaf rules (`api-client`/`ui` import nothing internal) + the one-way tier chain + the
-   agnostic-tiers-never-import-`ui`/`apps` rule. Run `/scan-deps`.
+   agnostic-spine-never-imports-`ui`/`use-cases`/`apps` rule + the `use-cases` Next-free ban (no
+   `next`/`repositories`/`config`) + the `apps/web` repositories ban (waived only for
+   `apps/web/src/server/**`). Run `/scan-deps`.
 
 **The invariant both protect: the web↔native boundary.** The agnostic spine is what a future
 `apps/mobile` reuses unchanged; `ui`/`apps/web` are DOM-bound and do not port — only `ui`'s

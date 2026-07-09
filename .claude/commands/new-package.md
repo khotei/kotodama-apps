@@ -10,11 +10,10 @@ Steps:
 1. **Validate the layer + platform.** The target must be under `apps/`, a top-level tier
    (`repositories`/`store`/`use-cases`, or the reserved `core`), or `packages/`. Reject anything else.
    Confirm the intended dependencies respect `@.claude/rules/frontend-layering.md` (one-way chain;
-   `packages/*` are leaves). Decide `--dom`: pass it ONLY for a web workspace that renders (apps/web,
-   packages/ui). OMIT it for the platform-agnostic tiers (repositories / store / use-cases /
-   packages/api-client) so a stray `document`/`window`/react-dom import is a `tsc` error — the DOM-free
-   base tsconfig is the primary web↔native enforcer. (`use-cases` is DOM-free but authored with `jsx`
-   for its provider — omit `--dom`, then add `jsx: "react-jsx"` + `@types/react` by hand.)
+   `packages/*` are leaves). Decide `--dom`: pass it for a web workspace that renders (apps/web,
+   packages/ui, **use-cases** — the web-only feature tier). OMIT it for the platform-agnostic tiers
+   (repositories / store / packages/api-client) so a stray `document`/`window`/react-dom import is a
+   `tsc` error — the DOM-free base tsconfig is the primary web↔native enforcer.
 2. **package.json** — `"name": "@kotodama/<flattened-name>"` (nested folders flatten with a dash, see
    `@.claude/rules/naming.md`), `"version": "0.0.0"`, `"private": true`, `"type": "module"`,
    `main`/`types`/`exports` → `./src/index.ts`. **Always add `"@kotodama/tooling": "workspace:*"` to

@@ -1,7 +1,12 @@
-// @kotodama/store — TanStack Query queryOptions factories (mirrors a data/store
-// tier). Platform-agnostic (no DOM): the cross-app reuse unit and the
-// definition a route loader + a use-case hook share. Owns the word-state view
-// derivation (`narrowWordState`), co-located with the query it shapes.
+// @kotodama/store — the domain-model tier. Platform-agnostic (no DOM). Owns the
+// word-state model derivation (`narrowWordState`) that collapses the wire union into
+// the tagged model the render layer switches on. The cross-app reuse unit: apps/web's
+// server loader narrows here, and a future native app would narrow here too.
 export type { Language } from '@kotodama/repositories'
-export { wordQueryOptions } from './words/word.store'
-export type { ReadyWord, UnreadyStages, WordStateModel } from './words/word-state.model'
+export type {
+  ReadyWord,
+  UnreadyStages,
+  WordBuildStatus,
+  WordStateModel,
+} from './words/word-state.model'
+export { narrowWordState } from './words/word-state.model'

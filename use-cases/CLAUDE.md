@@ -1,13 +1,22 @@
 # use-cases — `@kotodama/use-cases`
 
-Platform-agnostic React feature hooks (mirrors the backend `use-cases/`) + the transport-client
-context. **No DOM, no Chakra** (tsc-enforced: jsx is on for the context provider, but the base lib
-has no `"dom"`, so a `document`/`window` use fails `tsc`). Reused by any React app; the web
-rendering that consumes these lives in `apps/web`.
+The **web-only feature tier**: domain-aware assemblies (RSC views + `'use client'` islands) for a
+concrete task, composed from `@kotodama/ui` primitives + `@kotodama/store` models. It sits between
+the dumb design system and the app: `ui` takes primitives, use-cases takes the domain model, the app
+wires it. Web-only (DOM `tsconfig`) — it does NOT port to native; the agnostic spine
+(`api-client`/`repositories`/`store`) is what a native app reuses.
 
-- **May import:** `@kotodama/store` (queryOptions + the re-exported `Language`), `@kotodama/api-client`
-  (the `ApiClient` type), `@tanstack/react-query`, `react`. **Not** `repositories`/the client
-  transport directly, not the design system, not `apps/*`.
-- **Imported by:** `apps/web` (its feature components call these hooks).
-- **`useWord(language, word)`** reads the client from `ApiClientProvider` and returns the
-  TanStack Query result (data already narrowed to the word-state model by the store's `select`).
+- **May import:** `@kotodama/ui`, `@kotodama/store` (models + `Language`/`WordBuildStatus`), `react`,
+  `react-use` (islands). **Never** `@kotodama/repositories`, `@kotodama/config`, `apps/*`, or **`next`**
+  — Biome bans them. Next-free is the invariant that keeps the tier reusable by another web module
+  (which wires its own Next).
+- **Imported by:** `apps/web` (which injects data + Server Actions + URLs and composes these).
+- **Prop-driven + INJECTED IO — the load-bearing rule.** use-cases sits below the app, so it can't
+  import the app's loaders/actions (upward). Components take everything runtime-specific as
+  **serializable** props: the resolved `model`, a Server Action reference (`onSettled`), a URL string
+  (`statusUrl`) — never a client closure or a `next/*` import. That is what RSC allows across the
+  server→client boundary, and what makes a component reusable. A feature that would need heavy
+  non-serializable wiring should live in `apps/web` directly (the sanctioned bypass), not here.
+- **`WordView`** maps `WordStateModel` → WordCard props (RSC). **`WordStatusPoller`** calls an injected
+  `poll` Server Action each tick and fires an injected `onSettled` when the build is terminal
+  (`react-use` `useInterval`) — both props are Server Action references, not URLs/closures.

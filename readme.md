@@ -16,7 +16,7 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
 
 > *Kotodama* (言霊) — the old belief that words carry a living power that shapes reality. This is
 > **the frontend**: the web client that turns the backend's word entries into crawlable pages and a
-> review UI. A Bun monorepo whose framework-agnostic spine (transport → data → hooks) is walled off
+> review UI. A Bun monorepo whose framework-agnostic spine (transport → data → model) is walled off
 > from the web render layer at lint time, so a future native app reuses it unchanged. It is a **pure
 > consumer** of [kotodama-core](https://github.com/khotei/kotodama-core); the only bridge is a typed
 > client generated from that backend's OpenAPI document.
@@ -33,20 +33,20 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
 /words/ja/言葉                              Next App Router · subset-SSG + ISR
       │
       ▼
-  RSC page ──► prefetchQuery( wordQueryOptions )                        @kotodama/store
+  RSC page ──► getWordState()  (src/server · server-only · React.cache)
       │              │ createStaticApiClient() — anonymous, keeps SSG
       │              ▼
       │        fetchWordState ─► GET /api/words/ja/言葉/state ─► kotodama-core   @kotodama/repositories
       │              (via the typed client generated from the backend's OpenAPI)  @kotodama/api-client
-      ▼              │
-  dehydrate ──► <HydrationBoundary> ──► WordView ──► useWord ──► WordCard  @kotodama/{use-cases,ui}
+      ▼              │ narrowWordState                                            @kotodama/store
+  WordStateModel ──► WordView (RSC, prop-driven) ──► WordCard   @kotodama/{use-cases,ui}
       │
       ▼
   Server-rendered HTML: <title> · OpenGraph · JSON-LD DefinedTerm   (crawlable, JavaScript off)
 ```
 
-A component never touches a raw `fetch` — data flows down the spine's `queryOptions` factories,
-is prefetched on the server, dehydrated into the page, and hydrated on the client with no refetch.
+A component never touches a raw `fetch` — reads flow through a `server-only` `React.cache` loader in
+`src/server` and pass down as props; writes are Server Actions that `revalidatePath`. No client cache.
 The public word tree stays statically generable (only the anonymous client is legal there). Full
 topology: [`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md) ·
 [`apps/web/CLAUDE.md`](apps/web/CLAUDE.md).
@@ -61,8 +61,8 @@ Identity only — exact versions are pinned centrally in Bun **catalogs**
 | **Bun** | Runtime + package manager; runs `.ts` directly, no build step for the spine |
 | **TypeScript (strict, DOM-free base)** | One typed language; a DOM leak into the agnostic spine is a `tsc` error |
 | **React 19** | The component runtime |
-| **Next 16 (App Router, Turbopack)** | The render / routing / SEO shell — SSG + ISR for public word pages |
-| **TanStack Query (+ Form)** | Server-state cache; its `queryOptions` factories are the cross-platform data unit |
+| **Next 16 (App Router, Turbopack)** | The render / routing / SEO shell — RSC + Server Actions, SSG + ISR for public word pages |
+| **TanStack Form** | Typed form state for client-side mutations (server-first: reads are RSC, no query cache) |
 | **Tailwind v4 + shadcn/ui** | Zero-runtime design system — own-your-code primitives + `@theme` semantic tokens |
 | **openapi-fetch / openapi-typescript** | The typed API client, generated from the backend's OpenAPI (`bun run gen:api`) |
 | **Zod** | Runtime validation at the untyped edges |
@@ -80,16 +80,17 @@ detail.
 |---|---|---|
 | `packages/api-client` | the openapi-fetch client + generated `schema.gen` | transport, the leaf everything imports |
 | `repositories/` | bare `fetchX` access functions + contract entity types | the only code that speaks path-strings |
-| `store/` | TanStack Query `queryOptions` factories + the domain-model derivation | the shared data unit (loader ⇔ hook) |
-| `use-cases/` | React feature hooks over `store` (`useWord`) | one place a data concern is composed |
+| `store/` | the domain-model derivation (`narrowWordState` + `*Model` types) | the shared, agnostic domain model |
+| `use-cases/` | web-only feature assemblies (RSC views + client islands), Next-free + prop-driven | domain-aware presentation, composed by the app |
 | `packages/ui` | the web design system: Tailwind v4 + shadcn primitives + `@theme` tokens | web-only, prop-driven leaf |
-| `apps/web` | the Next App Router render layer + feature components + SEO | the web process boundary |
+| `apps/web` | the Next shell: routing + the `src/server` data layer (loaders + actions) + wiring + SEO | the web process boundary |
 | `apps/e2e` | Playwright against a running app + real backend | the crawlability proof (JS off) |
 
 **Dependency direction** (enforced by Biome + a DOM-free `tsconfig`):
-`api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web`, and everything → `packages`. The
-agnostic spine (`api-client` … `use-cases`) is what a future native app reuses; `ui`/`apps/web` are
-web-bound and don't port. Full rule + enforcement:
+`api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web`, and everything → `packages`. The agnostic
+spine (`api-client` … `store`) is what a future native app reuses; `ui`/`use-cases`/`apps/web` are
+web-bound and don't port (the web↔native line is below `use-cases`, which renders). Within `apps/web`,
+only `src/server/**` may reach `repositories`; `use-cases` stays Next-free. Full rule + enforcement:
 [`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md).
 
 ## Requirements
@@ -97,9 +98,9 @@ web-bound and don't port. Full rule + enforcement:
 - **[Bun](https://bun.com/) 1.3.x** — `curl -fsSL https://bun.com/install | bash`
 - **Node** — for the Playwright e2e only (upstream closed Bun support); any recent Node via `fnm` or system.
 - **A running [kotodama-core](https://github.com/khotei/kotodama-core) backend** for real data — and
-  for the e2e suite, which now runs against a live backend (no in-repo stub). The app renders a
-  loading state without one; the committed typed client (`schema.gen.ts`) means typecheck + unit
-  tests still run offline.
+  for the e2e suite, which now runs against a live backend (no in-repo stub). Without one the loader
+  degrades to a "not built yet" card (it never throws), so `next build` still prerenders; the
+  committed typed client (`schema.gen.ts`) means typecheck + unit tests run offline.
 
 ## Run it
 
@@ -110,9 +111,9 @@ bun install
 # 2. Health — lint + typecheck + unit tests across every workspace.
 bun run check && bun run test
 
-# 3. The web app (Next App Router, Turbopack) — dev serves on :4000. Copy apps/web/.env.example to
-#    apps/web/.env first (KOTODAMA_API_URL → the core backend on :3000; KOTODAMA_SITE_URL → this app).
-#    /api/* is proxied to the backend. No silent defaults — a missing var fails the build.
+# 3. The web app (Next App Router, Turbopack) — dev serves on :4000. Copy .env.example to .env first
+#    (KOTODAMA_API_URL → the core backend on :3000; KOTODAMA_SITE_URL → this app). Backend access is
+#    server-side only (RSC loaders + Server Actions). No silent defaults — a missing var fails the build.
 bun run --filter '@kotodama/web' dev
 
 # 4. The design system in isolation (Storybook — the only place Vite runs).

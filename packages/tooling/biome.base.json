@@ -110,13 +110,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": [
-                      "@kotodama/store",
-                      "@kotodama/use-cases",
-                      "@kotodama/ui",
-                      "@kotodama/web"
-                    ],
-                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store/use-cases, the design system, or apps."
+                    "group": ["@kotodama/store", "@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, the design system, or apps."
                   }
                 ]
               }
@@ -135,8 +130,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/use-cases", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: store composes repositories + core into queryOptions — it must not import use-cases, the design system, or apps. It is platform-agnostic spine."
+                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: store derives domain models over repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   }
                 ]
               }
@@ -155,8 +150,14 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/repositories", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: use-cases reach data through @kotodama/store, never repositories directly; and never the design system or apps. (api-client types are fine — it is a leaf package.) Keep it DOM-free."
+                    "group": [
+                      "@kotodama/repositories",
+                      "@kotodama/config",
+                      "@kotodama/web",
+                      "next",
+                      "next/**"
+                    ],
+                    "message": "Layer violation: use-cases is the web-only feature tier — it composes @kotodama/ui + @kotodama/store into prop-driven assemblies. It must stay Next-free (the app injects loaders/actions/URLs as serializable props) and must not reach repositories, config, or apps. See frontend-layering.md."
                   }
                 ]
               }
@@ -179,7 +180,27 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/repositories", "@kotodama/repositories/**"],
-                    "message": "Layer violation: apps/web reaches data through @kotodama/use-cases hooks (or @kotodama/store loaders), never the raw fetchX in repositories. See frontend-layering.md."
+                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/web/src/server/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/ui", "@kotodama/use-cases", "@kotodama/web"],
+                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system or use-cases. Presentation lives in @kotodama/use-cases."
                   }
                 ]
               }

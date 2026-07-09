@@ -7,15 +7,26 @@ import type { Language } from './word.entity'
 // the generated contract types (the type system is the test). Platform-agnostic;
 // `store` builds queryOptions on top of these.
 
-export function fetchWord(client: ApiClient, language: Language, word: string) {
+// `init` forwards fetch options (e.g. Next's `{ next: { tags, revalidate } }`) from
+// the caller's edge to openapi-fetch. `body` is excluded — these are GET reads, and
+// openapi-fetch types a GET's options as `{ body?: undefined }`. Kept framework-free
+// (a bare `RequestInit`); the Next augmentation of the `next` field types at the call site.
+type ReadInit = Omit<RequestInit, 'body'>
+
+export function fetchWord(client: ApiClient, language: Language, word: string, init?: ReadInit) {
   return client
-    .GET('/api/words/{language}/{word}', { params: { path: { language, word } } })
+    .GET('/api/words/{language}/{word}', { params: { path: { language, word } }, ...init })
     .then(unwrap)
 }
 
-export function fetchWordState(client: ApiClient, language: Language, word: string) {
+export function fetchWordState(
+  client: ApiClient,
+  language: Language,
+  word: string,
+  init?: ReadInit,
+) {
   return client
-    .GET('/api/words/{language}/{word}/state', { params: { path: { language, word } } })
+    .GET('/api/words/{language}/{word}/state', { params: { path: { language, word } }, ...init })
     .then(unwrap)
 }
 

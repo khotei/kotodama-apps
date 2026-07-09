@@ -16,11 +16,11 @@
     "@kotodama/store": "workspace:*",
     "@kotodama/ui": "workspace:*",
     "@kotodama/use-cases": "workspace:*",
-    "@tanstack/react-query": "catalog:tanstack",
     "next": "catalog:next",
     "next-themes": "catalog:style",
     "react": "catalog:react",
-    "react-dom": "catalog:react"
+    "react-dom": "catalog:react",
+    "server-only": "catalog:react"
   },
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",
