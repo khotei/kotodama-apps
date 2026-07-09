@@ -4,8 +4,8 @@ import { cn } from '../../lib/utils'
 export type EtymologyStep = {
   /** Mono overline: century or year — `s. XIII`, `1490`. */
   when: ReactNode
-  /** The historical form, set in serif — `mariposa`. */
-  form: ReactNode
+  /** The historical form, set in serif — `mariposa`. Absent on a prose-only step. */
+  form?: ReactNode
   note?: ReactNode
 }
 
@@ -33,9 +33,17 @@ export function EtymologyTimeline({ steps, className, ...props }: EtymologyTimel
           <div className="font-mono text-[10.5px] text-muted-foreground uppercase tracking-[0.12em]">
             {step.when}
           </div>
-          <div className="mt-1 font-serif text-[17px] leading-snug">{step.form}</div>
+          {step.form != null && (
+            <div className="mt-1 font-serif text-[17px] leading-snug">{step.form}</div>
+          )}
           {step.note != null && (
-            <div className="mt-0.5 text-[12.5px] text-muted-foreground leading-snug">
+            <div
+              className={
+                step.form != null
+                  ? 'mt-0.5 text-[12.5px] text-muted-foreground leading-snug'
+                  : 'mt-1 text-[13.5px] leading-relaxed'
+              }
+            >
               {step.note}
             </div>
           )}

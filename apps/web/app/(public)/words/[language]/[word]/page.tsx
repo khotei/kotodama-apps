@@ -1,5 +1,5 @@
 import type { Language, ReadyWord } from '@kotodama/store'
-import { WordStatusPoller, WordView } from '@kotodama/use-cases'
+import { WordScreen, WordStatusPoller } from '@kotodama/use-cases'
 import type { Metadata } from 'next'
 import { getWordStatus, refreshWordPage } from '@/src/server/words/word.actions'
 import { getWordState } from '@/src/server/words/word.loader'
@@ -71,15 +71,21 @@ export default async function WordPage({
     model?.kind === 'unready' && (model.status === 'pending' || model.status === 'running')
 
   return (
-    <div className="space-y-4 py-8">
+    <>
       {model?.kind === 'ready' ? <DefinedTermJsonLd word={model.word} language={language} /> : null}
-      <WordView model={model} language={lang} word={decodedWord} />
+      <WordScreen
+        model={model}
+        language={lang}
+        word={decodedWord}
+        libraryHref="/"
+        searchHref="/search"
+      />
       {building ? (
         <WordStatusPoller
           poll={getWordStatus.bind(null, lang, decodedWord)}
           onSettled={refreshWordPage.bind(null, lang, decodedWord)}
         />
       ) : null}
-    </div>
+    </>
   )
 }

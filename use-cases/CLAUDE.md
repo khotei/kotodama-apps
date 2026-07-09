@@ -17,6 +17,7 @@ wires it. Web-only (DOM `tsconfig`) — it does NOT port to native; the agnostic
   (`statusUrl`) — never a client closure or a `next/*` import. That is what RSC allows across the
   server→client boundary, and what makes a component reusable. A feature that would need heavy
   non-serializable wiring should live in `apps/web` directly (the sanctioned bypass), not here.
-- **`WordView`** maps `WordStateModel` → WordCard props (RSC). **`WordStatusPoller`** calls an injected
+- **`WordScreen`** is the one domain → view switch for the word route (null → not-found, unready →
+  generating/failed, ready → the full entry; RSC). **`WordStatusPoller`** calls an injected
   `poll` Server Action each tick and fires an injected `onSettled` when the build is terminal
   (`react-use` `useInterval`) — both props are Server Action references, not URLs/closures.
