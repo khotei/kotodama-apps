@@ -7,6 +7,12 @@
 // `bunx shadcn@latest add <name>`); `components/<feature>/` = our compositions;
 // shared helpers in `lib/`. See `.claude/agent-patterns/tailwind-shadcn.md`.
 
+export { ImageSlot, type ImageSlotProps } from './components/image-slot'
+export { Seal, type SealProps } from './components/seal'
+export { SectionRule, type SectionRuleProps } from './components/section-rule'
+export { Sparkline, type SparklineProps } from './components/sparkline'
+export { StatusBadge, type StatusBadgeProps, type WordStatus } from './components/status-badge'
+export { TierChip, type TierChipProps, type WordTier } from './components/tier-chip'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
