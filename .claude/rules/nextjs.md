@@ -28,8 +28,9 @@ lives in `frontend-layering.md`.
 - **Presentation lives in `@kotodama/use-cases`** (RSC views + client islands); the page is a thin
   RSC shell that resolves data via `src/server` loaders and **injects** it — plus Server Actions +
   URLs — into those components as serializable props (see `frontend-state.md`). `'use client'` in the
-  app itself sits only in `providers.tsx` (theme); the feature islands (poll loops, optimistic UI,
-  form state) are `.client.tsx` inside `use-cases`.
+  app itself sits only in `providers.tsx` (theme) and `src/chrome/*.client.tsx` (nav/mode chrome —
+  needs `usePathname` + next-themes, the sanctioned bypass); the feature islands (poll loops,
+  optimistic UI, form state) are `.client.tsx` inside `use-cases`.
 - `WordView` (in `use-cases`) is the ONE place domain (`WordStateModel`) → presentational props
   mapping happens; `@kotodama/ui` stays prop-driven.
 

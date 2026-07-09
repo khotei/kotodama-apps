@@ -71,7 +71,7 @@ export default async function WordPage({
     model?.kind === 'unready' && (model.status === 'pending' || model.status === 'running')
 
   return (
-    <main className="min-h-dvh space-y-4 p-8">
+    <div className="space-y-4 py-8">
       {model?.kind === 'ready' ? <DefinedTermJsonLd word={model.word} language={language} /> : null}
       <WordView model={model} language={lang} word={decodedWord} />
       {building ? (
@@ -80,6 +80,6 @@ export default async function WordPage({
           onSettled={refreshWordPage.bind(null, lang, decodedWord)}
         />
       ) : null}
-    </main>
+    </div>
   )
 }

@@ -1,1 +1,8 @@
 @import "@kotodama/ui/styles.css";
+
+/* The ui entry @source's only its own tree; utilities used solely by the app
+   or the use-cases tier would be pruned without these — each consumer declares
+   the trees it renders (paths resolve relative to THIS file). */
+@source "./**/*.{ts,tsx}";
+@source "../src/**/*.{ts,tsx}";
+@source "../../../use-cases/src/**/*.{ts,tsx}";
