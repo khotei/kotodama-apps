@@ -34,6 +34,19 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.45 0.18 293);
+
+  /* Extension tokens (design handoff): --seal is the cinnabar brand mark 印 —
+     never an action (not --primary) and never an error (not --destructive);
+     --success is the positive status hue the core set lacks; --tier-* is the
+     4-way register scale (shared L·C, hue varies — the --chart-N pattern). */
+  --seal: oklch(0.53 0.16 32);
+  --seal-foreground: oklch(0.985 0 0);
+  --success: oklch(0.55 0.12 160);
+  --success-foreground: oklch(0.985 0 0);
+  --tier-everyday: oklch(0.55 0.11 165);
+  --tier-cultural: oklch(0.55 0.11 305);
+  --tier-formal: oklch(0.55 0.11 275);
+  --tier-rare: oklch(0.62 0.11 85);
 }
 
 .dark {
@@ -56,6 +69,15 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.62 0.19 293);
+
+  --seal: oklch(0.66 0.15 35);
+  --seal-foreground: oklch(0.985 0 0);
+  --success: oklch(0.72 0.13 160);
+  --success-foreground: oklch(0.205 0 0);
+  --tier-everyday: oklch(0.75 0.11 165);
+  --tier-cultural: oklch(0.75 0.11 305);
+  --tier-formal: oklch(0.75 0.11 275);
+  --tier-rare: oklch(0.78 0.11 85);
 }
 
 /* inline: values reference other CSS vars, so Tailwind must reference (not
@@ -85,6 +107,22 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-seal: var(--seal);
+  --color-seal-foreground: var(--seal-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-tier-everyday: var(--tier-everyday);
+  --color-tier-cultural: var(--tier-cultural);
+  --color-tier-formal: var(--tier-formal);
+  --color-tier-rare: var(--tier-rare);
+
+  /* Fonts resolve through the next/font seam: apps/web injects
+     --font-fraunces/--font-inter/--font-jetbrains-mono on <html> via next/font;
+     outside Next (Storybook loads the same families in preview-head.html) the
+     var() fallback + named-family stack serves them. */
+  --font-serif: var(--font-fraunces, "Fraunces"), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter, "Inter"), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
 }
 
 @layer base {
