@@ -65,10 +65,8 @@ export function ResultRow({
         )}
       </span>
       {!ready && <StatusBadge status={status} />}
-      {ready && saved && <BookmarkIcon className="size-4 fill-primary text-primary" />}
-      {ready && !saved && (
-        <ArrowRightIcon className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-      )}
+      {saved && <BookmarkIcon className="size-4 fill-primary text-primary" />}
+      <ArrowRightIcon className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
     </a>
   )
 }
