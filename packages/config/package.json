@@ -1,5 +1,5 @@
 {
-  "name": "@kotodama/api-client",
+  "name": "@kotodama/config",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,16 +9,14 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "openapi-fetch": "catalog:api"
+    "dotenv": "^17.4.0",
+    "zod": "catalog:api"
   },
   "devDependencies": {
-    "@kotodama/config": "workspace:*",
-    "@kotodama/tooling": "workspace:*",
-    "openapi-typescript": "catalog:api"
+    "@kotodama/tooling": "workspace:*"
   },
   "scripts": {
     "typecheck": "bun --bun tsc --noEmit",
-    "test": "bun --bun vitest run",
-    "gen:api": "bun --bun gen-api.ts"
+    "test": "bun --bun vitest run"
   }
 }

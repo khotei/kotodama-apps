@@ -16,8 +16,10 @@ tsconfig having no `"dom"` lib.
   (co-located with its output); it live-fetches `{KOTODAMA_API_URL}/api/openapi.json` and runs
   `openapi-typescript` (D4/AC-4). Run it via `bun run gen:api` (root delegates to this package's
   script). CI fails the drift gate on a dirty diff; it is Biome-excluded so formatting can't perturb it.
+  The build script is the ONE exception to the leaf rule below — it reuses `@kotodama/config`'s
+  `loadRootEnv` (Biome-exempted for `gen-api.ts` only) so it targets the same backend as the app.
 - **`createApiClient({ baseUrl, fetch })`** — an openapi-fetch instance + JSON middleware. A factory,
   not a singleton: the SSR server, the browser entry, and tests each pass their own base URL / fetch.
-  **`baseUrl` is required and this leaf reads NO env** — the app resolves the origin from its own
-  validated `env()` and injects it (`''` for the same-origin browser client); a future `apps/mobile`
-  has no `KOTODAMA_API_URL`, so a default here would couple the leaf to Next.
+  **`baseUrl` is required and this leaf's LIBRARY reads NO env** — the app resolves the origin from
+  its own validated `serverEnv()` and injects it (`''` for the same-origin browser client); a future
+  `apps/mobile` has no `KOTODAMA_API_URL`, so a default here would couple the leaf to Next.

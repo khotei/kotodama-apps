@@ -9,7 +9,12 @@
 // CI drift gate: run this, then fail on a dirty git diff of schema.gen.ts.
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { loadRootEnv } from '@kotodama/config'
 import openapiTS, { astToString } from 'openapi-typescript'
+
+// Same repo-root .env fallback the app uses (real exported vars win), so gen:api
+// targets the same backend without a --env-file flag.
+loadRootEnv()
 
 const BASE = (process.env.KOTODAMA_API_URL ?? 'http://localhost:3000').replace(/\/+$/, '')
 const DOC_URL = `${BASE}/api/openapi.json`

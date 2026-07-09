@@ -1,5 +1,5 @@
+import { serverEnv } from '@kotodama/config'
 import type { MetadataRoute } from 'next'
-import { env } from '@/src/env'
 import { WORD_SEED } from '@/src/word-seed'
 
 // A single sitemap.xml over the seed words. Per-language chunking via
@@ -7,7 +7,7 @@ import { WORD_SEED } from '@/src/word-seed'
 // arrive together with the real top-N word list — today the store exposes only
 // the single-word wordQueryOptions, so there is nothing large enough to chunk.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = env().KOTODAMA_SITE_URL
+  const base = serverEnv().KOTODAMA_SITE_URL
   return WORD_SEED.map((w) => ({
     url: `${base}/words/${w.language}/${encodeURIComponent(w.word)}`,
   }))

@@ -5,6 +5,7 @@ right tier is the whole point of this doc.
 
 ```
 Packages (leaves — import nothing internal):
+  packages/config       env: repo-root .env loader + optional Zod schema over process.env  [agnostic · base leaf, importable by ALL]
   packages/api-client   transport: openapi-fetch client + generated schema.gen   [agnostic]
   packages/ui           web design system: Tailwind v4 + shadcn primitives + @theme tokens  [web-only]
 
@@ -17,6 +18,10 @@ Top-level tiers (one-way linear chain, mirrors the backend):
 - **`api-client` is a leaf package importable by every tier** (for the client + raw `operations` —
   "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it; the
   agnostic tiers must not (it is DOM-bound and would break portability).
+- **`config` is the env base leaf — the single home for env keys, importable by ALL** (mirrors the
+  backend `@kotodama/config`). Its library imports nothing internal; the `api-client` leaf's
+  `gen-api.ts` build script is Biome-exempted to reuse its `loadRootEnv`. The `api-client` *library*
+  still reads no env — it takes `baseUrl` injected.
 - **Tier direction:** `repositories` = raw fetchX + the contract entity types (`*Entity`); `store` =
   TanStack Query `queryOptions` + the domain model derivation (`narrowWordState`, run in `select`);
   `use-cases` = React hooks over `store`; `apps/web` = the web app (Next App Router render + feature

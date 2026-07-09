@@ -1,6 +1,10 @@
 import { resolve } from 'node:path'
+import { clientEnv, loadRootEnv, serverEnv } from '@kotodama/config'
 import type { NextConfig } from 'next'
-import { env } from './src/env'
+
+// Load the repo-root .env (fallback under process.env) before anything reads
+// config — the rewrites proxy below, server components, and metadata all touch it.
+loadRootEnv()
 
 const nextConfig: NextConfig = {
   // React Compiler (stable in Next 16): auto-memoizes components, so manual
@@ -15,11 +19,18 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   // Absolute monorepo root so Turbopack's workspace inference is deterministic.
   turbopack: { root: resolve(import.meta.dirname, '../..') },
+  // The single server -> client bridge: whatever @kotodama/config's clientSchema
+  // declares is inlined into the browser bundle at build. Empty today — the
+  // browser client is same-origin, so nothing crosses. Keep clientSchema
+  // plain-string (a transform/coerce would inline the wrong shape); when a real
+  // NEXT_PUBLIC_* var lands, clientEnv() must read it via a literal
+  // `process.env.X` (Next inlines only literal member access, not a dynamic read).
+  env: clientEnv(),
   // Same-origin `/api/*` → backend. The destination is baked into the route
   // manifest at build, so build per environment; KOTODAMA_API_URL comes from the
-  // validated env() (one source, no silent localhost default).
+  // validated serverEnv() (one source, no silent localhost default).
   async rewrites() {
-    return [{ source: '/api/:path*', destination: `${env().KOTODAMA_API_URL}/api/:path*` }]
+    return [{ source: '/api/:path*', destination: `${serverEnv().KOTODAMA_API_URL}/api/:path*` }]
   },
 }
 

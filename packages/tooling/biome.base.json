@@ -61,7 +61,7 @@
   },
   "overrides": [
     {
-      "includes": ["packages/api-client/**"],
+      "includes": ["packages/api-client/**", "!packages/api-client/gen-api.ts"],
       "linter": {
         "rules": {
           "style": {
@@ -71,7 +71,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/*"],
-                    "message": "Layer violation: packages/api-client is the transport base — it imports NO internal package (only openapi-fetch + its own generated schema.gen). See frontend-layering.md."
+                    "message": "Layer violation: packages/api-client is the transport base — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse @kotodama/config's loadRootEnv). See frontend-layering.md."
                   }
                 ]
               }

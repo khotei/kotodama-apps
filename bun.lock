@@ -33,6 +33,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@kotodama/api-client": "workspace:*",
+        "@kotodama/config": "workspace:*",
         "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
         "@kotodama/use-cases": "workspace:*",
@@ -41,7 +42,6 @@
         "next-themes": "catalog:style",
         "react": "catalog:react",
         "react-dom": "catalog:react",
-        "zod": "catalog:api",
       },
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
@@ -60,8 +60,20 @@
         "openapi-fetch": "catalog:api",
       },
       "devDependencies": {
+        "@kotodama/config": "workspace:*",
         "@kotodama/tooling": "workspace:*",
         "openapi-typescript": "catalog:api",
+      },
+    },
+    "packages/config": {
+      "name": "@kotodama/config",
+      "version": "0.0.0",
+      "dependencies": {
+        "dotenv": "^17.4.0",
+        "zod": "catalog:api",
+      },
+      "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
       },
     },
     "packages/tooling": {
@@ -406,6 +418,8 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
     "@kotodama/api-client": ["@kotodama/api-client@workspace:packages/api-client"],
+
+    "@kotodama/config": ["@kotodama/config@workspace:packages/config"],
 
     "@kotodama/e2e": ["@kotodama/e2e@workspace:apps/e2e"],
 
@@ -924,6 +938,8 @@
     "doctrine": ["doctrine@3.0.0", "", { "dependencies": { "esutils": "^2.0.2" } }, "sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w=="],
 
     "dom-accessibility-api": ["dom-accessibility-api@0.5.16", "", {}, "sha512-X7BJ2yElsnOJ30pZF4uIIDfBEVgF4XEBxL9Bxhy6dnrm5hkzqmsWHGTiHqRiITNhMyFLyAiWndIJP7Z1NTteDg=="],
+
+    "dotenv": ["dotenv@17.4.2", "", {}, "sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw=="],
 
     "electron-to-chromium": ["electron-to-chromium@1.5.385", "", {}, "sha512-78sa/M08MNAYHQfjoWMvOlKQqZ0ElhSm/L5HNUc96VZ3b+KvDVnngFm8sYQy0XrhTRgAhggHr5abA7yTvRdo4Q=="],
 
