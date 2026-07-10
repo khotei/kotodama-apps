@@ -2,12 +2,14 @@
 
 import {
   Button,
+  cn,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@kotodama/ui'
-import { MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { ArrowDownIcon, CheckIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
 const MODES = [
@@ -17,19 +19,31 @@ const MODES = [
 ] as const
 
 export function ModeMenu() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon-sm" aria-label="Color mode">
+        <Button
+          variant="outline"
+          size="sm"
+          aria-label="Color mode"
+          className="gap-[7px] px-[11px] text-muted-foreground hover:border-muted-foreground hover:text-foreground"
+        >
           <SunIcon className="dark:hidden" />
           <MoonIcon className="hidden dark:block" />
+          <ArrowDownIcon className="hidden size-3 text-subtle-foreground md:block" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Color mode</DropdownMenuLabel>
         {MODES.map(({ value, label, Icon }) => (
-          <DropdownMenuItem key={value} onSelect={() => setTheme(value)}>
+          <DropdownMenuItem
+            key={value}
+            className={cn(theme === value && 'font-semibold text-seal')}
+            onSelect={() => setTheme(value)}
+          >
             <Icon /> {label}
+            {theme === value && <CheckIcon className="ml-auto" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

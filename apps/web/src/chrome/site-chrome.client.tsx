@@ -2,14 +2,16 @@
 
 import {
   Button,
+  cn,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuTrigger,
   Kbd,
 } from '@kotodama/ui'
 import { CommandPalette, MobileTabBar, type SearchWordView, SiteHeader } from '@kotodama/use-cases'
-import { CheckIcon, ChevronDownIcon, GlobeIcon, SearchIcon } from 'lucide-react'
+import { ArrowDownIcon, CheckIcon, GlobeIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import useKey from 'react-use/lib/useKey'
@@ -31,20 +33,28 @@ function LanguageMenu({ compact = false }: { compact?: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button
+          variant="outline"
+          size="sm"
+          className="text-[13px] text-muted-foreground hover:border-muted-foreground hover:text-foreground"
+        >
           {compact ? (
             'ES'
           ) : (
             <>
-              <GlobeIcon /> Spanish <ChevronDownIcon />
+              <GlobeIcon />
+              <span className="font-semibold text-foreground">Spanish</span>
+              <ArrowDownIcon className="size-3 text-subtle-foreground" />
             </>
           )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Study language</DropdownMenuLabel>
         {LANGUAGES.map(({ label, available }) => (
           <DropdownMenuItem
             key={label}
+            className={cn(available && 'font-semibold text-seal')}
             onSelect={() => {
               if (!available) {
                 toast(`${label} isn’t available yet — staying on Spanish`)
@@ -92,11 +102,11 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
           <Button
             variant="outline"
             size="sm"
-            className="text-muted-foreground"
+            className="min-w-[210px] justify-start gap-2.5 pr-2 pl-3.5 text-[13px] text-subtle-foreground hover:border-muted-foreground"
             onClick={() => setPaletteOpen(true)}
           >
             <SearchIcon />
-            <span>Search or jump…</span>
+            <span className="flex-1 text-left">Search or jump…</span>
             <Kbd>⌘K</Kbd>
           </Button>
         }
@@ -124,6 +134,14 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
           { icon: 'saved', label: 'Saved', onSelect: () => router.push('/search?saved=1') },
         ]}
       />
+      <button
+        type="button"
+        aria-label="Add or jump"
+        onClick={() => setPaletteOpen(true)}
+        className="fixed right-[18px] bottom-[76px] z-50 grid size-[54px] place-items-center rounded-full bg-seal text-seal-foreground shadow-hero md:hidden"
+      >
+        <PlusIcon className="size-6" />
+      </button>
     </>
   )
 }
