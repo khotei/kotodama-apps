@@ -122,6 +122,7 @@ export function SearchPage({
         className="mt-6 max-w-[720px]"
         placeholder="Search your words, or type a new one…"
         aria-label="Search words"
+        hideNativeClear
         value={query}
         onChange={(event) => {
           setQuery(event.target.value)
@@ -240,7 +241,7 @@ export function SearchPage({
           </div>
           <div className="mt-2 flex flex-col">
             {pageRows.map((row) => (
-              <Row key={row.word} row={row} query={query} />
+              <Row key={row.href} row={row} query={query} />
             ))}
           </div>
           {pageCount > 1 && (

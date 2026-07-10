@@ -55,7 +55,6 @@ const SECTIONS = [
 
 const KNOWN_TIERS: readonly WordTier[] = ['everyday', 'cultural', 'formal', 'rare']
 
-/** Mono cinnabar overline — the design's ws-sub / cb-h sub-heading. */
 function Overline({ children }: { children: ReactNode }) {
   return (
     <h3 className="font-mono text-2xs font-medium text-seal uppercase tracking-[0.18em]">
@@ -137,12 +136,15 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
   const frequencySeries = frequency?.series.map((p) => Number(p.value) || 0) ?? []
   const firstYear = frequency?.series.at(0)?.year
   const lastYear = frequency?.series.at(-1)?.year
-  const added = new Intl.DateTimeFormat('en-GB', {
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC',
-  }).format(new Date(word.createdAt))
+  const createdAt = new Date(word.createdAt)
+  const added = Number.isNaN(createdAt.getTime())
+    ? word.createdAt
+    : new Intl.DateTimeFormat('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        timeZone: 'UTC',
+      }).format(createdAt)
 
   const etymologySteps = [
     { when: 'origin', form: word.etymology.origin.from, note: word.etymology.origin.gloss },

@@ -64,7 +64,7 @@ function RankedList({
   return (
     <ol className="mt-5">
       {rows.map((row, index) => (
-        <li key={accentedKey(row)} className="border-border-subtle border-t last:border-b">
+        <li key={row.href} className="border-border-subtle border-t last:border-b">
           <RankRow
             href={row.href}
             index={numbered ? String(index + 1).padStart(2, '0') : undefined}
@@ -83,10 +83,6 @@ function RankedList({
       ))}
     </ol>
   )
-}
-
-function accentedKey(row: RankedWordView) {
-  return `${row.word.pre}${row.word.stress ?? ''}${row.word.post ?? ''}`
 }
 
 function PosPill({ children }: { children: ReactNode }) {
