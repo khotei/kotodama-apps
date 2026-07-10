@@ -13,7 +13,7 @@ const statusBadgeVariants = cva('', {
     status: {
       ready: 'bg-success-subtle text-success',
       generating: 'bg-warning-subtle text-warning',
-      pending: 'bg-card text-muted-foreground',
+      pending: 'bg-secondary text-muted-foreground',
       failed: 'bg-destructive-subtle text-destructive',
     },
   },

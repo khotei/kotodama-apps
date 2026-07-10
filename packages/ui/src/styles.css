@@ -242,8 +242,8 @@
     @apply bg-background text-foreground text-base antialiased;
   }
   ::selection {
-    background: var(--accent);
-    color: var(--seal-emphasis);
+    background: var(--seal);
+    color: var(--seal-foreground);
   }
 }
 
