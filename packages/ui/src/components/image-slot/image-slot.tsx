@@ -3,12 +3,12 @@ import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 
 const imageSlotVariants = cva(
-  'grid place-items-center border border-dashed border-border bg-[repeating-linear-gradient(45deg,var(--muted),var(--muted)_10px,transparent_10px,transparent_20px)]',
+  'relative grid place-items-center border border-border bg-secondary',
   {
     variants: {
       shape: {
         rect: 'min-h-[120px] rounded-lg p-4',
-        circle: 'aspect-square rounded-full',
+        circle: 'aspect-square overflow-hidden rounded-full',
       },
     },
     defaultVariants: { shape: 'rect' },
@@ -20,12 +20,15 @@ export type ImageSlotProps = ComponentProps<'div'> &
     label?: ReactNode
   }
 
-/** Striped placeholder marking where user/product imagery drops in. */
+/** Placeholder marking where user/product imagery drops in — sunken ground, dashed inner frame, mono note. */
 export function ImageSlot({ shape, label, className, ...props }: ImageSlotProps) {
   return (
     <div className={cn(imageSlotVariants({ shape }), className)} {...props}>
+      {shape !== 'circle' && (
+        <span className="pointer-events-none absolute inset-3 rounded-[5px] border border-border-strong border-dashed" />
+      )}
       {label != null && (
-        <span className="max-w-[85%] text-center font-mono text-[11px] leading-relaxed text-muted-foreground">
+        <span className="relative max-w-[85%] text-center font-mono text-[11px] leading-relaxed text-faint-foreground tracking-[0.04em]">
           {label}
         </span>
       )}

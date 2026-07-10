@@ -18,16 +18,16 @@ export type GenerationStepsProps = Omit<ComponentProps<'ol'>, 'children'> & {
 
 export function GenerationSteps({ steps, className, ...props }: GenerationStepsProps) {
   return (
-    <ol className={cn('flex flex-col gap-3', className)} {...props}>
+    <ol className={cn('flex flex-col gap-[2px]', className)} {...props}>
       {steps.map((step, index) => (
         // biome-ignore lint/suspicious/noArrayIndexKey: steps are a static ordered pipeline
-        <li key={index} className="flex items-center gap-3" data-state={step.state}>
+        <li key={index} className="flex items-center gap-[14px] py-3" data-state={step.state}>
           <span
             className={cn(
-              'grid size-[22px] shrink-0 place-items-center rounded-full border font-mono text-[10.5px]',
-              step.state === 'done' && 'border-transparent bg-success text-success-foreground',
-              step.state === 'active' && 'border-transparent text-primary',
-              step.state === 'pending' && 'border-border text-muted-foreground',
+              'grid size-[22px] shrink-0 place-items-center rounded-full border-[1.5px] font-mono text-2xs',
+              step.state === 'done' && 'border-success bg-success text-success-foreground',
+              step.state === 'active' && 'border-warning text-warning',
+              step.state === 'pending' && 'border-border-strong text-faint-foreground',
             )}
           >
             {step.state === 'done' && <CheckIcon className="size-3" />}
@@ -36,15 +36,14 @@ export function GenerationSteps({ steps, className, ...props }: GenerationStepsP
           </span>
           <span
             className={cn(
-              'flex-1 text-sm',
-              step.state === 'pending' && 'text-muted-foreground',
-              step.state === 'active' && 'font-medium',
+              'flex-1 font-sans text-[15px] font-medium',
+              step.state === 'pending' && 'text-faint-foreground',
             )}
           >
             {step.label}
           </span>
           {step.timing != null && (
-            <span className="font-mono text-[11px] text-muted-foreground">{step.timing}</span>
+            <span className="font-mono text-[11.5px] text-subtle-foreground">{step.timing}</span>
           )}
         </li>
       ))}

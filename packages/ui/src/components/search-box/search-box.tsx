@@ -8,22 +8,22 @@ export type SearchBoxProps = ComponentProps<'input'> & {
 }
 
 /**
- * The search-box composition: a bordered `--card` container carrying a search
- * icon, a borderless input and trailing actions; the focus ring sits on the
- * container (`focus-within`), not the input.
+ * The search-box composition: a pill `--elevated` container carrying a search
+ * icon, a borderless serif input and trailing actions; the focus treatment sits
+ * on the container (`focus-within`), not the input.
  */
 export function SearchBox({ actions, className, ...props }: SearchBoxProps) {
   return (
     <div
       className={cn(
-        'flex items-center gap-2.5 rounded-lg border border-input bg-card py-2 pr-2 pl-3.5 shadow-xs transition-[border-color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50',
+        'flex items-center gap-[14px] rounded-full border border-border-strong bg-popover py-[10px] pr-[10px] pl-[22px] shadow-soft transition-[border-color] focus-within:border-foreground',
         className,
       )}
     >
-      <SearchIcon className="size-4 shrink-0 text-muted-foreground" />
+      <SearchIcon className="size-[18px] shrink-0 text-subtle-foreground" />
       <input
         type="search"
-        className="min-w-0 flex-1 border-none bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+        className="min-w-0 flex-1 border-none bg-transparent font-serif text-[21px] text-foreground outline-none placeholder:text-subtle-foreground placeholder:italic [&::-webkit-search-cancel-button]:hidden [&::-webkit-search-decoration]:hidden"
         {...props}
       />
       {actions}

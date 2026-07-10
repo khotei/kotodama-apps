@@ -9,9 +9,7 @@ export function DepthTabsList({ className, ...props }: ComponentProps<typeof Tab
   return (
     <TabsList
       className={cn(
-        // the registry list pins h-9 behind the same variant prefix, which a
-        // bare h-auto cannot override through tailwind-merge
-        'grid w-full grid-cols-2 gap-0.5 group-data-[orientation=horizontal]/tabs:h-auto md:grid-cols-4',
+        'grid w-full grid-cols-2 gap-0 rounded-none border-x-0 border-y bg-transparent p-0 group-data-[orientation=horizontal]/tabs:h-auto md:grid-cols-4',
         className,
       )}
       {...props}
@@ -39,17 +37,19 @@ export function DepthTabsTrigger({
   return (
     <TabsTrigger
       className={cn(
-        'h-auto flex-col items-start gap-0.5 whitespace-normal px-3.5 py-2.5 text-left',
+        'group/tab h-auto flex-col items-start justify-start gap-1 whitespace-normal rounded-none border-x-0 border-t-2 border-t-transparent border-b-0 px-4 pt-4 pb-[15px] text-left transition-colors hover:bg-card data-[state=active]:border-t-seal data-[state=active]:bg-accent data-[state=active]:text-foreground data-[state=active]:shadow-none',
         className,
       )}
       {...props}
     >
-      <span className="font-mono text-[10.5px] uppercase tracking-[0.12em] text-muted-foreground">
+      <span className="font-mono text-2xs uppercase tracking-[0.14em] text-faint-foreground group-data-[state=active]/tab:text-seal">
         {numeral}
       </span>
-      <span className="font-serif text-[15px] leading-tight">{name}</span>
+      <span className="font-serif text-[20px] leading-[1.05] tracking-[-0.01em] text-muted-foreground group-data-[state=active]/tab:text-foreground">
+        {name}
+      </span>
       {sublabel != null && (
-        <span className="text-[11.5px] font-normal leading-snug text-muted-foreground">
+        <span className="font-sans text-[11.5px] font-normal leading-snug text-subtle-foreground">
           {sublabel}
         </span>
       )}

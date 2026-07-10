@@ -14,41 +14,47 @@ export type EtymologyTimelineProps = Omit<ComponentProps<'ol'>, 'children'> & {
 }
 
 /**
- * Historical steps over a hairline with `--primary` ring dots — horizontal on
- * desktop, vertical with a left hairline under `md`.
+ * Historical steps as a vertical ledger: a right-aligned mono `when` column
+ * beside a left-hairline body carrying a ring dot per step; the final dot fills
+ * cinnabar to mark the living present.
  */
 export function EtymologyTimeline({ steps, className, ...props }: EtymologyTimelineProps) {
   return (
-    <ol
-      className={cn(
-        'flex flex-col border-border border-l md:flex-row md:border-t md:border-l-0',
-        className,
-      )}
-      {...props}
-    >
-      {steps.map((step, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: steps are a static ordered sequence
-        <li key={index} className="relative flex-1 py-3 pl-5 md:pt-4 md:pr-5 md:pb-0 md:pl-0">
-          <span className="-left-[5px] absolute top-4 size-[9px] rounded-full bg-background shadow-[inset_0_0_0_2px_var(--primary)] md:-top-[5px] md:left-0" />
-          <div className="font-mono text-[10.5px] text-muted-foreground uppercase tracking-[0.12em]">
-            {step.when}
-          </div>
-          {step.form != null && (
-            <div className="mt-1 font-serif text-[17px] leading-snug">{step.form}</div>
-          )}
-          {step.note != null && (
-            <div
-              className={
-                step.form != null
-                  ? 'mt-0.5 text-[12.5px] text-muted-foreground leading-snug'
-                  : 'mt-1 text-[13.5px] leading-relaxed'
-              }
-            >
-              {step.note}
+    <ol className={cn('flex flex-col', className)} {...props}>
+      {steps.map((step, index) => {
+        const isLast = index === steps.length - 1
+        return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: steps are a static ordered sequence
+          <li key={index} className="grid grid-cols-[110px_1fr] gap-5 py-1">
+            <div className="pt-[9px] text-right font-mono text-[12px] text-subtle-foreground tracking-[0.04em]">
+              {step.when}
             </div>
-          )}
-        </li>
-      ))}
+            <div
+              className={cn(
+                'relative border-border-strong border-l pt-1.5 pl-6',
+                isLast ? 'pb-1' : 'pb-6',
+              )}
+            >
+              <span
+                className={cn(
+                  '-left-[4.5px] absolute top-[11px] size-2 rounded-full border-[1.5px]',
+                  isLast ? 'border-seal bg-seal' : 'border-border-strong bg-background',
+                )}
+              />
+              {step.form != null && (
+                <div className="font-serif text-[22px] leading-snug tracking-[-0.01em]">
+                  {step.form}
+                </div>
+              )}
+              {step.note != null && (
+                <div className="mt-[3px] font-sans text-[13.5px] text-muted-foreground leading-snug">
+                  {step.note}
+                </div>
+              )}
+            </div>
+          </li>
+        )
+      })}
     </ol>
   )
 }

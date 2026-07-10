@@ -12,13 +12,13 @@ export type SectionRuleProps = ComponentProps<'div'> & {
  */
 export function SectionRule({ label, meta, className, ...props }: SectionRuleProps) {
   return (
-    <div className={cn('flex items-center gap-3.5', className)} {...props}>
-      <span className="whitespace-nowrap font-mono text-[11px] font-medium uppercase leading-none tracking-[0.12em] text-muted-foreground">
+    <div className={cn('flex items-center gap-4', className)} {...props}>
+      <span className="whitespace-nowrap font-mono text-2xs font-medium uppercase leading-none tracking-[0.22em] text-seal">
         {label}
       </span>
-      <span className="h-px flex-1 bg-border" />
+      <span className="h-px flex-1 bg-border-strong" />
       {meta != null && (
-        <span className="flex items-center gap-2 whitespace-nowrap font-mono text-[11px] leading-none text-muted-foreground">
+        <span className="flex items-center gap-2 whitespace-nowrap font-sans text-[12px] leading-none text-subtle-foreground">
           {meta}
         </span>
       )}

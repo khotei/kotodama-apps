@@ -1,12 +1,14 @@
 import { cn } from '@kotodama/ui/lib/utils'
-import { Loader2Icon } from 'lucide-react'
 
-function Spinner({ className, ...props }: React.ComponentProps<'svg'>) {
+function Spinner({ className, ...props }: React.ComponentProps<'span'>) {
   return (
-    <Loader2Icon
+    <span
       role="status"
       aria-label="Loading"
-      className={cn('size-4 animate-spin', className)}
+      className={cn(
+        'inline-block size-3 shrink-0 animate-spin rounded-full border-[1.6px] border-current border-t-transparent',
+        className,
+      )}
       {...props}
     />
   )

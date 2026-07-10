@@ -24,10 +24,19 @@ export type SparklineProps = Omit<ComponentProps<'div'>, 'children'> & {
   values: readonly number[]
   startLabel?: ReactNode
   endLabel?: ReactNode
+  /** Evenly-spaced axis ticks (`1800 · 1900 · 2000 · 2024`); overrides start/end. */
+  axisLabels?: readonly string[]
 }
 
-/** Frequency trend: `--primary` line + 12% area fill + end dot, mono axis. */
-export function Sparkline({ values, startLabel, endLabel, className, ...props }: SparklineProps) {
+/** Frequency trend: cinnabar `--seal` line + accent-wash area fill + end dot, mono axis. */
+export function Sparkline({
+  values,
+  startLabel,
+  endLabel,
+  axisLabels,
+  className,
+  ...props
+}: SparklineProps) {
   const points = plotSparkline(values)
   const line = points.map((p) => `${p.x},${p.y}`).join(' ')
   const area = `0,${VIEW_H} ${line} ${VIEW_W},${VIEW_H}`
@@ -43,25 +52,33 @@ export function Sparkline({ values, startLabel, endLabel, className, ...props }:
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
           preserveAspectRatio="none"
         >
-          <polygon className="fill-primary/12" points={area} />
+          <polygon className="fill-accent" points={area} />
           <polyline
-            className="fill-none stroke-primary stroke-[1.5]"
+            className="fill-none stroke-seal stroke-[1.6]"
             vectorEffect="non-scaling-stroke"
             points={line}
           />
         </svg>
         {last != null && (
           <span
-            className="absolute right-0 size-1.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-primary"
+            className="absolute right-0 size-1.5 -translate-y-1/2 translate-x-1/2 rounded-full bg-seal"
             style={{ top: `${(last.y / VIEW_H) * 100}%` }}
           />
         )}
       </div>
-      {(startLabel != null || endLabel != null) && (
-        <div className="mt-1 flex justify-between font-mono text-[10.5px] text-muted-foreground">
-          <span>{startLabel}</span>
-          <span>{endLabel}</span>
+      {axisLabels != null && axisLabels.length > 0 ? (
+        <div className="mt-1 flex justify-between font-mono text-[10px] text-faint-foreground tracking-[0.08em]">
+          {axisLabels.map((label) => (
+            <span key={label}>{label}</span>
+          ))}
         </div>
+      ) : (
+        (startLabel != null || endLabel != null) && (
+          <div className="mt-1 flex justify-between font-mono text-[10px] text-subtle-foreground">
+            <span>{startLabel}</span>
+            <span>{endLabel}</span>
+          </div>
+        )
       )}
     </div>
   )

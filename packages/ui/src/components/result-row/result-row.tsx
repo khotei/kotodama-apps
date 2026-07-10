@@ -2,7 +2,6 @@ import { ArrowRightIcon, BookmarkIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 import { StatusBadge, type WordStatus } from '../status-badge'
-import { Badge } from '../ui/badge'
 
 export type ResultRowProps = Omit<ComponentProps<'a'>, 'children'> & {
   word: ReactNode
@@ -34,39 +33,46 @@ export function ResultRow({
   return (
     <a
       className={cn(
-        'group flex items-center gap-3.5 border-border border-b px-2.5 py-[17px] transition-colors hover:bg-accent',
+        'group relative grid grid-cols-[1fr_auto] items-center gap-6 border-border-subtle border-b px-2 py-6 transition-colors hover:bg-card before:absolute before:top-0 before:bottom-[-1px] before:-left-2 before:w-[2px] before:bg-transparent before:transition-colors before:content-[""] hover:before:bg-seal',
         className,
       )}
       {...props}
     >
-      <span className="min-w-0 flex-1">
-        <span className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <span className="font-serif text-xl leading-tight">{word}</span>
+      <span className="min-w-0">
+        <span className="flex flex-wrap items-baseline gap-x-[14px] gap-y-1">
+          <span
+            className={cn(
+              'font-serif text-[30px] font-medium leading-[1.05] tracking-[-0.02em] [&_em]:rounded-[3px] [&_em]:bg-accent [&_em]:px-0.5 [&_em]:text-seal-emphasis [&_em]:not-italic',
+              !ready && 'text-muted-foreground',
+            )}
+          >
+            {word}
+          </span>
           {ready && ipa != null && (
-            <span className="hidden font-mono text-[12.5px] text-muted-foreground md:inline">
+            <span className="hidden font-mono text-[13px] text-subtle-foreground md:inline">
               {ipa}
             </span>
           )}
           {pos != null && (
-            <Badge variant="outline" className="font-mono text-[10.5px]">
-              {pos}
-            </Badge>
+            <span className="font-mono text-[11px] text-subtle-foreground">{pos}</span>
           )}
         </span>
         {ready && gloss != null && (
-          <span className="mt-1 block font-serif text-[14.5px] text-muted-foreground italic">
+          <span className="mt-2 block font-serif text-[17px] text-muted-foreground italic">
             {gloss}
           </span>
         )}
         {!ready && statusNote != null && (
-          <span className="mt-1 block font-mono text-[11.5px] text-muted-foreground">
+          <span className="mt-2 block font-mono text-[12px] text-faint-foreground uppercase tracking-[0.13em]">
             {statusNote}
           </span>
         )}
       </span>
-      {!ready && <StatusBadge status={status} />}
-      {saved && <BookmarkIcon className="size-4 fill-primary text-primary" />}
-      <ArrowRightIcon className="size-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+      <span className="flex items-center gap-4">
+        {!ready && <StatusBadge status={status} />}
+        {saved && <BookmarkIcon className="size-4 fill-seal text-seal" />}
+        <ArrowRightIcon className="size-4 text-faint-foreground transition-transform group-hover:translate-x-0.5" />
+      </span>
     </a>
   )
 }

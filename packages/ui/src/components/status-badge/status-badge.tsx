@@ -8,13 +8,13 @@ import { Spinner } from '../ui/spinner'
 /** The one word-lifecycle status vocabulary — every surface consumes this. */
 export type WordStatus = 'ready' | 'generating' | 'pending' | 'failed'
 
-const statusBadgeVariants = cva('border bg-transparent font-sans', {
+const statusBadgeVariants = cva('', {
   variants: {
     status: {
-      ready: 'border-success/35 text-success',
-      generating: 'border-primary/35 text-primary',
-      pending: 'border-border text-muted-foreground',
-      failed: 'border-destructive/35 text-destructive',
+      ready: 'bg-success-subtle text-success',
+      generating: 'bg-warning-subtle text-warning',
+      pending: 'bg-card text-muted-foreground',
+      failed: 'bg-destructive-subtle text-destructive',
     },
   },
 })
@@ -39,7 +39,7 @@ export type StatusBadgeProps = Omit<BadgeProps, 'variant'> & {
 
 export function StatusBadge({ status, className, children, ...props }: StatusBadgeProps) {
   return (
-    <Badge variant="outline" className={cn(statusBadgeVariants({ status }), className)} {...props}>
+    <Badge className={cn(statusBadgeVariants({ status }), className)} {...props}>
       {STATUS_GLYPH[status]}
       {children ?? STATUS_LABEL[status]}
     </Badge>

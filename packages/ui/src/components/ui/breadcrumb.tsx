@@ -65,7 +65,7 @@ function BreadcrumbSeparator({ children, className, ...props }: React.ComponentP
       data-slot="breadcrumb-separator"
       role="presentation"
       aria-hidden="true"
-      className={cn('[&>svg]:size-3.5', className)}
+      className={cn('text-faint-foreground [&>svg]:size-3.5', className)}
       {...props}
     >
       {children ?? <ChevronRight />}
@@ -79,7 +79,7 @@ function BreadcrumbEllipsis({ className, ...props }: React.ComponentProps<'span'
       data-slot="breadcrumb-ellipsis"
       role="presentation"
       aria-hidden="true"
-      className={cn('flex size-9 items-center justify-center', className)}
+      className={cn('flex size-9 items-center justify-center text-faint-foreground', className)}
       {...props}
     >
       <MoreHorizontal className="size-4" />
