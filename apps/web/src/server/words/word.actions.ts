@@ -20,8 +20,15 @@ export async function getWordStatus(
   language: Language,
   word: string,
 ): Promise<WordBuildStatus | null> {
-  const state = await fetchWordState(createStaticApiClient(), language, word, { cache: 'no-store' })
-  return state?.status ?? null
+  try {
+    const state = await fetchWordState(createStaticApiClient(), language, word, {
+      cache: 'no-store',
+    })
+    return state?.status ?? null
+  } catch {
+    // Unreachable backend must not reject in the poll island — null = keep waiting.
+    return null
+  }
 }
 
 /**

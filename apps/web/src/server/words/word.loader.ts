@@ -3,6 +3,7 @@ import { fetchWordState, type Language } from '@kotodama/repositories'
 import { narrowWordState, type WordStateModel } from '@kotodama/store'
 import { cache } from 'react'
 import { createStaticApiClient } from '../api-client'
+import { WORD_STATE_MOCKS } from './word.mock'
 
 /** The cache tag a word's Data-Cache entry carries, so a Server Action can bust
  *  exactly this word from anywhere (e.g. a future list page) with `revalidateTag`. */
@@ -28,9 +29,10 @@ export const getWordState = cache(
       const state = await fetchWordState(createStaticApiClient(), language, word, {
         next: { tags: [wordTag(language, word)] },
       })
-      return state ? narrowWordState(state) : null
-    } catch {
-      return null
-    }
+      if (state) return narrowWordState(state)
+    } catch {}
+    // Design-stage fallback: with no backend the fixture words keep every
+    // screen state reachable; anything the fixtures don't know stays null.
+    return (language === 'es' && WORD_STATE_MOCKS[word]) || null
   },
 )
