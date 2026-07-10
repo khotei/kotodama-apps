@@ -3,10 +3,7 @@
 import type { Language } from '@kotodama/store'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
-
-/** The design's `.rk-retry` — a quiet mono text affordance, cinnabar on hover. */
-export const retryLinkClass =
-  'cursor-pointer border-border border-b bg-transparent px-0.5 py-1 font-mono text-[11px] text-faint-foreground uppercase tracking-[0.1em] transition-colors hover:border-destructive hover:text-destructive disabled:opacity-50'
+import { RetryLink } from './retry-link'
 
 export type RetryWordButtonProps = {
   language: Language
@@ -19,9 +16,7 @@ export type RetryWordButtonProps = {
 export function RetryWordButton({ language, word, retryAction }: RetryWordButtonProps) {
   const [pending, startTransition] = useTransition()
   return (
-    <button
-      type="button"
-      className={retryLinkClass}
+    <RetryLink
       disabled={pending}
       onClick={(event) => {
         event.preventDefault()
@@ -30,6 +25,6 @@ export function RetryWordButton({ language, word, retryAction }: RetryWordButton
       }}
     >
       Retry
-    </button>
+    </RetryLink>
   )
 }

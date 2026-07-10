@@ -2,7 +2,9 @@ import type { Language } from '@kotodama/store'
 import { RankRow, SectionRule, StatusBadge } from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { RetryWordButton, retryLinkClass } from '../words/retry-word-button.client'
+import { RetryLink } from '../words/retry-link'
+import { RetryWordButton } from '../words/retry-word-button.client'
+import { StatusNote } from '../words/status-note'
 import { AccentedWordMark } from './accented-word'
 import { accentedWordText, type RankedWordView } from './library.view'
 
@@ -24,9 +26,7 @@ function rowMeta(row: RankedWordView, retryAction?: RetryAction) {
             retryAction={retryAction}
           />
         ) : (
-          <button type="button" className={retryLinkClass}>
-            Retry
-          </button>
+          <RetryLink>Retry</RetryLink>
         )}
         {when}
       </>
@@ -114,29 +114,6 @@ const WORD_TONE = {
   pending: 'muted',
   failed: 'muted',
 } as const
-
-/** `Spanish · arriving` — the state verb takes the status colour, the language stays muted. */
-function StatusNote({ note, status }: { note: string; status: RankedWordView['status'] }) {
-  const [language, ...rest] = note.split(' · ')
-  const verb = rest.join(' · ')
-  const verbClass =
-    status === 'generating'
-      ? 'text-seal'
-      : status === 'failed'
-        ? 'text-destructive'
-        : 'text-faint-foreground'
-  return (
-    <span className="text-muted-foreground">
-      {language}
-      {verb && (
-        <>
-          {' · '}
-          <span className={verbClass}>{verb}</span>
-        </>
-      )}
-    </span>
-  )
-}
 
 function Column({ title, sub, children }: { title: ReactNode; sub: string; children: ReactNode }) {
   return (

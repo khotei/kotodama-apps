@@ -20,32 +20,10 @@ import {
   XIcon,
 } from 'lucide-react'
 import { type ReactNode, useMemo, useState } from 'react'
+import { StatusNote } from '../words/status-note'
 import type { SearchPos, SearchWordView } from './search.view'
 
 const pad2 = (n: number) => String(n).padStart(2, '0')
-
-/** `Spanish · arriving` — the state verb takes the status colour. */
-function StatusNote({ note, status }: { note: string; status: SearchWordView['status'] }) {
-  const [language, ...rest] = note.split(' · ')
-  const verb = rest.join(' · ')
-  const verbClass =
-    status === 'generating'
-      ? 'text-seal'
-      : status === 'failed'
-        ? 'text-destructive'
-        : 'text-faint-foreground'
-  return (
-    <span className="text-muted-foreground">
-      {language}
-      {verb && (
-        <>
-          {' · '}
-          <span className={verbClass}>{verb}</span>
-        </>
-      )}
-    </span>
-  )
-}
 
 const PAGE_SIZE = 6
 const POS_TABS: { value: SearchPos | 'all'; label: string }[] = [
