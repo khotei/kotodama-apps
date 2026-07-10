@@ -21,7 +21,8 @@ Web-only (DOM-bound); does not port to native. Storybook consumes it directly.
 - **Imported by:** `apps/web` (feature components) + Storybook.
 - **`styles.css` is the Tailwind entry** (exported as `./styles.css`): `@import "tailwindcss"` + the
   `dark` variant + the **standard shadcn token set** (`:root`/`.dark` CSS vars — so registry
-  components drop in already styled; `--primary` is the Kotodama purple) + the `@theme inline`
+  components drop in already styled; values carry the original Kotodama paper palette — parchment
+  canvas, indigo `--primary`, warm ink dark) + the `@theme inline`
   mapping + a base layer. It also `@source`s its own tree (relative to the file), so consumers just
   `@import "@kotodama/ui/styles.css"` by package name — no path escape into this package. Consumers
   speak only semantic utilities (`bg-card`, `text-muted-foreground`) — never raw hex — the stable
