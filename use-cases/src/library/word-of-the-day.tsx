@@ -1,5 +1,6 @@
 import { Badge, Button, Card, CardContent, SectionRule, Sparkline } from '@kotodama/ui'
-import { ArrowLeftIcon, ArrowRightIcon, BookmarkIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { SaveWordButton } from '../words/save-word-button.client'
 import { AccentedWordMark } from './accented-word'
 import { accentedWordText, type WotdView } from './library.view'
 import { ListenButton } from './listen-button.client'
@@ -60,10 +61,11 @@ export function WordOfTheDay({ wotd, position }: WordOfTheDayProps) {
                   Read the full entry <ArrowRightIcon />
                 </a>
               </Button>
-              <Button variant="ghost">
-                <BookmarkIcon className={wotd.saved ? 'fill-current' : undefined} />
-                {wotd.saved ? 'Saved' : 'Save'}
-              </Button>
+              <SaveWordButton
+                word={accentedWordText(wotd.word)}
+                initialSaved={wotd.saved}
+                look="ghost"
+              />
             </div>
           </div>
 

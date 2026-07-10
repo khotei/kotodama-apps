@@ -1,9 +1,9 @@
 'use server'
 
-import { fetchWordState, type Language } from '@kotodama/repositories'
+import { buildWord, fetchWordState, type Language } from '@kotodama/repositories'
 import type { WordBuildStatus } from '@kotodama/store'
 import { revalidatePath } from 'next/cache'
-import { createStaticApiClient } from '../api-client'
+import { createServerApiClient, createStaticApiClient } from '../api-client'
 
 // The word feature's client-callable server surface (`'use server'`). A `'use server'`
 // module imported by a client island exposes NETWORK REFERENCES, not the code, so it
@@ -32,5 +32,18 @@ export async function getWordStatus(
  * refresh at once, with no client-side refetch.
  */
 export async function refreshWordPage(language: Language, word: string) {
+  revalidatePath(`/words/${language}/${word}`)
+}
+
+/**
+ * Queue (or re-queue) a build for the word, then re-sync the page — the Create /
+ * Try-again / Generate CTAs bind this and submit it from a plain <form action>.
+ * An unreachable backend is swallowed: the revalidated page simply re-renders
+ * the current state (not-found / failed), which is the honest outcome.
+ */
+export async function requestWordBuild(language: Language, word: string) {
+  try {
+    await buildWord(await createServerApiClient(), language, word)
+  } catch {}
   revalidatePath(`/words/${language}/${word}`)
 }

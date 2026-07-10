@@ -85,9 +85,11 @@ export type WordFailedViewProps = {
   word: string
   stages: UnreadyStages
   backHref: string
+  /** Injected Server Action (bound) the Try-again form submits. */
+  buildAction?: (formData: FormData) => Promise<void>
 }
 
-export function WordFailedView({ word, stages, backHref }: WordFailedViewProps) {
+export function WordFailedView({ word, stages, backHref, buildAction }: WordFailedViewProps) {
   const failedAt = stages.findIndex((stage) => stage.status === 'failed')
   const failed = failedAt >= 0 ? stages[failedAt] : undefined
   return (
@@ -106,10 +108,12 @@ export function WordFailedView({ word, stages, backHref }: WordFailedViewProps) 
             error: {failed.error.type} · step {failedAt + 1} of {stages.length}
           </span>
         )}
-        <div className="mt-2 flex flex-wrap justify-center gap-2.5">
-          <Button>
-            <RotateCcwIcon /> Try again
-          </Button>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2.5">
+          <form action={buildAction}>
+            <Button type="submit" disabled={buildAction == null}>
+              <RotateCcwIcon /> Try again
+            </Button>
+          </form>
           <Button asChild variant="ghost">
             <a href={backHref}>Back to library</a>
           </Button>
@@ -124,6 +128,8 @@ export type WordNotFoundViewProps = {
   languageName: string
   backHref: string
   searchHref: string
+  /** Injected Server Action (bound) the Create-this-entry form submits. */
+  buildAction?: (formData: FormData) => Promise<void>
 }
 
 export function WordNotFoundView({
@@ -131,6 +137,7 @@ export function WordNotFoundView({
   languageName,
   backHref,
   searchHref,
+  buildAction,
 }: WordNotFoundViewProps) {
   return (
     <StateShell backHref={backHref}>
@@ -146,10 +153,12 @@ export function WordNotFoundView({
           There’s no entry for “{word}” yet. Kotodama can write a full one — meaning, real examples,
           etymology, and an image — in about ten seconds.
         </p>
-        <div className="mt-2 flex flex-wrap justify-center gap-2.5">
-          <Button size="lg">
-            <SparklesIcon /> Create this entry
-          </Button>
+        <div className="mt-2 flex flex-wrap items-center justify-center gap-2.5">
+          <form action={buildAction}>
+            <Button type="submit" size="lg" disabled={buildAction == null}>
+              <SparklesIcon /> Create this entry
+            </Button>
+          </form>
           <Button asChild variant="ghost" size="lg">
             <a href={searchHref}>Search instead</a>
           </Button>

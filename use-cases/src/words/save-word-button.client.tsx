@@ -1,0 +1,76 @@
+'use client'
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  Button,
+} from '@kotodama/ui'
+import { BookmarkIcon } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
+
+export type SaveWordButtonProps = {
+  word: string
+  initialSaved?: boolean
+  /** `hero` — the word-page CTA (`Save word` ⇄ outline `Saved`); `ghost` — the compact WOTD form. */
+  look?: 'hero' | 'ghost'
+}
+
+/**
+ * Save toggle with the design's full ritual: saving fires an Undo toast;
+ * un-saving asks first (AlertDialog), then offers Undo too. State is local
+ * until a saved-words backend exists — the seam is this island's interior.
+ */
+export function SaveWordButton({ word, initialSaved = false, look = 'hero' }: SaveWordButtonProps) {
+  const [saved, setSaved] = useState(initialSaved)
+  const [confirming, setConfirming] = useState(false)
+
+  const save = () => {
+    setSaved(true)
+    toast(`Saved “${word}” for review`, {
+      action: { label: 'Undo', onClick: () => setSaved(false) },
+    })
+  }
+
+  const remove = () => {
+    setConfirming(false)
+    setSaved(false)
+    toast(`Removed “${word}” from saved`, {
+      action: { label: 'Undo', onClick: () => setSaved(true) },
+    })
+  }
+
+  const label = saved ? 'Saved' : look === 'hero' ? 'Save word' : 'Save'
+  const variant = look === 'hero' ? (saved ? 'outline' : 'default') : 'ghost'
+
+  return (
+    <>
+      <Button variant={variant} onClick={() => (saved ? setConfirming(true) : save())}>
+        <BookmarkIcon className={saved ? 'fill-current' : undefined} />
+        {label}
+      </Button>
+      <AlertDialog open={confirming} onOpenChange={setConfirming}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Remove “{word}” from saved?</AlertDialogTitle>
+            <AlertDialogDescription>
+              It stays in your library — it just stops resurfacing for review.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction variant="destructive" onClick={remove}>
+              Remove word
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  )
+}

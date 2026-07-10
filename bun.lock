@@ -147,6 +147,7 @@
         "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
         "react-use": "catalog:react",
+        "sonner": "catalog:style",
       },
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",

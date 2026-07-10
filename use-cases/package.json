@@ -15,7 +15,8 @@
   "dependencies": {
     "@kotodama/store": "workspace:*",
     "@kotodama/ui": "workspace:*",
-    "react-use": "catalog:react"
+    "react-use": "catalog:react",
+    "sonner": "catalog:style"
   },
   "peerDependencies": {
     "react": "catalog:react"

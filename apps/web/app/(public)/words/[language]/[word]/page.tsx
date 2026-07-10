@@ -1,7 +1,7 @@
 import type { Language, ReadyWord } from '@kotodama/store'
 import { WordScreen, WordStatusPoller } from '@kotodama/use-cases'
 import type { Metadata } from 'next'
-import { getWordStatus, refreshWordPage } from '@/src/server/words/word.actions'
+import { getWordStatus, refreshWordPage, requestWordBuild } from '@/src/server/words/word.actions'
 import { getWordState } from '@/src/server/words/word.loader'
 import { WORD_SEED } from '@/src/word-seed'
 
@@ -79,6 +79,7 @@ export default async function WordPage({
         word={decodedWord}
         libraryHref="/"
         searchHref="/search"
+        buildAction={requestWordBuild.bind(null, lang, decodedWord)}
       />
       {building ? (
         <WordStatusPoller

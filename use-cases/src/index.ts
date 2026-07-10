@@ -4,6 +4,7 @@
 // (all serializable across the RSC boundary). A future web module reuses these with
 // its own Next wiring; the DOM-bound render layer does NOT port to native.
 
+export { CommandPalette, type CommandPaletteProps } from './chrome/command-palette.client'
 export { type MobileTab, MobileTabBar, type MobileTabBarProps } from './chrome/mobile-tab-bar'
 export { SiteHeader, type SiteHeaderProps, type SiteNavLink } from './chrome/site-header'
 export { AccentedWordMark } from './library/accented-word'
@@ -23,6 +24,7 @@ export { ReadingRoom, type ReadingRoomProps } from './library/reading-room'
 export { WordOfTheDay, type WordOfTheDayProps } from './library/word-of-the-day'
 export type { SearchPos, SearchWordView } from './search/search.view'
 export { SearchPage, type SearchPageProps } from './search/search-page.client'
+export { SaveWordButton, type SaveWordButtonProps } from './words/save-word-button.client'
 export {
   WordFailedView,
   type WordFailedViewProps,

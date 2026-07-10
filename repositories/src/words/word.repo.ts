@@ -60,3 +60,10 @@ export function searchWords(client: ApiClient, language: Language, params: Searc
     })
     .then(unwrap)
 }
+
+/** Queue (or re-queue) a build for the word — POST, no body; the state row is the reply. */
+export function buildWord(client: ApiClient, language: Language, word: string) {
+  return client
+    .POST('/api/words/{language}/{word}/build', { params: { path: { language, word } } })
+    .then(unwrap)
+}

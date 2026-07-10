@@ -21,6 +21,8 @@ export type WordScreenProps = {
   word: string
   libraryHref: string
   searchHref: string
+  /** Injected Server Action (bound) for the Create / Try-again CTAs. */
+  buildAction?: (formData: FormData) => Promise<void>
 }
 
 /**
@@ -28,7 +30,14 @@ export type WordScreenProps = {
  * `unready` → generating or failed, `ready` → the full entry. A Server
  * Component — the app resolves the model and injects it.
  */
-export function WordScreen({ model, language, word, libraryHref, searchHref }: WordScreenProps) {
+export function WordScreen({
+  model,
+  language,
+  word,
+  libraryHref,
+  searchHref,
+  buildAction,
+}: WordScreenProps) {
   if (model === null) {
     return (
       <WordNotFoundView
@@ -36,12 +45,20 @@ export function WordScreen({ model, language, word, libraryHref, searchHref }: W
         languageName={LANGUAGE_NAME[language]}
         backHref={libraryHref}
         searchHref={searchHref}
+        buildAction={buildAction}
       />
     )
   }
   if (model.kind === 'unready') {
     if (model.status === 'failed') {
-      return <WordFailedView word={word} stages={model.stages} backHref={libraryHref} />
+      return (
+        <WordFailedView
+          word={word}
+          stages={model.stages}
+          backHref={libraryHref}
+          buildAction={buildAction}
+        />
+      )
     }
     return <WordGeneratingView word={word} stages={model.stages} backHref={libraryHref} />
   }

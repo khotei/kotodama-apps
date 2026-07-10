@@ -30,7 +30,6 @@ import {
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
-  BookmarkIcon,
   EllipsisIcon,
   PenLineIcon,
   SparklesIcon,
@@ -38,6 +37,7 @@ import {
 } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { ListenButton } from '../library/listen-button.client'
+import { SaveWordButton } from './save-word-button.client'
 
 const LANGUAGE_NAME: Record<Language, string> = {
   ru: 'Russian',
@@ -179,9 +179,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
               {word.coreDefinition}
             </p>
             <div className="mt-6 flex flex-wrap items-center gap-2.5">
-              <Button>
-                <BookmarkIcon /> Save word
-              </Button>
+              <SaveWordButton word={word.word} />
               <Button variant="outline" size="icon" aria-label="Add a note">
                 <PenLineIcon />
               </Button>

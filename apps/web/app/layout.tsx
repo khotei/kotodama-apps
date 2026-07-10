@@ -1,4 +1,5 @@
 import { serverEnv } from '@kotodama/config'
+import { Toaster } from '@kotodama/ui'
 import type { Metadata } from 'next'
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'
 import type { ReactNode } from 'react'
@@ -36,7 +37,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${fraunces.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <Toaster position="bottom-right" />
+        </Providers>
       </body>
     </html>
   )
