@@ -1,4 +1,4 @@
-import type { WordStateModel } from '@kotodama/store'
+import type { ReadyWord, WordStateModel } from '@kotodama/store'
 
 // Design-stage fixtures (mirror the handoff's Word artboards) so every screen
 // state is reachable WITHOUT a backend: mariposa → ready, empalagar →
@@ -260,4 +260,30 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordStateModel>> = {
       { stage: 'enrich_visuals', status: 'pending' },
     ],
   },
+}
+
+const MARIPOSA = WORD_STATE_MOCKS.mariposa as { kind: 'ready'; word: ReadyWord }
+
+/** The other list words marked `ready` reuse the mariposa entry (word + gloss
+ *  swapped) so clicking their rows never lands on not-found mid-review. */
+const DERIVED_READY: readonly [string, string][] = [
+  ['sobremesa', 'the lingering talk after a meal'],
+  ['madrugar', 'to get up very early'],
+  ['estrenar', 'to use or wear for the first time'],
+  ['friolero', 'sensitive to the cold'],
+  ['anteayer', 'the day before yesterday'],
+  ['tutear', 'to address someone with the informal tú'],
+]
+
+export const WORD_STATE_MOCKS_ALL: Readonly<Record<string, WordStateModel>> = {
+  ...WORD_STATE_MOCKS,
+  ...Object.fromEntries(
+    DERIVED_READY.map(([word, gloss]) => [
+      word,
+      {
+        kind: 'ready',
+        word: { ...MARIPOSA.word, id: `mock-word-${word}`, word, coreDefinition: gloss },
+      } satisfies WordStateModel,
+    ]),
+  ),
 }
