@@ -2,6 +2,7 @@
 
 import {
   Button,
+  cn,
   EmptyState,
   ResultRow,
   SearchBox,
@@ -9,12 +10,10 @@ import {
   Tabs,
   TabsList,
   TabsTrigger,
-  Toggle,
 } from '@kotodama/ui'
 import {
+  ArrowRightIcon,
   BookmarkIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
   PlusIcon,
   SearchIcon,
   SparklesIcon,
@@ -22,6 +21,31 @@ import {
 } from 'lucide-react'
 import { type ReactNode, useMemo, useState } from 'react'
 import type { SearchPos, SearchWordView } from './search.view'
+
+const pad2 = (n: number) => String(n).padStart(2, '0')
+
+/** `Spanish · arriving` — the state verb takes the status colour. */
+function StatusNote({ note, status }: { note: string; status: SearchWordView['status'] }) {
+  const [language, ...rest] = note.split(' · ')
+  const verb = rest.join(' · ')
+  const verbClass =
+    status === 'generating'
+      ? 'text-seal'
+      : status === 'failed'
+        ? 'text-destructive'
+        : 'text-faint-foreground'
+  return (
+    <span className="text-muted-foreground">
+      {language}
+      {verb && (
+        <>
+          {' · '}
+          <span className={verbClass}>{verb}</span>
+        </>
+      )}
+    </span>
+  )
+}
 
 const PAGE_SIZE = 6
 const POS_TABS: { value: SearchPos | 'all'; label: string }[] = [
@@ -38,7 +62,7 @@ function highlight(word: string, query: string): ReactNode {
   return (
     <>
       {word.slice(0, at)}
-      <mark className="rounded-xs bg-primary/10 text-primary">
+      <mark className="rounded-[3px] bg-accent px-0.5 text-seal-emphasis">
         {word.slice(at, at + query.length)}
       </mark>
       {word.slice(at + query.length)}
@@ -63,7 +87,11 @@ function Row({ row, query }: { row: SearchWordView; query: string }) {
       gloss={row.gloss}
       status={row.status}
       saved={row.saved}
-      statusNote={row.statusNote}
+      statusNote={
+        row.status !== 'ready' && row.statusNote != null ? (
+          <StatusNote note={row.statusNote} status={row.status} />
+        ) : undefined
+      }
     />
   )
 }
@@ -109,11 +137,11 @@ export function SearchPage({
   const resetPage = () => setPage(1)
 
   return (
-    <div className="pt-10">
+    <div className="pt-9">
       <SectionRule label="Search" meta={`${words.length} words in library`} />
 
       <SearchBox
-        className="mt-6"
+        className="mt-6 max-w-[720px]"
         placeholder="Search your words, or type a new one…"
         aria-label="Search words"
         value={query}
@@ -125,7 +153,7 @@ export function SearchPage({
           <>
             {query !== '' && (
               <Button
-                variant="ghost"
+                variant="outline"
                 size="icon-sm"
                 aria-label="Clear"
                 onClick={() => {
@@ -136,7 +164,7 @@ export function SearchPage({
                 <XIcon />
               </Button>
             )}
-            <Button asChild>
+            <Button variant="accent" asChild>
               <a href={`${generatePathPrefix}${encodeURIComponent(query.trim())}`}>
                 <PlusIcon /> Add
               </a>
@@ -145,7 +173,7 @@ export function SearchPage({
         }
       />
 
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+      <div className="mt-6 flex flex-wrap items-center gap-3">
         <Tabs
           value={pos}
           onValueChange={(value) => {
@@ -161,16 +189,20 @@ export function SearchPage({
             ))}
           </TabsList>
         </Tabs>
-        <Toggle
-          variant="outline"
-          pressed={savedOnly}
-          onPressedChange={(pressed) => {
-            setSavedOnly(pressed)
+        <button
+          type="button"
+          aria-pressed={savedOnly}
+          onClick={() => {
+            setSavedOnly(!savedOnly)
             resetPage()
           }}
+          className={cn(
+            'inline-flex items-center gap-1.5 rounded-full border border-current px-[9px] py-[3px] font-sans text-2xs font-semibold uppercase tracking-[0.12em] transition-colors',
+            savedOnly ? 'text-tier-formal' : 'text-subtle-foreground hover:text-foreground',
+          )}
         >
-          <BookmarkIcon /> Saved only
-        </Toggle>
+          <BookmarkIcon className={cn('size-3.5', savedOnly && 'fill-current')} /> Saved only
+        </button>
       </div>
 
       {filtered.length === 0 ? (
@@ -181,7 +213,7 @@ export function SearchPage({
             description="Words you save for review will collect here. Open any entry and tap Save."
           >
             <Button
-              variant="secondary"
+              variant="outline"
               onClick={() => {
                 setSavedOnly(false)
                 setPos('all')
@@ -198,7 +230,7 @@ export function SearchPage({
             title={`No word matches “${query.trim()}”.`}
             description="It isn’t in your library yet — but Kotodama can write it a full entry in seconds."
           >
-            <Button size="lg" asChild>
+            <Button variant="accent" size="lg" asChild>
               <a href={`${generatePathPrefix}${encodeURIComponent(query.trim())}`}>
                 <SparklesIcon /> Generate “{query.trim()}”
               </a>
@@ -207,58 +239,72 @@ export function SearchPage({
         )
       ) : (
         <>
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-2">
-            <span className="text-[13.5px] text-muted-foreground">
-              {browsing ? (
-                <>Browsing the whole library · </>
-              ) : (
+          <div className="mt-8 mb-2 flex flex-wrap items-baseline justify-between gap-2">
+            <span className="font-serif text-base text-muted-foreground">
+              <b className="font-medium text-foreground">{filtered.length}</b>{' '}
+              {browsing
+                ? 'words'
+                : `${filtered.length === 1 ? 'match' : 'matches'} for “${query.trim()}”`}
+              {pageCount > 1 && (
                 <>
-                  <b className="text-foreground">{filtered.length}</b>{' '}
-                  {filtered.length === 1 ? 'match' : 'matches'} for “{query.trim()}” ·{' '}
+                  {' · '}
+                  <span className="font-mono text-[12px] text-subtle-foreground tracking-[0.04em]">
+                    {rangeStart}–{rangeEnd} of {filtered.length}
+                  </span>
                 </>
               )}
-              <span className="font-mono text-[12px]">
-                {rangeStart}–{rangeEnd} of {filtered.length}
+            </span>
+            {browsing && (
+              <span className="font-mono text-[11px] text-subtle-foreground uppercase tracking-[0.06em]">
+                Sorted by added
               </span>
-            </span>
-            <span className="font-mono text-[10.5px] text-muted-foreground uppercase tracking-[0.12em]">
-              Sorted by added
-            </span>
+            )}
           </div>
-          <div className="mt-2 border-border border-t">
+          <div className="mt-2 flex flex-col">
             {pageRows.map((row) => (
               <Row key={row.word} row={row} query={query} />
             ))}
           </div>
           {pageCount > 1 && (
-            <nav className="mt-8 flex items-center justify-center gap-1" aria-label="Result pages">
-              <Button
-                variant="ghost"
-                size="sm"
+            <nav
+              className="mt-[30px] flex items-center justify-between gap-4 border-border-subtle border-t pt-[22px]"
+              aria-label="Result pages"
+            >
+              <button
+                type="button"
                 disabled={currentPage === 1}
                 onClick={() => setPage(currentPage - 1)}
+                className="inline-flex cursor-pointer items-center gap-2 px-1 py-2 font-mono text-[11px] text-muted-foreground uppercase tracking-[0.11em] transition-colors hover:text-seal disabled:cursor-default disabled:text-faint-foreground disabled:opacity-45"
               >
-                <ChevronLeftIcon /> Previous
-              </Button>
-              {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
-                <Button
-                  key={n}
-                  variant={n === currentPage ? 'outline' : 'ghost'}
-                  size="icon-sm"
-                  aria-current={n === currentPage ? 'page' : undefined}
-                  onClick={() => setPage(n)}
-                >
-                  {n}
-                </Button>
-              ))}
-              <Button
-                variant="ghost"
-                size="sm"
+                <ArrowRightIcon className="size-[15px] rotate-180" /> Prev
+              </button>
+              <ol className="flex items-center gap-1">
+                {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
+                  <li key={n}>
+                    <button
+                      type="button"
+                      aria-current={n === currentPage ? 'page' : undefined}
+                      onClick={() => setPage(n)}
+                      className={cn(
+                        'grid h-[34px] min-w-[34px] cursor-pointer place-items-center rounded-[5px] border px-2 font-mono text-[12px] tracking-[0.06em] transition-colors',
+                        n === currentPage
+                          ? 'border-seal-line bg-accent text-seal-emphasis'
+                          : 'border-transparent text-subtle-foreground hover:bg-card hover:text-foreground',
+                      )}
+                    >
+                      {pad2(n)}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              <button
+                type="button"
                 disabled={currentPage === pageCount}
                 onClick={() => setPage(currentPage + 1)}
+                className="inline-flex cursor-pointer items-center gap-2 px-1 py-2 font-mono text-[11px] text-muted-foreground uppercase tracking-[0.11em] transition-colors hover:text-seal disabled:cursor-default disabled:text-faint-foreground disabled:opacity-45"
               >
-                Next <ChevronRightIcon />
-              </Button>
+                Next <ArrowRightIcon className="size-[15px]" />
+              </button>
             </nav>
           )}
         </>

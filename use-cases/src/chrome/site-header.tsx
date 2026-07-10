@@ -22,9 +22,14 @@ export type SiteHeaderProps = {
 
 function Wordmark({ href }: { href: string }) {
   return (
-    <a href={href} className="flex items-center gap-2.5 no-underline">
-      <Seal size="sm" />
-      <span className="font-serif text-[17px] text-foreground">Kotodama</span>
+    <a href={href} className="flex items-center gap-[11px] text-foreground no-underline">
+      <Seal />
+      <span className="hidden font-serif font-semibold text-[21px] leading-none tracking-[-0.02em] md:inline">
+        Kotodama
+      </span>
+      <span className="hidden font-serif text-[15px] text-muted-foreground leading-none tracking-[0.04em] md:inline">
+        言霊
+      </span>
     </a>
   )
 }
@@ -39,25 +44,27 @@ export function SiteHeader({
   languageBadge,
 }: SiteHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-border border-b bg-background/95 backdrop-blur">
-      <div className="mx-auto hidden h-16 max-w-[1160px] items-center justify-between px-10 md:flex">
-        <div className="flex items-center gap-7">
+    <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
+      <div className="mx-auto hidden h-[76px] max-w-[1160px] items-center justify-between px-10 md:flex">
+        <div className="flex items-center gap-10">
           <Wordmark href={homeHref} />
-          <nav className="flex items-center gap-1">
+          <nav className="flex items-center gap-[30px]">
             {nav.map(({ label, href, active }) => (
-              <Button
+              <a
                 key={href}
-                asChild
-                variant="ghost"
-                size="sm"
-                className={cn(active && 'bg-secondary')}
+                href={href}
+                className={cn(
+                  'relative py-1.5 font-medium text-[14px] text-muted-foreground no-underline tracking-[0.01em] transition-colors hover:text-foreground',
+                  active &&
+                    'text-foreground after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1.5px] after:bg-seal after:content-[""]',
+                )}
               >
-                <a href={href}>{label}</a>
-              </Button>
+                {label}
+              </a>
             ))}
           </nav>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-[14px]">
           {commandTrigger}
           {languageMenu}
           {modeMenu}

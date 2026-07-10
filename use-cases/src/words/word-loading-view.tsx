@@ -14,7 +14,7 @@ export function WordLoadingView({ backHref }: WordLoadingViewProps) {
           <ArrowLeftIcon /> Library
         </a>
       </Button>
-      <div className="grid gap-12 lg:grid-cols-[1fr_300px] lg:gap-[72px]">
+      <div className="grid grid-cols-1 gap-9 lg:grid-cols-[1fr_300px] lg:gap-14">
         <div>
           <div className="flex gap-2">
             <Skeleton className="h-6 w-[92px] rounded-full" />
@@ -22,7 +22,7 @@ export function WordLoadingView({ backHref }: WordLoadingViewProps) {
             <Skeleton className="h-6 w-16 rounded-full" />
           </div>
           <div className="mt-6 flex flex-col gap-3">
-            <Skeleton className="h-24 w-[62%]" />
+            <Skeleton className="h-[104px] w-[62%]" />
             <Skeleton className="h-[22px] w-[32%]" />
             <Skeleton className="h-8 w-[48%]" />
           </div>
@@ -30,7 +30,7 @@ export function WordLoadingView({ backHref }: WordLoadingViewProps) {
             <Skeleton className="h-[17px] w-[90%]" />
             <Skeleton className="h-[17px] w-[82%]" />
           </div>
-          <Skeleton className="mt-9 h-9 w-[140px] rounded-full" />
+          <Skeleton className="mt-9 h-[42px] w-[140px] rounded-full" />
           <div className="mt-[60px]">
             <Skeleton className="h-3 w-[120px]" />
             <div className="mt-6 flex flex-col gap-2.5">
@@ -39,7 +39,7 @@ export function WordLoadingView({ backHref }: WordLoadingViewProps) {
               <Skeleton className="h-[17px] w-[70%]" />
             </div>
           </div>
-          <div className="mt-10 flex items-center gap-2.5 text-[13px] text-muted-foreground">
+          <div className="mt-9 flex items-center gap-2.5 font-mono text-[12px] text-seal tracking-[0.06em]">
             <Spinner className="size-3.5" /> Loading entry…
           </div>
         </div>

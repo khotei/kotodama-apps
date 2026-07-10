@@ -18,8 +18,11 @@ import { toast } from 'sonner'
 export type SaveWordButtonProps = {
   word: string
   initialSaved?: boolean
-  /** `hero` — the word-page CTA (`Save word` ⇄ outline `Saved`); `ghost` — the compact WOTD form. */
-  look?: 'hero' | 'ghost'
+  /**
+   * `hero` — the word-page CTA (`Save word` ⇄ outline `Saved`); `wotd` — the
+   * bordered pill under the word of the day; `ghost` — a bare inline toggle.
+   */
+  look?: 'hero' | 'wotd' | 'ghost'
 }
 
 /**
@@ -46,12 +49,27 @@ export function SaveWordButton({ word, initialSaved = false, look = 'hero' }: Sa
     })
   }
 
-  const label = saved ? 'Saved' : look === 'hero' ? 'Save word' : 'Save'
-  const variant = look === 'hero' ? (saved ? 'outline' : 'default') : 'ghost'
+  const label = saved
+    ? 'Saved'
+    : look === 'hero'
+      ? 'Save word'
+      : look === 'wotd'
+        ? 'Save to library'
+        : 'Save'
+  const variant =
+    look === 'hero' ? (saved ? 'outline' : 'accent') : look === 'wotd' ? 'outline' : 'ghost'
 
   return (
     <>
-      <Button variant={variant} onClick={() => (saved ? setConfirming(true) : save())}>
+      <Button
+        variant={variant}
+        className={
+          look === 'wotd'
+            ? 'rounded-md font-medium text-muted-foreground hover:border-seal hover:text-seal'
+            : undefined
+        }
+        onClick={() => (saved ? setConfirming(true) : save())}
+      >
         <BookmarkIcon className={saved ? 'fill-current' : undefined} />
         {label}
       </Button>

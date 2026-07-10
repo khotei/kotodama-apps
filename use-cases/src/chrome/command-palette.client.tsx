@@ -66,7 +66,7 @@ export function CommandPalette({
               }}
             >
               <BookOpenIcon />
-              <span className="font-serif text-[15px]">{row.word}</span>
+              <span>{row.word}</span>
               {row.status === 'ready' ? (
                 row.gloss != null && (
                   <span className="ml-auto max-w-[50%] truncate text-[12.5px] text-muted-foreground">
@@ -97,7 +97,7 @@ export function CommandPalette({
           </CommandGroup>
         )}
       </CommandList>
-      <div className="flex items-center gap-3.5 border-border border-t px-3.5 py-2 text-[12px] text-muted-foreground">
+      <div className="flex items-center gap-4 border-border-subtle border-t px-4 py-2.5 font-mono text-2xs text-subtle-foreground tracking-[0.06em]">
         <span className="flex items-center gap-1.5">
           <Kbd>↑↓</Kbd> navigate
         </span>

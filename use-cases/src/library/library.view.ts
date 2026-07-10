@@ -18,13 +18,19 @@ export type TryWordView = {
   href: string
 }
 
+/** One run of glance text; `accent` renders it as the cinnabar italic emphasis. */
+export type GlanceSpan = { text: string; accent?: boolean }
+
+/** A glance value — a plain string, or spans where some carry the accent. */
+export type GlanceText = string | readonly GlanceSpan[]
+
 export type WotdGlanceView = {
-  etymology: string
-  firstAttested: string
+  etymology: GlanceText
+  firstAttested: GlanceText
   tiers: readonly WordTier[]
   tiersLabel: string
-  languages: string
-  frequency: string
+  languages: GlanceText
+  frequency: GlanceText
 }
 
 export type WotdView = {
@@ -41,8 +47,8 @@ export type WotdView = {
   speechLang: string
   glance: WotdGlanceView
   frequencySeries: readonly number[]
-  axisStart: string
-  axisEnd: string
+  /** Evenly-spaced sparkline axis ticks — `['1800','1900','2000','2024']`. */
+  axisLabels: readonly string[]
 }
 
 export type RankedWordView = {

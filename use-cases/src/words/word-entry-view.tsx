@@ -1,8 +1,5 @@
 import type { Language, ReadyWord } from '@kotodama/store'
 import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
   Badge,
   Breadcrumb,
   BreadcrumbItem,
@@ -11,10 +8,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
   DepthTabs,
   DepthTabsContent,
   DepthTabsList,
@@ -24,17 +17,9 @@ import {
   SectionRule,
   Sparkline,
   StatusBadge,
-  TierChip,
   type WordTier,
 } from '@kotodama/ui'
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  EllipsisIcon,
-  PenLineIcon,
-  SparklesIcon,
-  TrendingUpIcon,
-} from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon, EllipsisIcon, PenLineIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { ListenButton } from '../library/listen-button.client'
 import { SaveWordButton } from './save-word-button.client'
@@ -70,12 +55,33 @@ const SECTIONS = [
 
 const KNOWN_TIERS: readonly WordTier[] = ['everyday', 'cultural', 'formal', 'rare']
 
-function Shot({ prompt, kind, caption }: { prompt: string; kind: string; caption?: string }) {
+/** Mono cinnabar overline — the design's ws-sub / cb-h sub-heading. */
+function Overline({ children }: { children: ReactNode }) {
   return (
-    <figure className="m-0">
-      <ImageSlot label={prompt} className="h-[260px]" />
-      <figcaption className="mt-2 text-[12.5px] text-muted-foreground">
-        <span className="mr-2 font-mono text-[10.5px] uppercase tracking-[0.12em]">{kind}</span>
+    <h3 className="font-mono text-2xs font-medium text-seal uppercase tracking-[0.18em]">
+      {children}
+    </h3>
+  )
+}
+
+function Shot({
+  prompt,
+  kind,
+  caption,
+  imageClass = 'min-h-[260px]',
+}: {
+  prompt: string
+  kind: string
+  caption?: string
+  imageClass?: string
+}) {
+  return (
+    <figure className="m-0 flex flex-col">
+      <ImageSlot label={prompt} className={`flex-1 ${imageClass}`} />
+      <figcaption className="mt-[11px] font-sans text-[13px] text-muted-foreground leading-[1.5]">
+        <span className="mb-[5px] block font-mono text-[10px] text-seal uppercase tracking-[0.1em]">
+          {kind}
+        </span>
         {caption}
       </figcaption>
     </figure>
@@ -94,8 +100,8 @@ function WordSection({
   children: ReactNode
 }) {
   return (
-    <section id={id} className="mt-[60px] scroll-mt-24">
-      <SectionRule label={label} meta={meta} />
+    <section id={id} className="mt-[52px] scroll-mt-24">
+      <SectionRule label={label} meta={meta} className="mb-[22px]" />
       {children}
     </section>
   )
@@ -103,9 +109,9 @@ function WordSection({
 
 function GlanceRow({ dt, dd }: { dt: string; dd: ReactNode }) {
   return (
-    <div className="flex items-center justify-between gap-3 border-border border-b py-2">
-      <dt className="text-[12.5px] text-muted-foreground">{dt}</dt>
-      <dd className="text-right text-[13px]">{dd}</dd>
+    <div className="flex items-baseline justify-between gap-[14px] border-border-subtle border-b py-[9px] last:border-b-0">
+      <dt className="font-sans text-[12px] text-subtle-foreground">{dt}</dt>
+      <dd className="text-right font-mono text-[12.5px]">{dd}</dd>
     </div>
   )
 }
@@ -123,10 +129,20 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
   const registerTier = word.lexical.register.find((r): r is WordTier =>
     (KNOWN_TIERS as readonly string[]).includes(r),
   )
+  const registerLabel =
+    registerTier != null
+      ? `${registerTier.charAt(0).toUpperCase()}${registerTier.slice(1)}`
+      : word.lexical.register.join(' · ')
   const frequency = word.frequency
   const frequencySeries = frequency?.series.map((p) => Number(p.value) || 0) ?? []
   const firstYear = frequency?.series.at(0)?.year
   const lastYear = frequency?.series.at(-1)?.year
+  const added = new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(word.createdAt))
 
   const etymologySteps = [
     { when: 'origin', form: word.etymology.origin.from, note: word.etymology.origin.gloss },
@@ -140,7 +156,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
   return (
     <div className="pt-8 pb-20">
       <Breadcrumb>
-        <BreadcrumbList>
+        <BreadcrumbList className="font-mono text-xs tracking-[0.06em]">
           <BreadcrumbItem>
             <BreadcrumbLink href={libraryHref}>Library</BreadcrumbLink>
           </BreadcrumbItem>
@@ -155,30 +171,30 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="mt-8 grid gap-12 lg:grid-cols-[1fr_300px] lg:gap-[72px]">
+      <div className="mt-9 grid grid-cols-1 gap-9 lg:grid-cols-[1fr_300px] lg:gap-14">
         <div className="min-w-0">
           <header>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="outline" className="uppercase">
-                {language}
-              </Badge>
-              <Badge variant="outline">{word.lexical.partOfSpeech}</Badge>
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge className="font-mono uppercase">{language}</Badge>
+              <Badge className="font-mono">{word.lexical.partOfSpeech}</Badge>
               <StatusBadge status="ready" />
             </div>
-            <h1 className="mt-4 font-serif font-light text-[52px] leading-[1.02] md:text-[94px]">
+            <h1 className="mt-[22px] font-serif font-medium text-[64px] leading-[0.9] tracking-[-0.04em] md:text-[80px] lg:text-5xl">
               {word.word}
             </h1>
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <span className="font-mono text-[15px]">{word.pronunciation.ipa}</span>
-              <span className="text-[14px] text-muted-foreground italic">
+            <div className="mt-[22px] flex flex-wrap items-baseline gap-[22px]">
+              <span className="font-mono text-[19px] text-muted-foreground tracking-[0.01em]">
+                {word.pronunciation.ipa}
+              </span>
+              <span className="font-sans text-[13px] text-subtle-foreground uppercase tracking-[0.06em]">
                 {word.pronunciation.respelling}
               </span>
               <ListenButton text={word.word} lang={language} />
             </div>
-            <p className="mt-4 max-w-[640px] font-serif text-2xl italic leading-snug">
+            <p className="mt-[26px] max-w-[640px] font-serif text-2xl text-seal italic leading-[1.2] tracking-[-0.01em] before:content-['“'] after:content-['”']">
               {word.coreDefinition}
             </p>
-            <div className="mt-6 flex flex-wrap items-center gap-2.5">
+            <div className="mt-[30px] flex flex-wrap items-center gap-2.5">
               <SaveWordButton word={word.word} />
               <Button variant="outline" size="icon" aria-label="Add a note">
                 <PenLineIcon />
@@ -206,18 +222,19 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                 const tier = word.tiers[id]
                 return (
                   <DepthTabsContent key={id} value={id} className="pt-6">
-                    <h3 className="font-serif text-[22px] leading-snug">{tier.title}</h3>
-                    <p className="mt-3 font-serif text-[17px] leading-[1.7]">{tier.body}</p>
-                    <ul className="mt-5 list-none p-0">
+                    <h3 className="font-serif font-medium text-[28px] leading-snug tracking-[-0.02em]">
+                      {tier.title}
+                    </h3>
+                    <p className="mt-3 font-serif text-lg leading-[1.72]">{tier.body}</p>
+                    <ul className="mt-[22px] flex list-none flex-col gap-3 border-border-subtle border-t p-0 pt-[18px]">
                       {tier.examples.map((example) => (
-                        <li
-                          key={example.text}
-                          className="flex items-baseline justify-between gap-4 border-border border-b py-2.5"
-                        >
-                          <span className="font-serif text-[15.5px]">{example.text}</span>
-                          <Badge variant="outline" className="shrink-0 font-mono text-[10.5px]">
+                        <li key={example.text} className="flex items-baseline gap-3">
+                          <span className="font-serif text-lg italic leading-[1.45] before:mr-1.5 before:text-seal before:not-italic before:content-['—']">
+                            {example.text}
+                          </span>
+                          <span className="ml-auto shrink-0 rounded-full border border-border px-[7px] py-0.5 font-mono text-[9.5px] text-subtle-foreground uppercase tracking-[0.1em]">
                             {example.register}
-                          </Badge>
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -228,39 +245,56 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
           </WordSection>
 
           <WordSection id="sec-pictures" label="In pictures" meta="drop your own">
-            <div className="mt-5 grid gap-5 md:grid-cols-[1.4fr_1fr]">
+            <div className="mt-5 grid grid-cols-1 gap-[22px] md:grid-cols-[1.5fr_1fr]">
               <Shot
                 prompt={word.visuals.hero.prompt}
                 kind="Hero"
                 caption={word.visuals.hero.caption ?? word.visuals.hero.concept}
+                imageClass="min-h-[320px]"
               />
               <Shot
                 prompt={word.visuals.infographic.prompt}
                 kind="Infographic"
                 caption={word.visuals.infographic.caption ?? word.visuals.infographic.concept}
+                imageClass="min-h-[280px]"
               />
             </div>
             {word.visuals.memes.length > 0 && (
-              <div className="mt-7">
+              <div className="mt-[30px]">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-muted-foreground uppercase tracking-[0.12em]">
+                  <span className="font-mono text-2xs font-medium text-seal uppercase tracking-[0.18em]">
                     Memes · {word.visuals.memes.length}
                   </span>
-                  <span className="flex gap-1.5">
-                    <Button variant="outline" size="icon-sm" aria-label="Previous memes" disabled>
+                  <span className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      aria-label="Previous memes"
+                      className="size-[34px] rounded-sm"
+                      disabled
+                    >
                       <ArrowLeftIcon />
                     </Button>
-                    <Button variant="outline" size="icon-sm" aria-label="Next memes" disabled>
+                    <Button
+                      variant="outline"
+                      size="icon-sm"
+                      aria-label="Next memes"
+                      className="size-[34px] rounded-sm"
+                      disabled
+                    >
                       <ArrowRightIcon />
                     </Button>
                   </span>
                 </div>
-                <div className="mt-3 grid gap-4 md:grid-cols-3">
+                <div className="mt-[14px] flex snap-x snap-mandatory gap-[18px] overflow-x-auto pb-2.5">
                   {word.visuals.memes.map((meme) => (
-                    <figure key={meme.imageKey} className="m-0">
-                      <ImageSlot label={meme.prompt} className="h-[150px]" />
-                      <figcaption className="mt-2 text-[12.5px] text-muted-foreground">
-                        <span className="mr-2 font-mono text-[10.5px] uppercase tracking-[0.12em]">
+                    <figure
+                      key={meme.imageKey}
+                      className="m-0 flex flex-[0_0_296px] snap-start flex-col"
+                    >
+                      <ImageSlot label={meme.prompt} className="aspect-[4/3] w-full" />
+                      <figcaption className="mt-[11px] font-sans text-[13px] text-muted-foreground leading-[1.5]">
+                        <span className="mb-[5px] block font-mono text-[10px] text-seal uppercase tracking-[0.1em]">
                           Meme
                         </span>
                         {meme.caption ?? meme.concept}
@@ -278,15 +312,15 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
             meta="where it comes from · where it’s going"
           >
             <div className="mt-5">
-              <h3 className="font-medium text-[15px]">Etymology</h3>
-              <p className="mt-2 max-w-[640px] font-serif text-[17px] leading-[1.7]">
+              <Overline>Etymology</Overline>
+              <p className="mt-4 max-w-[640px] font-serif text-lg leading-[1.72]">
                 {word.etymology.summary}
               </p>
               <EtymologyTimeline steps={etymologySteps} className="mt-6" />
             </div>
             {word.culturalGuide.timeline.length > 0 && (
-              <div className="mt-10">
-                <h3 className="font-medium text-[15px]">Cultural currents</h3>
+              <div className="mt-10 border-border-subtle border-t pt-8">
+                <Overline>Cultural currents</Overline>
                 <EtymologyTimeline
                   steps={word.culturalGuide.timeline.map((step) => ({
                     when: step.date,
@@ -295,18 +329,24 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                   className="mt-5"
                 />
                 {word.culturalGuide.notes.length > 0 && (
-                  <ul className="mt-5 flex list-disc flex-col gap-1.5 pl-5 text-[13.5px] text-muted-foreground">
+                  <ul className="mt-6 flex list-none flex-col gap-[11px] p-0">
                     {word.culturalGuide.notes.map((note) => (
-                      <li key={note}>{note}</li>
+                      <li
+                        key={note}
+                        className="relative pl-[22px] font-serif text-[16.5px] text-muted-foreground leading-[1.55] before:absolute before:top-[-2px] before:left-[6px] before:text-seal before:content-['·']"
+                      >
+                        {note}
+                      </li>
                     ))}
                   </ul>
                 )}
                 {word.culturalGuide.forecast2030 != null && (
-                  <Alert className="mt-6">
-                    <TrendingUpIcon />
-                    <AlertTitle>Forecast · where it’s heading</AlertTitle>
-                    <AlertDescription>{word.culturalGuide.forecast2030}</AlertDescription>
-                  </Alert>
+                  <div className="mt-6 rounded-r-lg border border-seal-line border-l-[3px] border-l-seal bg-seal/[0.06] px-5 py-[18px]">
+                    <Overline>Forecast · where it’s heading</Overline>
+                    <p className="mt-3 font-serif text-[16.5px] leading-[1.6]">
+                      {word.culturalGuide.forecast2030}
+                    </p>
+                  </div>
                 )}
               </div>
             )}
@@ -318,33 +358,36 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
               label="In the words of writers"
               meta={`${word.authorExamples.length} passages`}
             >
-              <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <div className="mt-5 grid grid-cols-1 gap-[18px] md:grid-cols-2">
                 {word.authorExamples.map((voice) => (
-                  <Card key={`${voice.author}-${voice.quote.slice(0, 16)}`}>
-                    <CardContent className="p-5">
-                      <div className="flex items-center gap-3">
-                        <ImageSlot shape="circle" className="size-9" />
-                        <span className="min-w-0 flex-1">
-                          <span className="block truncate font-medium text-[14px]">
-                            {voice.author}
-                          </span>
-                          <span className="block truncate text-[12px] text-muted-foreground">
-                            {voice.isGenerated ? 'AI · written in the style of' : voice.work}
-                          </span>
+                  <div
+                    key={`${voice.author}-${voice.quote.slice(0, 16)}`}
+                    className="relative flex flex-col rounded-sm border border-border bg-card px-6 pt-[22px] pb-5"
+                  >
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-2 border-border-subtle border-b pb-4">
+                      <ImageSlot shape="circle" className="size-11" />
+                      <span className="mr-auto min-w-0 flex-1 basis-[90px]">
+                        <span className="block truncate font-sans font-semibold text-[13px]">
+                          {voice.author}
                         </span>
-                        {voice.isGenerated ? (
-                          <Badge variant="outline">
-                            <SparklesIcon /> AI · in style
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary">quote</Badge>
-                        )}
-                      </div>
-                      <blockquote className="mt-4 border-none p-0 font-serif text-[16.5px] leading-relaxed">
-                        {voice.quote}
-                      </blockquote>
-                    </CardContent>
-                  </Card>
+                        <span className="block truncate font-mono text-[10px] text-subtle-foreground tracking-[0.04em]">
+                          {voice.isGenerated ? 'AI · written in the style of' : voice.work}
+                        </span>
+                      </span>
+                      {voice.isGenerated ? (
+                        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-tier-cultural/10 px-2 py-[3px] font-mono text-[9.5px] text-tier-cultural uppercase leading-none tracking-[0.12em]">
+                          <span className="size-[5px] rounded-full bg-current" /> AI · in style
+                        </span>
+                      ) : (
+                        <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-success-subtle px-2 py-[3px] font-mono text-[9.5px] text-success uppercase leading-none tracking-[0.12em]">
+                          <span className="size-[5px] rounded-full bg-current" /> quote
+                        </span>
+                      )}
+                    </div>
+                    <blockquote className="mt-4 border-none p-0 font-serif text-[20px] italic leading-[1.5]">
+                      {voice.quote}
+                    </blockquote>
+                  </div>
                 ))}
               </div>
             </WordSection>
@@ -355,7 +398,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
             label="Connections"
             meta="related words · across languages"
           >
-            <div className="mt-5 grid gap-10 md:grid-cols-2">
+            <div className="mt-5 grid grid-cols-1 gap-x-12 gap-y-7 md:grid-cols-2">
               {(
                 [
                   ['Near in meaning', word.relations.synonyms],
@@ -363,16 +406,18 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                 ] as const
               ).map(([heading, items]) => (
                 <div key={heading}>
-                  <h3 className="font-medium text-[15px]">{heading}</h3>
-                  <div className="mt-3 border-border border-t">
+                  <Overline>{heading}</Overline>
+                  <div className="mt-3">
                     {items.map((item) => (
                       <span
                         key={item.term}
-                        className="flex items-baseline gap-3 border-border border-b py-2.5"
+                        className="flex items-baseline gap-4 border-border-subtle border-b py-[14px]"
                       >
-                        <span className="font-serif text-[16px]">{item.term}</span>
+                        <span className="min-w-[170px] font-serif text-[21px] tracking-[-0.01em]">
+                          {item.term}
+                        </span>
                         {'note' in item && item.note != null && (
-                          <span className="min-w-0 flex-1 truncate font-serif text-[13.5px] text-muted-foreground italic">
+                          <span className="min-w-0 flex-1 truncate font-serif text-[16px] text-muted-foreground italic">
                             {item.note}
                           </span>
                         )}
@@ -384,17 +429,17 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
             </div>
             {word.translations.length > 0 && (
               <div className="mt-10">
-                <h3 className="font-medium text-[15px]">Across languages</h3>
-                <div className="mt-3 grid border-border border-t md:grid-cols-2 md:gap-x-10">
+                <Overline>Across languages</Overline>
+                <div className="mt-3 grid md:grid-cols-2 md:gap-x-10">
                   {word.translations.map((translation) => (
                     <span
                       key={translation.language}
-                      className="flex items-baseline gap-4 border-border border-b py-2.5"
+                      className="flex items-baseline gap-[18px] border-border-subtle border-b py-[13px]"
                     >
-                      <span className="w-[88px] shrink-0 font-mono text-[10.5px] text-muted-foreground uppercase tracking-[0.12em]">
+                      <span className="w-[130px] shrink-0 font-sans font-semibold text-[12.5px] text-subtle-foreground tracking-[0.04em]">
                         {LANGUAGE_NAME[translation.language]}
                       </span>
-                      <span className="font-serif text-[15px]">{translation.term}</span>
+                      <span className="font-serif text-[19px]">{translation.term}</span>
                     </span>
                   ))}
                 </div>
@@ -403,21 +448,21 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
           </WordSection>
 
           <WordSection id="sec-sources" label="Sources" meta="grounded · cited">
-            <p className="mt-4 max-w-[560px] text-[13.5px] text-muted-foreground">
+            <p className="mt-4 mb-[18px] max-w-[64ch] font-serif font-light text-[16px] text-muted-foreground leading-[1.6]">
               Every fact here is grounded in a source below. Kotodama writes the tone and the
               examples — never the facts.
             </p>
-            <ol className="mt-4 list-none border-border border-t p-0">
+            <ol className="list-none p-0">
               {word.sources.map((source) => (
                 <li
                   key={`${source.index}`}
-                  className="flex items-baseline gap-4 border-border border-b py-2.5"
+                  className="grid grid-cols-[36px_1fr_auto] items-baseline gap-[14px] border-border border-b border-dotted py-3"
                 >
-                  <span className="font-mono text-[11px] text-muted-foreground">
+                  <span className="font-mono text-[12px] text-seal">
                     [{String(source.index).padStart(2, '0')}]
                   </span>
-                  <span className="min-w-0 flex-1 text-[13.5px]">{source.title}</span>
-                  <span className="font-mono text-[10.5px] text-muted-foreground uppercase">
+                  <span className="font-serif text-[16px] leading-[1.4]">{source.title}</span>
+                  <span className="whitespace-nowrap font-mono text-[10.5px] text-subtle-foreground tracking-[0.04em]">
                     {source.type}
                   </span>
                 </li>
@@ -427,70 +472,57 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="flex flex-col gap-5">
-            <Card>
-              <CardHeader>
-                <CardTitle>At a glance</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <dl className="flex flex-col">
-                  <GlanceRow dt="Part of speech" dd={word.lexical.partOfSpeech} />
-                  <GlanceRow
-                    dt="Pronunciation"
-                    dd={<span className="font-mono">{word.pronunciation.ipa}</span>}
-                  />
+          <div className="flex flex-col gap-6">
+            <div className="rounded-sm border border-border bg-card px-5 py-[18px]">
+              <div className="mb-3 font-mono text-2xs font-medium text-seal uppercase tracking-[0.2em]">
+                At a glance
+              </div>
+              <dl className="flex flex-col">
+                <GlanceRow dt="Part of speech" dd={word.lexical.partOfSpeech} />
+                <GlanceRow dt="Pronunciation" dd={word.pronunciation.ipa} />
+                {word.pronunciation.respelling && (
                   <GlanceRow dt="Respelling" dd={word.pronunciation.respelling} />
-                  <GlanceRow
-                    dt="Register"
-                    dd={
-                      registerTier != null ? (
-                        <TierChip tier={registerTier} />
-                      ) : (
-                        word.lexical.register.join(' · ')
-                      )
-                    }
-                  />
-                  {frequency != null && <GlanceRow dt="Frequency" dd={frequency.band} />}
-                </dl>
-                {frequencySeries.length > 1 && (
-                  <div className="mt-5">
-                    <div className="font-mono text-[10.5px] text-muted-foreground uppercase tracking-[0.12em]">
-                      Frequency{firstYear != null ? ` · ${firstYear}–${lastYear}` : ''}
-                    </div>
-                    <Sparkline
-                      className="mt-2"
-                      values={frequencySeries}
-                      startLabel={firstYear ?? undefined}
-                      endLabel={lastYear ?? undefined}
-                    />
-                    {frequency?.trendNote != null && (
-                      <p className="mt-2 text-[12px] text-muted-foreground leading-snug">
-                        {frequency.trendNote}
-                      </p>
-                    )}
-                  </div>
                 )}
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>On this page</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ul className="flex list-none flex-col gap-2 p-0">
-                  {SECTIONS.map(([id, label]) => (
-                    <li key={id}>
-                      <a
-                        href={`#${id}`}
-                        className="text-[13.5px] text-muted-foreground no-underline transition-colors hover:text-foreground"
-                      >
-                        {label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+                <GlanceRow dt="Register" dd={registerLabel} />
+                {frequency != null && <GlanceRow dt="Frequency" dd={frequency.band} />}
+                <GlanceRow dt="Added" dd={added} />
+              </dl>
+              {frequencySeries.length > 1 && (
+                <div className="mt-[14px] border-border-subtle border-t pt-4">
+                  <div className="font-mono text-2xs text-subtle-foreground uppercase tracking-[0.1em]">
+                    Frequency{firstYear != null ? ` · ${firstYear}–${lastYear}` : ''}
+                  </div>
+                  <Sparkline
+                    className="mt-2.5"
+                    values={frequencySeries}
+                    startLabel={firstYear ?? undefined}
+                    endLabel={lastYear ?? undefined}
+                  />
+                  {frequency?.trendNote != null && (
+                    <p className="mt-2.5 font-sans text-[12px] text-muted-foreground leading-[1.5]">
+                      {frequency.trendNote}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="rounded-sm border border-border bg-card px-5 py-[18px]">
+              <div className="mb-3 font-mono text-2xs font-medium text-seal uppercase tracking-[0.2em]">
+                On this page
+              </div>
+              <ul className="flex list-none flex-col gap-px p-0">
+                {SECTIONS.map(([id, label]) => (
+                  <li key={id}>
+                    <a
+                      href={`#${id}`}
+                      className="-mx-3 block rounded-[5px] border-transparent border-l-2 px-3 py-[7px] font-sans text-[13.5px] text-muted-foreground no-underline transition-colors hover:border-seal hover:bg-accent hover:text-seal"
+                    >
+                      {label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </aside>
       </div>
