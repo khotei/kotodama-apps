@@ -1,9 +1,18 @@
 import type { ReadyWord, WordStateModel } from '@kotodama/store'
 
 // Design-stage fixtures (mirror the handoff's Word artboards) so every screen
-// state is reachable WITHOUT a backend: mariposa → ready, empalagar →
-// generating, resquemor → queued, merendar → failed. getWordState consults
-// these only after the real fetch came up empty — a live backend always wins.
+// state is reachable WITHOUT a backend. getWordState consults these only after
+// the real fetch came up empty — a live backend always wins.
+//
+// REVIEW MAP — how to reach each word state (design: word.html):
+//   ready       /words/es/mariposa    (the full artboard entry — all sections)
+//   generating  /words/es/empalagar   (2 done · 1 spinning · 2 pending, skeleton draft)
+//   queued      /words/es/resquemor   (same view, every stage pending)
+//   failed      /words/es/merendar    (error: timed_out · step 3 of 5, Try again form)
+//   not-found   /words/es/alfombrilla — any word absent from this map (Create CTA)
+//   loading     the streaming fallback — flashes on a slow soft navigation only
+//   ready (derived)  sobremesa · madrugar · estrenar · friolero · anteayer · tutear —
+//                    mariposa's body with word/gloss swapped (see WORD_STATE_MOCKS_ALL)
 export const WORD_STATE_MOCKS: Readonly<Record<string, WordStateModel>> = {
   mariposa: {
     kind: 'ready',

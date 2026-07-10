@@ -2,6 +2,15 @@ import type { SearchWordView } from '@kotodama/use-cases'
 
 // Design-stage fixture (mirrors the handoff's Search screen) — same seam as
 // library.mock.ts: a backend search endpoint replaces this list.
+//
+// REVIEW MAP — how to reach each /search state (design: search.html):
+//   browse + pagination   /search                 (10 words, page 1–2, SORTED BY ADDED)
+//   matches + highlight   type "mar"              (1 match, query wash on the syllable)
+//   no-results            type "alfombrilla"      (Generate “alfombrilla” CTA → word route)
+//   saved-empty           /search?saved=1 + pos "Adjective"  (no saved adjectives →
+//                         bookmark glyph + Clear filters)  — or toggle "Saved only" by hand
+//   row statuses          empalagar=generating · resquemor=queued · merendar=failed;
+//                         saved rows carry the filled bookmark
 const word = (
   name: string,
   view: Omit<SearchWordView, 'href' | 'word' | 'addedRank'>,

@@ -1,8 +1,20 @@
 import type { LibraryView } from '@kotodama/use-cases'
 
 // Design-stage fixture (mirrors the Claude Design handoff's Library screen).
-// The backend has no library/WOTD/activity endpoints yet — when they land,
-// library.loader.ts swaps this for repositories reads; the view types stay.
+// The backend has no library/WOTD/activity endpoints yet — when they land, a
+// src/server loader replaces this import; the view types stay.
+//
+// REVIEW MAP — what to poke on / (design: library.html):
+//   WOTD carousel      prev/next arrows cycle 01–04 (mariposa → sobremesa →
+//                      madrugar → friolero), counter + card swap together
+//   save ritual        Save → Undo toast; Saved → AlertDialog → Remove → Undo toast
+//   reading room       "Recently added": empalagar=generating badge · resquemor=queued ·
+//                      merendar=failed with live Retry (re-queue toast) · saved rows
+//                      carry the filled bookmark; rows link into the word states
+//   hero search        submits to /search?q=…; ⌘K (or the trigger / mobile Jump tab)
+//                      opens the palette; its Generate row routes to not-found → Create
+//   chrome             language menu: French/German → "isn't available" toast;
+//                      mode menu: light / auto / dark
 export const LIBRARY_VIEW_MOCK: LibraryView = {
   stats: [
     { value: '10', label: 'words in your library' },
