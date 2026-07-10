@@ -21,9 +21,13 @@ export {
 export { LibraryHero, type LibraryHeroProps } from './library/library-hero'
 export { ListenButton, type ListenButtonProps } from './library/listen-button.client'
 export { ReadingRoom, type ReadingRoomProps } from './library/reading-room'
-export { WordOfTheDay, type WordOfTheDayProps } from './library/word-of-the-day'
+export { WordOfTheDay, type WordOfTheDayProps } from './library/word-of-the-day.client'
 export type { SearchPos, SearchWordView } from './search/search.view'
 export { SearchPage, type SearchPageProps } from './search/search-page.client'
+export {
+  RetryWordButton,
+  type RetryWordButtonProps,
+} from './words/retry-word-button.client'
 export { SaveWordButton, type SaveWordButtonProps } from './words/save-word-button.client'
 export {
   WordFailedView,

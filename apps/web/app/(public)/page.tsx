@@ -1,6 +1,7 @@
 import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/use-cases'
 import type { Metadata } from 'next'
 import { LIBRARY_VIEW_MOCK } from '@/src/library/library.mock'
+import { requestWordBuild } from '@/src/server/words/word.actions'
 
 export const metadata: Metadata = {
   title: 'Library',
@@ -13,8 +14,12 @@ export default function LibraryPage() {
   return (
     <>
       <LibraryHero stats={library.stats} tryWords={library.tryWords} searchPath="/search" />
-      <WordOfTheDay wotd={library.wordOfTheDay} position={library.wotdPosition} />
-      <ReadingRoom mostLookedUp={library.mostLookedUp} recentlyAdded={library.recentlyAdded} />
+      <WordOfTheDay wotds={library.wordsOfTheDay} />
+      <ReadingRoom
+        mostLookedUp={library.mostLookedUp}
+        recentlyAdded={library.recentlyAdded}
+        retryAction={requestWordBuild}
+      />
     </>
   )
 }

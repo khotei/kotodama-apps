@@ -1,5 +1,8 @@
+'use client'
+
 import { Badge, Button, Card, CardContent, SectionRule, Sparkline } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { useState } from 'react'
 import { SaveWordButton } from '../words/save-word-button.client'
 import { AccentedWordMark } from './accented-word'
 import { accentedWordText, type WotdView } from './library.view'
@@ -12,24 +15,45 @@ const TIER_DOT: Record<string, string> = {
   rare: 'bg-tier-rare',
 }
 
+const pad = (n: number) => String(n).padStart(2, '0')
+
 export type WordOfTheDayProps = {
-  wotd: WotdView
-  /** Carousel position label — `01 / 04`. Navigation arrives with the carousel island. */
-  position: string
+  /** The rotation, newest first; prev/next wrap around it. */
+  wotds: readonly WotdView[]
 }
 
-export function WordOfTheDay({ wotd, position }: WordOfTheDayProps) {
+export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
+  const [index, setIndex] = useState(0)
+  const count = wotds.length
+  const wotd = wotds[index]
+  if (wotd == null) return null
+  const step = (delta: number) => setIndex((i) => (i + delta + count) % count)
+
   return (
     <section className="mt-16">
       <SectionRule
         label="Word of the day"
         meta={
           <>
-            <span>{position}</span>
-            <Button variant="outline" size="icon-sm" aria-label="Previous" disabled>
+            <span>
+              {pad(index + 1)} / {pad(count)}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label="Previous"
+              disabled={count < 2}
+              onClick={() => step(-1)}
+            >
               <ArrowLeftIcon />
             </Button>
-            <Button variant="outline" size="icon-sm" aria-label="Next" disabled>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              aria-label="Next"
+              disabled={count < 2}
+              onClick={() => step(1)}
+            >
               <ArrowRightIcon />
             </Button>
           </>

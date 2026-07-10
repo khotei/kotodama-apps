@@ -1,3 +1,4 @@
+import type { Language } from '@kotodama/store'
 import type { WordStatus, WordTier } from '@kotodama/ui'
 
 /** A word with an optionally stressed syllable — `mari·po·sa` → pre/stress/post. */
@@ -46,6 +47,8 @@ export type WotdView = {
 
 export type RankedWordView = {
   href: string
+  /** Needed only where a row action fires (failed → Retry) — `es`. */
+  language?: Language
   word: AccentedWord
   gloss?: string
   pos?: string
@@ -59,8 +62,7 @@ export type RankedWordView = {
 export type LibraryView = {
   stats: readonly LibraryStat[]
   tryWords: readonly TryWordView[]
-  wordOfTheDay: WotdView
-  wotdPosition: string
+  wordsOfTheDay: readonly WotdView[]
   mostLookedUp: readonly RankedWordView[]
   recentlyAdded: readonly RankedWordView[]
 }

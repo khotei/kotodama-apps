@@ -1,17 +1,29 @@
+import type { Language } from '@kotodama/store'
 import { Badge, Button, RankRow, SectionRule, StatusBadge } from '@kotodama/ui'
 import { BookmarkIcon, RotateCcwIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { RetryWordButton } from '../words/retry-word-button.client'
 import { AccentedWordMark } from './accented-word'
-import type { RankedWordView } from './library.view'
+import { accentedWordText, type RankedWordView } from './library.view'
 
-function rowMeta(row: RankedWordView) {
+type RetryAction = (language: Language, word: string) => Promise<void>
+
+function rowMeta(row: RankedWordView, retryAction?: RetryAction) {
   const when = <span className="font-mono text-[11px] text-muted-foreground">{row.when}</span>
   if (row.status === 'failed') {
     return (
       <>
-        <Button variant="outline" size="sm">
-          <RotateCcwIcon /> Retry
-        </Button>
+        {retryAction != null && row.language != null ? (
+          <RetryWordButton
+            language={row.language}
+            word={accentedWordText(row.word)}
+            retryAction={retryAction}
+          />
+        ) : (
+          <Button variant="outline" size="sm">
+            <RotateCcwIcon /> Retry
+          </Button>
+        )}
         {when}
       </>
     )
@@ -38,7 +50,15 @@ function rowMeta(row: RankedWordView) {
   )
 }
 
-function RankedList({ rows, numbered }: { rows: readonly RankedWordView[]; numbered: boolean }) {
+function RankedList({
+  rows,
+  numbered,
+  retryAction,
+}: {
+  rows: readonly RankedWordView[]
+  numbered: boolean
+  retryAction?: RetryAction
+}) {
   return (
     <ol className="mt-4 border-border border-t">
       {rows.map((row, index) => (
@@ -49,7 +69,7 @@ function RankedList({ rows, numbered }: { rows: readonly RankedWordView[]; numbe
             word={<AccentedWordMark word={row.word} />}
             gloss={row.status === 'ready' ? row.gloss : undefined}
             note={row.status !== 'ready' ? row.statusNote : undefined}
-            meta={rowMeta(row)}
+            meta={rowMeta(row, retryAction)}
           />
         </li>
       ))}
@@ -74,9 +94,11 @@ function Column({ title, sub, children }: { title: ReactNode; sub: string; child
 export type ReadingRoomProps = {
   mostLookedUp: readonly RankedWordView[]
   recentlyAdded: readonly RankedWordView[]
+  /** Injected Server Action for failed rows' Retry — `requestWordBuild`. */
+  retryAction?: RetryAction
 }
 
-export function ReadingRoom({ mostLookedUp, recentlyAdded }: ReadingRoomProps) {
+export function ReadingRoom({ mostLookedUp, recentlyAdded, retryAction }: ReadingRoomProps) {
   return (
     <section className="mt-16 pb-20">
       <SectionRule label="The reading room" meta="Recent activity · updates hourly" />
@@ -99,7 +121,7 @@ export function ReadingRoom({ mostLookedUp, recentlyAdded }: ReadingRoomProps) {
           }
           sub="The newest entries Kotodama has written into your library."
         >
-          <RankedList rows={recentlyAdded} numbered={false} />
+          <RankedList rows={recentlyAdded} numbered={false} retryAction={retryAction} />
         </Column>
       </div>
     </section>
