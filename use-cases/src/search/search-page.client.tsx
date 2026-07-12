@@ -1,5 +1,6 @@
 'use client'
 
+import { StatusNote } from '@kotodama/core'
 import {
   Button,
   cn,
@@ -20,7 +21,6 @@ import {
   XIcon,
 } from 'lucide-react'
 import { type ReactNode, useMemo, useState } from 'react'
-import { StatusNote } from '../words/status-note'
 import type { SearchPos, SearchWordView } from './search.view'
 
 const pad2 = (n: number) => String(n).padStart(2, '0')

@@ -10,13 +10,17 @@ Packages (leaves — import nothing internal):
   packages/ui           web design system: Tailwind v4 + shadcn primitives + @theme tokens  [web-only]
 
 Top-level tiers (one-way linear chain, mirrors the backend):
-  api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web
+  api-client ◄ repositories ◄ store ◄ core ◄ use-cases ◄ apps/web
 ```
 
 - **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `api-client`,
-  `repositories`, `store`. **Web-only:** `ui`, `use-cases`, `apps/web`. The web↔native line falls
-  **below `use-cases`**: `use-cases` renders (DOM), so it does NOT port; a native app reuses only the
-  agnostic spine and builds its own feature/render tier on top.
+  `repositories`, `store`. **Web-only:** `ui`, `core`, `use-cases`, `apps/web`. The web↔native line
+  falls **below `core`**: `core`/`use-cases` render (DOM), so they do NOT port; a native app reuses
+  only the agnostic spine and builds its own domain + feature tiers on top.
+- **`core` is the web-only DOMAIN tier:** small, composable domain-aware pieces (per-domain folder
+  `core/src/<domain>/`, mirroring the backend's `core/*`) over `@kotodama/ui` + `@kotodama/store`
+  models, which `use-cases` composes into feature assemblies. May import `ui`/`store`; never
+  `use-cases`/`apps`/`repositories`/`config`/`next`.
 - **`use-cases` is the web-only FEATURE tier:** domain-aware assemblies (RSC views + `'use client'`
   islands) composed from `ui` primitives + `store` models. **Next-free + prop-driven** — it sits below
   the app, so it can't import the app's loaders/actions (upward); the app injects everything

@@ -20,10 +20,10 @@ openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. No Effect on 
 packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
 packages/ui           web design system (Tailwind v4 + shadcn primitives + @theme tokens)  [leaf · web-only]
 
-api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web   (repositories = fetchX + entity types,
-                                                           store = domain model, use-cases = web-only
-                                                           feature assemblies, apps/web = Next shell +
-                                                           server data layer)
+api-client ◄ repositories ◄ store ◄ core ◄ use-cases ◄ apps/web   (repositories = fetchX + entity
+                                                           types, store = domain model, core = web-only
+                                                           domain pieces, use-cases = feature
+                                                           assemblies, apps/web = Next shell + data layer)
 ```
 
 Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`. Web-only:

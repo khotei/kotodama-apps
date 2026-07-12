@@ -1,11 +1,11 @@
 'use client'
 
+import { AccentedWordMark, accentedWordText } from '@kotodama/core'
 import { Button, Sparkline } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
 import { SaveWordButton } from '../words/save-word-button.client'
-import { AccentedWordMark } from './accented-word'
-import { accentedWordText, type GlanceText, type WotdView } from './library.view'
+import type { GlanceText, WotdView } from './library.view'
 import { ListenButton } from './listen-button.client'
 
 function Glance({ value }: { value: GlanceText }) {

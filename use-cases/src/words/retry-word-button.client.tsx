@@ -1,9 +1,9 @@
 'use client'
 
+import { RetryLink } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
-import { RetryLink } from './retry-link'
 
 export type RetryWordButtonProps = {
   language: Language

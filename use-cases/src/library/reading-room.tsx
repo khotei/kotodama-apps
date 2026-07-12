@@ -1,12 +1,10 @@
+import { AccentedWordMark, accentedWordText, RetryLink, StatusNote } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import { RankRow, SectionRule, StatusBadge } from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { RetryLink } from '../words/retry-link'
 import { RetryWordButton } from '../words/retry-word-button.client'
-import { StatusNote } from '../words/status-note'
-import { AccentedWordMark } from './accented-word'
-import { accentedWordText, type RankedWordView } from './library.view'
+import type { RankedWordView } from './library.view'
 
 type RetryAction = (language: Language, word: string) => Promise<void>
 

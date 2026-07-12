@@ -1,5 +1,5 @@
 {
-  "name": "@kotodama/use-cases",
+  "name": "@kotodama/core",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -13,11 +13,7 @@
     "test": "bun --bun vitest run"
   },
   "dependencies": {
-    "@kotodama/core": "workspace:*",
-    "@kotodama/store": "workspace:*",
-    "@kotodama/ui": "workspace:*",
-    "react-use": "catalog:react",
-    "sonner": "catalog:style"
+    "@kotodama/ui": "workspace:*"
   },
   "peerDependencies": {
     "react": "catalog:react"

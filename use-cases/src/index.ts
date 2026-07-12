@@ -4,19 +4,17 @@
 // (all serializable across the RSC boundary). A future web module reuses these with
 // its own Next wiring; the DOM-bound render layer does NOT port to native.
 
+export { type AccentedWord, AccentedWordMark, accentedWordText } from '@kotodama/core'
 export { CommandPalette, type CommandPaletteProps } from './chrome/command-palette.client'
 export { type MobileTab, MobileTabBar, type MobileTabBarProps } from './chrome/mobile-tab-bar'
 export { SiteHeader, type SiteHeaderProps, type SiteNavLink } from './chrome/site-header'
-export { AccentedWordMark } from './library/accented-word'
-export {
-  type AccentedWord,
-  accentedWordText,
-  type LibraryStat,
-  type LibraryView,
-  type RankedWordView,
-  type TryWordView,
-  type WotdGlanceView,
-  type WotdView,
+export type {
+  LibraryStat,
+  LibraryView,
+  RankedWordView,
+  TryWordView,
+  WotdGlanceView,
+  WotdView,
 } from './library/library.view'
 export { LibraryHero, type LibraryHeroProps } from './library/library-hero'
 export { ListenButton, type ListenButtonProps } from './library/listen-button.client'

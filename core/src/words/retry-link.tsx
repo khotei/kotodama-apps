@@ -6,8 +6,8 @@ const retryLinkClass =
 
 /**
  * The quiet mono retry affordance. A plain (non-`'use client'`) module so a
- * server component can render it directly — importing a value from a
- * `'use client'` module into an RSC yields a client-reference proxy, not the string.
+ * server component can render it too — importing a value from a `'use client'`
+ * module into an RSC yields a client-reference proxy, not the string.
  */
 export function RetryLink({ type = 'button', className, ...props }: ComponentProps<'button'>) {
   return <button type={type} className={cn(retryLinkClass, className)} {...props} />

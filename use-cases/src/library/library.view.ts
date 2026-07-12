@@ -1,12 +1,6 @@
+import type { AccentedWord } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import type { WordStatus, WordTier } from '@kotodama/ui'
-
-/** A word with an optionally stressed syllable — `mari·po·sa` → pre/stress/post. */
-export type AccentedWord = {
-  pre: string
-  stress?: string
-  post?: string
-}
 
 export type LibraryStat = {
   value: string
@@ -71,8 +65,4 @@ export type LibraryView = {
   wordsOfTheDay: readonly WotdView[]
   mostLookedUp: readonly RankedWordView[]
   recentlyAdded: readonly RankedWordView[]
-}
-
-export function accentedWordText({ pre, stress = '', post = '' }: AccentedWord) {
-  return `${pre}${stress}${post}`
 }
