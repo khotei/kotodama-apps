@@ -45,10 +45,10 @@ export function SiteHeader({
 }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
-      <div className="mx-auto hidden h-[76px] max-w-[1160px] items-center justify-between px-10 md:flex">
-        <div className="flex items-center gap-10">
+      <div className="mx-auto hidden h-[76px] max-w-[1160px] items-center justify-between px-5 md:flex lg:px-10">
+        <div className="flex items-center gap-6 lg:gap-10">
           <Wordmark href={homeHref} />
-          <nav className="flex items-center gap-[30px]">
+          <nav className="flex items-center gap-5 lg:gap-[30px]">
             {nav.map(({ label, href, active }) => (
               <a
                 key={href}

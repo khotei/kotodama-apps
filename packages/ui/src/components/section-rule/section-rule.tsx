@@ -18,7 +18,7 @@ export function SectionRule({ label, meta, className, ...props }: SectionRulePro
       </span>
       <span className="h-px flex-1 bg-border-strong" />
       {meta != null && (
-        <span className="flex items-center gap-2 whitespace-nowrap font-sans text-[12px] leading-none text-subtle-foreground">
+        <span className="flex min-w-0 items-center gap-2 font-sans text-[12px] leading-tight text-subtle-foreground">
           {meta}
         </span>
       )}
