@@ -247,6 +247,28 @@
   }
 }
 
+/* Paper-grain overlay — the app shell mounts `.kdm-grain` on a fixed layer;
+   the recipe lives here so consumers author no raw colour. */
+@layer utilities {
+  .kdm-grain {
+    background-image:
+      radial-gradient(rgba(24, 21, 26, 0.02) 1px, transparent 1px),
+      radial-gradient(rgba(24, 21, 26, 0.013) 1px, transparent 1px);
+    background-size:
+      3px 3px,
+      7px 7px;
+    background-position:
+      0 0,
+      1px 2px;
+    opacity: var(--grain-opacity);
+  }
+  .dark .kdm-grain {
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      radial-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  }
+}
+
 /* House keyframes (design kdm-base.css) — referenced by components via
    `animate-[kdm-…]` arbitrary values, defined once here. */
 @keyframes kdm-shimmer {

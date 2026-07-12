@@ -59,7 +59,7 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
           <div className="flex items-center gap-[7px]" role="tablist" aria-label="Words of the day">
             {wotds.map((w, i) => (
               <button
-                key={w.entryHref}
+                key={w.dateTag}
                 type="button"
                 role="tab"
                 aria-selected={i === index}
