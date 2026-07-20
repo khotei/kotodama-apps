@@ -1,56 +1,142 @@
 @import "tailwindcss";
 
+/* The design system owns its content globs, resolved relative to THIS file, so
+   any consumer just `@import "@kotodama/ui/styles.css"` — no path knowledge, no
+   ../../../ escape out of the app into this package. */
+@source "./**/*.{ts,tsx}";
+
 /* The design-system Tailwind entry. apps/web (and Storybook) import THIS as the
    single stylesheet — Tailwind + the dark variant + the STANDARD shadcn token
    set + the utility mapping. Components (ours and any pulled via `bunx shadcn
    add`) speak semantic utilities (`bg-card`, `text-muted-foreground`) — never
-   raw color — the web↔native seam. Brand: `--primary` is Kotodama purple. */
+   raw color — the web↔native seam.
+
+   Values mirror the design source kotodama/kdm-tokens.css VERBATIM (hex/rgba,
+   not oklch re-encodings — zero conversion drift). Light = washi paper + sumi
+   ink; dark = sumi ground + paper light. shadcn mapping decisions:
+   `--primary` = the ink/inverse ground (the design's solid button), `--accent`
+   = the cinnabar WASH (design --accent-subtle: ghost hovers, menu highlights,
+   selection), and the solid cinnabar 朱 lives in the `--seal` family. */
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.45 0.18 293);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.45 0.18 293);
+  --radius: 0.75rem; /* design r-lg 12px; sm/md/lg/xl → 8/10/12/16 */
+
+  --background: #f2ecde; /* washi page */
+  --foreground: #18151a; /* sumi ink */
+  --card: #f8f3e7; /* bg-surface: cards, inputs */
+  --card-foreground: #18151a;
+  --popover: #fcfaf1; /* bg-elevated: dialogs, raised */
+  --popover-foreground: #18151a;
+  --primary: #161318; /* bg-inverse — the solid button ground */
+  --primary-foreground: #f2ecde;
+  --secondary: #e9e1cf; /* bg-sunken: seg tracks, kbd, tags */
+  --secondary-foreground: #18151a;
+  --muted: #e9e1cf;
+  --muted-foreground: #6b6356;
+  --accent: rgba(193, 69, 46, 0.1); /* cinnabar wash — hover/highlight ground */
+  --accent-foreground: #18151a;
+  --destructive: #a6371f;
+  --destructive-foreground: #fbf5ec;
+  --border: #dcd2bd;
+  --input: #dcd2bd;
+  --ring: #c1452e;
+
+  /* Extension tokens (design kdm-tokens.css): the cinnabar seal 朱 family —
+     brand mark AND the accent action hue (never --primary: solid buttons are
+     ink; cinnabar is hover/emphasis) — plus indigo 藍 brand-secondary, gold,
+     the statuses the core set lacks, fg/border depth steps, and the 4-way
+     register scale (shared L·C, hue varies — the --chart-N pattern). */
+  --seal: #c1452e;
+  --seal-foreground: #fbf5ec;
+  --seal-emphasis: #a6371f;
+  --seal-soft: #d46a4f;
+  --seal-line: rgba(193, 69, 46, 0.28);
+  --brand: #2e3491;
+  --brand-soft: #5a60be;
+  --brand-subtle: rgba(46, 52, 145, 0.09);
+  --gold: #b0863a;
+  --success: #2c7a53;
+  --success-foreground: #fbf5ec;
+  --success-subtle: rgba(44, 122, 83, 0.11);
+  --warning: #b07a1b;
+  --warning-foreground: #fbf5ec;
+  --warning-subtle: rgba(176, 122, 27, 0.12);
+  --destructive-subtle: rgba(166, 55, 31, 0.09);
+  --subtle-foreground: #8a8170;
+  --faint-foreground: #b4ab95;
+  --border-subtle: #e7dfcd;
+  --border-strong: #c5baa0;
+  --tier-everyday: #3f8466;
+  --tier-cultural: #6b4fae;
+  --tier-formal: #2e3491;
+  --tier-rare: #b0863a;
+
+  --sh-soft: 0 1px 0 rgba(24, 21, 26, 0.04), 0 8px 28px -14px rgba(24, 21, 26, 0.16);
+  --sh-hero:
+    0 1px 0 rgba(24, 21, 26, 0.04), 0 26px 64px -30px rgba(24, 21, 26, 0.22),
+    0 8px 22px -12px rgba(24, 21, 26, 0.1);
+  --sh-pop:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset, 0 30px 70px -34px rgba(24, 21, 26, 0.4),
+    0 12px 28px -16px rgba(24, 21, 26, 0.2);
+  --grain-opacity: 0.55;
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.62 0.19 293);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.62 0.19 293);
+  --background: #151318; /* sumi ground */
+  --foreground: #ede7da; /* paper light */
+  --card: #1d1b22;
+  --card-foreground: #ede7da;
+  --popover: #25222b;
+  --popover-foreground: #ede7da;
+  --primary: #f2ecde;
+  --primary-foreground: #18151a;
+  --secondary: #100e13;
+  --secondary-foreground: #ede7da;
+  --muted: #100e13;
+  --muted-foreground: #a39c8e;
+  --accent: rgba(226, 106, 76, 0.14);
+  --accent-foreground: #ede7da;
+  --destructive: #ed7e60;
+  --destructive-foreground: #fbf5ec;
+  --border: #2d2a35;
+  --input: #2d2a35;
+  --ring: #e26a4c;
+
+  --seal: #e26a4c; /* cinnabar lifts on dark */
+  --seal-foreground: #fbf5ec;
+  --seal-emphasis: #ed7e60;
+  --seal-soft: #c1452e;
+  --seal-line: rgba(226, 106, 76, 0.34);
+  --brand: #8e94ec;
+  --brand-soft: #6c72d6;
+  --brand-subtle: rgba(142, 148, 236, 0.14);
+  --gold: #d2a559;
+  --success: #45b07e;
+  --success-foreground: #151318;
+  --success-subtle: rgba(69, 176, 126, 0.14);
+  --warning: #dda646;
+  --warning-foreground: #151318;
+  --warning-subtle: rgba(221, 166, 70, 0.14);
+  --destructive-subtle: rgba(237, 126, 96, 0.14);
+  --subtle-foreground: #847c70;
+  --faint-foreground: #5b5550;
+  --border-subtle: #242230;
+  --border-strong: #3d3947;
+  --tier-everyday: #5bb58c;
+  --tier-cultural: #a593e0;
+  --tier-formal: #8e94ec;
+  --tier-rare: #d2a559;
+
+  --sh-soft: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px -16px rgba(0, 0, 0, 0.6);
+  --sh-hero:
+    0 1px 0 rgba(0, 0, 0, 0.3), 0 28px 70px -30px rgba(0, 0, 0, 0.75),
+    0 8px 22px -12px rgba(0, 0, 0, 0.45);
+  --sh-pop:
+    0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 34px 80px -34px rgba(0, 0, 0, 0.85),
+    0 12px 30px -16px rgba(0, 0, 0, 0.55);
+  --grain-opacity: 0.3;
 }
 
 /* inline: values reference other CSS vars, so Tailwind must reference (not
@@ -77,9 +163,75 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-subtle: var(--destructive-subtle);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-seal: var(--seal);
+  --color-seal-foreground: var(--seal-foreground);
+  --color-seal-emphasis: var(--seal-emphasis);
+  --color-seal-soft: var(--seal-soft);
+  --color-seal-line: var(--seal-line);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-gold: var(--gold);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-faint-foreground: var(--faint-foreground);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-tier-everyday: var(--tier-everyday);
+  --color-tier-cultural: var(--tier-cultural);
+  --color-tier-formal: var(--tier-formal);
+  --color-tier-rare: var(--tier-rare);
+
+  --shadow-soft: var(--sh-soft);
+  --shadow-hero: var(--sh-hero);
+  --shadow-pop: var(--sh-pop);
+
+  /* Type scale = the design's --fs-* verbatim (design has no 24px step:
+     2xl jumps to 30 and the display steps are 44/64/104/160). */
+  --text-2xs: 10.5px;
+  --text-2xs--line-height: 1.5;
+  --text-xs: 11.5px;
+  --text-xs--line-height: 1.5;
+  --text-sm: 13px;
+  --text-sm--line-height: 1.5;
+  --text-base: 15px;
+  --text-base--line-height: 1.5;
+  --text-lg: 18px;
+  --text-lg--line-height: 1.45;
+  --text-xl: 22px;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 30px;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 44px;
+  --text-3xl--line-height: 1.1;
+  --text-4xl: 64px;
+  --text-4xl--line-height: 1.05;
+  --text-5xl: 104px;
+  --text-5xl--line-height: 1;
+  --text-6xl: 160px;
+  --text-6xl--line-height: 1;
+
+  /* Motion: the design's house easing + durations. */
+  --ease-kdm: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Fonts resolve through the next/font seam: apps/web injects
+     --font-fraunces/--font-inter/--font-jetbrains-mono on <html> via next/font;
+     outside Next (Storybook loads the same families in preview-head.html) the
+     var() fallback + named-family stack serves them. */
+  --font-serif: var(--font-fraunces, "Fraunces"), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-inter, "Inter"), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, "JetBrains Mono"), ui-monospace, Menlo, monospace;
 }
 
 @layer base {
@@ -87,6 +239,82 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground text-base antialiased;
+  }
+  ::selection {
+    background: var(--seal);
+    color: var(--seal-foreground);
+  }
+}
+
+/* Paper-grain overlay — the app shell mounts `.kdm-grain` on a fixed layer;
+   the recipe lives here so consumers author no raw colour. */
+@layer utilities {
+  .kdm-grain {
+    background-image:
+      radial-gradient(rgba(24, 21, 26, 0.02) 1px, transparent 1px),
+      radial-gradient(rgba(24, 21, 26, 0.013) 1px, transparent 1px);
+    background-size:
+      3px 3px,
+      7px 7px;
+    background-position:
+      0 0,
+      1px 2px;
+    opacity: var(--grain-opacity);
+  }
+  .dark .kdm-grain {
+    background-image:
+      radial-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      radial-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  }
+}
+
+/* House keyframes (design kdm-base.css) — referenced by components via
+   `animate-[kdm-…]` arbitrary values, defined once here. */
+@keyframes kdm-shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes kdm-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes kdm-dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+@keyframes kdm-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+@keyframes kdm-seal-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+@keyframes kdm-reveal-up {
+  from {
+    transform: translateY(16px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes kdm-rk-shimmer {
+  to {
+    background-position: -220% 0;
   }
 }
