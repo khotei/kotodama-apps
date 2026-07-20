@@ -13,7 +13,7 @@ const STATUS_LABEL: Record<WordCardProps['status'], string> = {
   failed: 'Failed',
 }
 
-export interface WordCardProps {
+export type WordCardProps = {
   word: string
   language: string
   status: 'pending' | 'running' | 'succeeded' | 'failed'
@@ -23,18 +23,24 @@ export interface WordCardProps {
 export function WordCard({ word, language, status, coreDefinition }: WordCardProps) {
   return (
     <Card className="max-w-lg">
-      <CardHeader className="flex-row items-center justify-between gap-2">
-        <h1 className="text-lg font-semibold leading-none tracking-tight">{word}</h1>
-        <Badge variant="secondary" className="uppercase">
+      <CardHeader className="flex-row items-start justify-between gap-2.5">
+        <h1 className="font-serif text-[26px] font-medium leading-[1.1] tracking-[-0.015em]">
+          {word}
+        </h1>
+        <Badge variant="secondary" className="font-mono uppercase">
           {language}
         </Badge>
       </CardHeader>
       <CardContent>
-        <p className="mb-4 text-sm text-muted-foreground">{STATUS_LABEL[status]}</p>
+        <p className="mb-4 font-mono text-2xs text-subtle-foreground uppercase tracking-[0.14em]">
+          {STATUS_LABEL[status]}
+        </p>
         {coreDefinition ? (
-          <p>{coreDefinition}</p>
+          <p className="font-serif text-[16px] leading-relaxed">{coreDefinition}</p>
         ) : (
-          <p className="text-muted-foreground italic">Definition is still being generated.</p>
+          <p className="font-serif text-[16px] text-muted-foreground italic">
+            Definition is still being generated.
+          </p>
         )}
       </CardContent>
     </Card>
