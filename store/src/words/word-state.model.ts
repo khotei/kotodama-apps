@@ -6,8 +6,12 @@ import type { WordStateEntity } from '@kotodama/repositories'
 // generated type is a plain union with a `status` literal on each branch. We
 // narrow on that literal into a tagged, ergonomic model the render layer can
 // switch on without re-touching the wire shape. Pure — no React, no transport,
-// no DOM. Co-located with `wordQueryOptions` (the query it shapes), mirroring
-// the backend's `word-state-collapse.ts` sitting beside its handler.
+// no DOM. Mirrors the backend's `word-state-collapse.ts`; the server loader in
+// apps/web calls it after fetching the wire state.
+
+/** The full wire status union (`pending | running | succeeded | failed`). The poll
+ *  island reads this off the raw `/state` response to decide when to stop. */
+export type WordBuildStatus = WordStateEntity['status']
 
 /** The two arms of the generated union, recovered by their `status` literal. */
 type SucceededState = Extract<WordStateEntity, { status: 'succeeded' }>
