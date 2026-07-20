@@ -9,9 +9,10 @@ backend's `words` HTTP API; the ONLY bridge is a typed client generated from
 ## Runtime
 
 **Bun 1.3** (pinned via `packageManager`, runs `.ts` directly, `linker="hoisted"`) · **TypeScript
-strict, DOM-free base** · **React 19** · **Next 16 (App Router, Turbopack)** · **TanStack Query +
-Form** · **Tailwind v4 + shadcn/ui** · **openapi-fetch / openapi-typescript** · **Zod**. Versions
-pinned via Bun catalogs. No Effect on the frontend. Details: `.claude/rules/tooling.md`.
+strict, DOM-free base** · **React 19** · **Next 16 (App Router, Turbopack — RSC + Server Actions,
+server-first)** · **TanStack Form** · **Tailwind v4 + shadcn/ui** · **openapi-fetch /
+openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. No Effect on the frontend. Details:
+`.claude/rules/tooling.md`.
 
 ## Structure — top-level tiers (mirror the backend)
 
@@ -19,13 +20,17 @@ pinned via Bun catalogs. No Effect on the frontend. Details: `.claude/rules/tool
 packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
 packages/ui           web design system (Tailwind v4 + shadcn primitives + @theme tokens)  [leaf · web-only]
 
-api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web   (repositories = fetchX + entity types,
-                                                           store = queryOptions + model,
-                                                           use-cases = React hooks, apps/web = render)
+api-client ◄ repositories ◄ store ◄ core ◄ use-cases ◄ apps/web   (repositories = fetchX + entity
+                                                           types, store = domain model, core = web-only
+                                                           domain pieces, use-cases = feature
+                                                           assemblies, apps/web = Next shell + data layer)
 ```
 
-Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`,
-`use-cases`. Web-only: `ui`, `apps/web`. A domain is a `src/<domain>/` folder inside a tier.
+Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`. Web-only:
+`ui`, `use-cases`, `apps/web` (the web↔native line is below `use-cases`, which renders). **Server-first:**
+`apps/web` reads via RSC loaders (`src/server/*.loader.ts`) + writes via Server Actions
+(`src/server/*.actions.ts`) — no client data cache — and injects data/actions/URLs (serializable) into
+the prop-driven, Next-free `use-cases` components. A domain is a `src/<domain>/` folder inside a tier.
 Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM leak (or a DOM-bound dep) into an
 agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Biome
 `noRestrictedImports`** — tier-direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run
@@ -60,10 +65,11 @@ Cross-cutting rules load **always**; the rest are **path-scoped** via `paths:` f
 only when you touch a matching file, keeping the always-on context lean (Claude Code guidance: target
 < 200 lines of always-loaded context per file; bloat reduces adherence).
 
-- **Always:** `frontend-layering` · `tooling` · `naming` · `comments` · `commits` · `pull-requests`
-  · `claude-md`.
-- **Path-scoped:** `frontend-state` → `apps/web/src/**`, `store/**`, `repositories/**`, `use-cases/**` ·
-  `nextjs` → `apps/web/**` · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
+- **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` · `commits` ·
+  `pull-requests` · `claude-md`.
+- **Path-scoped:** `frontend-state` → `apps/web/**`, `use-cases/**`, `store/**`, `repositories/**` ·
+  `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`, `use-cases/**` (check before hand-rolling a
+  client hook) · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
   `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
   modern-typescript, type-fest, commit-examples, tailwind-shadcn.

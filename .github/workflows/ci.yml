@@ -37,11 +37,9 @@ jobs:
       - name: Install
         run: bun install --frozen-lockfile
       - name: Typecheck
+        # The @kotodama/web typecheck script feeds `next typegen` its own
+        # placeholder env (types don't depend on the value) — no env needed here.
         run: bun run tsc
-        # next.config.ts reads KOTODAMA_API_URL (rewrites); `next typegen` has a
-        # localhost fallback, but pin it so typegen is deterministic in CI.
-        env:
-          KOTODAMA_API_URL: http://localhost:3000
       - name: Lint
         run: bun run lint
 
@@ -116,14 +114,17 @@ jobs:
             './docs/**/*.md'
           fail: true
 
-  # End-to-end (Playwright) against the in-repo fake backend. Node is a required
-  # prerequisite — Playwright closed Bun support, so it runs via `bunx playwright
-  # test`, NEVER `--bun` (oven-sh/bun#8222). The current spec uses the JS-free
-  # `request` fixture so chromium isn't strictly needed, but install it so
-  # page-based specs added later work without touching CI.
+  # End-to-end (Playwright) against a REAL running app + backend — there is no
+  # in-repo fake. Like the openapi-drift gate below, this needs a live target, so
+  # it is SKIPPED until the repo variable E2E_BASE_URL points at a deployed app
+  # (backed by a real backend with the asserted word seeded + succeeded). Node is
+  # a required prerequisite — Playwright closed Bun support, so `bunx playwright
+  # test`, NEVER `--bun` (oven-sh/bun#8222). chromium is installed for page-based
+  # specs added later.
   e2e:
     name: e2e (playwright)
     runs-on: ubuntu-latest
+    if: ${{ vars.E2E_BASE_URL != '' }}
     steps:
       - uses: actions/checkout@v4
       - name: Setup Bun
@@ -147,6 +148,8 @@ jobs:
         working-directory: apps/e2e
       - name: Run e2e
         run: bun run --filter '@kotodama/e2e' test:e2e
+        env:
+          E2E_BASE_URL: ${{ vars.E2E_BASE_URL }}
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4

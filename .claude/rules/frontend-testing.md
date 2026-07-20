@@ -34,19 +34,23 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
 
 - **store model** (`narrowWordState`) — the real logic: fully unit-tested, happy + each failure
   branch.
-- **store factory** — asserts the key + `staleTime` + that `select` routes through
-  `narrowWordState` (fake the fetchX). One representative test; don't re-assert the model's branches.
-- **repositories fetchX** — one success decode + one typed error shape against a fake `fetch`
-  (the generated types already prove the response shape compiles — the type system is the test).
-- **use-cases hook** — one integration test: render `useWord` under jsdom with a fixture client,
-  assert it returns the narrowed state (exercises client → repositories → store `select` →
-  `narrowWordState`).
-- **the slice (`apps/web`)** — the load-bearing integration test: render the feature (`word-view`)
-  under jsdom with a seeded query cache, assert the presentational component (Tailwind/shadcn,
-  prop-driven) shows the word content typed by the generated client (no `any`).
-- **e2e (`apps/e2e`)** — Playwright over `next build && next start` against a fake backend: the first
-  spec asserts word content + JSON-LD in the raw SSR HTML with JS disabled (AC-9). Turbopack
-  hydration cleanliness is a manual harness check (see the feature Change log), not a committed test.
+- **repositories fetchX** — one success decode + one typed error shape against a Vitest-mocked
+  `fetch` (`vi.fn<typeof fetch>()` resolving a `Response.json(...)`; no hand-rolled fake, no nock).
+  The generated types already prove the response shape compiles — the type system is the test.
+- **use-cases feature** — render the domain view (`WordView`) under jsdom with a `WordStateModel`
+  passed as a prop (no query cache — data is RSC-resolved), assert each branch maps to the right card.
+  This tier owns the domain → view mapping.
+- **the slice (`apps/web`)** — the app-consumption integration: render a `@kotodama/use-cases`
+  component through the package boundary as the app wires it (one assertion — the package resolves +
+  renders). Branch coverage lives in use-cases; the app just proves consumption. The `server-only`
+  loader and the `.client.tsx` poll island aren't jsdom-unit-tested (server-only throws under jsdom;
+  the poll is a browser side-effect + injected props) — the loader's SSG resilience is proven by
+  `next build` going green, the slice by e2e.
+- **e2e (`apps/e2e`)** — Playwright against a running app + a REAL backend (you start both; no stub,
+  no auto-launch — `E2E_BASE_URL` points at the app): the first spec asserts the word + JSON-LD
+  STRUCTURE in the raw SSR HTML with JS disabled (AC-9), not the backend-generated definition text.
+  Turbopack hydration cleanliness is a manual harness check (see the feature Change log), not a
+  committed test.
 - **ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
   testing-library mount for assertions.
 
