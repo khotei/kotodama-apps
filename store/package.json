@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "@kotodama/api-client": "workspace:*",
-    "@kotodama/repositories": "workspace:*",
-    "@tanstack/react-query": "catalog:tanstack"
+    "@kotodama/repositories": "workspace:*"
   },
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",

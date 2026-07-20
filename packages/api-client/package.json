@@ -12,6 +12,7 @@
     "openapi-fetch": "catalog:api"
   },
   "devDependencies": {
+    "@kotodama/config": "workspace:*",
     "@kotodama/tooling": "workspace:*",
     "openapi-typescript": "catalog:api"
   },

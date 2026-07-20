@@ -1,10 +1,9 @@
+import { serverEnv } from '@kotodama/config'
 import type { MetadataRoute } from 'next'
-
-const BASE = process.env.KOTODAMA_SITE_URL ?? 'http://localhost:3000'
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/' },
-    sitemap: `${BASE}/sitemap.xml`,
+    sitemap: `${serverEnv().KOTODAMA_SITE_URL}/sitemap.xml`,
   }
 }

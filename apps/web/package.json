@@ -4,22 +4,23 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun --bun next dev",
+    "dev": "bun --bun next dev -p 4000",
     "build": "bun --bun next build",
     "start": "bun --bun next start",
-    "typecheck": "bun --bun next typegen && bun --bun tsc --noEmit",
+    "typecheck": "KOTODAMA_API_URL=http://localhost KOTODAMA_SITE_URL=http://localhost bun --bun next typegen && bun --bun tsc --noEmit",
     "test": "bun --bun vitest run"
   },
   "dependencies": {
     "@kotodama/api-client": "workspace:*",
+    "@kotodama/config": "workspace:*",
     "@kotodama/store": "workspace:*",
     "@kotodama/ui": "workspace:*",
     "@kotodama/use-cases": "workspace:*",
-    "@tanstack/react-query": "catalog:tanstack",
     "next": "catalog:next",
     "next-themes": "catalog:style",
     "react": "catalog:react",
-    "react-dom": "catalog:react"
+    "react-dom": "catalog:react",
+    "server-only": "catalog:react"
   },
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",
