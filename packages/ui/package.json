@@ -21,8 +21,11 @@
     "@radix-ui/react-slot": "catalog:style",
     "class-variance-authority": "catalog:style",
     "clsx": "catalog:style",
+    "cmdk": "catalog:style",
     "lucide-react": "catalog:style",
+    "next-themes": "catalog:style",
     "radix-ui": "catalog:style",
+    "sonner": "catalog:style",
     "tailwind-merge": "catalog:style"
   },
   "peerDependencies": {

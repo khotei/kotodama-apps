@@ -4,23 +4,24 @@ import type { ComponentProps } from 'react'
 import { cn } from '../../lib/utils'
 
 const badgeVariants = cva(
-  'inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden whitespace-nowrap rounded-md border px-2 py-0.5 text-xs font-medium',
+  'inline-flex w-fit shrink-0 items-center justify-center gap-1.5 overflow-hidden whitespace-nowrap rounded-full border border-transparent px-2.5 py-1 text-xs leading-none font-semibold tracking-[0.04em]',
   {
     variants: {
       variant: {
-        default: 'border-transparent bg-primary text-primary-foreground',
-        secondary: 'border-transparent bg-secondary text-secondary-foreground',
-        destructive: 'border-transparent bg-destructive text-white',
-        outline: 'text-foreground',
+        default: 'bg-secondary text-foreground',
+        secondary: 'bg-secondary text-muted-foreground',
+        destructive: 'bg-destructive-subtle text-destructive',
+        outline: 'border-border bg-transparent text-muted-foreground',
       },
     },
     defaultVariants: { variant: 'default' },
   },
 )
 
-export interface BadgeProps extends ComponentProps<'span'>, VariantProps<typeof badgeVariants> {
-  asChild?: boolean
-}
+export type BadgeProps = ComponentProps<'span'> &
+  VariantProps<typeof badgeVariants> & {
+    asChild?: boolean
+  }
 
 export function Badge({ className, variant, asChild = false, ...props }: BadgeProps) {
   const Comp = asChild ? Slot : 'span'
