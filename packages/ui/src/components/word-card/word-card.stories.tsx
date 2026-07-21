@@ -15,16 +15,16 @@ export const Ready: Story = {
   args: {
     word: 'lumen',
     language: 'en',
-    status: 'succeeded',
+    status: 'ready',
     coreDefinition: 'The SI unit of luminous flux, measuring perceived light.',
   },
 }
 
-// A still-building word: no definition yet, a status label instead.
+// A still-building word: no definition yet, a status badge instead.
 export const Building: Story = {
   args: {
     word: 'lumen',
     language: 'en',
-    status: 'running',
+    status: 'generating',
   },
 }

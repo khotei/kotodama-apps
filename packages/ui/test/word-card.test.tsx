@@ -3,13 +3,11 @@ import { describe, expect, it } from 'vitest'
 import { WordCard } from '../src/index'
 
 // The one skeleton component (jsdom), the unit counterpart to its Storybook
-// story — proves it mounts + shows its props. No provider: Tailwind + shadcn
-// primitives are plain class strings, nothing to wrap.
+// story — proves it mounts + shows its props. It consumes the shared canonical
+// WordStatus and renders status through StatusBadge (no private enum).
 describe('WordCard', () => {
-  it('renders the word, language, ready status, and definition', () => {
-    render(
-      <WordCard word="lumen" language="en" status="succeeded" coreDefinition="A unit of light." />,
-    )
+  it('renders the word, language, ready status badge, and definition', () => {
+    render(<WordCard word="lumen" language="en" status="ready" coreDefinition="A unit of light." />)
 
     expect(screen.getByRole('heading', { name: 'lumen' })).toBeInTheDocument()
     expect(screen.getByText('en')).toBeInTheDocument()
@@ -17,10 +15,10 @@ describe('WordCard', () => {
     expect(screen.getByText('A unit of light.')).toBeInTheDocument()
   })
 
-  it('shows a placeholder when the definition is still generating', () => {
-    render(<WordCard word="lumen" language="en" status="running" />)
+  it('shows the generating status and a placeholder when the definition is not ready', () => {
+    render(<WordCard word="lumen" language="en" status="generating" />)
 
-    expect(screen.getByText('Building…')).toBeInTheDocument()
+    expect(screen.getByText('Generating…')).toBeInTheDocument()
     expect(screen.getByText(/still being generated/)).toBeInTheDocument()
   })
 })
