@@ -11,8 +11,8 @@ You are running **Phase 3 (Plan)** of the Kotodama SDD playbook on `$ARGUMENTS`.
 
 **Embedded — do NOT fetch from Notion:** the plan template `@.claude/sdd/plan-template.md` and the
 data-source IDs `@.claude/sdd/data-sources.md`.
-**Fetch live:** the feature spec (the page body), the Tech spec sections it cites, and the
-`kotodama-core/` code that grounds the plan.
+**Fetch live:** the feature spec (the page body), the Tech spec sections it cites, and this repo's
+code that grounds the plan.
 
 ## Steps
 
@@ -21,7 +21,7 @@ data-source IDs `@.claude/sdd/data-sources.md`.
 2. **Produce the plan** — fill `@.claude/sdd/plan-template.md`. The **Module decomposition**
    (prefer *deep modules* — narrow interface, rich implementation; flag shallow wrappers for
    redesign; don't lock the first workable structure when the decomposition is non-obvious) and
-   the **Testing strategy** (external behavior to test per module, the prior art in `kotodama-core/` to
+   the **Testing strategy** (external behavior to test per module, the prior art in this repo to
    imitate, what's deliberately left untested) are mandatory. Record non-obvious trade-offs and
    where you declined a seam/abstraction, and why.
 3. **Cite the Tech spec section** behind every architectural choice. Architecture **not yet** in the

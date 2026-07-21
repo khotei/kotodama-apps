@@ -25,7 +25,7 @@ gather, weigh, and **ground** the facts, then write them up as a cited Research-
 ## How you work
 
 - Use `WebSearch` / `WebFetch` for external evidence and `Read`/`Grep` + the Notion MCP for internal
-  specs and `kotodama-core/` code. Triangulate across multiple sources before asserting a finding.
+  specs and this repo's code. Triangulate across multiple sources before asserting a finding.
 - Prefer platform-native capabilities over hand-rolled approaches in what you recommend — findings
   should present the best-in-class option (cited), not the naive default a later Plan would inherit.
 - Write the page with: a short **summary**, **findings** (each individually cited), **open

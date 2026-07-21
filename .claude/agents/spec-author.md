@@ -34,7 +34,7 @@ Drafted spec with open questions — into a precise, well-cited Feature page in 
   WHILE / WHERE / IF–THEN). No Gherkin *Given/When/Then*. Each AC observable from outside the
   implementation.
 - Use the Notion MCP to search specs/personas and to create/update pages. Use Read/Grep/Glob to
-  ground claims in the `kotodama-core/` codebase when relevant.
+  ground claims in this repo's codebase when relevant.
 - Set Notion fields exactly per the property contract. `Persona` is multi-select and must **never**
   be empty.
 

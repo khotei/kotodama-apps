@@ -20,7 +20,7 @@ first, stay scoped, living spec, respect the repo rules, commit per `@.claude/ru
    Move the task to `Status = In progress`.
 2. **Read the context.** The parent Feature spec (linked from the task), the relevant Tech/Design
    spec sections, and the task's `Covers ACs:` list. Resolve open questions from the specs +
-   `kotodama-core/` code before asking the user.
+   this repo's code before asking the user.
 3. **Write the failing test first** (happy + failure path), confirm it fails, **then** implement to
    green. Some chores have no meaningful unit test — judge the value rather than force one, and say
    so if you skip it.
