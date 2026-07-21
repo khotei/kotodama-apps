@@ -19,19 +19,12 @@ export const Pressed: Story = {
   args: { icon: <BookmarkIcon />, children: 'Saved only', pressed: true },
 }
 
-export const SealTone: Story = {
-  args: { children: 'Featured', pressed: true, tone: 'seal' },
-}
-
 export const Row: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-2">
       <FilterChip icon={<BookmarkIcon />}>Saved only</FilterChip>
       <FilterChip icon={<BookmarkIcon />} pressed>
         Saved only
-      </FilterChip>
-      <FilterChip pressed tone="seal">
-        Featured
       </FilterChip>
     </div>
   ),

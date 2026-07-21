@@ -1,19 +1,7 @@
 import type { Language, WordStateModel } from '@kotodama/store'
+import { languageName } from './language-name'
 import { WordFailedView, WordGeneratingView, WordNotFoundView } from './word-build-view'
 import { WordEntryView } from './word-entry-view'
-
-const LANGUAGE_NAME: Record<Language, string> = {
-  ru: 'Russian',
-  en: 'English',
-  es: 'Spanish',
-  fr: 'French',
-  de: 'German',
-  zh: 'Chinese',
-  ja: 'Japanese',
-  hi: 'Hindi',
-  ar: 'Arabic',
-  uk: 'Ukrainian',
-}
 
 export type WordScreenProps = {
   model: WordStateModel | null
@@ -42,7 +30,7 @@ export function WordScreen({
     return (
       <WordNotFoundView
         word={word}
-        languageName={LANGUAGE_NAME[language]}
+        languageName={languageName(language)}
         backHref={libraryHref}
         searchHref={searchHref}
         buildAction={buildAction}

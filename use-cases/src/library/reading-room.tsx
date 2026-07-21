@@ -1,6 +1,14 @@
 import { AccentedWordMark, accentedWordText, RetryLink, StatusNote } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
-import { PosPill, RankRow, SectionRule, StatusBadge, StatusDot } from '@kotodama/ui'
+import {
+  PosPill,
+  RankRow,
+  type RankRowProps,
+  SectionRule,
+  StatusBadge,
+  StatusDot,
+  type WordStatus,
+} from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { RetryWordButton } from '../words/retry-word-button.client'
@@ -88,7 +96,7 @@ const WORD_TONE = {
   generating: 'shimmer',
   pending: 'muted',
   failed: 'muted',
-} as const
+} satisfies Record<WordStatus, RankRowProps['wordTone']>
 
 function Column({ title, sub, children }: { title: ReactNode; sub: string; children: ReactNode }) {
   return (

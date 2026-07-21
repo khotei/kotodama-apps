@@ -35,7 +35,7 @@ export async function getWordStatus(
  * Re-sync the word page after the backend finished building it. Called by the status
  * poller once the build leaves `pending`/`running`. `revalidatePath` from a Server
  * Action busts the route's Data Cache AND the client Router Cache and re-renders the
- * RSC page in the same round-trip — so the ready WordCard, metadata, and JSON-LD all
+ * RSC page in the same round-trip — so the ready entry, metadata, and JSON-LD all
  * refresh at once, with no client-side refetch.
  */
 export async function refreshWordPage(language: Language, word: string) {

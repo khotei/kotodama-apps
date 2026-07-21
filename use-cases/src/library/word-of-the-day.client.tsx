@@ -1,7 +1,7 @@
 'use client'
 
 import { AccentedWordMark, accentedWordText } from '@kotodama/core'
-import { Button, Sparkline } from '@kotodama/ui'
+import { Button, Sparkline, type WordTier } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
 import { SaveWordButton } from '../words/save-word-button.client'
@@ -24,7 +24,7 @@ function Glance({ value }: { value: GlanceText }) {
   })
 }
 
-const TIER_DOT: Record<string, string> = {
+const TIER_DOT: Record<WordTier, string> = {
   everyday: 'bg-tier-everyday',
   cultural: 'bg-tier-cultural',
   formal: 'bg-tier-formal',

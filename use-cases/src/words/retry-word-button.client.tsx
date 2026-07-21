@@ -4,6 +4,7 @@ import { RetryLink } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
+import { languageName } from './language-name'
 
 export type RetryWordButtonProps = {
   language: Language
@@ -20,7 +21,7 @@ export function RetryWordButton({ language, word, retryAction }: RetryWordButton
       disabled={pending}
       onClick={(event) => {
         event.preventDefault()
-        toast(`Re-queued “${word}” — Spanish · arriving`)
+        toast(`Re-queued “${word}” — ${languageName(language)} · arriving`)
         startTransition(() => retryAction(language, word))
       }}
     >

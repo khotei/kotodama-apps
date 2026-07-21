@@ -1,4 +1,4 @@
-import { cva, type VariantProps } from 'class-variance-authority'
+import { cva } from 'class-variance-authority'
 import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 
@@ -7,28 +7,19 @@ const filterChipVariants = cva(
   {
     variants: {
       pressed: {
-        true: '[&_svg]:fill-current',
+        true: 'text-tier-formal [&_svg]:fill-current',
         false: 'text-subtle-foreground hover:text-foreground',
       },
-      tone: {
-        formal: '',
-        seal: '',
-      },
     },
-    compoundVariants: [
-      { pressed: true, tone: 'formal', class: 'text-tier-formal' },
-      { pressed: true, tone: 'seal', class: 'text-seal' },
-    ],
-    defaultVariants: { pressed: false, tone: 'formal' },
+    defaultVariants: { pressed: false },
   },
 )
 
-export type FilterChipProps = ComponentProps<'button'> &
-  Omit<VariantProps<typeof filterChipVariants>, 'pressed'> & {
-    pressed?: boolean
-    onPressedChange?: (pressed: boolean) => void
-    icon?: ReactNode
-  }
+export type FilterChipProps = ComponentProps<'button'> & {
+  pressed?: boolean
+  onPressedChange?: (pressed: boolean) => void
+  icon?: ReactNode
+}
 
 /**
  * A pressable filter pill: button semantics (`aria-pressed`) with a chip look.
@@ -37,7 +28,6 @@ export type FilterChipProps = ComponentProps<'button'> &
 export function FilterChip({
   pressed = false,
   onPressedChange,
-  tone,
   icon,
   className,
   onClick,
@@ -48,7 +38,7 @@ export function FilterChip({
     <button
       type="button"
       aria-pressed={pressed}
-      className={cn(filterChipVariants({ pressed, tone }), className)}
+      className={cn(filterChipVariants({ pressed }), className)}
       onClick={(event) => {
         onClick?.(event)
         onPressedChange?.(!pressed)

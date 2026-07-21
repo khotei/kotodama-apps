@@ -42,7 +42,7 @@ export function ResultRow({
         <span className="flex flex-wrap items-baseline gap-x-[14px] gap-y-1">
           <span
             className={cn(
-              'font-serif text-[30px] font-medium leading-[1.05] tracking-[-0.02em] [&_em]:rounded-[3px] [&_em]:bg-accent [&_em]:px-0.5 [&_em]:text-seal-emphasis [&_em]:not-italic',
+              'font-serif text-[30px] font-medium leading-[1.05] tracking-[-0.02em]',
               !ready && 'text-muted-foreground',
             )}
           >
