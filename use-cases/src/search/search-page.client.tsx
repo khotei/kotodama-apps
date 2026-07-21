@@ -5,6 +5,7 @@ import {
   Button,
   cn,
   EmptyState,
+  FilterChip,
   HighlightedText,
   ResultRow,
   SearchBox,
@@ -155,20 +156,16 @@ export function SearchPage({
             ))}
           </TabsList>
         </Tabs>
-        <button
-          type="button"
-          aria-pressed={savedOnly}
-          onClick={() => {
-            setSavedOnly(!savedOnly)
+        <FilterChip
+          pressed={savedOnly}
+          onPressedChange={(next) => {
+            setSavedOnly(next)
             resetPage()
           }}
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-full border border-current px-[9px] py-[3px] font-sans text-2xs font-semibold uppercase tracking-[0.12em] transition-colors',
-            savedOnly ? 'text-tier-formal' : 'text-subtle-foreground hover:text-foreground',
-          )}
+          icon={<BookmarkIcon />}
         >
-          <BookmarkIcon className={cn('size-3.5', savedOnly && 'fill-current')} /> Saved only
-        </button>
+          Saved only
+        </FilterChip>
       </div>
 
       {filtered.length === 0 ? (

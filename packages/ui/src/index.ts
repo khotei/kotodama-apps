@@ -20,6 +20,7 @@ export {
   EtymologyTimeline,
   type EtymologyTimelineProps,
 } from './components/etymology-timeline'
+export { FilterChip, type FilterChipProps } from './components/filter-chip'
 export {
   type GenerationStep,
   type GenerationStepState,
