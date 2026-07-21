@@ -1,6 +1,6 @@
 import { cva } from 'class-variance-authority'
 import { TriangleAlertIcon } from 'lucide-react'
-import type { ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 import { Badge, type BadgeProps } from '../ui/badge'
 import { Spinner } from '../ui/spinner'
@@ -44,4 +44,24 @@ export function StatusBadge({ status, className, children, ...props }: StatusBad
       {children ?? STATUS_LABEL[status]}
     </Badge>
   )
+}
+
+const statusDotVariants = cva('size-[7px] shrink-0 rounded-full', {
+  variants: {
+    status: {
+      ready: 'bg-border-strong',
+      generating: 'bg-seal',
+      pending: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--border-strong)]',
+      failed: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--destructive)]',
+    },
+  },
+})
+
+export type StatusDotProps = Omit<ComponentProps<'span'>, 'children'> & {
+  status: WordStatus
+}
+
+/** The dot form of the status vocabulary — a bare glyph for dense list rows. */
+export function StatusDot({ status, className, ...props }: StatusDotProps) {
+  return <span className={cn(statusDotVariants({ status }), className)} {...props} />
 }

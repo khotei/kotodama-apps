@@ -1,6 +1,6 @@
 import { AccentedWordMark, accentedWordText, RetryLink, StatusNote } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
-import { RankRow, SectionRule, StatusBadge } from '@kotodama/ui'
+import { PosPill, RankRow, SectionRule, StatusBadge, StatusDot } from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { RetryWordButton } from '../words/retry-word-button.client'
@@ -66,7 +66,7 @@ function RankedList({
           <RankRow
             href={row.href}
             index={numbered ? String(index + 1).padStart(2, '0') : undefined}
-            marker={numbered ? undefined : <StatusDot status={row.status} />}
+            marker={numbered ? undefined : <StatusDot status={row.status} className="ml-1" />}
             word={<AccentedWordMark word={row.word} />}
             wordTone={WORD_TONE[row.status]}
             gloss={row.status === 'ready' ? row.gloss : undefined}
@@ -81,25 +81,6 @@ function RankedList({
       ))}
     </ol>
   )
-}
-
-function PosPill({ children }: { children: ReactNode }) {
-  return (
-    <span className="inline-grid h-6 min-w-9 place-items-center rounded-[5px] border bg-secondary px-[9px] font-mono text-[11px] text-muted-foreground tracking-[0.04em]">
-      {children}
-    </span>
-  )
-}
-
-const DOT_BY_STATUS: Record<string, string> = {
-  ready: 'bg-border-strong',
-  generating: 'bg-seal',
-  pending: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--border-strong)]',
-  failed: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--destructive)]',
-}
-
-function StatusDot({ status }: { status: RankedWordView['status'] }) {
-  return <span className={`ml-1 size-[7px] shrink-0 rounded-full ${DOT_BY_STATUS[status]}`} />
 }
 
 const WORD_TONE = {

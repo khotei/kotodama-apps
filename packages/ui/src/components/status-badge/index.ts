@@ -1,1 +1,7 @@
-export { StatusBadge, type StatusBadgeProps, type WordStatus } from './status-badge'
+export {
+  StatusBadge,
+  type StatusBadgeProps,
+  StatusDot,
+  type StatusDotProps,
+  type WordStatus,
+} from './status-badge'
