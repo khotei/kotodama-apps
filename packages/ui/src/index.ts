@@ -26,6 +26,10 @@ export {
   GenerationSteps,
   type GenerationStepsProps,
 } from './components/generation-steps'
+export {
+  HighlightedText,
+  type HighlightedTextProps,
+} from './components/highlighted-text'
 export { ImageSlot, type ImageSlotProps } from './components/image-slot'
 export { RankRow, type RankRowProps } from './components/rank-row'
 export { ResultRow, type ResultRowProps } from './components/result-row'

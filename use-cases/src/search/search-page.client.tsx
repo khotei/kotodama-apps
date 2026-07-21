@@ -5,6 +5,7 @@ import {
   Button,
   cn,
   EmptyState,
+  HighlightedText,
   ResultRow,
   SearchBox,
   SectionRule,
@@ -20,7 +21,7 @@ import {
   SparklesIcon,
   XIcon,
 } from 'lucide-react'
-import { type ReactNode, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import type { SearchPos, SearchWordView } from './search.view'
 
 const pad2 = (n: number) => String(n).padStart(2, '0')
@@ -34,20 +35,6 @@ const POS_TABS: { value: SearchPos | 'all'; label: string }[] = [
   { value: 'adverb', label: 'Adverb' },
 ]
 
-function highlight(word: string, query: string): ReactNode {
-  const at = word.toLowerCase().indexOf(query.toLowerCase())
-  if (query === '' || at < 0) return word
-  return (
-    <>
-      {word.slice(0, at)}
-      <mark className="rounded-[3px] bg-accent px-0.5 text-seal-emphasis">
-        {word.slice(at, at + query.length)}
-      </mark>
-      {word.slice(at + query.length)}
-    </>
-  )
-}
-
 function matches(row: SearchWordView, query: string, pos: SearchPos | 'all', savedOnly: boolean) {
   if (savedOnly && !row.saved) return false
   if (pos !== 'all' && row.pos !== pos) return false
@@ -59,7 +46,7 @@ function Row({ row, query }: { row: SearchWordView; query: string }) {
   return (
     <ResultRow
       href={row.href}
-      word={highlight(row.word, query)}
+      word={<HighlightedText text={row.word} query={query} />}
       ipa={row.ipa}
       pos={row.posLabel}
       gloss={row.gloss}
