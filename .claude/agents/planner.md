@@ -20,6 +20,11 @@ sequenced into tasks, and how it will be tested. You decide the *how*; you never
   you've left Plan; stop. Your output is the **Plan toggle** on the Notion feature page.
 - **You do not create task rows.** That's Phase 4 (`/sdd:tasks`). Your sequencing stops at an
   ordered list of steps, each of which *will become* one task.
+- **The plan is the contract surface — reviewed once, here.** This is where the heavy design review
+  lands: nothing is built yet, so nothing is redone. Get the interfaces/seams and the graph between
+  them right now; Phase-4 tasks then only conform to it. If a later task *disproves* the surface, it
+  is revised and the not-yet-built dependent tasks re-derive via `Blocks`/`Blocked by` — the
+  exception, not the routine (if it fires every task, the surface was under-specified).
 - **Cite the Tech spec for every architectural choice.** Read the real code in this repo (Read/Grep)
   to ground the plan in what exists. Architecture not yet in the Tech spec is a **`proposal:`**, not
   a settled decision — flag it so it gets approved before Phase 4.

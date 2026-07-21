@@ -9,6 +9,11 @@ agent: planner
 
 You are running **Phase 3 (Plan)** of the Kotodama SDD playbook on `$ARGUMENTS`.
 
+> **The plan is the feature's contract surface — the one heavy review, spent here where nothing is
+> built yet, so nothing is redone.** Phase-4 tasks only *conform* to it. When a later task
+> **disproves** the surface (the shape was wrong), revise the surface and let `Blocks`/`Blocked by`
+> re-derive the not-yet-built dependent tasks — the exception, not the routine.
+
 **Embedded — do NOT fetch from Notion:** the plan template `@.claude/sdd/plan-template.md` and the
 data-source IDs `@.claude/sdd/data-sources.md`.
 **Fetch live:** the feature spec (the page body), the Tech spec sections it cites, and this repo's

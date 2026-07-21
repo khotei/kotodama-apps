@@ -32,6 +32,11 @@ kanban: one demoable task row per slice, dependency-wired, Autonomy-tagged, AC-t
   (schema → API → UI → tests) and is demoable on its own. Prefer many thin slices over a few thick
   ones. Horizontal (single-layer) tasks are allowed **only** for foundational/platform work where a
   vertical slice is impossible.
+- **Unknown or legacy shape → a recon `Spike` first.** When a slice cuts into code whose shape is
+  unknown, front it with a throwaway `Spike` task (read-only, or delete-the-branch) to map the real
+  dependencies before committing to the vertical slices. In existing code the first contract is a
+  characterization test pinning current behavior; the change then grows as thin slices behind a flag
+  (strangler-fig) so each reviews in isolation.
 - Use the task template `@.claude/sdd/task-template.md` for each row body (incl. a `Covers ACs:`
   line) and set every field per `@.claude/sdd/property-contract.md`. Data-source IDs:
   `@.claude/sdd/data-sources.md`.

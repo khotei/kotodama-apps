@@ -41,6 +41,13 @@ code: on a failure you reopen the task and report, you do not fix it.
 - [ ] **No new `[TBD]`** — any TBD found during build is resolved or filed as a new task.
 - [ ] **PR points at the Feature page URL** — reviewer reaches the spec in one click.
 - [ ] **Feature `Status = Done`** — and all linked Tasks are `Done`.
+- [ ] **Every diff was read, not skimmed** — staged hunk-by-hunk, under ~400 LOC, every line
+      explainable. (If reviewing it took as long as reviewing a human's PR, it was rubber-stamped —
+      the fix is a smaller slice, not a heavier end-review.)
+- [ ] **Verification is evidence, not assertion** — each verdict shows the check's actual output
+      (the failing-then-passing test, the command result), never a bare "it works."
+- [ ] **Each commit explains WHY** — a `Decision:` paragraph records the non-obvious choice or the
+      rejected alternative (`@.claude/rules/commits.md`).
 
 ## Do not
 
