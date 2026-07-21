@@ -17,6 +17,7 @@ export const Ready: Story = {
     language: 'en',
     status: 'ready',
     coreDefinition: 'The SI unit of luminous flux, measuring perceived light.',
+    className: 'max-w-lg',
   },
 }
 
@@ -26,5 +27,6 @@ export const Building: Story = {
     word: 'lumen',
     language: 'en',
     status: 'generating',
+    className: 'max-w-lg',
   },
 }

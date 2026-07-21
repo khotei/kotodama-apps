@@ -21,4 +21,14 @@ describe('WordCard', () => {
     expect(screen.getByText('Generating…')).toBeInTheDocument()
     expect(screen.getByText(/still being generated/)).toBeInTheDocument()
   })
+
+  it('forwards className to its root and owns no fixed width itself', () => {
+    const { container } = render(
+      <WordCard word="lumen" language="en" status="ready" className="max-w-md" />,
+    )
+    const root = container.querySelector('[data-slot="card"]')
+
+    expect(root).toHaveClass('max-w-md')
+    expect(root).not.toHaveClass('max-w-lg')
+  })
 })
