@@ -1,4 +1,4 @@
-import { AccentedWordMark, accentedWordText, RetryLink, StatusNote } from '@kotodama/core'
+import { AccentedWordMark, accentedWordText, RetryLink } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import {
   PosPill,
@@ -7,6 +7,7 @@ import {
   SectionRule,
   StatusBadge,
   StatusDot,
+  StatusNote,
   type WordStatus,
 } from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'

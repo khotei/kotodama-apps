@@ -1,4 +1,4 @@
-import type { WordStatus } from '@kotodama/ui'
+import type { WordStatus } from '../../atoms/status-badge'
 
 function verbClass(status: WordStatus) {
   return status === 'generating'

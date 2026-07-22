@@ -1,6 +1,5 @@
 'use client'
 
-import { StatusNote } from '@kotodama/core'
 import {
   Button,
   cn,
@@ -10,6 +9,7 @@ import {
   ResultRow,
   SearchBox,
   SectionRule,
+  StatusNote,
   Tabs,
   TabsList,
   TabsTrigger,

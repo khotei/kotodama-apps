@@ -5,4 +5,3 @@
 
 export { type AccentedWord, AccentedWordMark, accentedWordText } from './words/accented-word'
 export { RetryLink } from './words/retry-link'
-export { StatusNote } from './words/status-note'

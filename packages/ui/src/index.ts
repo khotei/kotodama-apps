@@ -47,6 +47,7 @@ export {
 export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
+export { StatusNote } from './components/molecules/status-note'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
