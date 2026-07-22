@@ -1,19 +1,20 @@
 ---
 description: Scaffold a new @kotodama/<name> workspace in the correct layer
-argument-hint: <layer>/<name> [--dom]  e.g. packages/fe-metrics or apps/mobile --dom
+argument-hint: <path> [--dom]  e.g. apps/mobile --dom or infra/metrics
 ---
 
 Scaffold a new workspace at `$ARGUMENTS`, writing the files directly (no scaffolder script), following
 the existing conventions.
 
 Steps:
-1. **Validate the layer + platform.** The target must be under `apps/`, a top-level tier
-   (`repositories`/`store`/`use-cases`, or the reserved `core`), or `packages/`. Reject anything else.
-   Confirm the intended dependencies respect `@.claude/rules/frontend-layering.md` (one-way chain;
-   `packages/*` are leaves). Decide `--dom`: pass it for a web workspace that renders (apps/web,
-   packages/ui, **use-cases** — the web-only feature tier). OMIT it for the platform-agnostic tiers
-   (repositories / store / packages/api-client) so a stray `document`/`window`/react-dom import is a
-   `tsc` error — the DOM-free base tsconfig is the primary web↔native enforcer.
+1. **Validate the target.** A new WORKSPACE is a folder matching a `package.json#workspaces` glob:
+   under `apps/`, `infra/`, or a new leaf beside `core`/`platform`/`ui`. **A new domain is NOT a new
+   workspace** — it is a `src/<domain>/` folder under a `core` layer (or a new subpath on `core`/
+   `platform`); use this command only for a genuinely new package. Confirm the intended dependencies
+   respect `@.claude/rules/frontend-layering.md` (one-way chain; `platform`/`ui` are leaves). Decide
+   `--dom`: pass it for a web workspace that renders (apps/web, ui). OMIT it for the platform-agnostic
+   packages (`core`, `platform`) so a stray `document`/`window`/react-dom import is a `tsc` error —
+   the DOM-free base tsconfig is the primary web↔native enforcer.
 2. **package.json** — `"name": "@kotodama/<flattened-name>"` (nested folders flatten with a dash, see
    `@.claude/rules/naming.md`), `"version": "0.0.0"`, `"private": true`, `"type": "module"`,
    `main`/`types`/`exports` → `./src/index.ts`. **Always add `"@kotodama/tooling": "workspace:*"` to
@@ -41,8 +42,8 @@ Steps:
    `vitest run` fails the gate.
 7. **CLAUDE.md** — one short paragraph: role + who may import it + import boundaries.
 8. **No root-config edit needed** — do NOT hand-list the package anywhere. The single source of truth is
-   `package.json#workspaces` (`apps/*`, `repositories`, `store`, `use-cases`, `packages/*`); the
-   aggregators enumerate via `--filter '*'`, so a folder matching an existing glob is picked up. Just
-   confirm it matches.
+   `package.json#workspaces` (`apps/*`, `core`, `platform`, `ui`, `infra/tooling`); the aggregators
+   enumerate via `--filter '*'`, so a folder matching an existing glob is picked up. A new top-level
+   package (not under an existing glob) needs the glob added — the ONE sanctioned `package.json` edit.
 9. Run `bun install` (creates the workspace symlink), then `bun run check` and
    `bun run --filter '@kotodama/<name>' test`. Report results.

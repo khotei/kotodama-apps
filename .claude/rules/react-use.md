@@ -15,7 +15,7 @@ its version is heavier/buggier than a three-line effect.
 ## Where it may live — web-only, client-only
 
 - **`apps/web` `.client.tsx` islands ONLY** (where the Next-wired islands live). react-use is
-  DOM-bound. It must NEVER enter the agnostic spine (`repositories`/`store`) — the DOM-free
+  DOM-bound. It must NEVER enter the agnostic spine (`platform`/`core`) — the DOM-free
   `tsconfig.base.json` rejects it with a `tsc` error anyway — nor a `src/server/**` loader/action
   (those are `server-only`). Don't add it to any other workspace's `package.json`.
 - This does not change the seam: the island still takes server-resolved data + injected Server Actions

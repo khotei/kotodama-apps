@@ -14,28 +14,31 @@ server-first)** · **TanStack Form** · **Tailwind v4 + shadcn/ui** · **openapi
 openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. No Effect on the frontend. Details:
 `.claude/rules/tooling.md`.
 
-## Structure — top-level tiers (mirror the backend)
+## Structure — top-level workspaces (mirror the backend)
 
 ```
-packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
-packages/config       env base leaf                            [leaf · agnostic · importable by all]
-packages/ui           the ENTIRE web design system + all presentation (atoms→pages + views +
-                      fixtures + lib)                          [leaf · web-only]
+apps/web · apps/e2e   the Next shell (App Router) + the Playwright crawlability proof   [web-only]
+core          @kotodama/core       agnostic domain spine (DOM-free); two layers as folders,
+                                   subpath-exported: @kotodama/core/repositories (fetchX + *Entity)
+                                   ◄ @kotodama/core/store (domain model)
+platform      @kotodama/platform   agnostic base leaf; two leaves as folders, subpath-exported:
+                                   @kotodama/platform/api-client (transport) + @kotodama/platform/config (env)
+ui            @kotodama/ui         the ENTIRE web design system + all presentation   [web-only leaf]
+infra/tooling @kotodama/tooling    write-once config presets (tsconfig/biome/vitest bases)
 
-api-client ◄ repositories ◄ store ◄ apps/web   (repositories = fetchX + entity types, store =
-                                                domain model, apps/web = Next shell + data layer +
-                                                wiring that composes ui)
+platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web   (platform/config a base leaf
+                                                                   importable by all; ui the web-only
+                                                                   design-system leaf apps/web wires)
 ```
 
-Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`. Web-only:
-`ui`, `apps/web` (the web↔native line is below `store`). **Server-first:**
-`apps/web` reads via RSC loaders (`src/server/*.loader.ts`) + writes via Server Actions
-(`src/server/*.actions.ts`) — no client data cache — and injects data/actions/URLs (serializable) into
-the prop-driven `@kotodama/ui` components. A domain is a `src/<domain>/` folder inside a tier.
-Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM leak (or a DOM-bound dep) into an
-agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Biome
-`noRestrictedImports`** — tier-direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run
-`/scan-deps`.
+Agnostic spine (reused by any future `apps/*`): `platform`, `core`. Web-only: `ui`, `apps/web` (the
+web↔native line is below `core`). **Server-first:** `apps/web` reads via RSC loaders
+(`src/server/*.loader.ts`) + writes via Server Actions (`src/server/*.actions.ts`) — no client data
+cache — and injects data/actions/URLs (serializable) into the prop-driven `@kotodama/ui` components.
+A new domain is a `src/<domain>/` folder under each `core` layer, never a new package. Enforced by (1)
+a **DOM-free `tsconfig.base.json`** — a DOM leak (or a DOM-bound dep) into an agnostic tier is a `tsc`
+error (the primary web↔native enforcer); and (2) **Biome `noRestrictedImports`** — tier-direction
+bans. Full rule: `.claude/rules/frontend-layering.md`. Run `/scan-deps`.
 
 ## Root scripts
 
@@ -46,7 +49,7 @@ agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Bi
 | `bun run tsc` | typecheck all workspaces (`bun run --filter '*' typecheck`) |
 | `bun run test` | Vitest per workspace (`bun run --filter '*' test`). NOT `bun test`. |
 | `bun run check` | `lint` + `tsc` |
-| `bun run gen:api` | regenerate `packages/api-client/src/schema.gen.ts` from the live backend (D4) |
+| `bun run gen:api` | regenerate `platform/api-client/src/schema.gen.ts` from the live backend (D4) |
 | `bun run --filter '@kotodama/web' {dev,build,start}` | run the Next app (Turbopack) |
 
 Scaffolding a new workspace is the `/new-package` slash command (it writes the files directly — no
@@ -68,7 +71,7 @@ only when you touch a matching file, keeping the always-on context lean (Claude 
 
 - **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` · `commits` ·
   `pull-requests` · `claude-md`.
-- **Path-scoped:** `frontend-state` → `apps/web/**`, `store/**`, `repositories/**` ·
+- **Path-scoped:** `frontend-state` → `apps/web/**`, `core/**` ·
   `nextjs` → `apps/web/**` · `react-use` → `apps/web/**` (check before hand-rolling a
   client hook) · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
   `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
@@ -77,8 +80,8 @@ only when you touch a matching file, keeping the always-on context lean (Claude 
 
 ## Per-layer context
 
-`apps/web/CLAUDE.md` + one `CLAUDE.md` per tier (`repositories`, `store`) and per leaf package (`packages/api-client`, `packages/ui`). Ancestor `CLAUDE.md` (this file) always
-loads; a package's loads when you touch its subtree. Content rule (why-not-what):
+`apps/web/CLAUDE.md` + one `CLAUDE.md` per package (`core`, `platform`, `ui`). Ancestor `CLAUDE.md`
+(this file) always loads; a package's loads when you touch its subtree. Content rule (why-not-what):
 `.claude/rules/claude-md.md`. **Don't churn these on exploratory edits** — refresh only when a real
 change is about to land, as part of the commit.
 

@@ -54,7 +54,7 @@ Remove the copies and the docs stop rotting.
 - **No typedoc / generated docs-site** — the repo is unpublished with no public API surface to mirror
   (YAGNI; `.claude/rules/effect-conventions.md` "demonstrated need").
 - **No markdown doctests** — Bun/vitest has no doctest support; `local:smoke` is the runnable proof.
-- **No semantic doc-linter** — a thin link-hub must legitimately name `ui`/`store`/the flow, so a
+- **No semantic doc-linter** — a thin link-hub must legitimately name `ui`/`core`/the flow, so a
   keyword grep can't separate an orientation map from a forbidden paraphrase. This rule + review is the
   guard.
 - **No "docs-changed" CI gate, last-reviewed stamps, or CODEOWNERS** — net-negative ceremony for a repo

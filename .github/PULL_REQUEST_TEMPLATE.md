@@ -18,10 +18,10 @@
   │  [ ] Title is a commits.md subject (gitmoji + type(scope) + imperative ≤50)│
   │  [ ] `bun run check` passes (Biome lint + `bun run tsc`)                   │
   │  [ ] `bun run test` passes                                                 │
-  │  [ ] Layer direction intact: api-client ◄ repositories ◄ store ◄           │
-  │      use-cases ◄ apps/web; everything -> packages (`/scan-deps`)           │
-  │  [ ] Agnostic spine DOM-free; use-cases Next-free; render reads via        │
-  │      src/server, never raw repositories; ui ← use-cases + apps/web         │
+  │  [ ] Layer direction intact: platform/api-client ◄ core/repositories ◄     │
+  │      core/store ◄ apps/web; ui is the web-only leaf (`/scan-deps`)         │
+  │  [ ] Agnostic spine (platform+core) DOM-free; render reads via src/server, │
+  │      never raw core/repositories; ui ⊥ core, wired by apps/web             │
   │  [ ] Docs/rules updated if behaviour or conventions changed                │
   │                                                                            │
   │  ── How to test ──                                                         │

@@ -95,10 +95,10 @@ jobs:
         run: bun run --filter '@kotodama/ui' build-storybook
 
   # Human-docs link integrity (human-docs.md clause 6): a renamed link target is a
-  # broken link. `--offline` checks ONLY the relative links in `readme.md` + `docs/**`
-  # against the checked-out tree — the exact thing a rename breaks. External URLs
-  # (badges, the Notion specs) aren't a code-change drift vector and only add network
-  # flakiness, so they're skipped.
+  # broken link. `--offline` checks ONLY the relative links in `readme.md` against the
+  # checked-out tree — the exact thing a rename breaks. External URLs (badges, the
+  # Notion specs) aren't a code-change drift vector and only add network flakiness, so
+  # they're skipped. (Scoped to readme.md — the repo has no docs/ tree.)
   links:
     name: docs link check
     runs-on: ubuntu-latest
@@ -111,7 +111,6 @@ jobs:
             --offline
             --no-progress
             readme.md
-            './docs/**/*.md'
           fail: true
 
   # End-to-end (Playwright) against a REAL running app + backend — there is no
@@ -182,7 +181,7 @@ jobs:
           KOTODAMA_API_URL: ${{ vars.KOTODAMA_API_URL }}
       - name: Fail on drift
         run: |
-          if ! git diff --exit-code packages/api-client/src/schema.gen.ts; then
+          if ! git diff --exit-code platform/api-client/src/schema.gen.ts; then
             echo "::error::schema.gen.ts is out of date — run 'bun run gen:api' and commit the result."
             exit 1
           fi

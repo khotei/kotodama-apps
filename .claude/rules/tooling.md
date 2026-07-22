@@ -10,7 +10,7 @@
 | `bun run tsc` | `bun run --filter '*' typecheck` (each workspace's `bun --bun tsc --noEmit`) | pre-commit + CI |
 | `bun run test` | `bun run --filter '*' test` (each workspace's `bun --bun vitest run`) | CI only |
 | `bun run check` | `lint` + `tsc` | manual / `/check` |
-| `bun run gen:api` | regenerate `api-client/src/schema.gen.ts` from the live backend | CI drift gate |
+| `bun run gen:api` | regenerate `platform/api-client/src/schema.gen.ts` from the live backend | CI drift gate |
 
 **Bun 1.3 + `bunfig.toml` `linker = "hoisted"`.** Hoisted is **non-negotiable**: React must resolve
 to a single instance across every workspace or hooks/context break. Bun 1.3's default isolated
@@ -19,7 +19,7 @@ Re-evaluate once it closes. Versions are pinned via **catalogs**
 (`runtime`/`react`/`next`/`tanstack`/`style`/`ui`/`api`/`test`) — add an external dep as
 `catalog:<group>`, internal as `workspace:*`.
 
-**Biome:** no root config — the single config is `@kotodama/tooling/biome.base.json`, threaded
+**Biome:** no root config — the single config is `infra/tooling/biome.base.json`, threaded
 through every invocation via `--config-path` (the `lint`/`format` scripts + husky), mirroring
 kotodama-core. 2-space, single quotes, semicolons as-needed, width 100 + the `react` domain. Encodes
 the layer gradients via `style/noRestrictedImports` per-glob overrides — see
@@ -37,8 +37,9 @@ backend. `schema.gen.ts` is committed + never hand-edited.
 ## Single source of truth: `package.json#workspaces`
 
 No root `tsconfig.json`, no root `vitest.config.ts` — never reintroduce one to hand-list packages.
-Shared presets live in the config-only **`@kotodama/tooling`** workspace: `tsconfig.base.json`
-(DOM-free agnostic) + `tsconfig.dom.json` (adds `lib:["dom",…]`, extended by `apps/web` + `ui`) +
+Shared presets live in the config-only **`@kotodama/tooling`** workspace (at `infra/tooling`):
+`tsconfig.base.json` (DOM-free agnostic, extended by `platform` + `core`) + `tsconfig.dom.json`
+(adds `lib:["dom",…]`, extended by `apps/web` + `ui`) +
 `vitest.base.ts`/`vitest.setup.ts` + `biome.base.json`. Each workspace `tsconfig.json` extends
 `@kotodama/tooling/tsconfig.{base,dom}.json` and owns a one-line `vitest.config.ts` re-exporting
 `@kotodama/tooling/vitest.base` — both by package specifier (a `workspace:*` dep, resolved via the

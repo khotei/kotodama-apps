@@ -39,7 +39,7 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
       │        fetchWordState ─► GET /api/words/ja/言葉/state ─► kotodama-core   @kotodama/core/repositories
       │              (via the typed client generated from the backend's OpenAPI)  @kotodama/platform/api-client
       ▼              │ narrowWordState                                            @kotodama/core/store
-  WordStateModel ──► WordView (RSC, prop-driven) ──► WordCard   @kotodama/{use-cases,ui}
+  WordStateModel ──► WordScreen (RSC, prop-driven) ──► WordCard   @kotodama/ui
       │
       ▼
   Server-rendered HTML: <title> · OpenGraph · JSON-LD DefinedTerm   (crawlable, JavaScript off)
@@ -78,19 +78,22 @@ detail.
 
 | Layer | Owns | Why it's here |
 |---|---|---|
-| `packages/api-client` | the openapi-fetch client + generated `schema.gen` | transport, the leaf everything imports |
-| `repositories/` | bare `fetchX` access functions + contract entity types | the only code that speaks path-strings |
-| `store/` | the domain-model derivation (`narrowWordState` + `*Model` types) | the shared, agnostic domain model |
-| `use-cases/` | web-only feature assemblies (RSC views + client islands), Next-free + prop-driven | domain-aware presentation, composed by the app |
-| `packages/ui` | the web design system: Tailwind v4 + shadcn primitives + `@theme` tokens | web-only, prop-driven leaf |
+| `platform` (`./api-client` · `./config`) | the openapi-fetch client + generated `schema.gen`; the Zod-validated env | the agnostic base leaf — transport + env, imported by all |
+| `core` (`./repositories` · `./store`) | bare `fetchX` + contract `*Entity` types ◄ the domain-model derivation (`narrowWordState` + `*Model` types) | the agnostic domain spine a future native app reuses |
+| `ui` | the web design system + ALL presentation: Tailwind v4 + shadcn primitives + `@theme` tokens, atoms→pages | web-only, prop-driven leaf |
 | `apps/web` | the Next shell: routing + the `src/server` data layer (loaders + actions) + wiring + SEO | the web process boundary |
 | `apps/e2e` | Playwright against a running app + real backend | the crawlability proof (JS off) |
+| `infra/tooling` | the `@kotodama/tooling` config presets (tsconfig/biome/vitest bases) | write-once shared config, referenced by specifier |
+
+`platform` and `core` are each ONE package whose layers are subpath-exported folders
+(`@kotodama/platform/{api-client,config}`, `@kotodama/core/{repositories,store}`) — a new domain is a
+folder under a `core` layer, never a new package.
 
 **Dependency direction** (enforced by Biome + a DOM-free `tsconfig`):
-`api-client ◄ repositories ◄ store ◄ use-cases ◄ apps/web`, and everything → `packages`. The agnostic
-spine (`api-client` … `store`) is what a future native app reuses; `ui`/`use-cases`/`apps/web` are
-web-bound and don't port (the web↔native line is below `use-cases`, which renders). Within `apps/web`,
-only `src/server/**` may reach `repositories`; `use-cases` stays Next-free. Full rule + enforcement:
+`platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web`, and everything → `platform`. The
+agnostic spine (`platform` + `core`) is what a future native app reuses; `ui`/`apps/web` are web-bound
+and don't port (the web↔native line is below `core`, since `ui` renders). Within `apps/web`, only
+`src/server/**` may reach `core/repositories`; `ui` stays prop-driven. Full rule + enforcement:
 [`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md).
 
 ## Requirements
@@ -129,6 +132,21 @@ Regenerate the typed client when the backend contract moves: `bun run gen:api` (
 honest). Every script runs under Bun — the sole exception is Playwright, above
 ([`.claude/rules/tooling.md`](.claude/rules/tooling.md)).
 
+## Contributing
+
+Conventions live in [`.claude/rules/`](.claude/rules/) (commit/PR shape, the pre-commit gate, the
+layer rule), auto-loaded in Claude Code and plain markdown for humans; `/new-package` scaffolds a
+workspace with zero root-config edits. One piece of tooling stays out of the repo by design:
+
+- **MCP servers (optional, deliberately not in the repo)** — personal tooling, so each developer
+  installs their own into Claude Code's **local scope** (stored per project in `~/.claude.json`,
+  never committed), baking this project's env at add time. The recommended pair:
+
+  ```bash
+  claude mcp add shadcn -- npx shadcn@latest mcp
+  claude mcp add next-devtools -- npx -y next-devtools-mcp@latest
+  ```
+
 ## Docs & conventions
 
 - **[`apps/web/CLAUDE.md`](apps/web/CLAUDE.md)** + **[`.claude/rules/nextjs.md`](.claude/rules/nextjs.md)** — the render shell (RSC/SSG boundaries, the data path, SEO)
@@ -136,5 +154,5 @@ honest). Every script runs under Bun — the sole exception is Playwright, above
 - **[`.claude/agent-patterns/tailwind-shadcn.md`](.claude/agent-patterns/tailwind-shadcn.md)** — the component standard (`cva`, `cn`, semantic tokens)
 - **[`.claude/rules/tooling.md`](.claude/rules/tooling.md)** · **[`commits.md`](.claude/rules/commits.md)** · **[`pull-requests.md`](.claude/rules/pull-requests.md)** — scripts, the pre-commit gate, commit/PR shape
 - **[Frontend Foundation Architecture](https://www.notion.so/38efb28bd5f181d794c3d9b1fd5629ba)** · **[Tech spec](https://www.notion.so/36dfb28bd5f181988f16de6ab423eb3e)** — the authoritative why / what
-- **`.claude/`** — AI-agent context (root [`CLAUDE.md`](CLAUDE.md) + `.claude/rules/*` + per-layer `CLAUDE.md`), loaded automatically in Claude Code
+- **`.claude/`** — AI-agent context (root [`.claude/CLAUDE.md`](.claude/CLAUDE.md) + `.claude/rules/*` + per-layer `CLAUDE.md`), loaded automatically in Claude Code
 </content>
