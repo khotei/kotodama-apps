@@ -15,7 +15,6 @@
     "@kotodama/config": "workspace:*",
     "@kotodama/store": "workspace:*",
     "@kotodama/ui": "workspace:*",
-    "@kotodama/use-cases": "workspace:*",
     "next": "catalog:next",
     "next-themes": "catalog:style",
     "react": "catalog:react",

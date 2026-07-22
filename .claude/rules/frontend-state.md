@@ -1,7 +1,6 @@
 ---
 paths:
   - "apps/web/**"
-  - "use-cases/**"
   - "store/**"
   - "repositories/**"
 ---
@@ -27,10 +26,10 @@ One tier owns each decision; put a new data concern in the tier that owns it.
   - `*.actions.ts` (`'use server'`) — the ONE mutation/revalidation door: `fetchX(serverClient, dto)`
     then `revalidatePath`/`revalidateTag`. Verify the session here (Server Actions are reachable by
     direct POST). No `server-only` — a client island imports the action as a network reference.
-- **feature/render (`use-cases/`)** — the web-only feature tier: domain-aware assemblies (RSC views +
-  client islands) that take the resolved model + injected Server Actions/URLs as **serializable** props
-  and map onto `ui` primitives. Next-free; the app wires it. A feature needing non-serializable wiring
-  lives in `apps/web` instead (the bypass).
+- **presentation (`packages/ui`)** — all rendering (atoms→pages + view types + fixtures): prop-driven
+  components that take the resolved model + injected Server Actions/URLs as **serializable** props. `ui`
+  is independent of `store` (`ui ⊥ store`); the app maps domain → props by injection. Wiring lives in
+  `apps/web` (`app/**` + `src/chrome/**` + `src/words/**`).
 
 ## Discipline
 
@@ -45,8 +44,8 @@ One tier owns each decision; put a new data concern in the tier that owns it.
 
 ## Client islands (`.client.tsx`) — the justified exceptions
 
-A `'use client'` island is warranted ONLY for what the server model can't do; it lives in `use-cases`
-(or `apps/web` for a bypass), Next-free, taking its IO as **serializable** injected props:
+A `'use client'` island is warranted ONLY for what the server model can't do; it lives in `apps/web`
+(`.client.tsx` under `src/**`), taking its IO as **serializable** injected props:
 
 - **Frequently polled data** — a poll island calls an injected typed **Server Action** (`poll`) each
   tick and an injected `onSettled` action once terminal (→ `revalidatePath` → RSC re-render). Both are

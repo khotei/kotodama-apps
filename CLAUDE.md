@@ -18,19 +18,20 @@ openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. No Effect on 
 
 ```
 packages/api-client   transport (openapi-fetch + schema.gen)   [leaf · agnostic · importable by all]
-packages/ui           web design system (Tailwind v4 + shadcn primitives + @theme tokens)  [leaf · web-only]
+packages/config       env base leaf                            [leaf · agnostic · importable by all]
+packages/ui           the ENTIRE web design system + all presentation (atoms→pages + views +
+                      fixtures + lib)                          [leaf · web-only]
 
-api-client ◄ repositories ◄ store ◄ core ◄ use-cases ◄ apps/web   (repositories = fetchX + entity
-                                                           types, store = domain model, core = web-only
-                                                           domain pieces, use-cases = feature
-                                                           assemblies, apps/web = Next shell + data layer)
+api-client ◄ repositories ◄ store ◄ apps/web   (repositories = fetchX + entity types, store =
+                                                domain model, apps/web = Next shell + data layer +
+                                                wiring that composes ui)
 ```
 
 Agnostic spine (reused by any future `apps/*`): `api-client`, `repositories`, `store`. Web-only:
-`ui`, `use-cases`, `apps/web` (the web↔native line is below `use-cases`, which renders). **Server-first:**
+`ui`, `apps/web` (the web↔native line is below `store`). **Server-first:**
 `apps/web` reads via RSC loaders (`src/server/*.loader.ts`) + writes via Server Actions
 (`src/server/*.actions.ts`) — no client data cache — and injects data/actions/URLs (serializable) into
-the prop-driven, Next-free `use-cases` components. A domain is a `src/<domain>/` folder inside a tier.
+the prop-driven `@kotodama/ui` components. A domain is a `src/<domain>/` folder inside a tier.
 Enforced by (1) a **DOM-free `tsconfig.base.json`** — a DOM leak (or a DOM-bound dep) into an
 agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Biome
 `noRestrictedImports`** — tier-direction bans. Full rule: `.claude/rules/frontend-layering.md`. Run
@@ -67,8 +68,8 @@ only when you touch a matching file, keeping the always-on context lean (Claude 
 
 - **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` · `commits` ·
   `pull-requests` · `claude-md`.
-- **Path-scoped:** `frontend-state` → `apps/web/**`, `use-cases/**`, `store/**`, `repositories/**` ·
-  `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`, `use-cases/**` (check before hand-rolling a
+- **Path-scoped:** `frontend-state` → `apps/web/**`, `store/**`, `repositories/**` ·
+  `nextjs` → `apps/web/**` · `react-use` → `apps/web/**` (check before hand-rolling a
   client hook) · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
   `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
@@ -76,7 +77,7 @@ only when you touch a matching file, keeping the always-on context lean (Claude 
 
 ## Per-layer context
 
-`apps/web/CLAUDE.md` + one `CLAUDE.md` per tier (`repositories`, `store`, `use-cases`) and per leaf package (`packages/api-client`, `packages/ui`). Ancestor `CLAUDE.md` (this file) always
+`apps/web/CLAUDE.md` + one `CLAUDE.md` per tier (`repositories`, `store`) and per leaf package (`packages/api-client`, `packages/ui`). Ancestor `CLAUDE.md` (this file) always
 loads; a package's loads when you touch its subtree. Content rule (why-not-what):
 `.claude/rules/claude-md.md`. **Don't churn these on exploratory edits** — refresh only when a real
 change is about to land, as part of the commit.

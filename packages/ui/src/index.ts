@@ -60,8 +60,19 @@ export {
 } from './components/molecules/save-word-button'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { StatusNote } from './components/molecules/status-note'
+export { CommandPalette, type CommandPaletteProps } from './components/organisms/command-palette'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
+export {
+  type MobileTab,
+  MobileTabBar,
+  type MobileTabBarProps,
+} from './components/organisms/mobile-tab-bar'
 export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
+export {
+  SiteHeader,
+  type SiteHeaderProps,
+  type SiteNavLink,
+} from './components/organisms/site-header'
 export {
   WordFailedView,
   type WordFailedViewProps,

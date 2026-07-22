@@ -3,6 +3,7 @@
 import type { SearchWordView } from '@kotodama/ui'
 import {
   Button,
+  CommandPalette,
   cn,
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +11,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
   Kbd,
+  MobileTabBar,
+  SiteHeader,
 } from '@kotodama/ui'
-import { CommandPalette, MobileTabBar, SiteHeader } from '@kotodama/use-cases'
 import { ArrowDownIcon, CheckIcon, GlobeIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -19,9 +21,10 @@ import useKey from 'react-use/lib/useKey'
 import { toast } from 'sonner'
 
 // Active-state needs usePathname, the palette needs router.push, and the mode
-// menu needs next-themes, so the chrome is wired here (the sanctioned apps/web
-// bypass), not in use-cases. One component owns header + tab bar + palette —
-// the Jump tab and the ⌘K trigger share the palette's open state.
+// menu needs next-themes, so this Next wiring lives in apps/web; the presentational
+// pieces (SiteHeader / MobileTabBar / CommandPalette) are prop-driven @kotodama/ui
+// organisms. One component owns header + tab bar + palette — the Jump tab and the
+// ⌘K trigger share the palette's open state.
 import { ModeMenu } from './mode-menu.client'
 
 const LANGUAGES = [

@@ -37,12 +37,9 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
 - **repositories fetchX** — one success decode + one typed error shape against a Vitest-mocked
   `fetch` (`vi.fn<typeof fetch>()` resolving a `Response.json(...)`; no hand-rolled fake, no nock).
   The generated types already prove the response shape compiles — the type system is the test.
-- **use-cases feature** — render the domain view (`WordView`) under jsdom with a `WordStateModel`
-  passed as a prop (no query cache — data is RSC-resolved), assert each branch maps to the right card.
-  This tier owns the domain → view mapping.
-- **the slice (`apps/web`)** — the app-consumption integration: render a `@kotodama/use-cases`
+- **the slice (`apps/web`)** — the app-consumption integration: render a `@kotodama/ui`
   component through the package boundary as the app wires it (one assertion — the package resolves +
-  renders). Branch coverage lives in use-cases; the app just proves consumption. The `server-only`
+  renders). Branch coverage lives in `ui`; the app just proves consumption. The `server-only`
   loader and the `.client.tsx` poll island aren't jsdom-unit-tested (server-only throws under jsdom;
   the poll is a browser side-effect + injected props) — the loader's SSG resilience is proven by
   `next build` going green, the slice by e2e.
@@ -52,7 +49,9 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
   Turbopack hydration cleanliness is a manual harness check (see the feature Change log), not a
   committed test.
 - **ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
-  testing-library mount for assertions.
+  testing-library mount for assertions. `ui` owns the view-branch tests: render a component like
+  `WordScreen` under jsdom with its view prop (no query cache — data is RSC-resolved) and assert each
+  branch maps to the right card.
 
 **Deliberately untested:** the config scaffolding (proven transitively by CI going green), the
 `@theme` token layer (static CSS variables, no logic). When you stop short on purpose, leave a

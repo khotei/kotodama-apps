@@ -9,24 +9,26 @@ The web app: the render layer + the walking-skeleton word slice, on **Next 16 (A
 Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (why Turbopack, not
 `--webpack`; see the feature Change log).
 
-- **May import:** `@kotodama/use-cases` (feature components), `@kotodama/store` (the domain model),
-  `@kotodama/ui`, `@kotodama/api-client` (the client factories), React/Next. **`@kotodama/repositories`**
+- **May import:** `@kotodama/ui` (all presentation), `@kotodama/store` (the domain model),
+  `@kotodama/api-client` (the client factories), React/Next. **`@kotodama/repositories`**
   (raw fetchX) is allowed ONLY under `src/server/**` (the RSC data layer); render code goes through the
   `src/server` loaders.
 - **`app/`** is the App Router tree: `layout.tsx` (RSC root, imports `globals.css`) → `providers.tsx`
   (`'use client'`: next-themes only) → `(public)/words/[language]/[word]/` `page.tsx` (RSC, SSG via
-  `generateStaticParams` + `revalidate`; non-ASCII params decoded at the boundary) + `loading.tsx`.
-- **Data path (RSC → props → use-cases):** `page.tsx` calls `getWordState` (`src/server/words/word.loader.ts`
+  `generateStaticParams` + `revalidate`; non-ASCII params decoded at the boundary) + `loading.tsx`
+  (renders `WordLoadingView` from `@kotodama/ui`).
+- **Data path (RSC → props → ui):** `page.tsx` calls `getWordState` (`src/server/words/word.loader.ts`
   — `server-only`, `React.cache`, STATIC client, `next.tags`) and passes the `WordStateModel | null`
-  into `<WordView>` from `@kotodama/use-cases`. The loader NEVER throws (unreachable backend → `null`),
+  into `<WordScreen>` from `@kotodama/ui` (its `WordScreenView` mirrors the model, so tsc accepts the
+  model directly — no runtime mapper). The loader NEVER throws (unreachable backend → `null`),
   so a backend-less `next build` prerenders the "not built yet" card. Mutations/revalidation live in
   `word.actions.ts` (`'use server'`). Import the app's own source via `@/*` (tsconfig path).
-- **Polling:** the page mounts `<WordStatusPoller>` (a `@kotodama/use-cases` client island) while a
-  word builds, **injecting** two bound Server Actions — `getWordStatus` (`poll`, `cache: 'no-store'`)
-  + `refreshWordPage` (`onSettled`). The island calls `poll` each tick; on terminal, `onSettled`
-  `revalidatePath`s so the RSC page re-renders the finished card. Both are serializable references —
-  the browser never fetches the backend directly (no `/api` rewrite). `react-use` lives in `use-cases`
-  now — see `.claude/rules/react-use.md`.
+- **Polling:** the page mounts `<WordStatusPoller>` (a LOCAL `src/words/word-status-poller.client.tsx`
+  island) while a word builds, **injecting** two bound Server Actions — `getWordStatus` (`poll`,
+  `cache: 'no-store'`) + `refreshWordPage` (`onSettled`). The island calls `poll` each tick; on
+  terminal, `onSettled` `revalidatePath`s so the RSC page re-renders the finished card. Both are
+  serializable references — the browser never fetches the backend directly (no `/api` rewrite).
+  `react-use` lives in `apps/web` — see `.claude/rules/react-use.md`.
 - **SEO (same route):** `generateMetadata` + the page share the one `React.cache`-wrapped
   `getWordState` (one fetch/request). An inline JSON-LD `DefinedTerm` renders only when the word is
   ready; its `JSON.stringify` MUST `<`→`<`-escape (dangerouslySetInnerHTML does not) or a value

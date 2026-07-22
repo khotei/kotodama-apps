@@ -5,7 +5,7 @@
 ## Packages / tiers
 
 `@kotodama/<folder>`, nested folders flatten with a dash. The top-level **tiers** are single
-packages named for the tier (`repositories`, `store`, `use-cases`); the
+packages named for the tier (`repositories`, `store`); the
 **leaf packages** live under `packages/` (`packages/api-client` → `@kotodama/api-client`,
 `packages/ui` → `@kotodama/ui`); apps drop the plural (`apps/web` → `@kotodama/web`). A **domain**
 is a `src/<domain>/` folder inside a tier (`store/src/words/`); split a tier into per-domain packages
@@ -23,19 +23,19 @@ Files carry a dotted **role suffix** — `<name>.<role>.ts` — the fast index i
 | `.model.ts` | a derived domain model + its derivation (`WordStateModel`, `narrowWordState`) | `store` |
 | `.loader.ts` | a `server-only` `React.cache` read (`getWordState`) | `apps/web/src/server` |
 | `.actions.ts` | a `'use server'` Server Action file (mutations + `revalidatePath`) | `apps/web/src/server` |
-| `.view.ts` | a React presentation shape, assembled purely for rendering | `use-cases` |
-| `.client.tsx` | a `'use client'` island (poll loop, optimistic UI, form state) | `use-cases` |
+| `.view.ts` | a React presentation shape, assembled purely for rendering | `packages/ui` (`src/views/`) |
+| `.client.tsx` | a `'use client'` island (poll loop, optimistic UI, form state) | `packages/ui` (client-island organisms) · `apps/web` (Next-wired islands) |
 | `.stories.tsx` | a Storybook story | `packages/ui` |
 | `*.gen.ts` | GENERATED, never hand-edited (`schema.gen.ts`, `tokens.gen.ts`) | `api-client`, `ui` |
 
 The role suffix tracks the layer a shape is derived at: **`entity`** (`repositories`, as fetched) →
-**`model`** (`store`, for the app) → **`view`** (`apps/web`, for the render). Server is the default,
+**`model`** (`store`, for the app) → **`view`** (`packages/ui`, for the render). Server is the default,
 so it is UNmarked (`.loader.ts` earns its suffix by role, not by being server); the rare **client**
 file is the one marked — `.client.tsx`, over its `'use client'` directive, surfacing the browser
 bundle in the file tree. (Don't confuse it with `api-client`'s transport `client.ts` — different
 tier, different extension.) Cross-query, cross-feature domain structures + molecules take **no
-suffix** and belong to the **`core` tier** (`core/src/<domain>/`) — the web-only domain tier
-`use-cases` composes (see `frontend-layering.md`).
+suffix** and live in **`packages/ui`** (`components/{molecules,organisms}/`), the web design system
+holding all presentation (see `frontend-layering.md`).
 
 A component file is a bare kebab name exporting a `PascalCase` component. Render-layer entrypoints
 keep conventional names: `server.ts`, `router.tsx`, `entry-server.tsx`, `entry-client.tsx`,

@@ -6,7 +6,6 @@
     "apps/*",
     "repositories",
     "store",
-    "use-cases",
     "packages/*"
   ],
   "catalogs": {

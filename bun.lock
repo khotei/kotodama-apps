@@ -36,7 +36,6 @@
         "@kotodama/config": "workspace:*",
         "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
-        "@kotodama/use-cases": "workspace:*",
         "next": "catalog:next",
         "next-themes": "catalog:style",
         "react": "catalog:react",
@@ -138,27 +137,6 @@
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
         "@types/react": "catalog:runtime",
-        "react": "catalog:react",
-      },
-    },
-    "use-cases": {
-      "name": "@kotodama/use-cases",
-      "version": "0.0.0",
-      "dependencies": {
-        "@kotodama/store": "workspace:*",
-        "@kotodama/ui": "workspace:*",
-        "react-use": "catalog:react",
-        "sonner": "catalog:style",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
-        "@storybook/react-vite": "catalog:ui",
-        "@types/react": "catalog:runtime",
-        "@types/react-dom": "catalog:react",
-        "react": "catalog:react",
-        "react-dom": "catalog:react",
-      },
-      "peerDependencies": {
         "react": "catalog:react",
       },
     },
@@ -440,8 +418,6 @@
     "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
 
     "@kotodama/ui": ["@kotodama/ui@workspace:packages/ui"],
-
-    "@kotodama/use-cases": ["@kotodama/use-cases@workspace:use-cases"],
 
     "@kotodama/web": ["@kotodama/web@workspace:apps/web"],
 

@@ -9,7 +9,7 @@ Scoped to `apps/web/**`. **Framework API facts come from the bundled docs**
 (`node_modules/next/dist/docs/`, version-matched to the installed Next) — read them before coding,
 not training data (`apps/web/CLAUDE.md` says the same at the top). This file holds only the project
 invariants Next itself won't tell you. Tier direction (render code never imports
-`@kotodama/repositories` — only `src/server` does; presentation comes from `@kotodama/use-cases`)
+`@kotodama/repositories` — only `src/server` does; presentation comes from `@kotodama/ui`)
 lives in `frontend-layering.md`.
 
 ## The load-bearing invariant — the public tree stays statically generable
@@ -19,20 +19,20 @@ lives in `frontend-layering.md`.
   no build error, just a lost prerender.
 - **Data flows RSC → props, never a client cache.** Reads live in `src/server/**/*.loader.ts`
   (`import 'server-only'`, `React.cache`-wrapped) and are the ONLY place `@kotodama/repositories` is
-  touched; the page passes the resolved model into a `@kotodama/use-cases` component. Mutations/
+  touched; the page passes the resolved model into a `@kotodama/ui` component. Mutations/
   revalidation live in `src/server/**/*.actions.ts` (`'use server'`). No `prefetchQuery`/`dehydrate`/
   `HydrationBoundary`, no QueryClient, no raw RSC `fetch()` in the render tree.
 
 ## RSC / client boundaries
 
-- **Presentation lives in `@kotodama/use-cases`** (RSC views + client islands); the page is a thin
+- **Presentation lives in `@kotodama/ui`** (atoms→pages + view types + fixtures); the page is a thin
   RSC shell that resolves data via `src/server` loaders and **injects** it — plus Server Actions +
   URLs — into those components as serializable props (see `frontend-state.md`). `'use client'` in the
-  app itself sits only in `providers.tsx` (theme) and `src/chrome/*.client.tsx` (nav/mode chrome —
-  needs `usePathname` + next-themes, the sanctioned bypass); the feature islands (poll loops,
-  optimistic UI, form state) are `.client.tsx` inside `use-cases`.
-- `WordView` (in `use-cases`) is the ONE place domain (`WordStateModel`) → presentational props
-  mapping happens; `@kotodama/ui` stays prop-driven.
+  app sits in `providers.tsx` (theme), `src/chrome/*.client.tsx` (nav/mode chrome — needs
+  `usePathname` + next-themes), and the feature islands (poll loops, optimistic UI, form state) as
+  `.client.tsx` under `src/**` (e.g. `src/words/`).
+- The app maps domain (`WordStateModel`) → props by injection; `@kotodama/ui` stays prop-driven and
+  reads the wire contract type-only.
 
 ## SEO
 
@@ -50,7 +50,7 @@ lives in `frontend-layering.md`.
   `revalidatePath`/`revalidateTag` **from a Server Action** (`*.actions.ts`) — the only call that also
   purges the client Router Cache and re-renders in one round-trip; never from a Route Handler (marks
   for next-visit only). No backend webhook.
-- **Polling** (a word still building) is a `@kotodama/use-cases` `.client.tsx` island calling an
+- **Polling** (a word still building) is an `apps/web/src/words/*.client.tsx` island calling an
   **injected** typed Server Action (`poll`, `cache: 'no-store'`) each tick + an injected refresh action
   once terminal. Both are serializable Server Action references (a plain fetcher closure can't cross
   the RSC→client boundary). Serial dispatch is harmless for a lone poll; there is **no `/api/*`

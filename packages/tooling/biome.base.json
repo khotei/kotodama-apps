@@ -92,7 +92,6 @@
                   {
                     "group": [
                       "@kotodama/store",
-                      "@kotodama/use-cases",
                       "@kotodama/repositories",
                       "@kotodama/config",
                       "@kotodama/web"
@@ -147,32 +146,6 @@
       }
     },
     {
-      "includes": ["use-cases/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/repositories",
-                      "@kotodama/config",
-                      "@kotodama/web",
-                      "next",
-                      "next/**"
-                    ],
-                    "message": "Layer violation: use-cases is the web-only feature tier — it composes @kotodama/ui + @kotodama/store into prop-driven assemblies. It must stay Next-free (the app injects loaders/actions/URLs as serializable props) and must not reach repositories, config, or apps. See frontend-layering.md."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
       "includes": ["apps/web/**"],
       "linter": {
         "domains": {
@@ -205,8 +178,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/use-cases", "@kotodama/web"],
-                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system or use-cases. Presentation lives in @kotodama/use-cases."
+                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
                   }
                 ]
               }
