@@ -1,3 +1,2 @@
-// Own subpath so no shipped-code graph ever imports faker (Biome-banned there) —
-// the mirror of the backend's `@kotodama/database/factories`.
+// Own subpath so no shipped-code graph ever imports faker (Biome import-ban).
 export * from './words/word.factory'

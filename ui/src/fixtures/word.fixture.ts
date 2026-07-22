@@ -1,18 +1,29 @@
-import type { WordEntryContent, WordScreenView } from '../views/word.view'
+import { WORD_BUILD_STAGE_SEQUENCE } from '../components/organisms/word-build/word-build-view'
+import type { WordBuildStages, WordEntryContent, WordScreenView } from '../views/word.view'
 
 // Design-stage fixtures (mirror the handoff's Word artboards) so every screen
-// state is reachable WITHOUT a backend. getWordState consults these only after
-// the real fetch came up empty — a live backend always wins.
+// state is reachable WITHOUT a backend — a live backend always wins.
 //
 // REVIEW MAP — how to reach each word state (design: word.html):
 //   ready       /words/es/mariposa    (the full artboard entry — all sections)
-//   generating  /words/es/empalagar   (2 done · 1 spinning · 2 pending, skeleton draft)
+//   generating  /words/es/empalagar   (2 done · 1 spinning · 3 pending, skeleton draft)
 //   queued      /words/es/resquemor   (same view, every stage pending)
-//   failed      /words/es/merendar    (error: timed_out · step 3 of 5, Try again form)
+//   failed      /words/es/merendar    (error: timed_out · step 2 of 6, Try again form)
 //   not-found   /words/es/alfombrilla — any word absent from this map (Create CTA)
 //   loading     the streaming fallback — flashes on a slow soft navigation only
 //   ready (derived)  sobremesa · madrugar · estrenar · friolero · anteayer · tutear —
 //                    mariposa's body with word/gloss swapped (see WORD_STATE_MOCKS_ALL)
+
+type StageName = WordBuildStages[number]['stage']
+type StageStatus = WordBuildStages[number]['status']
+
+// Trails map an exhaustive Record onto the canonical sequence, so a backend
+// stage addition breaks these at compile time instead of leaving mocks short.
+const trail = (statuses: Record<StageName, StageStatus>): WordBuildStages =>
+  WORD_BUILD_STAGE_SEQUENCE.map((stage) => ({ stage, status: statuses[stage] }))
+
+const allStages = (status: StageStatus): WordBuildStages =>
+  WORD_BUILD_STAGE_SEQUENCE.map((stage) => ({ stage, status }))
 export const WORD_STATE_MOCKS: Readonly<Record<string, WordScreenView>> = {
   mariposa: {
     kind: 'ready',
@@ -216,14 +227,7 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordScreenView>> = {
         { index: 1, type: 'primary', title: 'Reference extract on Lepidoptera / mariposas' },
       ],
       provenance: { model: 'mock', promptHash: 'mock' },
-      stages: [
-        { stage: 'fetch_source', status: 'succeeded' },
-        { stage: 'enrich_etymology', status: 'succeeded' },
-        { stage: 'enrich_tiers', status: 'succeeded' },
-        { stage: 'enrich_authors', status: 'succeeded' },
-        { stage: 'enrich_visuals', status: 'succeeded' },
-        { stage: 'final_review', status: 'succeeded' },
-      ],
+      stages: allStages('succeeded'),
       frequency: {
         band: 'common',
         trendNote:
@@ -243,39 +247,35 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordScreenView>> = {
   empalagar: {
     kind: 'unready',
     status: 'running',
-    stages: [
-      { stage: 'fetch_source', status: 'succeeded' },
-      { stage: 'enrich_tiers', status: 'succeeded' },
-      { stage: 'enrich_authors', status: 'running' },
-      { stage: 'enrich_etymology', status: 'pending' },
-      { stage: 'enrich_visuals', status: 'pending' },
-    ],
+    stages: trail({
+      fetch_source: 'succeeded',
+      enrich_etymology: 'succeeded',
+      enrich_tiers: 'running',
+      enrich_authors: 'pending',
+      enrich_visuals: 'pending',
+      final_review: 'pending',
+    }),
   },
   resquemor: {
     kind: 'unready',
     status: 'pending',
-    stages: [
-      { stage: 'fetch_source', status: 'pending' },
-      { stage: 'enrich_tiers', status: 'pending' },
-      { stage: 'enrich_authors', status: 'pending' },
-      { stage: 'enrich_etymology', status: 'pending' },
-      { stage: 'enrich_visuals', status: 'pending' },
-    ],
+    stages: allStages('pending'),
   },
   merendar: {
     kind: 'unready',
     status: 'failed',
-    stages: [
-      { stage: 'fetch_source', status: 'succeeded' },
-      { stage: 'enrich_tiers', status: 'succeeded' },
-      {
-        stage: 'enrich_etymology',
-        status: 'failed',
-        error: { message: 'source timed out', type: 'timed_out' },
-      },
-      { stage: 'enrich_authors', status: 'pending' },
-      { stage: 'enrich_visuals', status: 'pending' },
-    ],
+    stages: trail({
+      fetch_source: 'succeeded',
+      enrich_etymology: 'failed',
+      enrich_tiers: 'succeeded',
+      enrich_authors: 'pending',
+      enrich_visuals: 'pending',
+      final_review: 'pending',
+    }).map((stage) =>
+      stage.status === 'failed'
+        ? { ...stage, error: { message: 'source timed out', type: 'timed_out' as const } }
+        : stage,
+    ),
   },
 }
 

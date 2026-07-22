@@ -1,25 +1,23 @@
 import { faker } from '@faker-js/faker'
 import type { WordEntity, WordStateEntity } from '@kotodama/core/repositories'
 
-// The FE mirror of the backend's `@kotodama/database/factories`: `make*` builders
-// returning fully-typed wire values, so a schema regen that reshapes an entity
-// breaks a factory at compile time — never a test at runtime. faker is a
-// devDependency (`catalog:test`); this subpath is test-only and Biome-banned
-// from every shipped-code tree, so faker can never reach a production bundle.
-
 type Word = NonNullable<WordEntity>
 type SucceededWordState = Extract<WordStateEntity, { status: 'succeeded' }>
 type UnreadyWordState = Exclude<WordStateEntity, { status: 'succeeded' }>
 type Stage = Word['stages'][number]
 
-export const WORD_BUILD_STAGES = [
-  'fetch_source',
-  'enrich_etymology',
-  'enrich_tiers',
-  'enrich_authors',
-  'enrich_visuals',
-  'final_review',
-] as const satisfies readonly Stage['stage'][]
+// An exhaustive Record, not a plain array — `satisfies` on an array checks only
+// membership, so a backend stage ADDITION would silently shorten every trail.
+const STAGE_SEQUENCE = {
+  fetch_source: true,
+  enrich_etymology: true,
+  enrich_tiers: true,
+  enrich_authors: true,
+  enrich_visuals: true,
+  final_review: true,
+} satisfies Record<Stage['stage'], true>
+
+export const WORD_BUILD_STAGES = Object.keys(STAGE_SEQUENCE) as Stage['stage'][]
 
 const makeExample = () => ({
   text: faker.lorem.sentence(),
