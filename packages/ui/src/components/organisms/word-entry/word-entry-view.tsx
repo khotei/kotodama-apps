@@ -1,4 +1,3 @@
-import type { Language, ReadyWord } from '@kotodama/store'
 import {
   Badge,
   Breadcrumb,
@@ -24,7 +23,8 @@ import {
 } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon, EllipsisIcon, PenLineIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { languageName } from './language-name'
+import { languageName } from '../../../lib/language-name'
+import type { WordEntryContent } from '../../../views/word.view'
 
 const DEPTHS = [
   { id: 'quick', numeral: 'i', name: 'Quick', sublabel: 'one glance' },
@@ -107,13 +107,13 @@ function GlanceRow({ dt, dd }: { dt: string; dd: ReactNode }) {
 }
 
 export type WordEntryViewProps = {
-  word: ReadyWord
-  language: Language
+  word: WordEntryContent
+  language: string
   libraryHref: string
   searchHref: string
 }
 
-/** The full ready entry — every section derives from the real `ReadyWord`. */
+/** The full ready entry — every section derives from the real `WordEntryContent`. */
 export function WordEntryView({ word, language, libraryHref, searchHref }: WordEntryViewProps) {
   const languageLabel = languageName(language)
   const registerTier = word.lexical.register.find((r): r is WordTier =>

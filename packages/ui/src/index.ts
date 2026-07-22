@@ -62,8 +62,19 @@ export { SearchBox, type SearchBoxProps } from './components/molecules/search-bo
 export { StatusNote } from './components/molecules/status-note'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
 export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
+export {
+  WordFailedView,
+  type WordFailedViewProps,
+  WordGeneratingView,
+  type WordGeneratingViewProps,
+  WordNotFoundView,
+  type WordNotFoundViewProps,
+} from './components/organisms/word-build'
+export { WordEntryView, type WordEntryViewProps } from './components/organisms/word-entry'
+export { WordLoadingView, type WordLoadingViewProps } from './components/organisms/word-loading'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/word-of-the-day'
 export { SearchPage, type SearchPageProps } from './components/pages/search'
+export { WordScreen, type WordScreenProps } from './components/pages/word'
 export { LibraryScreen, type LibraryScreenProps } from './components/templates/library-screen'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
@@ -157,6 +168,7 @@ export { Spinner } from './components/ui/spinner'
 export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './components/ui/tabs'
 export { Toggle, toggleVariants } from './components/ui/toggle'
 export { WordCard, type WordCardProps } from './components/word-card'
+export { languageName } from './lib/language-name'
 export { cn } from './lib/utils'
 export type {
   GlanceSpan,
@@ -169,3 +181,8 @@ export type {
   WotdView,
 } from './views/library.view'
 export type { SearchPos, SearchWordView } from './views/search.view'
+export type {
+  WordBuildStages,
+  WordEntryContent,
+  WordScreenView,
+} from './views/word.view'

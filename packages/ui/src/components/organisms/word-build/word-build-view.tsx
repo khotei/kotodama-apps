@@ -1,4 +1,3 @@
-import type { UnreadyStages } from '@kotodama/store'
 import {
   Button,
   Card,
@@ -16,8 +15,9 @@ import {
   TriangleAlertIcon,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
+import type { WordBuildStages } from '../../../views/word.view'
 
-const STAGE_LABEL: Record<UnreadyStages[number]['stage'], string> = {
+const STAGE_LABEL: Record<WordBuildStages[number]['stage'], string> = {
   fetch_source: 'Looking the word up',
   enrich_etymology: 'Tracing the etymology',
   enrich_tiers: 'Writing the four depths',
@@ -26,7 +26,7 @@ const STAGE_LABEL: Record<UnreadyStages[number]['stage'], string> = {
   final_review: 'Setting the entry',
 }
 
-function toGenerationSteps(stages: UnreadyStages): GenerationStep[] {
+function toGenerationSteps(stages: WordBuildStages): GenerationStep[] {
   return stages.map(({ stage, status }) => ({
     label: STAGE_LABEL[stage],
     state: status === 'succeeded' ? 'done' : status === 'running' ? 'active' : 'pending',
@@ -61,7 +61,7 @@ function StateShell({
 
 export type WordGeneratingViewProps = {
   word: string
-  stages: UnreadyStages
+  stages: WordBuildStages
   backHref: string
 }
 
@@ -95,7 +95,7 @@ export function WordGeneratingView({ word, stages, backHref }: WordGeneratingVie
 
 export type WordFailedViewProps = {
   word: string
-  stages: UnreadyStages
+  stages: WordBuildStages
   backHref: string
   /** Injected Server Action (bound) the Try-again form submits. */
   buildAction?: (formData: FormData) => Promise<void>

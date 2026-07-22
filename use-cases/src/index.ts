@@ -7,15 +7,3 @@
 export { CommandPalette, type CommandPaletteProps } from './chrome/command-palette.client'
 export { type MobileTab, MobileTabBar, type MobileTabBarProps } from './chrome/mobile-tab-bar'
 export { SiteHeader, type SiteHeaderProps, type SiteNavLink } from './chrome/site-header'
-export {
-  WordFailedView,
-  type WordFailedViewProps,
-  WordGeneratingView,
-  type WordGeneratingViewProps,
-  WordNotFoundView,
-  type WordNotFoundViewProps,
-} from './words/word-build-view'
-export { WordEntryView, type WordEntryViewProps } from './words/word-entry-view'
-export { WordLoadingView, type WordLoadingViewProps } from './words/word-loading-view'
-export { WordScreen, type WordScreenProps } from './words/word-screen'
-export { WordStatusPoller, type WordStatusPollerProps } from './words/word-status-poller.client'

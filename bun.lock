@@ -41,6 +41,7 @@
         "next-themes": "catalog:style",
         "react": "catalog:react",
         "react-dom": "catalog:react",
+        "react-use": "catalog:react",
         "server-only": "catalog:react",
       },
       "devDependencies": {

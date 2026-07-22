@@ -1,4 +1,4 @@
-import type { ReadyWord, WordStateModel } from '@kotodama/store'
+import type { WordEntryContent, WordScreenView } from '../views/word.view'
 
 // Design-stage fixtures (mirror the handoff's Word artboards) so every screen
 // state is reachable WITHOUT a backend. getWordState consults these only after
@@ -13,7 +13,7 @@ import type { ReadyWord, WordStateModel } from '@kotodama/store'
 //   loading     the streaming fallback — flashes on a slow soft navigation only
 //   ready (derived)  sobremesa · madrugar · estrenar · friolero · anteayer · tutear —
 //                    mariposa's body with word/gloss swapped (see WORD_STATE_MOCKS_ALL)
-export const WORD_STATE_MOCKS: Readonly<Record<string, WordStateModel>> = {
+export const WORD_STATE_MOCKS: Readonly<Record<string, WordScreenView>> = {
   mariposa: {
     kind: 'ready',
     word: {
@@ -271,10 +271,10 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordStateModel>> = {
   },
 }
 
-const MARIPOSA = WORD_STATE_MOCKS.mariposa as { kind: 'ready'; word: ReadyWord }
+const MARIPOSA = WORD_STATE_MOCKS.mariposa as { kind: 'ready'; word: WordEntryContent }
 
 /** The full ready entry alone — for the WordEntryView organism story. */
-export const READY_WORD_FIXTURE: ReadyWord = MARIPOSA.word
+export const READY_WORD_FIXTURE: WordEntryContent = MARIPOSA.word
 
 /** The other list words marked `ready` reuse the mariposa entry (word + gloss
  *  swapped) so clicking their rows never lands on not-found mid-review. */
@@ -287,7 +287,7 @@ const DERIVED_READY: readonly [string, string][] = [
   ['tutear', 'to address someone with the informal tú'],
 ]
 
-export const WORD_STATE_MOCKS_ALL: Readonly<Record<string, WordStateModel>> = {
+export const WORD_STATE_MOCKS_ALL: Readonly<Record<string, WordScreenView>> = {
   ...WORD_STATE_MOCKS,
   ...Object.fromEntries(
     DERIVED_READY.map(([word, gloss]) => [
@@ -295,7 +295,7 @@ export const WORD_STATE_MOCKS_ALL: Readonly<Record<string, WordStateModel>> = {
       {
         kind: 'ready',
         word: { ...MARIPOSA.word, id: `mock-word-${word}`, word, coreDefinition: gloss },
-      } satisfies WordStateModel,
+      } satisfies WordScreenView,
     ]),
   ),
 }

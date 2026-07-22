@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { WORD_STATE_MOCKS } from './word.fixture'
+import { WORD_STATE_MOCKS } from '../../../fixtures/word.fixture'
 import { WordScreen } from './word-screen'
 
 // Pages/Word · one story per lifecycle state — the same WordScreen the Next

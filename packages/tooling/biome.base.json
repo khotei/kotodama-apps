@@ -94,11 +94,10 @@
                       "@kotodama/store",
                       "@kotodama/use-cases",
                       "@kotodama/repositories",
-                      "@kotodama/api-client",
                       "@kotodama/config",
                       "@kotodama/web"
                     ],
-                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui but must NOT import the domain/data tiers (store/repositories/api-client/config) or the app. It takes data via props. See frontend-layering.md."
+                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/api-client (the leaf), but must NOT import the domain MODEL (store), repositories, config, or the app. It takes data via props. See frontend-layering.md."
                   }
                 ]
               }

@@ -1,9 +1,9 @@
-import type { WordStateModel } from '@kotodama/store'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-import { WordScreen } from '../../src/words/word-screen'
+import { WordScreen } from '../src/components/pages/word/word-screen'
+import type { WordScreenView } from '../src/views/word.view'
 
-// use-cases owns the domain → view mapping: assert each model branch selects
+// WordScreen is the word route's view switch: assert each view branch selects
 // the right screen state. A pure function of its `model` prop.
 
 const HREFS = { libraryHref: '/', searchHref: '/search' }
@@ -16,7 +16,7 @@ describe('WordScreen', () => {
   })
 
   it('maps a running build to the generating state with its real stages', () => {
-    const model: WordStateModel = {
+    const model: WordScreenView = {
       kind: 'unready',
       status: 'running',
       stages: [
@@ -31,7 +31,7 @@ describe('WordScreen', () => {
   })
 
   it('maps a failed build to the failed state with the error code', () => {
-    const model: WordStateModel = {
+    const model: WordScreenView = {
       kind: 'unready',
       status: 'failed',
       stages: [

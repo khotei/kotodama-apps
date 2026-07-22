@@ -1,11 +1,15 @@
-import type { Language, WordStateModel } from '@kotodama/store'
-import { languageName } from './language-name'
-import { WordFailedView, WordGeneratingView, WordNotFoundView } from './word-build-view'
-import { WordEntryView } from './word-entry-view'
+import { languageName } from '../../../lib/language-name'
+import type { WordScreenView } from '../../../views/word.view'
+import {
+  WordFailedView,
+  WordGeneratingView,
+  WordNotFoundView,
+} from '../../organisms/word-build/word-build-view'
+import { WordEntryView } from '../../organisms/word-entry/word-entry-view'
 
 export type WordScreenProps = {
-  model: WordStateModel | null
-  language: Language
+  model: WordScreenView | null
+  language: string
   word: string
   libraryHref: string
   searchHref: string

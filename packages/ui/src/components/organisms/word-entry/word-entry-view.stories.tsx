@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { READY_WORD_FIXTURE } from './word.fixture'
+import { READY_WORD_FIXTURE } from '../../../fixtures/word.fixture'
 import { WordEntryView } from './word-entry-view'
 
 const meta: Meta<typeof WordEntryView> = {
