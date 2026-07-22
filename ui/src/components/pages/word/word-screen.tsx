@@ -52,7 +52,14 @@ export function WordScreen({
         />
       )
     }
-    return <WordGeneratingView word={word} stages={model.stages} backHref={libraryHref} />
+    return (
+      <WordGeneratingView
+        word={word}
+        stages={model.stages}
+        backHref={libraryHref}
+        status={model.status === 'pending' ? 'pending' : 'generating'}
+      />
+    )
   }
   return (
     <WordEntryView

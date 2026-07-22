@@ -127,7 +127,7 @@ export function ReadingRoom({ mostLookedUp, recentlyAdded, onRetry }: ReadingRoo
           }
           sub="A small chronicle of what learners are puzzling through. Updated hourly."
         >
-          <RankedList rows={mostLookedUp} numbered />
+          <RankedList rows={mostLookedUp} numbered onRetry={onRetry} />
         </Column>
         <Column
           title={

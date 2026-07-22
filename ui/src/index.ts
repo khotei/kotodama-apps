@@ -180,6 +180,7 @@ export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './co
 export { Toggle, toggleVariants } from './components/ui/toggle'
 export { WordCard, type WordCardProps } from './components/word-card'
 export { languageName } from './lib/language-name'
+export { speechLang } from './lib/speech-lang'
 export { cn } from './lib/utils'
 export type {
   GlanceSpan,

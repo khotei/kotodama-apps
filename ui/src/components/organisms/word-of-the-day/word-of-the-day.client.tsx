@@ -44,11 +44,14 @@ export type WordOfTheDayProps = {
 }
 
 export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
-  const [index, setIndex] = useState(0)
+  const [rawIndex, setIndex] = useState(0)
   const count = wotds.length
+  // Clamp instead of trusting state: a revalidation may shrink the rotation
+  // below a previously-reached index — show the newest item, never blank out.
+  const index = Math.min(rawIndex, count - 1)
   const wotd = wotds[index]
   if (wotd == null) return null
-  const step = (delta: number) => setIndex((i) => (i + delta + count) % count)
+  const step = (delta: number) => setIndex((i) => (Math.min(i, count - 1) + delta + count) % count)
 
   return (
     <section className="mt-16">

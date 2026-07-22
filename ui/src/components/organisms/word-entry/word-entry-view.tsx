@@ -24,6 +24,7 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon, EllipsisIcon, PenLineIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { languageName } from '../../../lib/language-name'
+import { speechLang } from '../../../lib/speech-lang'
 import type { WordEntryContent } from '../../../views/word.view'
 
 const DEPTHS = [
@@ -187,7 +188,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
               <span className="font-sans text-[13px] text-subtle-foreground uppercase tracking-[0.06em]">
                 {word.pronunciation.respelling}
               </span>
-              <ListenButton text={word.word} lang={language} />
+              <ListenButton text={word.word} lang={speechLang(language)} />
             </div>
             <p className="mt-[26px] max-w-[640px] font-serif text-2xl text-seal italic leading-[1.2] tracking-[-0.01em] before:content-['“'] after:content-['”']">
               {word.coreDefinition}
