@@ -4,7 +4,10 @@ import type { StorybookConfig } from '@storybook/react-vite'
 // directly. The @storybook/react-vite builder is the ONLY place Vite appears —
 // never as the app bundler (apps/web is Next/Turbopack).
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(ts|tsx)'],
+  // The catalog spans the presentational stack: ui atoms/molecules co-located
+  // here + use-cases organisms/pages co-located there. ui stays a leaf — its
+  // LIBRARY imports nothing internal; only this dev catalog reaches up.
+  stories: ['../src/**/*.stories.@(ts|tsx)', '../../../use-cases/src/**/*.stories.@(ts|tsx)'],
   framework: {
     name: '@storybook/react-vite',
     options: {},

@@ -1,6 +1,6 @@
+import { SEARCH_WORDS_MOCK } from '@kotodama/use-cases/fixtures'
 import type { ReactNode } from 'react'
 import { SiteChrome } from '@/src/chrome/site-chrome.client'
-import { SEARCH_WORDS_MOCK } from '@/src/library/search.mock'
 
 export default function PublicLayout({ children }: { children: ReactNode }) {
   return (

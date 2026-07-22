@@ -1,6 +1,6 @@
 import { SearchPage } from '@kotodama/use-cases'
+import { SEARCH_WORDS_MOCK } from '@kotodama/use-cases/fixtures'
 import type { Metadata } from 'next'
-import { SEARCH_WORDS_MOCK } from '@/src/library/search.mock'
 
 export const metadata: Metadata = {
   title: 'Search',
