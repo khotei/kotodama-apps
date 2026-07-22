@@ -64,7 +64,7 @@
         "react": "catalog:react",
       },
     },
-    "packages/tooling": {
+    "infra/tooling": {
       "name": "@kotodama/tooling",
       "version": "0.0.0",
       "dependencies": {
@@ -389,7 +389,7 @@
 
     "@kotodama/platform": ["@kotodama/platform@workspace:platform"],
 
-    "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
+    "@kotodama/tooling": ["@kotodama/tooling@workspace:infra/tooling"],
 
     "@kotodama/ui": ["@kotodama/ui@workspace:ui"],
 
