@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { LIBRARY_VIEW_MOCK } from './library.fixture'
+import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { WordOfTheDay } from './word-of-the-day.client'
 
 const meta: Meta<typeof WordOfTheDay> = {

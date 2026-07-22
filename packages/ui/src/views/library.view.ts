@@ -1,5 +1,6 @@
-import type { Language } from '@kotodama/store'
-import type { AccentedWord, WordStatus, WordTier } from '@kotodama/ui'
+import type { AccentedWord } from '../components/atoms/accented-word'
+import type { WordStatus } from '../components/atoms/status-badge'
+import type { WordTier } from '../components/atoms/tier-chip'
 
 export type LibraryStat = {
   value: string
@@ -46,8 +47,6 @@ export type WotdView = {
 
 export type RankedWordView = {
   href: string
-  /** Needed only where a row action fires (failed → Retry) — `es`. */
-  language?: Language
   word: AccentedWord
   gloss?: string
   pos?: string

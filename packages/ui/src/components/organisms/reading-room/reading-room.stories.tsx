@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { LIBRARY_VIEW_MOCK } from './library.fixture'
+import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { ReadingRoom } from './reading-room'
 
 const meta: Meta<typeof ReadingRoom> = {

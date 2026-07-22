@@ -15,6 +15,8 @@ import {
   DepthTabsTrigger,
   EtymologyTimeline,
   ImageSlot,
+  ListenButton,
+  SaveWordButton,
   SectionRule,
   Sparkline,
   StatusBadge,
@@ -22,9 +24,7 @@ import {
 } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon, EllipsisIcon, PenLineIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { ListenButton } from '../library/listen-button.client'
 import { languageName } from './language-name'
-import { SaveWordButton } from './save-word-button.client'
 
 const DEPTHS = [
   { id: 'quick', numeral: 'i', name: 'Quick', sublabel: 'one glance' },

@@ -1,7 +1,7 @@
 import { Button, Kbd, SearchBox } from '@kotodama/ui'
 import { ArrowRightIcon } from 'lucide-react'
 import { Fragment } from 'react'
-import type { LibraryStat, TryWordView } from './library.view'
+import type { LibraryStat, TryWordView } from '../../../views/library.view'
 
 const PROPS = [
   {

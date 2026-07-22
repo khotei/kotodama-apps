@@ -1,9 +1,7 @@
+import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { LIBRARY_VIEW_MOCK } from './library.fixture'
-import { LibraryHero } from './library-hero'
+import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { LibraryScreen } from './library-screen'
-import { ReadingRoom } from './reading-room'
-import { WordOfTheDay } from './word-of-the-day.client'
 
 // A Page story = the slot template filled with mock-fed organisms, exactly as
 // apps/web fills the same slots with data containers. The composition — which

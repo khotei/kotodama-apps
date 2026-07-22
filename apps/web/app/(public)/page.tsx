@@ -1,5 +1,5 @@
-import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/use-cases'
-import { LIBRARY_VIEW_MOCK } from '@kotodama/use-cases/fixtures'
+import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
+import { LIBRARY_VIEW_MOCK } from '@kotodama/ui/fixtures'
 import type { Metadata } from 'next'
 import { requestWordBuild } from '@/src/server/words/word.actions'
 
@@ -18,7 +18,7 @@ export default function LibraryPage() {
       <ReadingRoom
         mostLookedUp={library.mostLookedUp}
         recentlyAdded={library.recentlyAdded}
-        retryAction={requestWordBuild}
+        onRetry={requestWordBuild.bind(null, 'es')}
       />
     </>
   )

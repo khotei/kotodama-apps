@@ -1,4 +1,4 @@
-import type { LibraryView } from './library.view'
+import type { LibraryView } from '../views/library.view'
 
 // Design-surface fixture (mirrors the Claude Design handoff's Library screen) —
 // the canonical *View mock the Storybook Library stories feed, and the
@@ -221,7 +221,6 @@ export const LIBRARY_VIEW_MOCK: LibraryView = {
     },
     {
       href: '/words/es/merendar',
-      language: 'es',
       word: { pre: 'merendar' },
       when: '1 hour ago',
       status: 'failed',

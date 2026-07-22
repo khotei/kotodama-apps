@@ -1,11 +1,17 @@
 'use client'
 
-import { AccentedWordMark, accentedWordText, Button, Sparkline, type WordTier } from '@kotodama/ui'
+import {
+  AccentedWordMark,
+  accentedWordText,
+  Button,
+  ListenButton,
+  SaveWordButton,
+  Sparkline,
+  type WordTier,
+} from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
-import { SaveWordButton } from '../words/save-word-button.client'
-import type { GlanceText, WotdView } from './library.view'
-import { ListenButton } from './listen-button.client'
+import type { GlanceText, WotdView } from '../../../views/library.view'
 
 function Glance({ value }: { value: GlanceText }) {
   if (typeof value === 'string') return value
