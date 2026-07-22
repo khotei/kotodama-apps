@@ -19,6 +19,7 @@ export {
 } from './components/atoms/highlighted-text'
 export { ImageSlot, type ImageSlotProps } from './components/atoms/image-slot'
 export { ListenButton, type ListenButtonProps } from './components/atoms/listen-button'
+export { Overline, type OverlineProps } from './components/atoms/overline'
 export { PosPill } from './components/atoms/pos-pill'
 export { RetryButton, type RetryButtonProps } from './components/atoms/retry-button'
 export { RetryLink } from './components/atoms/retry-link'
