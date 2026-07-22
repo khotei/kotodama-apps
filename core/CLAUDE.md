@@ -15,7 +15,7 @@ package.
   `WordBuildStatus` for the poll island; re-exports `Language` so consumers need not reach into
   `/repositories`. No queries — reads are RSC, this tier is pure model.
 
-- **May import:** `@kotodama/api-client` (the `ApiClient` type + raw `operations`). Direction is
+- **May import:** `@kotodama/platform/api-client` (the `ApiClient` type + raw `operations`). Direction is
   Biome-enforced: `store` may import `repositories`, never the reverse; neither imports `ui`/`apps`.
 - **Imported by:** `apps/web/src/server` (loaders narrow here). Never by components — `ui` is
   prop-driven and reads the wire contract type-only.

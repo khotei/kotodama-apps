@@ -19,7 +19,7 @@ consumes it directly as the design source of truth.
   committed `.mcp.json`, per `sdd.md`); `.claude/agent-patterns/tailwind-shadcn.md` already encodes
   the same Skills rules (semantic tokens, `cva` variants, `asChild`, full `Card` composition).
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
-  `lucide-react`, `react`, and `@kotodama/api-client` **types only** (the wire contract). Never
+  `lucide-react`, `react`, and `@kotodama/platform/api-client` **types only** (the wire contract). Never
   `store`/`repositories`/`config` or `apps/*` — components take data via props. It may self-compose via
   the `@kotodama/ui` barrel.
 - **Imported by:** `apps/web` + Storybook.

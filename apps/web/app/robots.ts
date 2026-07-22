@@ -1,4 +1,4 @@
-import { serverEnv } from '@kotodama/config'
+import { serverEnv } from '@kotodama/platform/config'
 import type { MetadataRoute } from 'next'
 
 export default function robots(): MetadataRoute.Robots {

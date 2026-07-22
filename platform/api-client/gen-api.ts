@@ -9,7 +9,7 @@
 // CI drift gate: run this, then fail on a dirty git diff of schema.gen.ts.
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { loadRootEnv } from '@kotodama/config'
+import { loadRootEnv } from '@kotodama/platform/config'
 import openapiTS, { astToString } from 'openapi-typescript'
 
 // Same repo-root .env fallback the app uses (real exported vars win), so gen:api

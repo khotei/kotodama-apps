@@ -5,6 +5,7 @@
   "workspaces": [
     "apps/*",
     "core",
+    "platform",
     "packages/*"
   ],
   "catalogs": {
@@ -83,6 +84,6 @@
     "tsc": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "check": "bun run lint && bun run tsc",
-    "gen:api": "bun run --filter '@kotodama/api-client' gen:api"
+    "gen:api": "bun run --filter '@kotodama/platform' gen:api"
   }
 }

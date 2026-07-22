@@ -23,14 +23,14 @@ Top-level tiers (one-way linear chain, mirrors the backend):
   and `lib/` (`cn`, `languageName`). Every component folder = component + story + `index.ts` barrel; the
   whole site assembles in ui's Storybook on mock data as the design source of truth.
 - **`ui ⊥ store`:** ui is independent of the domain MODEL — it takes data via props. It MAY read the
-  generated WIRE CONTRACT **type-only** from `@kotodama/api-client` (e.g. `word.view.ts` derives its
+  generated WIRE CONTRACT **type-only** from `@kotodama/platform/api-client` (e.g. `word.view.ts` derives its
   content type off `operations['words.buildWord']`); it must NOT import `store`, `repositories`,
   `config`, or the app. It may self-compose via `@kotodama/ui` (a benign barrel self-import).
 - **`api-client` is a leaf package importable by every tier** (for the client + raw `operations` —
   "everything → packages"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it (plus its
   own Storybook); the agnostic spine must not (it is DOM-bound and would break portability).
 - **`config` is the env base leaf — the single home for env keys, importable by ALL** (mirrors the
-  backend `@kotodama/config`). Its library imports nothing internal; the `api-client` leaf's
+  backend `@kotodama/platform/config`). Its library imports nothing internal; the `api-client` leaf's
   `gen-api.ts` build script is Biome-exempted to reuse its `loadRootEnv`. The `api-client` *library*
   still reads no env — it takes `baseUrl` injected.
 - **Tier direction:** `repositories` = raw fetchX + the contract entity types (`*Entity`); `store` =
@@ -38,7 +38,7 @@ Top-level tiers (one-way linear chain, mirrors the backend):
   (routing + the server data layer + wiring that composes `ui`). Never import upward, and the agnostic
   spine never imports `ui`/`apps`.
 - **`apps/web` splits in two internally:** `src/server/**` is the RSC data layer — the ONE place in
-  the app allowed to import `@kotodama/repositories` (it composes fetchX + `store` models + `config`
+  the app allowed to import `@kotodama/core/repositories` (it composes fetchX + `store` models + `config`
   into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**` is the routing shell — plus the
   client-wiring chrome/islands under `src/chrome/**` + `src/words/**` — that composes `@kotodama/ui`
   components, injecting the loaders' data + the actions. `src/server` must not import `ui` — presentation

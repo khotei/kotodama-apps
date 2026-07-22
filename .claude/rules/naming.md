@@ -6,7 +6,7 @@
 
 `@kotodama/<folder>`, nested folders flatten with a dash. The top-level **tiers** are single
 packages named for the tier (`repositories`, `store`); the
-**leaf packages** live under `packages/` (`packages/api-client` → `@kotodama/api-client`,
+**leaf packages** live under `packages/` (`packages/api-client` → `@kotodama/platform/api-client`,
 `packages/ui` → `@kotodama/ui`); apps drop the plural (`apps/web` → `@kotodama/web`). A **domain**
 is a `src/<domain>/` folder inside a tier (`store/src/words/`); split a tier into per-domain packages
 only when a second domain demonstrates the need.

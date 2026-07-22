@@ -1,4 +1,4 @@
-import { ApiError, createApiClient } from '@kotodama/api-client'
+import { ApiError, createApiClient } from '@kotodama/platform/api-client'
 import { describe, expect, it, vi } from 'vitest'
 import { fetchWord, searchWords } from '../../src/index'
 

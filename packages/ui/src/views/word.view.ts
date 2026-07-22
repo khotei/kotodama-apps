@@ -1,4 +1,4 @@
-import type { operations } from '@kotodama/api-client'
+import type { operations } from '@kotodama/platform/api-client'
 
 // ui reads the generated WIRE CONTRACT (type-only), never the store domain model
 // (`narrowWordState`/`WordStateModel`) — the design system stays independent of

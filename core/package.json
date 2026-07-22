@@ -9,7 +9,7 @@
     "./store": "./store/src/index.ts"
   },
   "dependencies": {
-    "@kotodama/api-client": "workspace:*"
+    "@kotodama/platform": "workspace:*"
   },
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",

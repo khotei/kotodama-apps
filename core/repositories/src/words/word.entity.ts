@@ -1,4 +1,4 @@
-import type { operations } from '@kotodama/api-client'
+import type { operations } from '@kotodama/platform/api-client'
 
 // The contract types projected straight off the generated `operations` — no
 // hand-written response shapes. They live here, in the data-access tier that

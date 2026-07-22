@@ -32,9 +32,8 @@
       "name": "@kotodama/web",
       "version": "0.0.0",
       "dependencies": {
-        "@kotodama/api-client": "workspace:*",
-        "@kotodama/config": "workspace:*",
         "@kotodama/core": "workspace:*",
+        "@kotodama/platform": "workspace:*",
         "@kotodama/ui": "workspace:*",
         "next": "catalog:next",
         "next-themes": "catalog:style",
@@ -57,35 +56,12 @@
       "name": "@kotodama/core",
       "version": "0.0.0",
       "dependencies": {
-        "@kotodama/api-client": "workspace:*",
+        "@kotodama/platform": "workspace:*",
       },
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
         "@types/react": "catalog:runtime",
         "react": "catalog:react",
-      },
-    },
-    "packages/api-client": {
-      "name": "@kotodama/api-client",
-      "version": "0.0.0",
-      "dependencies": {
-        "openapi-fetch": "catalog:api",
-      },
-      "devDependencies": {
-        "@kotodama/config": "workspace:*",
-        "@kotodama/tooling": "workspace:*",
-        "openapi-typescript": "catalog:api",
-      },
-    },
-    "packages/config": {
-      "name": "@kotodama/config",
-      "version": "0.0.0",
-      "dependencies": {
-        "dotenv": "^17.4.0",
-        "zod": "catalog:api",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
       },
     },
     "packages/tooling": {
@@ -127,6 +103,19 @@
       "peerDependencies": {
         "react": "catalog:react",
         "react-dom": "catalog:react",
+      },
+    },
+    "platform": {
+      "name": "@kotodama/platform",
+      "version": "0.0.0",
+      "dependencies": {
+        "dotenv": "^17.4.0",
+        "openapi-fetch": "catalog:api",
+        "zod": "catalog:api",
+      },
+      "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
+        "openapi-typescript": "catalog:api",
       },
     },
   },
@@ -394,13 +383,11 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@kotodama/api-client": ["@kotodama/api-client@workspace:packages/api-client"],
-
-    "@kotodama/config": ["@kotodama/config@workspace:packages/config"],
-
     "@kotodama/core": ["@kotodama/core@workspace:core"],
 
     "@kotodama/e2e": ["@kotodama/e2e@workspace:apps/e2e"],
+
+    "@kotodama/platform": ["@kotodama/platform@workspace:platform"],
 
     "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
 

@@ -1,4 +1,4 @@
-import { serverEnv } from '@kotodama/config'
+import { serverEnv } from '@kotodama/platform/config'
 import { Toaster } from '@kotodama/ui'
 import type { Metadata } from 'next'
 import { Fraunces, Inter, JetBrains_Mono } from 'next/font/google'

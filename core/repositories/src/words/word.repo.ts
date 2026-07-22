@@ -1,5 +1,5 @@
-import type { operations } from '@kotodama/api-client'
-import { type ApiClient, unwrap } from '@kotodama/api-client'
+import type { operations } from '@kotodama/platform/api-client'
+import { type ApiClient, unwrap } from '@kotodama/platform/api-client'
 import type { Language } from './word.entity'
 
 // The data-access tier: bare `fetchX` functions over the transport client — the

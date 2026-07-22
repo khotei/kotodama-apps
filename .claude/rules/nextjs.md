@@ -9,7 +9,7 @@ Scoped to `apps/web/**`. **Framework API facts come from the bundled docs**
 (`node_modules/next/dist/docs/`, version-matched to the installed Next) — read them before coding,
 not training data (`apps/web/CLAUDE.md` says the same at the top). This file holds only the project
 invariants Next itself won't tell you. Tier direction (render code never imports
-`@kotodama/repositories` — only `src/server` does; presentation comes from `@kotodama/ui`)
+`@kotodama/core/repositories` — only `src/server` does; presentation comes from `@kotodama/ui`)
 lives in `frontend-layering.md`.
 
 ## The load-bearing invariant — the public tree stays statically generable
@@ -18,7 +18,7 @@ lives in `frontend-layering.md`.
   `cookies()` or `createServerApiClient()` there make the route **dynamic** and silently kill SSG —
   no build error, just a lost prerender.
 - **Data flows RSC → props, never a client cache.** Reads live in `src/server/**/*.loader.ts`
-  (`import 'server-only'`, `React.cache`-wrapped) and are the ONLY place `@kotodama/repositories` is
+  (`import 'server-only'`, `React.cache`-wrapped) and are the ONLY place `@kotodama/core/repositories` is
   touched; the page passes the resolved model into a `@kotodama/ui` component. Mutations/
   revalidation live in `src/server/**/*.actions.ts` (`'use server'`). No `prefetchQuery`/`dehydrate`/
   `HydrationBoundary`, no QueryClient, no raw RSC `fetch()` in the render tree.
@@ -66,7 +66,7 @@ lives in `frontend-layering.md`.
   packages resolve via their `package.json` `exports` subpaths, NOT the consuming app's tsconfig
   paths — including CSS: `globals.css` is `@import "@kotodama/ui/styles.css"` (the ui entry
   `@source`s its own tree, so the app declares no `../` paths).
-- **Env comes from `@kotodama/config`** (`serverEnv()` — Zod-validated, memoized over the repo-root
+- **Env comes from `@kotodama/platform/config`** (`serverEnv()` — Zod-validated, memoized over the repo-root
   `.env` that `loadRootEnv()` loads once at the top of `next.config.ts`); never scattered
   `process.env.X ?? default`. `serverSchema` validates on first access, so a missing required var
   throws once (SSG/metadata fail the build) — consumers use `serverEnv().X` directly, never
