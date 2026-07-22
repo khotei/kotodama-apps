@@ -81,7 +81,7 @@
       }
     },
     {
-      "includes": ["packages/ui/**"],
+      "includes": ["ui/**"],
       "linter": {
         "rules": {
           "style": {
@@ -96,7 +96,7 @@
                       "@kotodama/platform/config",
                       "@kotodama/web"
                     ],
-                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-layering.md."
+                    "message": "Independence violation: ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-layering.md."
                   }
                 ]
               }
@@ -121,7 +121,7 @@
                       "@kotodama/ui",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: core/repositories may depend on @kotodama/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
+                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
                   }
                 ]
               }

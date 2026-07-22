@@ -74,7 +74,20 @@
         "vitest": "catalog:test",
       },
     },
-    "packages/ui": {
+    "platform": {
+      "name": "@kotodama/platform",
+      "version": "0.0.0",
+      "dependencies": {
+        "dotenv": "^17.4.0",
+        "openapi-fetch": "catalog:api",
+        "zod": "catalog:api",
+      },
+      "devDependencies": {
+        "@kotodama/tooling": "workspace:*",
+        "openapi-typescript": "catalog:api",
+      },
+    },
+    "ui": {
       "name": "@kotodama/ui",
       "version": "0.0.0",
       "dependencies": {
@@ -103,19 +116,6 @@
       "peerDependencies": {
         "react": "catalog:react",
         "react-dom": "catalog:react",
-      },
-    },
-    "platform": {
-      "name": "@kotodama/platform",
-      "version": "0.0.0",
-      "dependencies": {
-        "dotenv": "^17.4.0",
-        "openapi-fetch": "catalog:api",
-        "zod": "catalog:api",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
-        "openapi-typescript": "catalog:api",
       },
     },
   },
@@ -391,7 +391,7 @@
 
     "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
 
-    "@kotodama/ui": ["@kotodama/ui@workspace:packages/ui"],
+    "@kotodama/ui": ["@kotodama/ui@workspace:ui"],
 
     "@kotodama/web": ["@kotodama/web@workspace:apps/web"],
 

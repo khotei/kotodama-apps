@@ -6,6 +6,7 @@
     "apps/*",
     "core",
     "platform",
+    "ui",
     "packages/*"
   ],
   "catalogs": {
