@@ -72,6 +72,10 @@
                   {
                     "group": ["@kotodama/*"],
                     "message": "Layer violation: platform/api-client is the transport leaf — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse platform/config's loadRootEnv). See frontend-layering.md."
+                  },
+                  {
+                    "group": ["@faker-js/faker"],
+                    "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
                 ]
               }
@@ -97,6 +101,10 @@
                       "@kotodama/web"
                     ],
                     "message": "Independence violation: ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-layering.md."
+                  },
+                  {
+                    "group": ["@faker-js/faker"],
+                    "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
                 ]
               }
@@ -122,6 +130,36 @@
                       "@kotodama/web"
                     ],
                     "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
+                  },
+                  {
+                    "group": ["@faker-js/faker"],
+                    "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["core/factories/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/core/store",
+                      "@kotodama/core/store/**",
+                      "@kotodama/ui",
+                      "@kotodama/ui/**",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: core/factories builds WIRE values over the repositories entity types — it must not import the store model, the design system, or apps."
                   }
                 ]
               }
@@ -142,6 +180,10 @@
                   {
                     "group": ["@kotodama/ui", "@kotodama/web"],
                     "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
+                  },
+                  {
+                    "group": ["@faker-js/faker"],
+                    "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
                 ]
               }
@@ -165,6 +207,10 @@
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
                     "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                  },
+                  {
+                    "group": ["@faker-js/faker"],
+                    "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
                 ]
               }
