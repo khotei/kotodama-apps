@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { BookmarkIcon, HouseIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { MobileTabBar } from './mobile-tab-bar'
 
 // Fixed bottom bar, `md:hidden` — view under a mobile viewport to see it.
@@ -14,10 +15,10 @@ type Story = StoryObj<typeof MobileTabBar>
 export const Default: Story = {
   args: {
     tabs: [
-      { icon: 'library', label: 'Library', href: '/', active: true },
-      { icon: 'search', label: 'Search', href: '/search' },
-      { icon: 'jump', label: 'Jump' },
-      { icon: 'saved', label: 'Saved', href: '/search?saved=1' },
+      { icon: <HouseIcon />, label: 'Library', href: '/', active: true },
+      { icon: <SearchIcon />, label: 'Search', href: '/search' },
+      { icon: <SparklesIcon />, label: 'Jump' },
+      { icon: <BookmarkIcon />, label: 'Saved', href: '/search?saved=1' },
     ],
   },
 }

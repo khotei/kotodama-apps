@@ -1,1 +1,7 @@
-export { TierChip, type TierChipProps, type WordTier } from './tier-chip'
+export {
+  TierChip,
+  type TierChipProps,
+  TierDot,
+  type TierDotProps,
+  type WordTier,
+} from './tier-chip'

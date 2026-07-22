@@ -1,3 +1,4 @@
+import { pad2 } from '@kotodama/ui'
 import type { WordEntryContent } from '../../../views/word.view'
 import { WordSection } from './word-section'
 
@@ -17,9 +18,7 @@ export function SourcesSection({ sources }: SourcesSectionProps) {
             key={`${source.index}`}
             className="grid grid-cols-[36px_1fr_auto] items-baseline gap-[14px] border-border border-b border-dotted py-3"
           >
-            <span className="font-mono text-[12px] text-seal">
-              [{String(source.index).padStart(2, '0')}]
-            </span>
+            <span className="font-mono text-[12px] text-seal">[{pad2(Number(source.index))}]</span>
             <span className="font-serif text-[16px] leading-[1.4]">{source.title}</span>
             <span className="whitespace-nowrap font-mono text-[10.5px] text-subtle-foreground tracking-[0.04em]">
               {source.type}

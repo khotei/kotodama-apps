@@ -8,10 +8,11 @@ export type ListenButtonProps = {
   text: string
   /** BCP-47 speech tag — `es-ES`. */
   lang: string
+  className?: string
 }
 
 /** Speaks the word via speechSynthesis; the label swaps while playing. */
-export function ListenButton({ text, lang }: ListenButtonProps) {
+export function ListenButton({ text, lang, className }: ListenButtonProps) {
   const [playing, setPlaying] = useState(false)
 
   const speak = () => {
@@ -26,7 +27,7 @@ export function ListenButton({ text, lang }: ListenButtonProps) {
   }
 
   return (
-    <Button variant="ghost" size="sm" onClick={speak}>
+    <Button variant="ghost" size="sm" className={className} onClick={speak}>
       <Volume2Icon /> {playing ? 'Playing…' : 'Listen'}
     </Button>
   )

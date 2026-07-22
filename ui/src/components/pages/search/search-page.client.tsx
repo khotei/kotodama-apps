@@ -6,6 +6,7 @@ import {
   EmptyState,
   FilterChip,
   HighlightedText,
+  pad2,
   ResultRow,
   SearchBox,
   SectionRule,
@@ -22,10 +23,8 @@ import {
   SparklesIcon,
   XIcon,
 } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { type ComponentProps, useMemo, useState } from 'react'
 import type { SearchPos, SearchWordView } from '../../../views/search.view'
-
-const pad2 = (n: number) => String(n).padStart(2, '0')
 
 const PAGE_SIZE = 6
 const POS_TABS: { value: SearchPos | 'all'; label: string }[] = [
@@ -41,6 +40,23 @@ function matches(row: SearchWordView, needle: string, pos: SearchPos | 'all', sa
   if (pos !== 'all' && row.pos !== pos) return false
   if (needle !== '' && !row.word.toLowerCase().includes(needle)) return false
   return true
+}
+
+function PagerArrow({
+  direction,
+  ...props
+}: { direction: 'prev' | 'next' } & ComponentProps<'button'>) {
+  return (
+    <button
+      type="button"
+      className="inline-flex cursor-pointer items-center gap-2 px-1 py-2 font-mono text-[11px] text-muted-foreground uppercase tracking-[0.11em] transition-colors hover:text-seal disabled:cursor-default disabled:text-faint-foreground disabled:opacity-45"
+      {...props}
+    >
+      {direction === 'prev' && <ArrowRightIcon className="size-[15px] rotate-180" />}
+      {direction === 'prev' ? 'Prev' : 'Next'}
+      {direction === 'next' && <ArrowRightIcon className="size-[15px]" />}
+    </button>
+  )
 }
 
 function Row({ row, query }: { row: SearchWordView; query: string }) {
@@ -247,14 +263,11 @@ export function SearchPage({
               className="mt-[30px] flex items-center justify-between gap-4 border-border-subtle border-t pt-[22px]"
               aria-label="Result pages"
             >
-              <button
-                type="button"
+              <PagerArrow
+                direction="prev"
                 disabled={currentPage === 1}
                 onClick={() => setPage(currentPage - 1)}
-                className="inline-flex cursor-pointer items-center gap-2 px-1 py-2 font-mono text-[11px] text-muted-foreground uppercase tracking-[0.11em] transition-colors hover:text-seal disabled:cursor-default disabled:text-faint-foreground disabled:opacity-45"
-              >
-                <ArrowRightIcon className="size-[15px] rotate-180" /> Prev
-              </button>
+              />
               <ol className="flex items-center gap-1">
                 {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
                   <li key={n}>
@@ -274,14 +287,11 @@ export function SearchPage({
                   </li>
                 ))}
               </ol>
-              <button
-                type="button"
+              <PagerArrow
+                direction="next"
                 disabled={currentPage === pageCount}
                 onClick={() => setPage(currentPage + 1)}
-                className="inline-flex cursor-pointer items-center gap-2 px-1 py-2 font-mono text-[11px] text-muted-foreground uppercase tracking-[0.11em] transition-colors hover:text-seal disabled:cursor-default disabled:text-faint-foreground disabled:opacity-45"
-              >
-                Next <ArrowRightIcon className="size-[15px]" />
-              </button>
+              />
             </nav>
           )}
         </>

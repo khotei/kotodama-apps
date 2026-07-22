@@ -8,12 +8,14 @@ function verbClass(status: WordStatus) {
       : 'text-faint-foreground'
 }
 
+export type StatusNoteProps = { note: string; status: WordStatus }
+
 /**
  * `Spanish · arriving` — the language stays muted, the state verb takes the
  * status colour. A note carrying no ` · ` separator is treated as the verb and
  * colours as a whole (so a single-segment note is never left uncoloured).
  */
-export function StatusNote({ note, status }: { note: string; status: WordStatus }) {
+export function StatusNote({ note, status }: StatusNoteProps) {
   const sep = note.indexOf(' · ')
   if (sep < 0) {
     return <span className={verbClass(status)}>{note}</span>

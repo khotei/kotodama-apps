@@ -14,7 +14,16 @@ import {
   MobileTabBar,
   SiteHeader,
 } from '@kotodama/ui'
-import { ArrowDownIcon, CheckIcon, GlobeIcon, PlusIcon, SearchIcon } from 'lucide-react'
+import {
+  ArrowDownIcon,
+  BookmarkIcon,
+  CheckIcon,
+  GlobeIcon,
+  HouseIcon,
+  PlusIcon,
+  SearchIcon,
+  SparklesIcon,
+} from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import useKey from 'react-use/lib/useKey'
@@ -127,15 +136,19 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
       />
       <MobileTabBar
         tabs={[
-          { icon: 'library', label: 'Library', href: '/', active: pathname === '/' },
+          { icon: <HouseIcon />, label: 'Library', href: '/', active: pathname === '/' },
           {
-            icon: 'search',
+            icon: <SearchIcon />,
             label: 'Search',
             href: '/search',
             active: pathname.startsWith('/search'),
           },
-          { icon: 'jump', label: 'Jump', onSelect: () => setPaletteOpen(true) },
-          { icon: 'saved', label: 'Saved', onSelect: () => router.push('/search?saved=1') },
+          { icon: <SparklesIcon />, label: 'Jump', onSelect: () => setPaletteOpen(true) },
+          {
+            icon: <BookmarkIcon />,
+            label: 'Saved',
+            onSelect: () => router.push('/search?saved=1'),
+          },
         ]}
       />
       <button

@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  cn,
   type GenerationStep,
   GenerationSteps,
   Skeleton,
@@ -59,7 +60,7 @@ function StateShell({
         </a>
       </Button>
       <Card className={cardClassName}>
-        <CardContent className={contentClassName ?? 'p-8'}>{children}</CardContent>
+        <CardContent className={cn('p-8', contentClassName)}>{children}</CardContent>
       </Card>
     </div>
   )

@@ -1,4 +1,5 @@
 import { cva } from 'class-variance-authority'
+import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/utils'
 import { Badge, type BadgeProps } from '../../ui/badge'
 
@@ -36,5 +37,24 @@ export function TierChip({ tier, className, children, ...props }: TierChipProps)
       <span className="size-1.5 rounded-full bg-current" />
       {children ?? TIER_LABEL[tier]}
     </Badge>
+  )
+}
+
+const TIER_DOT: Record<WordTier, string> = {
+  everyday: 'bg-tier-everyday',
+  cultural: 'bg-tier-cultural',
+  formal: 'bg-tier-formal',
+  rare: 'bg-tier-rare',
+}
+
+export type TierDotProps = ComponentProps<'span'> & { tier: WordTier }
+
+/** The square tier swatch — TierChip's colour vocabulary as a standalone glyph. */
+export function TierDot({ tier, className, ...props }: TierDotProps) {
+  return (
+    <span
+      className={cn('inline-block size-[9px] rounded-xs', TIER_DOT[tier], className)}
+      {...props}
+    />
   )
 }
