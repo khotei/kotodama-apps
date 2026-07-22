@@ -1,6 +1,5 @@
-import type { AccentedWord } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
-import type { WordStatus, WordTier } from '@kotodama/ui'
+import type { AccentedWord, WordStatus, WordTier } from '@kotodama/ui'
 
 export type LibraryStat = {
   value: string

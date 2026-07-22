@@ -53,23 +53,6 @@
         "tailwindcss": "catalog:style",
       },
     },
-    "core": {
-      "name": "@kotodama/core",
-      "version": "0.0.0",
-      "dependencies": {
-        "@kotodama/ui": "workspace:*",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
-        "@types/react": "catalog:runtime",
-        "@types/react-dom": "catalog:react",
-        "react": "catalog:react",
-        "react-dom": "catalog:react",
-      },
-      "peerDependencies": {
-        "react": "catalog:react",
-      },
-    },
     "packages/api-client": {
       "name": "@kotodama/api-client",
       "version": "0.0.0",
@@ -161,7 +144,6 @@
       "name": "@kotodama/use-cases",
       "version": "0.0.0",
       "dependencies": {
-        "@kotodama/core": "workspace:*",
         "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
         "react-use": "catalog:react",
@@ -447,8 +429,6 @@
     "@kotodama/api-client": ["@kotodama/api-client@workspace:packages/api-client"],
 
     "@kotodama/config": ["@kotodama/config@workspace:packages/config"],
-
-    "@kotodama/core": ["@kotodama/core@workspace:core"],
 
     "@kotodama/e2e": ["@kotodama/e2e@workspace:apps/e2e"],
 

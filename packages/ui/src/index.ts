@@ -7,6 +7,11 @@
 // `bunx shadcn@latest add <name>`); `components/<feature>/` = our compositions;
 // shared helpers in `lib/`. See `.claude/agent-patterns/tailwind-shadcn.md`.
 
+export {
+  type AccentedWord,
+  AccentedWordMark,
+  accentedWordText,
+} from './components/atoms/accented-word'
 export { FilterChip, type FilterChipProps } from './components/atoms/filter-chip'
 export {
   HighlightedText,
@@ -14,6 +19,7 @@ export {
 } from './components/atoms/highlighted-text'
 export { ImageSlot, type ImageSlotProps } from './components/atoms/image-slot'
 export { PosPill } from './components/atoms/pos-pill'
+export { RetryLink } from './components/atoms/retry-link'
 export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'

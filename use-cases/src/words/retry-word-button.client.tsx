@@ -1,7 +1,7 @@
 'use client'
 
-import { RetryLink } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
+import { RetryLink } from '@kotodama/ui'
 import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { languageName } from './language-name'

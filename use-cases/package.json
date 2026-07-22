@@ -14,7 +14,6 @@
     "test": "bun --bun vitest run"
   },
   "dependencies": {
-    "@kotodama/core": "workspace:*",
     "@kotodama/store": "workspace:*",
     "@kotodama/ui": "workspace:*",
     "react-use": "catalog:react",

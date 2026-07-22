@@ -92,7 +92,6 @@
                   {
                     "group": [
                       "@kotodama/store",
-                      "@kotodama/core",
                       "@kotodama/use-cases",
                       "@kotodama/repositories",
                       "@kotodama/api-client",
@@ -118,8 +117,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/store", "@kotodama/core", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, core, the design system, or apps."
+                    "group": ["@kotodama/store", "@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, the design system, or apps."
                   }
                 ]
               }
@@ -138,35 +137,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/core", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: store derives domain models over repositories — it must not import core, the design system, or apps. It is platform-agnostic spine."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["core/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/use-cases",
-                      "@kotodama/repositories",
-                      "@kotodama/config",
-                      "@kotodama/web",
-                      "next",
-                      "next/**"
-                    ],
-                    "message": "Layer violation: core is the web-only domain tier — composable domain-aware pieces over @kotodama/ui + @kotodama/store, composed by use-cases. It must not reach up into use-cases or apps, nor into repositories/config/next. See frontend-layering.md."
+                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: store derives domain models over repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   }
                 ]
               }

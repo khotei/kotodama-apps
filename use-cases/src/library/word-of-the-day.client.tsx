@@ -1,7 +1,6 @@
 'use client'
 
-import { AccentedWordMark, accentedWordText } from '@kotodama/core'
-import { Button, Sparkline, type WordTier } from '@kotodama/ui'
+import { AccentedWordMark, accentedWordText, Button, Sparkline, type WordTier } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
 import { SaveWordButton } from '../words/save-word-button.client'

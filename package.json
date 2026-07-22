@@ -6,7 +6,6 @@
     "apps/*",
     "repositories",
     "store",
-    "core",
     "use-cases",
     "packages/*"
   ],

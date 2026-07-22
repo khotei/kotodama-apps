@@ -1,9 +1,11 @@
-import { AccentedWordMark, accentedWordText, RetryLink } from '@kotodama/core'
 import type { Language } from '@kotodama/store'
 import {
+  AccentedWordMark,
+  accentedWordText,
   PosPill,
   RankRow,
   type RankRowProps,
+  RetryLink,
   SectionRule,
   StatusBadge,
   StatusDot,
