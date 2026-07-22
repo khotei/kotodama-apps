@@ -1,7 +1,6 @@
 import 'server-only'
 import { fetchWordState, type Language } from '@kotodama/core/repositories'
 import { narrowWordState, type WordStateModel } from '@kotodama/core/store'
-import { WORD_STATE_MOCKS_ALL } from '@kotodama/ui/fixtures'
 import { cache } from 'react'
 import { createStaticApiClient } from '../api-client'
 
@@ -29,10 +28,9 @@ export const getWordState = cache(
       const state = await fetchWordState(createStaticApiClient(), language, word, {
         next: { tags: [wordTag(language, word)] },
       })
-      if (state) return narrowWordState(state)
-    } catch {}
-    // Design-stage fallback: with no backend the fixture words keep every
-    // screen state reachable; anything the fixtures don't know stays null.
-    return (language === 'es' && WORD_STATE_MOCKS_ALL[word]) || null
+      return state ? narrowWordState(state) : null
+    } catch {
+      return null
+    }
   },
 )

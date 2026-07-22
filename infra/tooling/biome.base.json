@@ -70,7 +70,7 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/*"],
+                    "group": ["@kotodama/*", "@kotodama/*/**"],
                     "message": "Layer violation: platform/api-client is the transport leaf — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse platform/config's loadRootEnv). See frontend-layering.md."
                   },
                   {
@@ -127,6 +127,7 @@
                       "@kotodama/core/store",
                       "@kotodama/core/store/**",
                       "@kotodama/ui",
+                      "@kotodama/ui/**",
                       "@kotodama/web"
                     ],
                     "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
@@ -178,7 +179,7 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
                     "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   },
                   {
@@ -229,7 +230,7 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
                     "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
                   }
                 ]
