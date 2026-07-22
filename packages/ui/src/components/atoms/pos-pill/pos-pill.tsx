@@ -1,0 +1,15 @@
+import type { ComponentProps } from 'react'
+import { cn } from '../../../lib/utils'
+
+/** A small mono chip for a part-of-speech tag (`n.`, `v.`, `adj.`). */
+export function PosPill({ className, ...props }: ComponentProps<'span'>) {
+  return (
+    <span
+      className={cn(
+        'inline-grid h-6 min-w-9 place-items-center rounded-[5px] border bg-secondary px-[9px] font-mono text-[11px] text-muted-foreground tracking-[0.04em]',
+        className,
+      )}
+      {...props}
+    />
+  )
+}

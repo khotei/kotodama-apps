@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react'
-import { StatusBadge, type WordStatus } from '../status-badge/status-badge'
+import { StatusBadge, type WordStatus } from '../atoms/status-badge/status-badge'
 import { Badge } from '../ui/badge'
 import { Card, CardContent, CardHeader } from '../ui/card'
 

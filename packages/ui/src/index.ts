@@ -7,46 +7,46 @@
 // `bunx shadcn@latest add <name>`); `components/<feature>/` = our compositions;
 // shared helpers in `lib/`. See `.claude/agent-patterns/tailwind-shadcn.md`.
 
-export {
-  DepthTabs,
-  DepthTabsContent,
-  DepthTabsList,
-  DepthTabsTrigger,
-  type DepthTabsTriggerProps,
-} from './components/depth-tabs'
-export { EmptyState, type EmptyStateProps } from './components/empty-state'
-export {
-  type EtymologyStep,
-  EtymologyTimeline,
-  type EtymologyTimelineProps,
-} from './components/etymology-timeline'
-export { FilterChip, type FilterChipProps } from './components/filter-chip'
-export {
-  type GenerationStep,
-  type GenerationStepState,
-  GenerationSteps,
-  type GenerationStepsProps,
-} from './components/generation-steps'
+export { FilterChip, type FilterChipProps } from './components/atoms/filter-chip'
 export {
   HighlightedText,
   type HighlightedTextProps,
-} from './components/highlighted-text'
-export { ImageSlot, type ImageSlotProps } from './components/image-slot'
-export { PosPill } from './components/pos-pill'
-export { RankRow, type RankRowProps } from './components/rank-row'
-export { ResultRow, type ResultRowProps } from './components/result-row'
-export { Seal, type SealProps } from './components/seal'
-export { SearchBox, type SearchBoxProps } from './components/search-box'
-export { SectionRule, type SectionRuleProps } from './components/section-rule'
-export { Sparkline, type SparklineProps } from './components/sparkline'
+} from './components/atoms/highlighted-text'
+export { ImageSlot, type ImageSlotProps } from './components/atoms/image-slot'
+export { PosPill } from './components/atoms/pos-pill'
+export { Seal, type SealProps } from './components/atoms/seal'
+export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
+export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export {
   StatusBadge,
   type StatusBadgeProps,
   StatusDot,
   type StatusDotProps,
   type WordStatus,
-} from './components/status-badge'
-export { TierChip, type TierChipProps, type WordTier } from './components/tier-chip'
+} from './components/atoms/status-badge'
+export { TierChip, type TierChipProps, type WordTier } from './components/atoms/tier-chip'
+export {
+  DepthTabs,
+  DepthTabsContent,
+  DepthTabsList,
+  DepthTabsTrigger,
+  type DepthTabsTriggerProps,
+} from './components/molecules/depth-tabs'
+export { EmptyState, type EmptyStateProps } from './components/molecules/empty-state'
+export {
+  type EtymologyStep,
+  EtymologyTimeline,
+  type EtymologyTimelineProps,
+} from './components/molecules/etymology-timeline'
+export {
+  type GenerationStep,
+  type GenerationStepState,
+  GenerationSteps,
+  type GenerationStepsProps,
+} from './components/molecules/generation-steps'
+export { RankRow, type RankRowProps } from './components/molecules/rank-row'
+export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
+export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
