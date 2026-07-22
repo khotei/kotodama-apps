@@ -1,7 +1,7 @@
 'use server'
 
-import { buildWord, fetchWordState, type Language } from '@kotodama/repositories'
-import type { WordBuildStatus } from '@kotodama/store'
+import { buildWord, fetchWordState, type Language } from '@kotodama/core/repositories'
+import type { WordBuildStatus } from '@kotodama/core/store'
 import { revalidatePath } from 'next/cache'
 import { createServerApiClient, createStaticApiClient } from '../api-client'
 

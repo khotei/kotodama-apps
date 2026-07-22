@@ -9,8 +9,8 @@ The web app: the render layer + the walking-skeleton word slice, on **Next 16 (A
 Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (why Turbopack, not
 `--webpack`; see the feature Change log).
 
-- **May import:** `@kotodama/ui` (all presentation), `@kotodama/store` (the domain model),
-  `@kotodama/api-client` (the client factories), React/Next. **`@kotodama/repositories`**
+- **May import:** `@kotodama/ui` (all presentation), `@kotodama/core/store` (the domain model),
+  `@kotodama/api-client` (the client factories), React/Next. **`@kotodama/core/repositories`**
   (raw fetchX) is allowed ONLY under `src/server/**` (the RSC data layer); render code goes through the
   `src/server` loaders.
 - **`app/`** is the App Router tree: `layout.tsx` (RSC root, imports `globals.css`) → `providers.tsx`

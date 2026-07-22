@@ -1,4 +1,4 @@
-import type { WordStateEntity } from '@kotodama/repositories'
+import type { WordStateEntity } from '@kotodama/core/repositories'
 
 // The load-bearing view-model of the foundation: the FE analogue of the
 // backend's `collapseWordState`. The backend emits `WordStateEntity` as a bare

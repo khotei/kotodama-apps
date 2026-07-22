@@ -1,4 +1,4 @@
-import type { WordStateEntity } from '@kotodama/repositories'
+import type { WordStateEntity } from '@kotodama/core/repositories'
 import { describe, expect, it } from 'vitest'
 import { narrowWordState } from '../../src/words/word-state.model'
 

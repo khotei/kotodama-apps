@@ -1,6 +1,6 @@
 'use client'
 
-import type { WordBuildStatus } from '@kotodama/store'
+import type { WordBuildStatus } from '@kotodama/core/store'
 import { useState } from 'react'
 import useInterval from 'react-use/lib/useInterval'
 

@@ -91,12 +91,12 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/store",
-                      "@kotodama/repositories",
+                      "@kotodama/core",
+                      "@kotodama/core/**",
                       "@kotodama/config",
                       "@kotodama/web"
                     ],
-                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/api-client (the leaf), but must NOT import the domain MODEL (store), repositories, config, or the app. It takes data via props. See frontend-layering.md."
+                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), config, or the app. It takes data via props. See frontend-layering.md."
                   }
                 ]
               }
@@ -106,7 +106,7 @@
       }
     },
     {
-      "includes": ["repositories/**"],
+      "includes": ["core/repositories/**"],
       "linter": {
         "rules": {
           "style": {
@@ -115,8 +115,13 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/store", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, the design system, or apps."
+                    "group": [
+                      "@kotodama/core/store",
+                      "@kotodama/core/store/**",
+                      "@kotodama/ui",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: core/repositories may depend on @kotodama/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
                   }
                 ]
               }
@@ -126,7 +131,7 @@
       }
     },
     {
-      "includes": ["store/**"],
+      "includes": ["core/store/**"],
       "linter": {
         "rules": {
           "style": {
@@ -136,7 +141,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: store derives domain models over repositories — it must not import the design system or apps. It is platform-agnostic spine."
+                    "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   }
                 ]
               }
@@ -158,8 +163,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/repositories", "@kotodama/repositories/**"],
-                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                    "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
+                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
                   }
                 ]
               }

@@ -1,4 +1,4 @@
-import type { WordStateModel } from '@kotodama/store'
+import type { WordStateModel } from '@kotodama/core/store'
 import { WordScreen } from '@kotodama/ui'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'

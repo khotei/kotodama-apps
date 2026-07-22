@@ -1,4 +1,4 @@
-import type { Language, ReadyWord } from '@kotodama/store'
+import type { Language, ReadyWord } from '@kotodama/core/store'
 import { WordScreen } from '@kotodama/ui'
 import type { Metadata } from 'next'
 import { getWordStatus, refreshWordPage, requestWordBuild } from '@/src/server/words/word.actions'

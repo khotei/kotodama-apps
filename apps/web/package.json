@@ -13,7 +13,7 @@
   "dependencies": {
     "@kotodama/api-client": "workspace:*",
     "@kotodama/config": "workspace:*",
-    "@kotodama/store": "workspace:*",
+    "@kotodama/core": "workspace:*",
     "@kotodama/ui": "workspace:*",
     "next": "catalog:next",
     "next-themes": "catalog:style",
