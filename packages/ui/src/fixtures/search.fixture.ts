@@ -1,4 +1,4 @@
-import type { SearchWordView } from './search.view'
+import type { SearchWordView } from '../views/search.view'
 
 // Design-stage fixture (mirrors the handoff's Search screen) — same seam as
 // library.mock.ts: a backend search endpoint replaces this list.

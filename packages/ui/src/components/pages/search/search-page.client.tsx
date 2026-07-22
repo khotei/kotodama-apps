@@ -23,7 +23,7 @@ import {
   XIcon,
 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import type { SearchPos, SearchWordView } from './search.view'
+import type { SearchPos, SearchWordView } from '../../../views/search.view'
 
 const pad2 = (n: number) => String(n).padStart(2, '0')
 

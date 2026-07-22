@@ -21,8 +21,6 @@ export { LibraryScreen, type LibraryScreenProps } from './library/library-screen
 export { ListenButton, type ListenButtonProps } from './library/listen-button.client'
 export { ReadingRoom, type ReadingRoomProps } from './library/reading-room'
 export { WordOfTheDay, type WordOfTheDayProps } from './library/word-of-the-day.client'
-export type { SearchPos, SearchWordView } from './search/search.view'
-export { SearchPage, type SearchPageProps } from './search/search-page.client'
 export {
   RetryWordButton,
   type RetryWordButtonProps,

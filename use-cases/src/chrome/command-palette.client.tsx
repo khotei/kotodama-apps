@@ -1,5 +1,6 @@
 'use client'
 
+import type { SearchWordView } from '@kotodama/ui'
 import {
   CommandDialog,
   CommandEmpty,
@@ -12,7 +13,6 @@ import {
 } from '@kotodama/ui'
 import { BookOpenIcon, SparklesIcon } from 'lucide-react'
 import { useState } from 'react'
-import type { SearchWordView } from '../search/search.view'
 
 export type CommandPaletteProps = {
   open: boolean

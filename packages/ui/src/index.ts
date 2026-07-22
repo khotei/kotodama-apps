@@ -48,6 +48,7 @@ export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { StatusNote } from './components/molecules/status-note'
+export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
@@ -141,3 +142,4 @@ export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './co
 export { Toggle, toggleVariants } from './components/ui/toggle'
 export { WordCard, type WordCardProps } from './components/word-card'
 export { cn } from './lib/utils'
+export type { SearchPos, SearchWordView } from './views/search.view'

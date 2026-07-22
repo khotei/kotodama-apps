@@ -90,8 +90,16 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/*"],
-                    "message": "Leaf violation: packages/ui is the design-system leaf (Tailwind + shadcn primitives + tokens) — it imports NOTHING internal and takes data via props. See frontend-layering.md."
+                    "group": [
+                      "@kotodama/store",
+                      "@kotodama/core",
+                      "@kotodama/use-cases",
+                      "@kotodama/repositories",
+                      "@kotodama/api-client",
+                      "@kotodama/config",
+                      "@kotodama/web"
+                    ],
+                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui but must NOT import the domain/data tiers (store/repositories/api-client/config) or the app. It takes data via props. See frontend-layering.md."
                   }
                 ]
               }

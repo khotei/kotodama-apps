@@ -1,5 +1,6 @@
 'use client'
 
+import type { SearchWordView } from '@kotodama/ui'
 import {
   Button,
   cn,
@@ -10,7 +11,7 @@ import {
   DropdownMenuTrigger,
   Kbd,
 } from '@kotodama/ui'
-import { CommandPalette, MobileTabBar, type SearchWordView, SiteHeader } from '@kotodama/use-cases'
+import { CommandPalette, MobileTabBar, SiteHeader } from '@kotodama/use-cases'
 import { ArrowDownIcon, CheckIcon, GlobeIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'

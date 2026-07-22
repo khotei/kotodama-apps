@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { SEARCH_WORDS_MOCK } from './search.fixture'
+import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
 import { SearchPage } from './search-page.client'
 
 // Pages/Search · the client filter island over an injected word list, one story

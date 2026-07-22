@@ -1,4 +1,4 @@
-import type { WordStatus } from '@kotodama/ui'
+import type { WordStatus } from '../components/atoms/status-badge'
 
 export type SearchPos = 'noun' | 'verb' | 'adjective' | 'adverb'
 
