@@ -215,7 +215,15 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordScreenView>> = {
       sources: [
         { index: 1, type: 'primary', title: 'Reference extract on Lepidoptera / mariposas' },
       ],
-      sourceVersions: { model: 'mock', promptHash: 'mock' },
+      provenance: { model: 'mock', promptHash: 'mock' },
+      stages: [
+        { stage: 'fetch_source', status: 'succeeded' },
+        { stage: 'enrich_etymology', status: 'succeeded' },
+        { stage: 'enrich_tiers', status: 'succeeded' },
+        { stage: 'enrich_authors', status: 'succeeded' },
+        { stage: 'enrich_visuals', status: 'succeeded' },
+        { stage: 'final_review', status: 'succeeded' },
+      ],
       frequency: {
         band: 'common',
         trendNote:

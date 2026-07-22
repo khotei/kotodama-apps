@@ -137,6 +137,18 @@ export interface operations {
                         language: "ru" | "en" | "es" | "fr" | "de" | "zh" | "ja" | "hi" | "ar" | "uk";
                         /** @enum {string} */
                         status: "pending" | "running" | "succeeded" | "failed";
+                        stages: {
+                            /** @enum {string} */
+                            stage: "fetch_source" | "enrich_etymology" | "enrich_tiers" | "enrich_authors" | "enrich_visuals" | "final_review";
+                            /** @enum {string} */
+                            status: "pending" | "running" | "succeeded" | "failed";
+                            error?: {
+                                message: string;
+                                /** @enum {string} */
+                                type: "not_found" | "timed_out" | "failed";
+                                cause?: unknown | null;
+                            };
+                        }[];
                         coreDefinition: string;
                         lexical: {
                             partOfSpeech: string;
@@ -283,7 +295,7 @@ export interface operations {
                             year?: (number | "NaN" | "Infinity" | "-Infinity") | ("Infinity" | "-Infinity" | "NaN");
                             note?: string;
                         }[];
-                        sourceVersions: {
+                        provenance: {
                             model: string;
                             promptHash: string;
                             pipeline?: string;
@@ -345,6 +357,18 @@ export interface operations {
                             language: "ru" | "en" | "es" | "fr" | "de" | "zh" | "ja" | "hi" | "ar" | "uk";
                             /** @enum {string} */
                             status: "pending" | "running" | "succeeded" | "failed";
+                            stages: {
+                                /** @enum {string} */
+                                stage: "fetch_source" | "enrich_etymology" | "enrich_tiers" | "enrich_authors" | "enrich_visuals" | "final_review";
+                                /** @enum {string} */
+                                status: "pending" | "running" | "succeeded" | "failed";
+                                error?: {
+                                    message: string;
+                                    /** @enum {string} */
+                                    type: "not_found" | "timed_out" | "failed";
+                                    cause?: unknown | null;
+                                };
+                            }[];
                             coreDefinition: string;
                             lexical: {
                                 partOfSpeech: string;
@@ -491,7 +515,7 @@ export interface operations {
                                 year?: (number | "NaN" | "Infinity" | "-Infinity") | ("Infinity" | "-Infinity" | "NaN");
                                 note?: string;
                             }[];
-                            sourceVersions: {
+                            provenance: {
                                 model: string;
                                 promptHash: string;
                                 pipeline?: string;
@@ -559,6 +583,18 @@ export interface operations {
                             language: "ru" | "en" | "es" | "fr" | "de" | "zh" | "ja" | "hi" | "ar" | "uk";
                             /** @enum {string} */
                             status: "pending" | "running" | "succeeded" | "failed";
+                            stages: {
+                                /** @enum {string} */
+                                stage: "fetch_source" | "enrich_etymology" | "enrich_tiers" | "enrich_authors" | "enrich_visuals" | "final_review";
+                                /** @enum {string} */
+                                status: "pending" | "running" | "succeeded" | "failed";
+                                error?: {
+                                    message: string;
+                                    /** @enum {string} */
+                                    type: "not_found" | "timed_out" | "failed";
+                                    cause?: unknown | null;
+                                };
+                            }[];
                             coreDefinition: string;
                             lexical: {
                                 partOfSpeech: string;
@@ -705,7 +741,7 @@ export interface operations {
                                 year?: (number | "NaN" | "Infinity" | "-Infinity") | ("Infinity" | "-Infinity" | "NaN");
                                 note?: string;
                             }[];
-                            sourceVersions: {
+                            provenance: {
                                 model: string;
                                 promptHash: string;
                                 pipeline?: string;
@@ -791,6 +827,18 @@ export interface operations {
                             word: string & unknown;
                             /** @enum {string} */
                             language: "ru" | "en" | "es" | "fr" | "de" | "zh" | "ja" | "hi" | "ar" | "uk";
+                            stages: {
+                                /** @enum {string} */
+                                stage: "fetch_source" | "enrich_etymology" | "enrich_tiers" | "enrich_authors" | "enrich_visuals" | "final_review";
+                                /** @enum {string} */
+                                status: "pending" | "running" | "succeeded" | "failed";
+                                error?: {
+                                    message: string;
+                                    /** @enum {string} */
+                                    type: "not_found" | "timed_out" | "failed";
+                                    cause?: unknown | null;
+                                };
+                            }[];
                             coreDefinition: string;
                             lexical: {
                                 partOfSpeech: string;
@@ -937,7 +985,7 @@ export interface operations {
                                 year?: (number | "NaN" | "Infinity" | "-Infinity") | ("Infinity" | "-Infinity" | "NaN");
                                 note?: string;
                             }[];
-                            sourceVersions: {
+                            provenance: {
                                 model: string;
                                 promptHash: string;
                                 pipeline?: string;
@@ -968,6 +1016,18 @@ export interface operations {
                             updatedAt: string;
                             /** @enum {string} */
                             status: "pending" | "running" | "failed";
+                            stages: {
+                                /** @enum {string} */
+                                stage: "fetch_source" | "enrich_etymology" | "enrich_tiers" | "enrich_authors" | "enrich_visuals" | "final_review";
+                                /** @enum {string} */
+                                status: "pending" | "running" | "succeeded" | "failed";
+                                error?: {
+                                    message: string;
+                                    /** @enum {string} */
+                                    type: "not_found" | "timed_out" | "failed";
+                                    cause?: unknown | null;
+                                };
+                            }[];
                         })[];
                         pagination: {
                             page: number;
