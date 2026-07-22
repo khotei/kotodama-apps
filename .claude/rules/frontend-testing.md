@@ -11,7 +11,7 @@ paths:
 
 - **Runner:** Vitest under `jsdom` + `@testing-library/react`. Import test helpers from `vitest`.
   Matchers (`toBeInTheDocument`, …) + auto-cleanup are registered once in
-  `@kotodama/tooling/vitest.setup.ts`; `tsc` sees them via the `@testing-library/jest-dom/vitest`
+  `@kotodama/presets/vitest.setup.ts`; `tsc` sees them via the `@testing-library/jest-dom/vitest`
   entry in each `--dom` workspace's tsconfig `types` (no ambient `.d.ts`).
 - **Run:** `bun run test` (never `bun test`); per package `bun run --filter '@kotodama/<name>' test`.
   The `--bun` flag and the ban on aggregate multi-project `vitest run` are in
@@ -19,7 +19,7 @@ paths:
 - **Files:** `*.test.ts(x)` in each workspace's `test/` folder (sibling of `src/`), imported via
   `../src/…`; the folder is in tsconfig `include` so `tsc` checks tests. **Every workspace keeps
   ≥1 test** — `vitest run` exits 1 on zero test files, which would fail the gate. **The exceptions
-  are `apps/e2e`** (Playwright — its gate is `test:e2e`) **and the config-only `@kotodama/tooling`**,
+  are `apps/e2e`** (Playwright — its gate is `test:e2e`) **and the config-only `@kotodama/presets`**,
   which defines no `test` script at all; `bun run test` skips both because `--filter '*'` only
   targets packages that define a `test` script.
 - **Playwright (`apps/e2e`) runs `bunx playwright test`, NEVER `--bun`** (oven-sh/bun#8222 —

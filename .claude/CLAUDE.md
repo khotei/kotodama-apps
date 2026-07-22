@@ -24,7 +24,7 @@ core          @kotodama/core       agnostic domain spine (DOM-free); two layers 
 platform      @kotodama/platform   agnostic base leaf; two leaves as folders, subpath-exported:
                                    @kotodama/platform/api-client (transport) + @kotodama/platform/config (env)
 ui            @kotodama/ui         the ENTIRE web design system + all presentation   [web-only leaf]
-infra/tooling @kotodama/tooling    write-once config presets (tsconfig/biome/vitest bases)
+infra/presets @kotodama/presets    write-once config presets (tsconfig/biome/vitest bases)
 
 platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web   (platform/config a base leaf
                                                                    importable by all; ui the web-only

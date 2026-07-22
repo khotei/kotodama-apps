@@ -17,7 +17,7 @@ Steps:
    the DOM-free base tsconfig is the primary web↔native enforcer.
 2. **package.json** — `"name": "@kotodama/<flattened-name>"` (nested folders flatten with a dash, see
    `@.claude/rules/naming.md`), `"version": "0.0.0"`, `"private": true`, `"type": "module"`,
-   `main`/`types`/`exports` → `./src/index.ts`. **Always add `"@kotodama/tooling": "workspace:*"` to
+   `main`/`types`/`exports` → `./src/index.ts`. **Always add `"@kotodama/presets": "workspace:*"` to
    `devDependencies`** — it supplies the shared tsconfig/vitest presets consumed by specifier. Add other
    deps via `catalog:<group>` (externals) + `workspace:*` (internal), only those the layer may use.
    **Scripts must include `"typecheck": "bun --bun tsc --noEmit"` and `"test": "bun --bun vitest run"`** —
@@ -26,14 +26,14 @@ Steps:
    carry a node shebang; see `.claude/rules/tooling.md`). A `--dom` package that renders also needs
    `@types/react` (+ `@types/react-dom`) in devDependencies.
 3. **tsconfig.json** — `extends` the shared preset by specifier (depth-independent, no `../` juggling):
-   `"@kotodama/tooling/tsconfig.base.json"` for the agnostic default, or
-   `"@kotodama/tooling/tsconfig.dom.json"` for `--dom` (it adds `lib:["dom",…]`). Set
+   `"@kotodama/presets/tsconfig.base.json"` for the agnostic default, or
+   `"@kotodama/presets/tsconfig.dom.json"` for `--dom` (it adds `lib:["dom",…]`). Set
    `compilerOptions.outDir: "dist"`; for `--dom` also `"jsx": "react-jsx"` +
    `"types": ["bun-types", "@types/react", "@testing-library/jest-dom/vitest"]` — the jest-dom entry
    makes its matchers visible to `tsc` (there is NO ambient `.d.ts`). `include: ["src/**/*", "test/**/*",
    "*.config.ts"]`. **No `references`** — packages resolve each other's source via `workspace:*` +
    `moduleResolution: bundler`.
-4. **vitest.config.ts** — one line: `export { default } from '@kotodama/tooling/vitest.base'`. This runs
+4. **vitest.config.ts** — one line: `export { default } from '@kotodama/presets/vitest.base'`. This runs
    the package as its own Vitest process under `bun run --filter '*' test` (a single aggregate
    `vitest run` drops projects on this toolchain).
 5. **src/index.ts** — `export {}` placeholder.
@@ -42,7 +42,7 @@ Steps:
    `vitest run` fails the gate.
 7. **CLAUDE.md** — one short paragraph: role + who may import it + import boundaries.
 8. **No root-config edit needed** — do NOT hand-list the package anywhere. The single source of truth is
-   `package.json#workspaces` (`apps/*`, `core`, `platform`, `ui`, `infra/tooling`); the aggregators
+   `package.json#workspaces` (`apps/*`, `core`, `platform`, `ui`, `infra/presets`); the aggregators
    enumerate via `--filter '*'`, so a folder matching an existing glob is picked up. A new top-level
    package (not under an existing glob) needs the glob added — the ONE sanctioned `package.json` edit.
 9. Run `bun install` (creates the workspace symlink), then `bun run check` and

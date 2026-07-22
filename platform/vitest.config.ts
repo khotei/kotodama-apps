@@ -1,4 +1,4 @@
-import base from '@kotodama/tooling/vitest.base'
+import base from '@kotodama/presets/vitest.base'
 import { mergeConfig } from 'vitest/config'
 
 // Each leaf lives in its own folder (`api-client/`, `config/`), so tests sit at

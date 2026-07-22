@@ -1,4 +1,4 @@
-import base from '@kotodama/tooling/vitest.base'
+import base from '@kotodama/presets/vitest.base'
 import { mergeConfig } from 'vitest/config'
 
 // The api-client / metadata factories read the validated serverEnv() (no silent

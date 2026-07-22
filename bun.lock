@@ -6,7 +6,7 @@
       "name": "kotodama-frontend",
       "devDependencies": {
         "@biomejs/biome": "^2.4.16",
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "@testing-library/dom": "catalog:test",
         "@testing-library/jest-dom": "catalog:test",
         "@testing-library/react": "catalog:test",
@@ -22,7 +22,7 @@
       "name": "@kotodama/e2e",
       "version": "0.0.0",
       "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "@playwright/test": "catalog:test",
         "@types/node": "catalog:runtime",
         "bun-types": "catalog:runtime",
@@ -43,7 +43,7 @@
         "server-only": "catalog:react",
       },
       "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "@tailwindcss/postcss": "catalog:style",
         "@types/node": "catalog:runtime",
         "@types/react": "catalog:runtime",
@@ -60,13 +60,13 @@
       },
       "devDependencies": {
         "@faker-js/faker": "catalog:test",
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "@types/react": "catalog:runtime",
         "react": "catalog:react",
       },
     },
-    "infra/tooling": {
-      "name": "@kotodama/tooling",
+    "infra/presets": {
+      "name": "@kotodama/presets",
       "version": "0.0.0",
       "dependencies": {
         "@testing-library/jest-dom": "catalog:test",
@@ -84,7 +84,7 @@
         "zod": "catalog:api",
       },
       "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "openapi-typescript": "catalog:api",
       },
     },
@@ -103,7 +103,7 @@
         "tailwind-merge": "catalog:style",
       },
       "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
+        "@kotodama/presets": "workspace:*",
         "@storybook/react-vite": "catalog:ui",
         "@tailwindcss/vite": "catalog:style",
         "@types/react": "catalog:runtime",
@@ -393,7 +393,7 @@
 
     "@kotodama/platform": ["@kotodama/platform@workspace:platform"],
 
-    "@kotodama/tooling": ["@kotodama/tooling@workspace:infra/tooling"],
+    "@kotodama/presets": ["@kotodama/presets@workspace:infra/presets"],
 
     "@kotodama/ui": ["@kotodama/ui@workspace:ui"],
 

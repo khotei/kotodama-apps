@@ -19,7 +19,7 @@ Re-evaluate once it closes. Versions are pinned via **catalogs**
 (`runtime`/`react`/`next`/`tanstack`/`style`/`ui`/`api`/`test`) — add an external dep as
 `catalog:<group>`, internal as `workspace:*`.
 
-**Biome:** no root config — the single config is `infra/tooling/biome.base.json`, threaded
+**Biome:** no root config — the single config is `infra/presets/src/biome.base.json`, threaded
 through every invocation via `--config-path` (the `lint`/`format` scripts + husky), mirroring
 kotodama-core. 2-space, single quotes, semicolons as-needed, width 100 + the `react` domain. Encodes
 the layer gradients via `style/noRestrictedImports` per-glob overrides — see
@@ -37,12 +37,12 @@ backend. `schema.gen.ts` is committed + never hand-edited.
 ## Single source of truth: `package.json#workspaces`
 
 No root `tsconfig.json`, no root `vitest.config.ts` — never reintroduce one to hand-list packages.
-Shared presets live in the config-only **`@kotodama/tooling`** workspace (at `infra/tooling`):
+Shared presets live in the config-only **`@kotodama/presets`** workspace (at `infra/presets`):
 `tsconfig.base.json` (DOM-free agnostic, extended by `platform` + `core`) + `tsconfig.dom.json`
 (adds `lib:["dom",…]`, extended by `apps/web` + `ui`) +
 `vitest.base.ts`/`vitest.setup.ts` + `biome.base.json`. Each workspace `tsconfig.json` extends
-`@kotodama/tooling/tsconfig.{base,dom}.json` and owns a one-line `vitest.config.ts` re-exporting
-`@kotodama/tooling/vitest.base` — both by package specifier (a `workspace:*` dep, resolved via the
+`@kotodama/presets/tsconfig.{base,dom}.json` and owns a one-line `vitest.config.ts` re-exporting
+`@kotodama/presets/vitest.base` — both by package specifier (a `workspace:*` dep, resolved via the
 `hoisted` linker). Packages resolve each other's **source** via `workspace:*` + `moduleResolution:
 bundler`, so per-workspace `tsc --noEmit` is correct without project references.
 **Aggregate multi-project `vitest run` is banned** — on Bun 1.3 + Vitest 3.2.x it silently ran a
