@@ -16,6 +16,7 @@
     "./components/*": "./src/components/*.tsx"
   },
   "scripts": {
+    "gen:tokens": "bun scripts/gen-tokens.ts",
     "typecheck": "bun --bun tsc --noEmit",
     "test": "bun --bun vitest run",
     "storybook:dev": "bunx --bun storybook dev -p 6006 --no-open",

@@ -185,3 +185,26 @@ jobs:
             echo "::error::schema.gen.ts is out of date — run 'bun run gen:api' and commit the result."
             exit 1
           fi
+
+  # Token drift gate: regenerate ui/src/tokens.css from src/tokens.ts (the hex
+  # source of truth) and fail on a dirty diff. Unlike openapi-drift this needs no
+  # backend — the source is in-repo — so it always runs.
+  tokens-drift:
+    name: tokens drift gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.10'
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Regenerate the token stylesheet from tokens.ts
+        run: bun run gen:tokens
+      - name: Fail on drift
+        run: |
+          if ! git diff --exit-code ui/src/tokens.css; then
+            echo "::error::tokens.css is out of date — run 'bun run gen:tokens' and commit the result."
+            exit 1
+          fi
