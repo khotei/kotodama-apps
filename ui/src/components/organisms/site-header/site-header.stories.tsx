@@ -27,7 +27,7 @@ export const Default: Story = {}
 
 export const Controls: Story = {
   args: {
-    commandTrigger: <CommandTrigger onOpen={() => {}} />,
+    commandTrigger: <CommandTrigger label="Search or jump…" shortcut="k" onTrigger={() => {}} />,
     languageMenu: <LanguageMenu />,
     languageBadge: <LanguageMenu compact />,
     themeMenu: <ThemeMenu />,

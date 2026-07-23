@@ -14,7 +14,6 @@ import { BookmarkIcon, HouseIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
-import useKey from 'react-use/lib/useKey'
 
 // Active-state needs usePathname, the palette needs router.push, and the theme
 // menu needs next-themes, so this Next wiring lives in apps/web; the presentational
@@ -31,14 +30,6 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
   const { theme, setTheme } = useTheme()
   const [paletteOpen, setPaletteOpen] = useState(false)
 
-  useKey(
-    (event) => event.key === 'k' && (event.metaKey || event.ctrlKey),
-    (event) => {
-      event.preventDefault()
-      setPaletteOpen((open) => !open)
-    },
-  )
-
   const isSearch = pathname.startsWith('/search')
 
   return (
@@ -50,7 +41,13 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
           { label: 'Library', href: '/', active: !isSearch },
           { label: 'Search', href: '/search', active: isSearch },
         ]}
-        commandTrigger={<CommandTrigger onOpen={() => setPaletteOpen(true)} />}
+        commandTrigger={
+          <CommandTrigger
+            label="Search or jump…"
+            shortcut="k"
+            onTrigger={() => setPaletteOpen((open) => !open)}
+          />
+        }
         languageMenu={<LanguageMenu />}
         languageBadge={<LanguageMenu compact />}
         themeMenu={<ThemeMenu theme={theme} onThemeChange={setTheme} />}

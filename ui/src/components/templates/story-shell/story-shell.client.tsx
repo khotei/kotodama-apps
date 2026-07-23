@@ -2,7 +2,7 @@
 
 import { BookmarkIcon, HouseIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import type { SearchWordView } from '../../../views/search.view'
 import { SiteContainer } from '../../atoms/site-container'
@@ -35,17 +35,6 @@ export type StoryShellProps = {
 export function StoryShell({ active = 'library', paletteWords = [], children }: StoryShellProps) {
   const [paletteOpen, setPaletteOpen] = useState(false)
 
-  useEffect(() => {
-    const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'k' && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault()
-        setPaletteOpen((open) => !open)
-      }
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
-
   return (
     <SiteShell>
       <SiteHeader
@@ -55,7 +44,13 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
           { label: 'Library', href: '#', active: active === 'library' },
           { label: 'Search', href: '#', active: active === 'search' },
         ]}
-        commandTrigger={<CommandTrigger onOpen={() => setPaletteOpen(true)} />}
+        commandTrigger={
+          <CommandTrigger
+            label="Search or jump…"
+            shortcut="k"
+            onTrigger={() => setPaletteOpen((open) => !open)}
+          />
+        }
         languageMenu={<LanguageMenu />}
         languageBadge={<LanguageMenu compact />}
         themeMenu={<ThemeMenu />}

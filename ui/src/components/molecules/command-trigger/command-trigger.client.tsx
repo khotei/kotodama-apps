@@ -1,25 +1,41 @@
 'use client'
 
 import { SearchIcon } from 'lucide-react'
+import useKey from 'react-use/lib/useKey'
 import { Button } from '../../ui/button'
 import { Kbd } from '../../ui/kbd'
 
 export type CommandTriggerProps = {
-  /** Opens the command palette; the shell that owns the palette state injects it. */
-  onOpen?: () => void
+  /** The button text, e.g. "Search or jump…". */
+  label: string
+  /** The letter pressed with ⌘/Ctrl — `'k'` renders the ⌘K badge and listens for it. */
+  shortcut: string
+  /** Fires on click OR the ⌘/Ctrl+`shortcut` combo this trigger owns. */
+  onTrigger?: () => void
 }
 
-export function CommandTrigger({ onOpen }: CommandTriggerProps) {
+// The button advertises the shortcut (the Kbd badge), so it owns the key listener
+// too — one source of truth, no shell wiring.
+export function CommandTrigger({ label, shortcut, onTrigger }: CommandTriggerProps) {
+  useKey(
+    (event) =>
+      (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === shortcut.toLowerCase(),
+    (event) => {
+      event.preventDefault()
+      onTrigger?.()
+    },
+  )
+
   return (
     <Button
       variant="outline"
       size="sm"
       className="min-w-[210px] justify-start gap-2.5 pr-2 pl-3.5 text-[13px] text-subtle-foreground hover:border-muted-foreground"
-      onClick={onOpen}
+      onClick={onTrigger}
     >
       <SearchIcon />
-      <span className="flex-1 text-left">Search or jump…</span>
-      <Kbd>⌘K</Kbd>
+      <span className="flex-1 text-left">{label}</span>
+      <Kbd>⌘{shortcut.toUpperCase()}</Kbd>
     </Button>
   )
 }

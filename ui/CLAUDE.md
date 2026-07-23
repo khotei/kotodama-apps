@@ -18,12 +18,13 @@ truth.
   `components.json`, none in `apps/web` (by design: `ui` is the only design leaf), so the CLI can't
   route a composed *block* to an app target — assemble organisms by hand; don't add
   `apps/web/components.json` to "fix" it. A primitive bundling a hook (`use-mobile`) has no `hooks`
-  alias here — place it by hand (client hooks come from `react-use`, per apps/web). Re-export the add
+  alias here — place it by hand (client hooks come from `react-use`). Re-export the add
   from `src/index.ts`. Agent adds: shadcn MCP+Skills + `.claude/agent-patterns/tailwind-shadcn.md`.
 - **Storybook MCP** (`@storybook/addon-mcp`): exposes this package's stories/props to the agent; served
   over `storybook:dev` (:6006) — dead unless that dev server is up. Global `autodocs` + `addon-a11y` on.
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`,
-  `react`, `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
+  `react`, `react-use` (per-hook, in `.client.tsx` — `see react-use.md`),
+  `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
   `@kotodama/platform/config`, or `apps/*` — data comes via props. Self-compose via RELATIVE paths, not
   the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle).
 - **`cn` = `twMerge(clsx(...))`** — wrap the final className so a consumer's `className` (passed last) wins.
