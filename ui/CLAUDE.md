@@ -1,48 +1,32 @@
 # ui — `@kotodama/ui`
 
 The web design system in ONE package: Tailwind v4 + shadcn/ui primitives (cva variants + `cn`), the
-semantic `@theme` token layer (`styles.css`), and ALL presentation built on top. Web-only (DOM-bound);
-does not port to native. `ui ⊥ core` — takes data via props (see the import rule below). Storybook
-consumes it directly as the design source of truth.
+semantic `@theme` token layer, and ALL presentation built on top. Web-only (DOM-bound); does not port
+to native. `ui ⊥ core` — takes data via props (see the import rule). Storybook is its design source of
+truth.
 
 - **Layout:** `components/ui/*` = shadcn registry primitives (`card`, `badge`, `button`);
-  `components/{atoms,molecules,organisms,templates,pages}/` = our compositions by Atomic Design (each
-  a folder + story + `index.ts` barrel, e.g. `molecules/word-card/`); `views/` = ui-owned view types
-  (`word.view.ts`, may mirror the wire contract); `fixtures/` = design-stage mocks (via the
-  `@kotodama/ui/fixtures` subpath); `lib/` = helpers (`cn`, `languageName`); `styles.css` = the
-  Tailwind entry. `src/index.ts` re-exports the public surface.
-- **Add a registry component:** `bunx shadcn@latest add <name>` (run in `ui`) — **primitives ONLY**.
-  There is a single `components.json` here and NONE in `apps/web` (by design: `ui` is the only design
-  leaf), so the CLI can't route a composed *block* (`login-01`, `dashboard-01`) to an app target —
-  `add <block>` breaks; assemble organisms/templates by hand from primitives. Do NOT add
-  `apps/web/components.json` to "fix" it — that shatters the single-leaf invariant.
-  `components.json` wires aliases to `@kotodama/ui/…`, so it writes to `components/ui/`, imports `cn`
-  from `@kotodama/ui/lib/utils`, and resolves under Turbopack via the package.json `exports` subpaths.
-  Then re-export it from `src/index.ts`. shadcn's **official MCP + Skills**
-  (`ui.shadcn.com/docs/{mcp,skills}`) can drive adds from the agent (opt-in, user-scope MCP — no
-  committed `.mcp.json`, per `sdd.md`); `.claude/agent-patterns/tailwind-shadcn.md` already encodes
-  the same Skills rules (semantic tokens, `cva` variants, `asChild`, full `Card` composition).
-- **Storybook's official MCP** (`@storybook/addon-mcp`, React-only, SB 10.5+) exposes this package's
-  stories/docs/tests to the agent so it reads real component props instead of guessing. Per-developer
-  local-scope install (see `readme.md`); served over `storybook:dev` (port 6006) — dead unless that
-  dev server is up.
-- **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
-  `lucide-react`, `react`, and `@kotodama/platform/api-client` **types only** (the wire contract). Never
-  `@kotodama/core` or `@kotodama/platform/config` or `apps/*` — components take data via props. It may
-  self-compose via the `@kotodama/ui` barrel.
-- **Imported by:** `apps/web` + Storybook.
-- **`styles.css` is the Tailwind entry** (exported as `./styles.css`): `@import "tailwindcss"` + the
-  `dark` variant + the **standard shadcn token set** (`:root`/`.dark` CSS vars — so registry
-  components drop in already styled; values carry the original Kotodama paper palette — parchment
-  canvas, indigo `--primary`, warm ink dark) + the `@theme inline`
-  mapping + a base layer. It also `@source`s its own tree (relative to the file), so consumers just
-  `@import "@kotodama/ui/styles.css"` by package name — no path escape into this package. Consumers
-  speak only semantic utilities (`bg-card`, `text-muted-foreground`) — never raw hex — the stable
-  web↔native seam.
-- **`cn` = `twMerge(clsx(...))`** — every component wraps its final className in it so a consumer's
-  `className` (passed last) predictably overrides the defaults. Skipping it is a bug.
-- **Variants via `cva`** (`Badge`): a typed, prop-based API (`variant` + `defaultVariants`). Not
-  `tailwind-variants` — cva is the shadcn default; reach for TV only for multi-part `slots`.
-- **Props are view types ui owns (may mirror the wire contract), never `core`'s `WordStateModel`.**
-  `WordScreen` takes its own `WordScreenView`; the app injects the model as props.
+  `components/{atoms,molecules,organisms,templates,pages}/` = our Atomic-Design compositions (each a
+  folder + story + `index.ts` barrel); `views/` = ui-owned view types; `fixtures/` = design mocks (via
+  `@kotodama/ui/fixtures`); `lib/` = helpers (`cn`, `languageName`). `src/index.ts` = the public barrel.
+- **Tokens:** `src/tokens.ts` (hex source of truth, light+dark) → `bun run gen:tokens` → `src/tokens.css`
+  (generated OKLCH `:root`/`.dark` + the `@theme` colour mapping; never hand-edit — a CI drift gate
+  reverts it). `styles.css` `@import`s it and owns only the non-colour theme (radius, shadows, type,
+  motion, fonts) + `@source`s its own tree, so consumers just `@import "@kotodama/ui/styles.css"`.
+  Consumers speak only semantic utilities (`bg-card`) — never raw hex — the web↔native seam.
+- **Add a registry component:** `bunx shadcn@latest add <name>` in `ui` — **primitives ONLY**. One
+  `components.json`, none in `apps/web` (by design: `ui` is the only design leaf), so the CLI can't
+  route a composed *block* to an app target — assemble organisms by hand; don't add
+  `apps/web/components.json` to "fix" it. A primitive bundling a hook (`use-mobile`) has no `hooks`
+  alias here — place it by hand (client hooks come from `react-use`, per apps/web). Re-export the add
+  from `src/index.ts`. Agent adds: shadcn MCP+Skills + `.claude/agent-patterns/tailwind-shadcn.md`.
+- **Storybook MCP** (`@storybook/addon-mcp`): exposes this package's stories/props to the agent; served
+  over `storybook:dev` (:6006) — dead unless that dev server is up. Global `autodocs` + `addon-a11y` on.
+- **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`,
+  `react`, `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
+  `@kotodama/platform/config`, or `apps/*` — data comes via props. Self-compose via RELATIVE paths, not
+  the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle).
+- **`cn` = `twMerge(clsx(...))`** — wrap the final className so a consumer's `className` (passed last) wins.
+- **Variants via `cva`** — a typed prop API (`variant` + `defaultVariants`); not `tailwind-variants`.
+- **Props are ui-owned view types**, never `core`'s model; the app injects the model as props.
 - **Correct-usage standard:** `.claude/agent-patterns/tailwind-shadcn.md`.
