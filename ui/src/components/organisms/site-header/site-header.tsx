@@ -2,6 +2,7 @@ import { SearchIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 import { Seal } from '../../atoms/seal'
+import { SiteContainer } from '../../atoms/site-container'
 import { CommandTrigger } from '../../molecules/command-trigger'
 import { LanguageMenu } from '../../molecules/language-menu'
 import { ModeMenu } from '../../molecules/mode-menu'
@@ -68,7 +69,7 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
-      <div className="mx-auto hidden h-[76px] max-w-[1160px] items-center justify-between px-5 md:flex lg:px-10">
+      <SiteContainer className="hidden h-[76px] items-center justify-between md:flex">
         <div className="flex items-center gap-6 lg:gap-10">
           <Wordmark href={homeHref} />
           <nav className="flex items-center gap-5 lg:gap-[30px]">
@@ -92,7 +93,7 @@ export function SiteHeader({
           {languageSlot}
           {modeSlot}
         </div>
-      </div>
+      </SiteContainer>
 
       <div className="flex h-14 items-center justify-between px-5 md:hidden">
         <Wordmark href={homeHref} />
