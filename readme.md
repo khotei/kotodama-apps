@@ -140,11 +140,14 @@ workspace with zero root-config edits. One piece of tooling stays out of the rep
 
 - **MCP servers (optional, deliberately not in the repo)** — personal tooling, so each developer
   installs their own into Claude Code's **local scope** (stored per project in `~/.claude.json`,
-  never committed), baking this project's env at add time. The recommended pair:
+  never committed), baking this project's env at add time. The recommended set:
 
   ```bash
   claude mcp add shadcn -- npx shadcn@latest mcp
   claude mcp add next-devtools -- npx -y next-devtools-mcp@latest
+  # Storybook design-system MCP — first `bunx --bun storybook add @storybook/addon-mcp` (in `ui`),
+  # then add it; it serves only while `storybook:dev` is up (React-only, Storybook 10.5+).
+  claude mcp add --transport http storybook http://localhost:6006/mcp
   ```
 
 ## Docs & conventions

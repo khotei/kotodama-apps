@@ -18,6 +18,10 @@ consumes it directly as the design source of truth.
   (`ui.shadcn.com/docs/{mcp,skills}`) can drive adds from the agent (opt-in, user-scope MCP — no
   committed `.mcp.json`, per `sdd.md`); `.claude/agent-patterns/tailwind-shadcn.md` already encodes
   the same Skills rules (semantic tokens, `cva` variants, `asChild`, full `Card` composition).
+- **Storybook's official MCP** (`@storybook/addon-mcp`, React-only, SB 10.5+) exposes this package's
+  stories/docs/tests to the agent so it reads real component props instead of guessing. Per-developer
+  local-scope install (see `readme.md`); served over `storybook:dev` (port 6006) — dead unless that
+  dev server is up.
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
   `lucide-react`, `react`, and `@kotodama/platform/api-client` **types only** (the wire contract). Never
   `@kotodama/core` or `@kotodama/platform/config` or `apps/*` — components take data via props. It may
