@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
 import { WORD_STATE_MOCKS } from '../../../fixtures/word.fixture'
+import { SiteShell } from '../../templates/site-shell'
 import { WordScreen } from './word-screen'
 
 // Pages/Word · one story per lifecycle state — the same WordScreen the Next
@@ -11,9 +13,9 @@ const meta: Meta<typeof WordScreen> = {
   args: { language: 'es', libraryHref: '/', searchHref: '/search' },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-[1160px] px-5 md:px-10">
+      <SiteShell paletteWords={SEARCH_WORDS_MOCK}>
         <Story />
-      </div>
+      </SiteShell>
     ),
   ],
 }

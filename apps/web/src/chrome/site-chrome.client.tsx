@@ -2,86 +2,23 @@
 
 import type { SearchWordView } from '@kotodama/ui'
 import {
-  Button,
   CommandPalette,
-  cn,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-  Kbd,
+  CommandTrigger,
+  LanguageMenu,
   MobileTabBar,
+  ModeMenu,
   SiteHeader,
 } from '@kotodama/ui'
-import {
-  ArrowDownIcon,
-  BookmarkIcon,
-  CheckIcon,
-  GlobeIcon,
-  HouseIcon,
-  PlusIcon,
-  SearchIcon,
-  SparklesIcon,
-} from 'lucide-react'
+import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import useKey from 'react-use/lib/useKey'
-import { toast } from 'sonner'
 
 // Active-state needs usePathname, the palette needs router.push, and the mode
 // menu needs next-themes, so this Next wiring lives in apps/web; the presentational
-// pieces (SiteHeader / MobileTabBar / CommandPalette) are prop-driven @kotodama/ui
-// organisms. One component owns header + tab bar + palette — the Jump tab and the
-// ⌘K trigger share the palette's open state.
-import { ModeMenu } from './mode-menu.client'
-
-const LANGUAGES = [
-  { label: 'Spanish', available: true },
-  { label: 'French', available: false },
-  { label: 'German', available: false },
-] as const
-
-function LanguageMenu({ compact = false }: { compact?: boolean }) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="text-[13px] text-muted-foreground hover:border-muted-foreground hover:text-foreground"
-        >
-          {compact ? (
-            'ES'
-          ) : (
-            <>
-              <GlobeIcon />
-              <span className="font-semibold text-foreground">Spanish</span>
-              <ArrowDownIcon className="size-3 text-subtle-foreground" />
-            </>
-          )}
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Study language</DropdownMenuLabel>
-        {LANGUAGES.map(({ label, available }) => (
-          <DropdownMenuItem
-            key={label}
-            className={cn(available && 'font-semibold text-seal')}
-            onSelect={() => {
-              if (!available) {
-                toast(`${label} isn’t available yet — staying on Spanish`)
-              }
-            }}
-          >
-            {label}
-            {available && <CheckIcon className="ml-auto" />}
-          </DropdownMenuItem>
-        ))}
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
+// pieces are prop-driven @kotodama/ui components. One component owns header +
+// tab bar + palette — the Jump tab and the ⌘K trigger share the palette's open state.
 
 export type SiteChromeProps = {
   paletteWords: readonly SearchWordView[]
@@ -90,6 +27,7 @@ export type SiteChromeProps = {
 export function SiteChrome({ paletteWords }: SiteChromeProps) {
   const pathname = usePathname()
   const router = useRouter()
+  const { theme, setTheme } = useTheme()
   const [paletteOpen, setPaletteOpen] = useState(false)
 
   useKey(
@@ -111,21 +49,10 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
           { label: 'Library', href: '/', active: !isSearch },
           { label: 'Search', href: '/search', active: isSearch },
         ]}
-        commandTrigger={
-          <Button
-            variant="outline"
-            size="sm"
-            className="min-w-[210px] justify-start gap-2.5 pr-2 pl-3.5 text-[13px] text-subtle-foreground hover:border-muted-foreground"
-            onClick={() => setPaletteOpen(true)}
-          >
-            <SearchIcon />
-            <span className="flex-1 text-left">Search or jump…</span>
-            <Kbd>⌘K</Kbd>
-          </Button>
-        }
+        commandTrigger={<CommandTrigger onOpen={() => setPaletteOpen(true)} />}
         languageMenu={<LanguageMenu />}
         languageBadge={<LanguageMenu compact />}
-        modeMenu={<ModeMenu />}
+        modeMenu={<ModeMenu mode={theme} onModeChange={setTheme} />}
       />
       <CommandPalette
         open={paletteOpen}

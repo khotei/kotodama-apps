@@ -1,6 +1,8 @@
 import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
+import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
+import { SiteShell } from '../site-shell'
 import { LibraryScreen } from './library-screen'
 
 // A Page story = the slot template filled with mock-fed organisms, exactly as
@@ -10,6 +12,13 @@ const meta: Meta<typeof LibraryScreen> = {
   title: 'Pages/Library',
   component: LibraryScreen,
   parameters: { layout: 'fullscreen' },
+  decorators: [
+    (Story) => (
+      <SiteShell paletteWords={SEARCH_WORDS_MOCK}>
+        <Story />
+      </SiteShell>
+    ),
+  ],
 }
 
 export default meta
@@ -17,23 +26,21 @@ type Story = StoryObj<typeof LibraryScreen>
 
 export const Populated: Story = {
   render: () => (
-    <div className="mx-auto max-w-[1160px] px-5 md:px-10">
-      <LibraryScreen
-        hero={
-          <LibraryHero
-            stats={LIBRARY_VIEW_MOCK.stats}
-            tryWords={LIBRARY_VIEW_MOCK.tryWords}
-            searchPath="/search"
-          />
-        }
-        wordOfTheDay={<WordOfTheDay wotds={LIBRARY_VIEW_MOCK.wordsOfTheDay} />}
-        readingRoom={
-          <ReadingRoom
-            mostLookedUp={LIBRARY_VIEW_MOCK.mostLookedUp}
-            recentlyAdded={LIBRARY_VIEW_MOCK.recentlyAdded}
-          />
-        }
-      />
-    </div>
+    <LibraryScreen
+      hero={
+        <LibraryHero
+          stats={LIBRARY_VIEW_MOCK.stats}
+          tryWords={LIBRARY_VIEW_MOCK.tryWords}
+          searchPath="/search"
+        />
+      }
+      wordOfTheDay={<WordOfTheDay wotds={LIBRARY_VIEW_MOCK.wordsOfTheDay} />}
+      readingRoom={
+        <ReadingRoom
+          mostLookedUp={LIBRARY_VIEW_MOCK.mostLookedUp}
+          recentlyAdded={LIBRARY_VIEW_MOCK.recentlyAdded}
+        />
+      }
+    />
   ),
 }

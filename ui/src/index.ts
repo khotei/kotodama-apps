@@ -41,6 +41,10 @@ export {
   type WordTier,
 } from './components/atoms/tier-chip'
 export {
+  CommandTrigger,
+  type CommandTriggerProps,
+} from './components/molecules/command-trigger'
+export {
   DepthTabs,
   DepthTabsContent,
   DepthTabsList,
@@ -59,6 +63,12 @@ export {
   GenerationSteps,
   type GenerationStepsProps,
 } from './components/molecules/generation-steps'
+export {
+  LanguageMenu,
+  type LanguageMenuProps,
+  type LanguageOption,
+} from './components/molecules/language-menu'
+export { type ColorMode, ModeMenu, type ModeMenuProps } from './components/molecules/mode-menu'
 export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export {
@@ -79,6 +89,7 @@ export { ReadingRoom, type ReadingRoomProps } from './components/organisms/readi
 export {
   SiteHeader,
   type SiteHeaderProps,
+  type SiteHeaderVariant,
   type SiteNavLink,
 } from './components/organisms/site-header'
 export {
@@ -95,6 +106,7 @@ export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/wor
 export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { WordScreen, type WordScreenProps } from './components/pages/word'
 export { LibraryScreen, type LibraryScreenProps } from './components/templates/library-screen'
+export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,

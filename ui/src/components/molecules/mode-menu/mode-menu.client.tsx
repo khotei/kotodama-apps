@@ -10,7 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@kotodama/ui'
 import { ArrowDownIcon, CheckIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
-import { useTheme } from 'next-themes'
+
+export type ColorMode = 'light' | 'system' | 'dark'
 
 const MODES = [
   { value: 'light', label: 'Light', Icon: SunIcon },
@@ -18,8 +19,22 @@ const MODES = [
   { value: 'dark', label: 'Dark', Icon: MoonIcon },
 ] as const
 
-export function ModeMenu() {
-  const { theme, setTheme } = useTheme()
+// The default handler flips `.dark` on <html> — the same cascade next-themes
+// drives; the app injects `setTheme` instead to persist the choice.
+const applyMode = (mode: ColorMode) => {
+  const dark =
+    mode === 'dark' ||
+    (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  document.documentElement.classList.toggle('dark', dark)
+}
+
+export type ModeMenuProps = {
+  /** The mode to check-mark — e.g. next-themes' `theme`. */
+  mode?: string
+  onModeChange?: (mode: ColorMode) => void
+}
+
+export function ModeMenu({ mode, onModeChange = applyMode }: ModeMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -39,11 +54,11 @@ export function ModeMenu() {
         {MODES.map(({ value, label, Icon }) => (
           <DropdownMenuItem
             key={value}
-            className={cn(theme === value && 'font-semibold text-seal')}
-            onSelect={() => setTheme(value)}
+            className={cn(mode === value && 'font-semibold text-seal')}
+            onSelect={() => onModeChange(value)}
           >
             <Icon /> {label}
-            {theme === value && <CheckIcon className="ml-auto" />}
+            {mode === value && <CheckIcon className="ml-auto" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
