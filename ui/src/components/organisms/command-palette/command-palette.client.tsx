@@ -1,104 +1,63 @@
 'use client'
 
-import { BookOpenIcon, SparklesIcon } from 'lucide-react'
-import { useState } from 'react'
-import type { SearchWordView } from '../../../views/search.view'
-import { StatusBadge } from '../../atoms/status-badge'
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '../../ui/command'
+import type { ReactNode } from 'react'
+import { CommandDialog, CommandEmpty, CommandInput, CommandList } from '../../ui/command'
 import { Kbd } from '../../ui/kbd'
 
 export type CommandPaletteProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  words: readonly SearchWordView[]
-  onSelect: (href: string) => void
-  onGenerate: (query: string) => void
+  /** Controlled search text — the caller owns it, so it can drive its own result groups. */
+  query: string
+  onQueryChange: (query: string) => void
+  placeholder?: string
+  /** sr-only dialog title/description (a11y). */
+  title?: string
+  description?: string
+  /** Shown when no row is visible. */
+  empty?: ReactNode
+  /**
+   * `false` when the caller filters the result set itself off `query` — cmdk then
+   * renders exactly the rows passed. Leave unset to use cmdk's built-in fuzzy filter.
+   */
+  shouldFilter?: boolean
+  /** The result rows — compose {@link CommandPaletteGroup} / {@link CommandPaletteItem}. */
+  children: ReactNode
 }
 
 /**
- * The ⌘K palette: fuzzy-jump across the library (cmdk's built-in filter) with
- * a trailing generate row for a word that isn't there yet. Client→client
- * composed — the app owns the open state, the shortcut, and navigation.
+ * Agnostic ⌘K dialog shell: the frame (dialog + controlled input + list + key
+ * hints), with the result rows slotted as children. It owns no data — the caller
+ * holds `query` and the result set, so every behaviour (a trailing "generate" row,
+ * a domain filter) composes above this frame. Closing clears the query.
  */
 export function CommandPalette({
   open,
   onOpenChange,
-  words,
-  onSelect,
-  onGenerate,
+  query,
+  onQueryChange,
+  placeholder = 'Search…',
+  title = 'Command palette',
+  description = 'Search or run a command.',
+  empty = 'No results.',
+  shouldFilter,
+  children,
 }: CommandPaletteProps) {
-  const [query, setQuery] = useState('')
-  const trimmed = query.trim()
-
-  const close = () => {
-    onOpenChange(false)
-    setQuery('')
-  }
-
   return (
     <CommandDialog
       open={open}
       onOpenChange={(next) => {
         onOpenChange(next)
-        if (!next) setQuery('')
+        if (!next) onQueryChange('')
       }}
-      title="Search or jump"
-      description="Fuzzy-match a word in your library, or generate a new entry."
+      title={title}
+      description={description}
+      shouldFilter={shouldFilter}
     >
-      <CommandInput placeholder="Search or jump…" value={query} onValueChange={setQuery} />
+      <CommandInput placeholder={placeholder} value={query} onValueChange={onQueryChange} />
       <CommandList>
-        <CommandEmpty>No word matches.</CommandEmpty>
-        <CommandGroup heading="Your library">
-          {words.map((row) => (
-            <CommandItem
-              // href is the unique identity (the same word can exist in two
-              // languages); the word itself stays the match term via keywords.
-              key={row.href}
-              value={row.href}
-              keywords={[row.word]}
-              onSelect={() => {
-                close()
-                onSelect(row.href)
-              }}
-            >
-              <BookOpenIcon />
-              <span>{row.word}</span>
-              {row.status === 'ready' ? (
-                row.gloss != null && (
-                  <span className="ml-auto max-w-[50%] truncate text-[12.5px] text-muted-foreground">
-                    {row.gloss}
-                  </span>
-                )
-              ) : (
-                <span className="ml-auto">
-                  <StatusBadge status={row.status} />
-                </span>
-              )}
-            </CommandItem>
-          ))}
-        </CommandGroup>
-        {trimmed !== '' && (
-          <CommandGroup heading="New entry" forceMount>
-            <CommandItem
-              value={`generate-${trimmed}`}
-              forceMount
-              onSelect={() => {
-                close()
-                onGenerate(trimmed)
-              }}
-            >
-              <SparklesIcon />
-              Generate an entry for “{trimmed}”
-            </CommandItem>
-          </CommandGroup>
-        )}
+        <CommandEmpty>{empty}</CommandEmpty>
+        {children}
       </CommandList>
       <div className="flex items-center gap-4 border-border-subtle border-t px-4 py-2.5 font-mono text-2xs text-subtle-foreground tracking-[0.06em]">
         <span className="flex items-center gap-1.5">

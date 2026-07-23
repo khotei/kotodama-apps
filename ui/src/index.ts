@@ -83,7 +83,14 @@ export { SearchBox, type SearchBoxProps } from './components/molecules/search-bo
 export { StatusNote, type StatusNoteProps } from './components/molecules/status-note'
 export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
 export { WordCard, type WordCardProps } from './components/molecules/word-card'
-export { CommandPalette, type CommandPaletteProps } from './components/organisms/command-palette'
+export {
+  CommandPalette,
+  CommandPaletteGroup,
+  type CommandPaletteGroupProps,
+  CommandPaletteItem,
+  type CommandPaletteItemProps,
+  type CommandPaletteProps,
+} from './components/organisms/command-palette'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
 export {
   type MobileTab,
@@ -91,6 +98,13 @@ export {
   type MobileTabBarProps,
 } from './components/organisms/mobile-tab-bar'
 export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
+export {
+  type CommandAction,
+  SearchCommandPalette,
+  type SearchCommandPaletteProps,
+  WordCommandItem,
+  type WordCommandItemProps,
+} from './components/organisms/search-command-palette'
 export {
   SiteHeader,
   type SiteHeaderProps,
