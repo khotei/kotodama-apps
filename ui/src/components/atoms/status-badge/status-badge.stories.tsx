@@ -4,6 +4,9 @@ import { StatusBadge } from './status-badge'
 const meta: Meta<typeof StatusBadge> = {
   title: 'Atoms/StatusBadge',
   component: StatusBadge,
+  argTypes: {
+    status: { control: 'select', options: ['ready', 'generating', 'pending', 'failed'] },
+  },
 }
 
 export default meta

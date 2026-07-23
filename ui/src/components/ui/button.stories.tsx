@@ -5,6 +5,16 @@ import { Button } from './button'
 const meta: Meta<typeof Button> = {
   title: 'UI/Button',
   component: Button,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'accent', 'destructive', 'outline', 'secondary', 'ghost', 'link'],
+    },
+    size: {
+      control: 'select',
+      options: ['default', 'xs', 'sm', 'lg', 'icon', 'icon-xs', 'icon-sm', 'icon-lg'],
+    },
+  },
 }
 
 export default meta

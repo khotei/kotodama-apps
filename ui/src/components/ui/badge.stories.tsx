@@ -4,6 +4,12 @@ import { Badge } from './badge'
 const meta: Meta<typeof Badge> = {
   title: 'UI/Badge',
   component: Badge,
+  argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'secondary', 'destructive', 'outline'],
+    },
+  },
 }
 
 export default meta
