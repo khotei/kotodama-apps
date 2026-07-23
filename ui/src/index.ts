@@ -25,7 +25,9 @@ export { RetryButton, type RetryButtonProps } from './components/atoms/retry-but
 export { RetryLink } from './components/atoms/retry-link'
 export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
+export { Skeleton } from './components/atoms/skeleton'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
+export { Spinner } from './components/atoms/spinner'
 export {
   StatusBadge,
   type StatusBadgeProps,
@@ -193,9 +195,7 @@ export {
   PaginationPrevious,
 } from './components/ui/pagination'
 export { Separator } from './components/ui/separator'
-export { Skeleton } from './components/ui/skeleton'
 export { Toaster } from './components/ui/sonner'
-export { Spinner } from './components/ui/spinner'
 export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './components/ui/tabs'
 export { Toggle, toggleVariants } from './components/ui/toggle'
 export { languageName } from './lib/language-name'

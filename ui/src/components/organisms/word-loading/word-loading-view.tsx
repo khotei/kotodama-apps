@@ -1,8 +1,8 @@
 import { ArrowLeftIcon } from 'lucide-react'
+import { Skeleton } from '../../atoms/skeleton'
+import { Spinner } from '../../atoms/spinner'
 import { Button } from '../../ui/button'
 import { Card, CardContent } from '../../ui/card'
-import { Skeleton } from '../../ui/skeleton'
-import { Spinner } from '../../ui/spinner'
 
 export type WordLoadingViewProps = {
   backHref: string

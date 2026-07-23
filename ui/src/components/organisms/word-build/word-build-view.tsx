@@ -8,11 +8,11 @@ import {
 import type { ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 import type { WordBuildStages } from '../../../views/word.view'
+import { Skeleton } from '../../atoms/skeleton'
 import { StatusBadge } from '../../atoms/status-badge'
 import { type GenerationStep, GenerationSteps } from '../../molecules/generation-steps'
 import { Button } from '../../ui/button'
 import { Card, CardContent } from '../../ui/card'
-import { Skeleton } from '../../ui/skeleton'
 
 const STAGE_LABEL: Record<WordBuildStages[number]['stage'], string> = {
   fetch_source: 'Looking the word up',

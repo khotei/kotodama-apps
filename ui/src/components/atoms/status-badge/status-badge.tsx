@@ -3,7 +3,7 @@ import { TriangleAlertIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 import { Badge, type BadgeProps } from '../../ui/badge'
-import { Spinner } from '../../ui/spinner'
+import { Spinner } from '../spinner'
 
 /** The one word-lifecycle status vocabulary — every surface consumes this. */
 export type WordStatus = 'ready' | 'generating' | 'pending' | 'failed'
