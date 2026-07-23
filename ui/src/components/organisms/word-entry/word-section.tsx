@@ -1,5 +1,5 @@
-import { SectionRule } from '@kotodama/ui'
 import type { ReactNode } from 'react'
+import { SectionRule } from '../../atoms/section-rule'
 
 export type WordSectionProps = {
   id: string

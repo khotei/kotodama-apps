@@ -1,21 +1,6 @@
 'use client'
 
 import {
-  Button,
-  cn,
-  EmptyState,
-  FilterChip,
-  HighlightedText,
-  pad2,
-  ResultRow,
-  SearchBox,
-  SectionRule,
-  StatusNote,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-} from '@kotodama/ui'
-import {
   ArrowRightIcon,
   BookmarkIcon,
   PlusIcon,
@@ -24,7 +9,18 @@ import {
   XIcon,
 } from 'lucide-react'
 import { type ComponentProps, useMemo, useState } from 'react'
+import { pad2 } from '../../../lib/pad2'
+import { cn } from '../../../lib/utils'
 import type { SearchPos, SearchWordView } from '../../../views/search.view'
+import { FilterChip } from '../../atoms/filter-chip'
+import { HighlightedText } from '../../atoms/highlighted-text'
+import { SectionRule } from '../../atoms/section-rule'
+import { EmptyState } from '../../molecules/empty-state'
+import { ResultRow } from '../../molecules/result-row'
+import { SearchBox } from '../../molecules/search-box'
+import { StatusNote } from '../../molecules/status-note'
+import { Button } from '../../ui/button'
+import { Tabs, TabsList, TabsTrigger } from '../../ui/tabs'
 
 const PAGE_SIZE = 6
 const POS_TABS: { value: SearchPos | 'all'; label: string }[] = [

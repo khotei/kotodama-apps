@@ -1,5 +1,8 @@
-import { Button, Card, CardContent, Skeleton, Spinner } from '@kotodama/ui'
 import { ArrowLeftIcon } from 'lucide-react'
+import { Button } from '../../ui/button'
+import { Card, CardContent } from '../../ui/card'
+import { Skeleton } from '../../ui/skeleton'
+import { Spinner } from '../../ui/spinner'
 
 export type WordLoadingViewProps = {
   backHref: string

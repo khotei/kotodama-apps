@@ -1,5 +1,8 @@
 'use client'
 
+import { BookmarkIcon } from 'lucide-react'
+import { useState } from 'react'
+import { toast } from 'sonner'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,11 +12,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  Button,
-} from '@kotodama/ui'
-import { BookmarkIcon } from 'lucide-react'
-import { useState } from 'react'
-import { toast } from 'sonner'
+} from '../../ui/alert-dialog'
+import { Button } from '../../ui/button'
 
 export type SaveWordButtonProps = {
   word: string

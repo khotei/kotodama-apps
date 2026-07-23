@@ -1,5 +1,5 @@
-import { cn } from '@kotodama/ui'
 import type { ReactNode } from 'react'
+import { cn } from '../../../lib/utils'
 
 export type MobileTab = {
   /** The tab glyph — any icon element (`<HouseIcon />`); the bar stays open-ended. */

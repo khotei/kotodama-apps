@@ -1,5 +1,6 @@
-import { EtymologyTimeline, Overline } from '@kotodama/ui'
 import type { WordEntryContent } from '../../../views/word.view'
+import { Overline } from '../../atoms/overline'
+import { EtymologyTimeline } from '../../molecules/etymology-timeline'
 import { WordSection } from './word-section'
 
 export type OriginsSectionProps = {

@@ -1,14 +1,4 @@
 import {
-  Button,
-  Card,
-  CardContent,
-  cn,
-  type GenerationStep,
-  GenerationSteps,
-  Skeleton,
-  StatusBadge,
-} from '@kotodama/ui'
-import {
   ArrowLeftIcon,
   BookOpenIcon,
   RotateCcwIcon,
@@ -16,7 +6,13 @@ import {
   TriangleAlertIcon,
 } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { cn } from '../../../lib/utils'
 import type { WordBuildStages } from '../../../views/word.view'
+import { StatusBadge } from '../../atoms/status-badge'
+import { type GenerationStep, GenerationSteps } from '../../molecules/generation-steps'
+import { Button } from '../../ui/button'
+import { Card, CardContent } from '../../ui/card'
+import { Skeleton } from '../../ui/skeleton'
 
 const STAGE_LABEL: Record<WordBuildStages[number]['stage'], string> = {
   fetch_source: 'Looking the word up',

@@ -1,6 +1,9 @@
-import { Button, cn, ImageSlot, Overline } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { cn } from '../../../lib/utils'
 import type { WordEntryContent } from '../../../views/word.view'
+import { ImageSlot } from '../../atoms/image-slot'
+import { Overline } from '../../atoms/overline'
+import { Button } from '../../ui/button'
 import { WordSection } from './word-section'
 
 function Shot({

@@ -1,21 +1,18 @@
 'use client'
 
-import {
-  AccentedWordMark,
-  accentedWordText,
-  Button,
-  cn,
-  ListenButton,
-  Overline,
-  pad2,
-  SaveWordButton,
-  SectionRule,
-  Sparkline,
-  TierDot,
-} from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
+import { pad2 } from '../../../lib/pad2'
+import { cn } from '../../../lib/utils'
 import type { GlanceText, WotdView } from '../../../views/library.view'
+import { AccentedWordMark, accentedWordText } from '../../atoms/accented-word'
+import { ListenButton } from '../../atoms/listen-button'
+import { Overline } from '../../atoms/overline'
+import { SectionRule } from '../../atoms/section-rule'
+import { Sparkline } from '../../atoms/sparkline'
+import { TierDot } from '../../atoms/tier-chip'
+import { SaveWordButton } from '../../molecules/save-word-button'
+import { Button } from '../../ui/button'
 
 function Glance({ value }: { value: GlanceText }) {
   if (typeof value === 'string') return value

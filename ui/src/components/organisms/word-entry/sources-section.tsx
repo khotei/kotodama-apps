@@ -1,4 +1,4 @@
-import { pad2 } from '@kotodama/ui'
+import { pad2 } from '../../../lib/pad2'
 import type { WordEntryContent } from '../../../views/word.view'
 import { WordSection } from './word-section'
 

@@ -1,6 +1,8 @@
-import { Overline, Sparkline, type WordTier } from '@kotodama/ui'
 import type { ReactNode } from 'react'
 import type { WordEntryContent } from '../../../views/word.view'
+import { Overline } from '../../atoms/overline'
+import { Sparkline } from '../../atoms/sparkline'
+import type { WordTier } from '../../atoms/tier-chip'
 
 const KNOWN_TIERS: readonly WordTier[] = ['everyday', 'cultural', 'formal', 'rare']
 
