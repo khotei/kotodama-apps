@@ -1,7 +1,4 @@
 @import "tailwindcss";
-/* Colours: :root/.dark + the @theme color mapping, generated from src/tokens.ts
-   (hex source) into OKLCH. Edit tokens.ts + `bun run gen:tokens`, never this file. */
-@import "./tokens.css";
 
 /* The design system owns its content globs, resolved relative to THIS file, so
    any consumer just `@import "@kotodama/ui/styles.css"` — no path knowledge, no
@@ -9,15 +6,72 @@
 @source "./**/*.{ts,tsx}";
 
 /* The design-system Tailwind entry. apps/web (and Storybook) import THIS as the
-   single stylesheet — Tailwind + the dark variant + the colour tokens (imported
-   above) + the non-colour theme (radius, shadows, type scale, motion, fonts).
-   Components (ours and any pulled via `bunx shadcn add`) speak semantic utilities
-   (`bg-card`, `text-muted-foreground`) — never raw colour — the web↔native seam. */
+   single stylesheet — Tailwind + the dark variant + the STANDARD shadcn token
+   set + the utility mapping. Components (ours and any pulled via `bunx shadcn
+   add`) speak semantic utilities (`bg-card`, `text-muted-foreground`) — never
+   raw color — the web↔native seam.
+
+   Values mirror the design source kotodama/kdm-tokens.css VERBATIM (hex/rgba,
+   not oklch re-encodings — zero conversion drift). Light = washi paper + sumi
+   ink; dark = sumi ground + paper light. shadcn mapping decisions:
+   `--primary` = the ink/inverse ground (the design's solid button), `--accent`
+   = the cinnabar WASH (design --accent-subtle: ghost hovers, menu highlights,
+   selection), and the solid cinnabar 朱 lives in the `--seal` family. */
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
   --radius: 0.75rem; /* design r-lg 12px; sm/md/lg/xl → 8/10/12/16 */
+
+  --background: #f2ecde; /* washi page */
+  --foreground: #18151a; /* sumi ink */
+  --card: #f8f3e7; /* bg-surface: cards, inputs */
+  --card-foreground: #18151a;
+  --popover: #fcfaf1; /* bg-elevated: dialogs, raised */
+  --popover-foreground: #18151a;
+  --primary: #161318; /* bg-inverse — the solid button ground */
+  --primary-foreground: #f2ecde;
+  --secondary: #e9e1cf; /* bg-sunken: seg tracks, kbd, tags */
+  --secondary-foreground: #18151a;
+  --muted: #e9e1cf;
+  --muted-foreground: #6b6356;
+  --accent: rgba(193, 69, 46, 0.1); /* cinnabar wash — hover/highlight ground */
+  --accent-foreground: #18151a;
+  --destructive: #a6371f;
+  --destructive-foreground: #fbf5ec;
+  --border: #dcd2bd;
+  --input: #dcd2bd;
+  --ring: #c1452e;
+
+  /* Extension tokens (design kdm-tokens.css): the cinnabar seal 朱 family —
+     brand mark AND the accent action hue (never --primary: solid buttons are
+     ink; cinnabar is hover/emphasis) — plus indigo 藍 brand-secondary, gold,
+     the statuses the core set lacks, fg/border depth steps, and the 4-way
+     register scale (shared L·C, hue varies — the --chart-N pattern). */
+  --seal: #c1452e;
+  --seal-foreground: #fbf5ec;
+  --seal-emphasis: #a6371f;
+  --seal-soft: #d46a4f;
+  --seal-line: rgba(193, 69, 46, 0.28);
+  --brand: #2e3491;
+  --brand-soft: #5a60be;
+  --brand-subtle: rgba(46, 52, 145, 0.09);
+  --gold: #b0863a;
+  --success: #2c7a53;
+  --success-foreground: #fbf5ec;
+  --success-subtle: rgba(44, 122, 83, 0.11);
+  --warning: #b07a1b;
+  --warning-foreground: #fbf5ec;
+  --warning-subtle: rgba(176, 122, 27, 0.12);
+  --destructive-subtle: rgba(166, 55, 31, 0.09);
+  --subtle-foreground: #8a8170;
+  --faint-foreground: #b4ab95;
+  --border-subtle: #e7dfcd;
+  --border-strong: #c5baa0;
+  --tier-everyday: #3f8466;
+  --tier-cultural: #6b4fae;
+  --tier-formal: #2e3491;
+  --tier-rare: #b0863a;
 
   --sh-soft: 0 1px 0 rgba(24, 21, 26, 0.04), 0 8px 28px -14px rgba(24, 21, 26, 0.16);
   --sh-hero:
@@ -30,6 +84,51 @@
 }
 
 .dark {
+  --background: #151318; /* sumi ground */
+  --foreground: #ede7da; /* paper light */
+  --card: #1d1b22;
+  --card-foreground: #ede7da;
+  --popover: #25222b;
+  --popover-foreground: #ede7da;
+  --primary: #f2ecde;
+  --primary-foreground: #18151a;
+  --secondary: #100e13;
+  --secondary-foreground: #ede7da;
+  --muted: #100e13;
+  --muted-foreground: #a39c8e;
+  --accent: rgba(226, 106, 76, 0.14);
+  --accent-foreground: #ede7da;
+  --destructive: #ed7e60;
+  --destructive-foreground: #fbf5ec;
+  --border: #2d2a35;
+  --input: #2d2a35;
+  --ring: #e26a4c;
+
+  --seal: #e26a4c; /* cinnabar lifts on dark */
+  --seal-foreground: #fbf5ec;
+  --seal-emphasis: #ed7e60;
+  --seal-soft: #c1452e;
+  --seal-line: rgba(226, 106, 76, 0.34);
+  --brand: #8e94ec;
+  --brand-soft: #6c72d6;
+  --brand-subtle: rgba(142, 148, 236, 0.14);
+  --gold: #d2a559;
+  --success: #45b07e;
+  --success-foreground: #151318;
+  --success-subtle: rgba(69, 176, 126, 0.14);
+  --warning: #dda646;
+  --warning-foreground: #151318;
+  --warning-subtle: rgba(221, 166, 70, 0.14);
+  --destructive-subtle: rgba(237, 126, 96, 0.14);
+  --subtle-foreground: #847c70;
+  --faint-foreground: #5b5550;
+  --border-subtle: #242230;
+  --border-strong: #3d3947;
+  --tier-everyday: #5bb58c;
+  --tier-cultural: #a593e0;
+  --tier-formal: #8e94ec;
+  --tier-rare: #d2a559;
+
   --sh-soft: 0 1px 0 rgba(0, 0, 0, 0.3), 0 10px 30px -16px rgba(0, 0, 0, 0.6);
   --sh-hero:
     0 1px 0 rgba(0, 0, 0, 0.3), 0 28px 70px -30px rgba(0, 0, 0, 0.75),
@@ -41,13 +140,56 @@
 }
 
 /* inline: values reference other CSS vars, so Tailwind must reference (not
-   inline) them for dark-mode remapping to work. The colour mappings live in the
-   generated tokens.css; this block owns the non-colour theme. */
+   inline) them for dark-mode remapping to work. Emits `bg-card`, `text-primary`,
+   `rounded-lg`, … — the utilities every shadcn component expects. */
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-seal: var(--seal);
+  --color-seal-foreground: var(--seal-foreground);
+  --color-seal-emphasis: var(--seal-emphasis);
+  --color-seal-soft: var(--seal-soft);
+  --color-seal-line: var(--seal-line);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-subtle: var(--brand-subtle);
+  --color-gold: var(--gold);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-faint-foreground: var(--faint-foreground);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
+  --color-tier-everyday: var(--tier-everyday);
+  --color-tier-cultural: var(--tier-cultural);
+  --color-tier-formal: var(--tier-formal);
+  --color-tier-rare: var(--tier-rare);
 
   --shadow-soft: var(--sh-soft);
   --shadow-hero: var(--sh-hero);

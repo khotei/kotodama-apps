@@ -145,7 +145,6 @@
       "typescript": "^5.9.0",
     },
     "style": {
-      "@radix-ui/react-slot": "^1.2.3",
       "@tailwindcss/postcss": "^4.1.0",
       "@tailwindcss/vite": "^4.1.0",
       "class-variance-authority": "^0.7.1",

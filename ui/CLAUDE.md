@@ -9,11 +9,11 @@ truth.
   `components/{atoms,molecules,organisms,templates,pages}/` = our Atomic-Design compositions (each a
   folder + story + `index.ts` barrel); `views/` = ui-owned view types; `fixtures/` = design mocks (via
   `@kotodama/ui/fixtures`); `lib/` = helpers (`cn`, `languageName`). `src/index.ts` = the public barrel.
-- **Tokens:** `src/tokens.ts` (hex source of truth, light+dark) → `bun run gen:tokens` → `src/tokens.css`
-  (generated OKLCH `:root`/`.dark` + the `@theme` colour mapping; never hand-edit — a CI drift gate
-  reverts it). `styles.css` `@import`s it and owns only the non-colour theme (radius, shadows, type,
-  motion, fonts) + `@source`s its own tree, so consumers just `@import "@kotodama/ui/styles.css"`.
-  Consumers speak only semantic utilities (`bg-card`) — never raw hex — the web↔native seam.
+- **Tokens:** `styles.css` is the Tailwind entry — `@import "tailwindcss"` + the `dark` variant + the
+  shadcn token set hand-written in `:root`/`.dark` (hex; the Kotodama paper palette) + the `@theme
+  inline` colour mapping + the non-colour theme (radius, shadows, type, motion, fonts). It `@source`s
+  its own tree, so consumers just `@import "@kotodama/ui/styles.css"`. Consumers speak only semantic
+  utilities (`bg-card`) — never raw hex — the web↔native seam.
 - **Add a registry component:** `bunx shadcn@latest add <name>` in `ui` — **primitives ONLY**. One
   `components.json`, none in `apps/web` (by design: `ui` is the only design leaf), so the CLI can't
   route a composed *block* to an app target — assemble organisms by hand; don't add

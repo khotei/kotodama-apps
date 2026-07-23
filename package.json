@@ -87,7 +87,6 @@
     "tsc": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "check": "bun run lint && bun run tsc",
-    "gen:api": "bun run --filter '@kotodama/platform' gen:api",
-    "gen:tokens": "bun run --filter '@kotodama/ui' gen:tokens"
+    "gen:api": "bun run --filter '@kotodama/platform' gen:api"
   }
 }
