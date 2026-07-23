@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { CommandFab } from './command-fab.client'
 
-// Mobile-only (hidden at md+); switch the viewport toolbar to a phone to see it.
+// Mobile-only (hidden at md+) — the story opens in a phone viewport so it shows.
 const meta: Meta<typeof CommandFab> = {
   title: 'Molecules/CommandFab',
   component: CommandFab,
   parameters: { layout: 'fullscreen' },
+  globals: { viewport: { value: 'iphonex' } },
 }
 
 export default meta
