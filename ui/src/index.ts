@@ -105,9 +105,9 @@ export {
 export { WordEntryView, type WordEntryViewProps } from './components/organisms/word-entry'
 export { WordLoadingView, type WordLoadingViewProps } from './components/organisms/word-loading'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/word-of-the-day'
+export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
 export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { WordScreen, type WordScreenProps } from './components/pages/word'
-export { LibraryScreen, type LibraryScreenProps } from './components/templates/library-screen'
 export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {

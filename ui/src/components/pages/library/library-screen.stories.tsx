@@ -2,7 +2,7 @@ import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
-import { SiteShell } from '../site-shell'
+import { SiteShell } from '../../templates/site-shell'
 import { LibraryScreen } from './library-screen'
 
 // A Page story = the slot template filled with mock-fed organisms, exactly as
