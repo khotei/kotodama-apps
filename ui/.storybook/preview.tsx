@@ -17,6 +17,11 @@ const withTheme: Decorator = (Story, context) => {
 }
 
 const preview: Preview = {
+  // Autodocs everywhere: every component gets a generated Docs page (args table +
+  // stories), so the Storybook MCP serves real prop contracts to the agent, not a
+  // bare canvas. Per-story `tags: ['!autodocs']` opts a noisy one out.
+  tags: ['autodocs'],
+
   globalTypes: {
     theme: {
       description: 'Design-system theme',

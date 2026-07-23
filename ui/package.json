@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@kotodama/presets": "workspace:*",
+    "@storybook/addon-a11y": "catalog:ui",
     "@storybook/addon-mcp": "catalog:ui",
     "@storybook/react-vite": "catalog:ui",
     "@tailwindcss/vite": "catalog:style",
