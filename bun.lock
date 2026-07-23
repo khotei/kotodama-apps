@@ -92,7 +92,6 @@
       "name": "@kotodama/ui",
       "version": "0.0.0",
       "dependencies": {
-        "@radix-ui/react-slot": "catalog:style",
         "class-variance-authority": "catalog:style",
         "clsx": "catalog:style",
         "cmdk": "catalog:style",

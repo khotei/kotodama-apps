@@ -23,7 +23,6 @@
     "build-storybook": "bunx --bun storybook build"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "catalog:style",
     "class-variance-authority": "catalog:style",
     "clsx": "catalog:style",
     "cmdk": "catalog:style",
