@@ -11,7 +11,11 @@ consumes it directly as the design source of truth.
   (`word.view.ts`, may mirror the wire contract); `fixtures/` = design-stage mocks (via the
   `@kotodama/ui/fixtures` subpath); `lib/` = helpers (`cn`, `languageName`); `styles.css` = the
   Tailwind entry. `src/index.ts` re-exports the public surface.
-- **Add a registry component:** `bunx shadcn@latest add <name>` (run in `ui`).
+- **Add a registry component:** `bunx shadcn@latest add <name>` (run in `ui`) — **primitives ONLY**.
+  There is a single `components.json` here and NONE in `apps/web` (by design: `ui` is the only design
+  leaf), so the CLI can't route a composed *block* (`login-01`, `dashboard-01`) to an app target —
+  `add <block>` breaks; assemble organisms/templates by hand from primitives. Do NOT add
+  `apps/web/components.json` to "fix" it — that shatters the single-leaf invariant.
   `components.json` wires aliases to `@kotodama/ui/…`, so it writes to `components/ui/`, imports `cn`
   from `@kotodama/ui/lib/utils`, and resolves under Turbopack via the package.json `exports` subpaths.
   Then re-export it from `src/index.ts`. shadcn's **official MCP + Skills**
