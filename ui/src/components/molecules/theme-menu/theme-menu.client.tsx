@@ -11,9 +11,9 @@ import {
   DropdownMenuTrigger,
 } from '../../ui/dropdown-menu'
 
-export type ColorMode = 'light' | 'system' | 'dark'
+export type ThemeMode = 'light' | 'system' | 'dark'
 
-const MODES = [
+const THEMES = [
   { value: 'light', label: 'Light', Icon: SunIcon },
   { value: 'system', label: 'Auto', Icon: MonitorIcon },
   { value: 'dark', label: 'Dark', Icon: MoonIcon },
@@ -21,20 +21,20 @@ const MODES = [
 
 // The default handler flips `.dark` on <html> — the same cascade next-themes
 // drives; the app injects `setTheme` instead to persist the choice.
-const applyMode = (mode: ColorMode) => {
+const applyTheme = (theme: ThemeMode) => {
   const dark =
-    mode === 'dark' ||
-    (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    theme === 'dark' ||
+    (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
   document.documentElement.classList.toggle('dark', dark)
 }
 
-export type ModeMenuProps = {
-  /** The mode to check-mark — e.g. next-themes' `theme`. */
-  mode?: string
-  onModeChange?: (mode: ColorMode) => void
+export type ThemeMenuProps = {
+  /** The theme to check-mark — e.g. next-themes' `theme`. */
+  theme?: string
+  onThemeChange?: (theme: ThemeMode) => void
 }
 
-export function ModeMenu({ mode, onModeChange = applyMode }: ModeMenuProps) {
+export function ThemeMenu({ theme, onThemeChange = applyTheme }: ThemeMenuProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -51,14 +51,14 @@ export function ModeMenu({ mode, onModeChange = applyMode }: ModeMenuProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Color mode</DropdownMenuLabel>
-        {MODES.map(({ value, label, Icon }) => (
+        {THEMES.map(({ value, label, Icon }) => (
           <DropdownMenuItem
             key={value}
-            className={cn(mode === value && 'font-semibold text-seal')}
-            onSelect={() => onModeChange(value)}
+            className={cn(theme === value && 'font-semibold text-seal')}
+            onSelect={() => onThemeChange(value)}
           >
             <Icon /> {label}
-            {mode === value && <CheckIcon className="ml-auto" />}
+            {theme === value && <CheckIcon className="ml-auto" />}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

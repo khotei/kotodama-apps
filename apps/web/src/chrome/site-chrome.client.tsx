@@ -6,8 +6,8 @@ import {
   CommandTrigger,
   LanguageMenu,
   MobileTabBar,
-  ModeMenu,
   SiteHeader,
+  ThemeMenu,
 } from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -15,7 +15,7 @@ import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import useKey from 'react-use/lib/useKey'
 
-// Active-state needs usePathname, the palette needs router.push, and the mode
+// Active-state needs usePathname, the palette needs router.push, and the theme
 // menu needs next-themes, so this Next wiring lives in apps/web; the presentational
 // pieces are prop-driven @kotodama/ui components. One component owns header +
 // tab bar + palette — the Jump tab and the ⌘K trigger share the palette's open state.
@@ -52,7 +52,7 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
         commandTrigger={<CommandTrigger onOpen={() => setPaletteOpen(true)} />}
         languageMenu={<LanguageMenu />}
         languageBadge={<LanguageMenu compact />}
-        modeMenu={<ModeMenu mode={theme} onModeChange={setTheme} />}
+        themeMenu={<ThemeMenu theme={theme} onThemeChange={setTheme} />}
       />
       <CommandPalette
         open={paletteOpen}

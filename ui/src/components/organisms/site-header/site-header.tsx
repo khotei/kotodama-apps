@@ -3,9 +3,6 @@ import type { ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 import { Seal } from '../../atoms/seal'
 import { SiteContainer } from '../../atoms/site-container'
-import { CommandTrigger } from '../../molecules/command-trigger'
-import { LanguageMenu } from '../../molecules/language-menu'
-import { ModeMenu } from '../../molecules/mode-menu'
 import { Button } from '../../ui/button'
 
 export type SiteNavLink = {
@@ -14,24 +11,14 @@ export type SiteNavLink = {
   active?: boolean
 }
 
-export type SiteHeaderVariant = 'controls'
-
 export type SiteHeaderProps = {
   homeHref: string
   searchHref: string
   nav: readonly SiteNavLink[]
-  /**
-   * `'controls'` pre-fills the right-hand slots with the stock molecules
-   * (⌘K trigger + language menu + mode menu); an explicitly passed slot
-   * still wins over the variant's fill. Omit for the bare nav-only header.
-   */
-  variant?: SiteHeaderVariant
-  /** Opens the command palette — consumed by the variant-filled ⌘K trigger. */
-  onCommandOpen?: () => void
-  /** App-wired slots: the ⌘K trigger, the language menu, the color-mode menu. */
+  /** Right-hand control slots, wired by the composer (the app chrome or a story). */
   commandTrigger?: ReactNode
   languageMenu?: ReactNode
-  modeMenu?: ReactNode
+  themeMenu?: ReactNode
   /** Compact mobile stand-in for the language menu — the `ES` button. */
   languageBadge?: ReactNode
 }
@@ -54,19 +41,11 @@ export function SiteHeader({
   homeHref,
   searchHref,
   nav,
-  variant,
-  onCommandOpen,
   commandTrigger,
   languageMenu,
-  modeMenu,
+  themeMenu,
   languageBadge,
 }: SiteHeaderProps) {
-  const filled = variant === 'controls'
-  const commandSlot = commandTrigger ?? (filled ? <CommandTrigger onOpen={onCommandOpen} /> : null)
-  const languageSlot = languageMenu ?? (filled ? <LanguageMenu /> : null)
-  const languageBadgeSlot = languageBadge ?? (filled ? <LanguageMenu compact /> : null)
-  const modeSlot = modeMenu ?? (filled ? <ModeMenu /> : null)
-
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
       <SiteContainer className="hidden h-[76px] items-center justify-between md:flex">
@@ -89,9 +68,9 @@ export function SiteHeader({
           </nav>
         </div>
         <div className="flex items-center gap-[14px]">
-          {commandSlot}
-          {languageSlot}
-          {modeSlot}
+          {commandTrigger}
+          {languageMenu}
+          {themeMenu}
         </div>
       </SiteContainer>
 
@@ -103,8 +82,8 @@ export function SiteHeader({
               <SearchIcon />
             </a>
           </Button>
-          {languageBadgeSlot}
-          {modeSlot}
+          {languageBadge}
+          {themeMenu}
         </div>
       </div>
     </header>

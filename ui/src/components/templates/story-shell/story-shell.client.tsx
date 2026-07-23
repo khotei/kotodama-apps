@@ -6,6 +6,9 @@ import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { SearchWordView } from '../../../views/search.view'
 import { SiteContainer } from '../../atoms/site-container'
+import { CommandTrigger } from '../../molecules/command-trigger'
+import { LanguageMenu } from '../../molecules/language-menu'
+import { ThemeMenu } from '../../molecules/theme-menu'
 import { CommandPalette } from '../../organisms/command-palette'
 import { MobileTabBar } from '../../organisms/mobile-tab-bar'
 import { SiteHeader } from '../../organisms/site-header'
@@ -45,14 +48,16 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
   return (
     <SiteShell>
       <SiteHeader
-        variant="controls"
         homeHref="#"
         searchHref="#"
         nav={[
           { label: 'Library', href: '#', active: active === 'library' },
           { label: 'Search', href: '#', active: active === 'search' },
         ]}
-        onCommandOpen={() => setPaletteOpen(true)}
+        commandTrigger={<CommandTrigger onOpen={() => setPaletteOpen(true)} />}
+        languageMenu={<LanguageMenu />}
+        languageBadge={<LanguageMenu compact />}
+        themeMenu={<ThemeMenu />}
       />
       <CommandPalette
         open={paletteOpen}

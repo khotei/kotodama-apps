@@ -71,7 +71,6 @@ export {
   type LanguageMenuProps,
   type LanguageOption,
 } from './components/molecules/language-menu'
-export { type ColorMode, ModeMenu, type ModeMenuProps } from './components/molecules/mode-menu'
 export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export {
@@ -80,6 +79,7 @@ export {
 } from './components/molecules/save-word-button'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { StatusNote, type StatusNoteProps } from './components/molecules/status-note'
+export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
 export { WordCard, type WordCardProps } from './components/molecules/word-card'
 export { CommandPalette, type CommandPaletteProps } from './components/organisms/command-palette'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
@@ -92,7 +92,6 @@ export { ReadingRoom, type ReadingRoomProps } from './components/organisms/readi
 export {
   SiteHeader,
   type SiteHeaderProps,
-  type SiteHeaderVariant,
   type SiteNavLink,
 } from './components/organisms/site-header'
 export {
