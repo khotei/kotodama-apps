@@ -1,11 +1,12 @@
 'use client'
 
-import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
+import { BookmarkIcon, HouseIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { SearchWordView } from '../../../views/search.view'
 import { SiteContainer } from '../../atoms/site-container'
+import { CommandFab } from '../../molecules/command-fab'
 import { CommandTrigger } from '../../molecules/command-trigger'
 import { LanguageMenu } from '../../molecules/language-menu'
 import { ThemeMenu } from '../../molecules/theme-menu'
@@ -78,14 +79,7 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
           },
         ]}
       />
-      <button
-        type="button"
-        aria-label="Add or jump"
-        onClick={() => setPaletteOpen(true)}
-        className="fixed right-[18px] bottom-[76px] z-50 grid size-[54px] place-items-center rounded-full bg-seal text-seal-foreground shadow-hero md:hidden"
-      >
-        <PlusIcon className="size-6" />
-      </button>
+      <CommandFab onOpen={() => setPaletteOpen(true)} />
       <SiteContainer as="main" className="pb-24 md:pb-10">
         {children}
       </SiteContainer>

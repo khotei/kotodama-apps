@@ -2,6 +2,7 @@
 
 import type { SearchWordView } from '@kotodama/ui'
 import {
+  CommandFab,
   CommandPalette,
   CommandTrigger,
   LanguageMenu,
@@ -9,7 +10,7 @@ import {
   SiteHeader,
   ThemeMenu,
 } from '@kotodama/ui'
-import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
+import { BookmarkIcon, HouseIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
@@ -78,14 +79,7 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
           },
         ]}
       />
-      <button
-        type="button"
-        aria-label="Add or jump"
-        onClick={() => setPaletteOpen(true)}
-        className="fixed right-[18px] bottom-[76px] z-50 grid size-[54px] place-items-center rounded-full bg-seal text-seal-foreground shadow-hero md:hidden"
-      >
-        <PlusIcon className="size-6" />
-      </button>
+      <CommandFab onOpen={() => setPaletteOpen(true)} />
     </>
   )
 }

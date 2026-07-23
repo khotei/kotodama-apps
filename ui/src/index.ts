@@ -43,6 +43,7 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/atoms/tier-chip'
+export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
   CommandTrigger,
   type CommandTriggerProps,
