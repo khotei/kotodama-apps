@@ -7,10 +7,12 @@ const config: StorybookConfig = {
   // The whole presentational stack now lives in ui: atoms → molecules →
   // organisms → templates → pages, each co-located with its story.
   stories: ['../src/**/*.stories.@(ts|tsx)'],
+
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
+
   // Tailwind v4's own Vite plugin processes the `@import "tailwindcss"` in
   // styles.css (imported by preview.tsx) and auto-detects the component classes
   // under ../src, so stories render with the real design-system styling.
@@ -20,6 +22,8 @@ const config: StorybookConfig = {
     config.plugins.push(tailwindcss())
     return config
   },
+
+  addons: ['@storybook/addon-mcp'],
 }
 
 export default config
