@@ -1,9 +1,8 @@
-import { SearchIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 import { Seal } from '../../atoms/seal'
+import { Show } from '../../atoms/show'
 import { SiteContainer } from '../../atoms/site-container'
-import { Button } from '../../ui/button'
 
 export type SiteNavLink = {
   label: string
@@ -13,14 +12,9 @@ export type SiteNavLink = {
 
 export type SiteHeaderProps = {
   homeHref: string
-  searchHref: string
   nav: readonly SiteNavLink[]
-  /** Right-hand control slots, wired by the composer (the app chrome or a story). */
-  commandTrigger?: ReactNode
-  languageMenu?: ReactNode
-  themeMenu?: ReactNode
-  /** Compact mobile stand-in for the language menu — the `ES` button. */
-  languageBadge?: ReactNode
+  /** Right-hand control cluster; the composer gates each control by viewport with `<Show>`. */
+  controls?: ReactNode
 }
 
 function Wordmark({ href }: { href: string }) {
@@ -37,55 +31,32 @@ function Wordmark({ href }: { href: string }) {
   )
 }
 
-export function SiteHeader({
-  homeHref,
-  searchHref,
-  nav,
-  commandTrigger,
-  languageMenu,
-  themeMenu,
-  languageBadge,
-}: SiteHeaderProps) {
+export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
-      <SiteContainer className="hidden h-[76px] items-center justify-between md:flex">
+      <SiteContainer className="flex h-14 items-center justify-between md:h-[76px]">
         <div className="flex items-center gap-6 lg:gap-10">
           <Wordmark href={homeHref} />
-          <nav className="flex items-center gap-5 lg:gap-[30px]">
-            {nav.map(({ label, href, active }) => (
-              <a
-                key={href}
-                href={href}
-                className={cn(
-                  'relative py-1.5 font-medium text-[14px] text-muted-foreground no-underline tracking-[0.01em] transition-colors hover:text-foreground',
-                  active &&
-                    'text-foreground after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1.5px] after:bg-seal after:content-[""]',
-                )}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
+          <Show on="desktop">
+            <nav className="flex items-center gap-5 lg:gap-[30px]">
+              {nav.map(({ label, href, active }) => (
+                <a
+                  key={href}
+                  href={href}
+                  className={cn(
+                    'relative py-1.5 font-medium text-[14px] text-muted-foreground no-underline tracking-[0.01em] transition-colors hover:text-foreground',
+                    active &&
+                      'text-foreground after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1.5px] after:bg-seal after:content-[""]',
+                  )}
+                >
+                  {label}
+                </a>
+              ))}
+            </nav>
+          </Show>
         </div>
-        <div className="flex items-center gap-[14px]">
-          {commandTrigger}
-          {languageMenu}
-          {themeMenu}
-        </div>
+        <div className="flex items-center gap-1.5 md:gap-[14px]">{controls}</div>
       </SiteContainer>
-
-      <div className="flex h-14 items-center justify-between px-5 md:hidden">
-        <Wordmark href={homeHref} />
-        <div className="flex items-center gap-1.5">
-          <Button asChild variant="ghost" size="icon-sm" aria-label="Search">
-            <a href={searchHref}>
-              <SearchIcon />
-            </a>
-          </Button>
-          {languageBadge}
-          {themeMenu}
-        </div>
-      </div>
     </header>
   )
 }
