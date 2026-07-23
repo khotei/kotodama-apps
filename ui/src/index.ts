@@ -25,6 +25,7 @@ export { RetryButton, type RetryButtonProps } from './components/atoms/retry-but
 export { RetryLink } from './components/atoms/retry-link'
 export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
+export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
 export { SiteContainer, type SiteContainerProps } from './components/atoms/site-container'
 export { Skeleton } from './components/atoms/skeleton'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
