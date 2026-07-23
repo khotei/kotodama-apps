@@ -70,21 +70,22 @@ function toOklchString(value: string): string {
   const rgba = parseColor(value)
   const { L, C, h } = rgbToOklch(rgba)
   const near = C < 1e-4
-  const l = round(L, 4)
-  const c = near ? 0 : round(C, 4)
+  const l = round(L, 5)
+  const c = near ? 0 : round(C, 5)
   const hue = near ? 0 : round(h, 3)
   const alpha = rgba.a < 1 ? ` / ${round(rgba.a, 4)}` : ''
 
-  // Round-trip guard: the OKLCH must reproduce the source colour within 1/255 per
-  // channel, else a precision/matrix bug would silently shift the whole palette.
+  // Round-trip guard: the emitted OKLCH must reproduce the source sRGB byte-exactly
+  // (the precision above is tuned so every token in tokens.ts round-trips with zero
+  // drift) — so the palette stays bit-identical to the hex design source, and a
+  // precision/matrix regression fails the build instead of shifting a colour.
   const back = oklchToRgb255({ L: l, C: c, h: hue })
-  const src = parseColor(value)
   const drift = Math.max(
-    Math.abs(back.r - Math.round(src.r * 255)),
-    Math.abs(back.g - Math.round(src.g * 255)),
-    Math.abs(back.b - Math.round(src.b * 255)),
+    Math.abs(back.r - Math.round(rgba.r * 255)),
+    Math.abs(back.g - Math.round(rgba.g * 255)),
+    Math.abs(back.b - Math.round(rgba.b * 255)),
   )
-  if (drift > 1) {
+  if (drift > 0) {
     throw new Error(`gen-tokens: ${value} -> oklch(${l} ${c} ${hue}) drifts ${drift}/255`)
   }
   return `oklch(${l} ${c} ${hue}${alpha})`
