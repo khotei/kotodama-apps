@@ -2,7 +2,7 @@
 
 import type { WordBuildStatus } from '@kotodama/core/store'
 import { useState } from 'react'
-import useInterval from 'react-use/lib/useInterval'
+import useInterval from 'react-use/esm/useInterval'
 
 // The word feature's ONE client island (`.client.tsx` = browser-bundle files). Next-free
 // and prop-driven: both injected props are Server Actions (the only serializable way to

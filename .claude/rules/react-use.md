@@ -28,13 +28,19 @@ only for the caveats below.
   Actions as props and reaches live data only through those (see `frontend-state.md`). react-use
   supplies the *mechanism* (the interval, the listener), never the data path.
 
-## Import discipline — per-hook, not the barrel
+## Import discipline — per-hook, from the ESM build
 
-- **Import `react-use/lib/<hook>` (default export), not `{ x } from 'react-use'`.** The package pulls
-  ~13 transitive deps (`nano-css`, `screenfull`, `resize-observer-polyfill`, `copy-to-clipboard`,
-  `js-cookie`, …); the per-hook path bundles only the one hook you use. Examples — the word poller:
-  `import useInterval from 'react-use/lib/useInterval'` (`delay: null` pauses it); the ⌘K trigger:
-  `import useKey from 'react-use/lib/useKey'` (predicate form for a modifier combo).
+- **Import `react-use/esm/<hook>` (default export), not `{ x } from 'react-use'` and not
+  `react-use/lib/<hook>`.** The package pulls ~13 transitive deps (`nano-css`, `screenfull`,
+  `resize-observer-polyfill`, `copy-to-clipboard`, `js-cookie`, …); the per-hook path bundles only the
+  one hook you use. Examples — the word poller:
+  `import useInterval from 'react-use/esm/useInterval'` (`delay: null` pauses it); the ⌘K trigger:
+  `import useKey from 'react-use/esm/useKey'` (predicate form for a modifier combo).
+- **`esm/`, never `lib/`: `react-use` ships no `exports` map, so `lib/<hook>` resolves to the CJS
+  build (`exports.default = hook`). Storybook's Vite dep-optimizer (esbuild, ESM output) follows
+  Node's "default = whole `module.exports`" rule and hands you `{ default: hook }` — a `useX is not a
+  function` crash in the canvas — while Next/SWC unwrap `.default` and hide it. The `esm/` build's real
+  `export default` resolves to the function under Vite AND Next, same per-hook tree-shaking.**
 - **Look at the transitive weight before reaching for a heavy hook** (`useFullscreen` → `screenfull`,
   `useCss` → `nano-css`, `useMeasure` → `resize-observer-polyfill`). If a hook drags a big dep for a
   small need, hand-roll instead.

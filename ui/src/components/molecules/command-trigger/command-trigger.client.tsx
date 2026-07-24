@@ -1,7 +1,7 @@
 'use client'
 
 import { SearchIcon } from 'lucide-react'
-import useKey from 'react-use/lib/useKey'
+import useKey from 'react-use/esm/useKey'
 import { Button } from '../../ui/button'
 import { Kbd } from '../../ui/kbd'
 
