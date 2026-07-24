@@ -100,6 +100,7 @@ export {
 export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
 export {
   type CommandAction,
+  type PaletteItem,
   SearchCommandPalette,
   type SearchCommandPaletteProps,
   WordCommandItem,

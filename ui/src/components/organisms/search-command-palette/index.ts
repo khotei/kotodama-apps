@@ -1,5 +1,6 @@
 export {
   type CommandAction,
+  type PaletteItem,
   SearchCommandPalette,
   type SearchCommandPaletteProps,
 } from './search-command-palette.client'

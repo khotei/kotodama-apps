@@ -3,11 +3,11 @@
 import type { SearchWordView } from '@kotodama/ui'
 import {
   Button,
-  type CommandAction,
   CommandFab,
   CommandTrigger,
   LanguageMenu,
   MobileTabBar,
+  type PaletteItem,
   SearchCommandPalette,
   Show,
   SiteHeader,
@@ -38,39 +38,71 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
   const isSearch = pathname.startsWith('/search')
   const typed = paletteQuery.trim()
 
-  const actions: CommandAction[] = [
+  const items: readonly PaletteItem[] = [
     {
-      id: 'library',
-      label: 'Go to Library',
-      description: 'Home',
-      icon: <HouseIcon />,
-      keywords: ['home'],
-      onSelect: () => router.push('/'),
+      entity: 'action',
+      action: {
+        id: 'library',
+        label: 'Go to Library',
+        description: 'Home',
+        icon: <HouseIcon />,
+        keywords: ['home'],
+      },
     },
     {
-      id: 'search',
-      label: 'Search words',
-      description: 'Open search',
-      icon: <SearchIcon />,
-      onSelect: () => router.push('/search'),
+      entity: 'action',
+      action: {
+        id: 'search',
+        label: 'Search words',
+        description: 'Open search',
+        icon: <SearchIcon />,
+      },
     },
     {
-      id: 'generate',
-      label: typed ? `Add “${typed}”` : 'Add a new word',
-      description: 'Generate an entry',
-      icon: <PlusIcon />,
-      keywords: ['create', 'new', 'generate', 'add'],
-      forceMount: true,
-      onSelect: () => router.push(typed ? `/words/es/${encodeURIComponent(typed)}` : '/search'),
+      entity: 'action',
+      action: {
+        id: 'generate',
+        label: typed ? `Add “${typed}”` : 'Add a new word',
+        description: 'Generate an entry',
+        icon: <PlusIcon />,
+        keywords: ['create', 'new', 'generate', 'add'],
+        forceMount: true,
+      },
     },
     {
-      id: 'saved',
-      label: 'Saved words',
-      description: 'Your bookmarks',
-      icon: <BookmarkIcon />,
-      onSelect: () => router.push('/search?saved=1'),
+      entity: 'action',
+      action: {
+        id: 'saved',
+        label: 'Saved words',
+        description: 'Your bookmarks',
+        icon: <BookmarkIcon />,
+      },
     },
+    ...paletteWords.map((word): PaletteItem => ({ entity: 'word', word })),
   ]
+
+  const handleSelect = (item: PaletteItem) => {
+    setPaletteOpen(false)
+    setPaletteQuery('')
+    if (item.entity === 'word') {
+      router.push(item.word.href)
+      return
+    }
+    switch (item.action.id) {
+      case 'library':
+        router.push('/')
+        break
+      case 'search':
+        router.push('/search')
+        break
+      case 'generate':
+        router.push(typed ? `/words/es/${encodeURIComponent(typed)}` : '/search')
+        break
+      case 'saved':
+        router.push('/search?saved=1')
+        break
+    }
+  }
 
   return (
     <>
@@ -115,9 +147,8 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
         onOpenChange={setPaletteOpen}
         query={paletteQuery}
         onQueryChange={setPaletteQuery}
-        actions={actions}
-        words={paletteWords}
-        onSelectWord={(href) => router.push(href)}
+        items={items}
+        onSelect={handleSelect}
       />
       <MobileTabBar
         tabs={[

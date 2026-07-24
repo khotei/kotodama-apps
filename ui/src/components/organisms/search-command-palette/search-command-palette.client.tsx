@@ -15,8 +15,19 @@ export type CommandAction = {
   keywords?: string[]
   /** Stay visible even when the query filters it out (an always-offered CTA). */
   forceMount?: boolean
-  onSelect: () => void
 }
+
+/**
+ * One palette row, tagged by `entity` — an app command or a library word. The same
+ * shape the palette takes in `items` and hands back in `onSelect`, so the caller
+ * builds a mixed list and reads the pick off one discriminant.
+ */
+export type PaletteItem =
+  | { entity: 'action'; action: CommandAction }
+  | { entity: 'word'; word: SearchWordView }
+
+type ActionItem = Extract<PaletteItem, { entity: 'action' }>
+type WordItem = Extract<PaletteItem, { entity: 'word' }>
 
 export type SearchCommandPaletteProps = {
   open: boolean
@@ -24,31 +35,31 @@ export type SearchCommandPaletteProps = {
   /** Controlled — the caller owns it, ready to forward to a backend word search. */
   query: string
   onQueryChange: (query: string) => void
-  actions: readonly CommandAction[]
-  words: readonly SearchWordView[]
-  onSelectWord: (href: string) => void
+  /** The mixed row list; the palette splits it into the `Actions` + `Words` groups. */
+  items: readonly PaletteItem[]
+  /**
+   * A row was chosen. The palette reports WHICH item was picked and does nothing else —
+   * the caller decides whether to close, clear the query, navigate, or run a command.
+   */
+  onSelect: (item: PaletteItem) => void
 }
 
 /**
- * The app's ⌘K palette: a concrete {@link CommandPalette} that runs library words
- * and app commands side by side (the `Actions` + `Words` groups). It maps each
- * datum to a row itself; `query` stays lifted so the caller can drive a backend
- * search off it. cmdk fuzzy-filters both groups by the query.
+ * The app's ⌘K palette: a concrete {@link CommandPalette} that lists library words
+ * and app commands side by side. It splits `items` by `entity` into the `Actions` +
+ * `Words` groups and reports the pick via `onSelect`; it owns no behaviour — `query`
+ * stays lifted and the selection is the caller's to act on. cmdk fuzzy-filters both.
  */
 export function SearchCommandPalette({
   open,
   onOpenChange,
   query,
   onQueryChange,
-  actions,
-  words,
-  onSelectWord,
+  items,
+  onSelect,
 }: SearchCommandPaletteProps) {
-  const run = (action: () => void) => {
-    onOpenChange(false)
-    onQueryChange('')
-    action()
-  }
+  const actions = items.filter((item): item is ActionItem => item.entity === 'action')
+  const words = items.filter((item): item is WordItem => item.entity === 'word')
 
   return (
     <CommandPalette
@@ -63,28 +74,28 @@ export function SearchCommandPalette({
     >
       {actions.length > 0 && (
         <CommandPaletteGroup heading="Actions">
-          {actions.map((action) => (
+          {actions.map((item) => (
             <CommandPaletteItem
-              key={action.id}
-              value={action.id}
-              keywords={action.keywords}
-              forceMount={action.forceMount}
-              icon={action.icon}
-              description={action.description}
-              onSelect={() => run(action.onSelect)}
+              key={item.action.id}
+              value={item.action.id}
+              keywords={item.action.keywords}
+              forceMount={item.action.forceMount}
+              icon={item.action.icon}
+              description={item.action.description}
+              onSelect={() => onSelect(item)}
             >
-              {action.label}
+              {item.action.label}
             </CommandPaletteItem>
           ))}
         </CommandPaletteGroup>
       )}
       {words.length > 0 && (
         <CommandPaletteGroup heading="Words">
-          {words.map((word) => (
+          {words.map((item) => (
             <WordCommandItem
-              key={word.href}
-              word={word}
-              onSelect={() => run(() => onSelectWord(word.href))}
+              key={item.word.href}
+              word={item.word}
+              onSelect={() => onSelect(item)}
             />
           ))}
         </CommandPaletteGroup>

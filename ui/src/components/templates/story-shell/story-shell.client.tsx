@@ -13,7 +13,7 @@ import { CommandTrigger } from '../../molecules/command-trigger'
 import { LanguageMenu } from '../../molecules/language-menu'
 import { ThemeMenu } from '../../molecules/theme-menu'
 import { MobileTabBar } from '../../organisms/mobile-tab-bar'
-import { type CommandAction, SearchCommandPalette } from '../../organisms/search-command-palette'
+import { type PaletteItem, SearchCommandPalette } from '../../organisms/search-command-palette'
 import { SiteHeader } from '../../organisms/site-header'
 import { Button } from '../../ui/button'
 import { Toaster } from '../../ui/sonner'
@@ -40,39 +40,71 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
   const [paletteQuery, setPaletteQuery] = useState('')
   const typed = paletteQuery.trim()
 
-  const actions: CommandAction[] = [
+  const items: readonly PaletteItem[] = [
     {
-      id: 'library',
-      label: 'Go to Library',
-      description: 'Home',
-      icon: <HouseIcon />,
-      keywords: ['home'],
-      onSelect: () => toast('Would go to Library'),
+      entity: 'action',
+      action: {
+        id: 'library',
+        label: 'Go to Library',
+        description: 'Home',
+        icon: <HouseIcon />,
+        keywords: ['home'],
+      },
     },
     {
-      id: 'search',
-      label: 'Search words',
-      description: 'Open search',
-      icon: <SearchIcon />,
-      onSelect: () => toast('Would open search'),
+      entity: 'action',
+      action: {
+        id: 'search',
+        label: 'Search words',
+        description: 'Open search',
+        icon: <SearchIcon />,
+      },
     },
     {
-      id: 'generate',
-      label: typed ? `Add “${typed}”` : 'Add a new word',
-      description: 'Generate an entry',
-      icon: <PlusIcon />,
-      keywords: ['create', 'new', 'generate', 'add'],
-      forceMount: true,
-      onSelect: () => toast(typed ? `Would generate “${typed}”` : 'Would add a new word'),
+      entity: 'action',
+      action: {
+        id: 'generate',
+        label: typed ? `Add “${typed}”` : 'Add a new word',
+        description: 'Generate an entry',
+        icon: <PlusIcon />,
+        keywords: ['create', 'new', 'generate', 'add'],
+        forceMount: true,
+      },
     },
     {
-      id: 'saved',
-      label: 'Saved words',
-      description: 'Your bookmarks',
-      icon: <BookmarkIcon />,
-      onSelect: () => toast('Would open /search?saved=1'),
+      entity: 'action',
+      action: {
+        id: 'saved',
+        label: 'Saved words',
+        description: 'Your bookmarks',
+        icon: <BookmarkIcon />,
+      },
     },
+    ...paletteWords.map((word): PaletteItem => ({ entity: 'word', word })),
   ]
+
+  const handleSelect = (item: PaletteItem) => {
+    setPaletteOpen(false)
+    setPaletteQuery('')
+    if (item.entity === 'word') {
+      toast(`Would navigate to ${item.word.href}`)
+      return
+    }
+    switch (item.action.id) {
+      case 'library':
+        toast('Would go to Library')
+        break
+      case 'search':
+        toast('Would open search')
+        break
+      case 'generate':
+        toast(typed ? `Would generate “${typed}”` : 'Would add a new word')
+        break
+      case 'saved':
+        toast('Would open /search?saved=1')
+        break
+    }
+  }
 
   return (
     <SiteShell>
@@ -115,9 +147,8 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
         onOpenChange={setPaletteOpen}
         query={paletteQuery}
         onQueryChange={setPaletteQuery}
-        actions={actions}
-        words={paletteWords}
-        onSelectWord={(href) => toast(`Would navigate to ${href}`)}
+        items={items}
+        onSelect={handleSelect}
       />
       <MobileTabBar
         tabs={[
