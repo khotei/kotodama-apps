@@ -1,0 +1,122 @@
+name: CI
+
+# Gate every pull request, on any base — stacked feature PRs must still be
+# checked. Direct pushes only trigger CI on `main` (post-merge); feature
+# branches are covered by their PR.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Fast, Docker-free gate: typecheck + lint across every workspace.
+  static:
+    name: typecheck · lint (bun ${{ matrix.bun-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.bun-version == 'latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        bun-version: ['1.3.10', 'latest']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun-version }}
+      - name: Cache Bun install
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-${{ matrix.bun-version }}-
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Typecheck
+        run: bun run tsc
+      - name: Lint
+        run: bun run lint
+
+  # Per-workspace Vitest (jsdom). No Docker/Testcontainers — the FE has no
+  # database or queue. `bun run test` fans out to each workspace's own
+  # `bun --bun vitest run` (a single aggregate `vitest run` is unreliable on
+  # this toolchain — see .claude/rules/tooling.md).
+  test:
+    name: test (bun ${{ matrix.bun-version }})
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.bun-version == 'latest' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        bun-version: ['1.3.10', 'latest']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ matrix.bun-version }}
+      - name: Cache Bun install
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ matrix.bun-version }}-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-${{ matrix.bun-version }}-
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Test
+        run: bun run test
+
+  # Storybook must build (AC-6). Uses the @storybook/react-vite builder — the
+  # only place Vite runs.
+  storybook:
+    name: storybook build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.10'
+      - name: Cache Bun install
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-1.3.10-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-1.3.10-
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Build Storybook
+        run: bun run --filter '@kotodama/fe-ui' build-storybook
+
+  # OpenAPI drift gate (D4): regenerate schema.gen.ts from the backend's LIVE
+  # /api/openapi.json and fail on a dirty diff. There is no committed
+  # openapi.json, so this REQUIRES a reachable backend — set the repo variable
+  # KOTODAMA_API_URL to a pinned staging/preview URL (or spin the backend up in
+  # a prior step). The job is skipped when the variable is unset, so the empty
+  # foundation stays green until a backend URL exists.
+  openapi-drift:
+    name: openapi drift gate
+    runs-on: ubuntu-latest
+    if: ${{ vars.KOTODAMA_API_URL != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: '1.3.10'
+      - name: Install
+        run: bun install --frozen-lockfile
+      - name: Regenerate the typed client from the live OpenAPI doc
+        run: bun run gen:api
+        env:
+          KOTODAMA_API_URL: ${{ vars.KOTODAMA_API_URL }}
+      - name: Fail on drift
+        run: |
+          if ! git diff --exit-code packages/fe-api-client/src/schema.gen.ts; then
+            echo "::error::schema.gen.ts is out of date — run 'bun run gen:api' and commit the result."
+            exit 1
+          fi

@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+# Pre-commit gate (F-PLAT-014/T08): Biome + typecheck.
+# Fast-fail; tests run in CI only, never here. Bypass with --no-verify.
+
+# Lint + format check on staged files only.
+bun biome check --staged --no-errors-on-unmatched || exit 1
+
+# Typecheck every workspace via Bun filters (`bun run tsc` =
+# `bun run --filter '*' typecheck`, each package's `bun --bun tsc --noEmit`).
+# Packages resolve each other's source via workspace:* + bundler resolution, so
+# no project references are needed for correctness. The `bun --bun` prefix is
+# required — the tsc bin ships a node shebang that dies on a node-less machine.
+bun run tsc || exit 1
