@@ -1,0 +1,25 @@
+{
+  "name": "@kotodama/platform",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./api-client": "./api-client/src/index.ts",
+    "./config": "./config/src/index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.0",
+    "openapi-fetch": "catalog:api",
+    "zod": "catalog:api"
+  },
+  "devDependencies": {
+    "@kotodama/tooling": "workspace:*",
+    "openapi-typescript": "catalog:api"
+  },
+  "scripts": {
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun --bun vitest run",
+    "gen:api": "bun --bun api-client/gen-api.ts"
+  }
+}

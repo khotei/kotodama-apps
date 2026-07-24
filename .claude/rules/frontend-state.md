@@ -1,8 +1,7 @@
 ---
 paths:
   - "apps/web/**"
-  - "store/**"
-  - "repositories/**"
+  - "core/**"
 ---
 
 # Frontend state — where a data concern lives
@@ -10,26 +9,26 @@ paths:
 **The default is the server.** Reads are RSC, writes are Server Actions, the client cache is gone.
 One tier owns each decision; put a new data concern in the tier that owns it.
 
-- **transport (`packages/api-client`)** — the openapi-fetch client + raw generated `operations`. No
-  access logic. `createApiClient({ baseUrl, fetch })` is a factory the app constructs + injects.
-- **repositories (`repositories/`)** — bare async `fetchX` functions (`fetchWord`, `fetchWordState`,
-  `searchWords`) over the client; the ONLY code that speaks path-strings + query params. Owns the
-  contract **entity types** (`*Entity`); takes an optional trailing `init` (fetch options — e.g.
+- **transport (`@kotodama/platform/api-client`)** — the openapi-fetch client + raw generated
+  `operations`. No access logic. `createApiClient({ baseUrl, fetch })` is a factory the app constructs + injects.
+- **repositories (`@kotodama/core/repositories`)** — bare async `fetchX` functions (`fetchWord`,
+  `fetchWordState`, `searchWords`) over the client; the ONLY code that speaks path-strings + query params.
+  Owns the contract **entity types** (`*Entity`); takes an optional trailing `init` (fetch options — e.g.
   Next's `{ next: { tags } }`) it forwards verbatim. Throws `ApiError` on non-2xx. No React, no caching.
-- **store (`store/`)** — the domain **model** tier: `narrowWordState` (the tagged `WordStateModel`)
-  + the model types. Pure, DOM-free, agnostic — the reuse unit a web loader AND a future native app
-  share. No queryOptions, no React.
-- **server data layer (`apps/web/src/server/`)** — the app's ONLY door to `repositories`:
+- **store (`@kotodama/core/store`)** — the domain **model** layer: `narrowWordState` (the tagged
+  `WordStateModel`) + the model types. Pure, DOM-free, agnostic — the reuse unit a web loader AND a future
+  native app share. May import `core/repositories`, never the reverse. No queryOptions, no React.
+- **server data layer (`apps/web/src/server/`)** — the app's ONLY door to `core/repositories`:
   - `*.loader.ts` (`import 'server-only'`) — `React.cache`-wrapped reads: `fetchX(staticClient, …,
     { next: { tags } })` → `narrowWordState`. One fetch/request, shared by the page + `generateMetadata`.
     NEVER throws (unreachable backend → `null`), so SSG builds without a live backend.
   - `*.actions.ts` (`'use server'`) — the ONE mutation/revalidation door: `fetchX(serverClient, dto)`
     then `revalidatePath`/`revalidateTag`. Verify the session here (Server Actions are reachable by
     direct POST). No `server-only` — a client island imports the action as a network reference.
-- **presentation (`packages/ui`)** — all rendering (atoms→pages + view types + fixtures): prop-driven
+- **presentation (`@kotodama/ui`)** — all rendering (atoms→pages + view types + fixtures): prop-driven
   components that take the resolved model + injected Server Actions/URLs as **serializable** props. `ui`
-  is independent of `store` (`ui ⊥ store`); the app maps domain → props by injection. Wiring lives in
-  `apps/web` (`app/**` + `src/chrome/**` + `src/words/**`).
+  is independent of the domain model (`ui ⊥ core`); the app maps domain → props by injection. Wiring lives
+  in `apps/web` (`app/**` + `src/chrome/**` + `src/words/**`).
 
 ## Discipline
 

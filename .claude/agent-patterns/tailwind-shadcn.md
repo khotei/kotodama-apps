@@ -21,14 +21,15 @@ confidence tiers and the one genuinely-contested choice are flagged inline.
   by wrapper hacks or style overrides.
 - **Two distinct tiers — keep them apart:**
   - **primitives** (`Button`, `Input`, `Card`, `Dialog`…) — the copied-in shadcn surface. In a
-    monorepo they live in a shared **`packages/ui`** (imported as `@workspace/ui`). Treat as
+    monorepo they live in a shared UI package — **ours is `ui/` (`@kotodama/ui`)**; shadcn's own
+    scaffolding calls it `@workspace/ui`. Treat as
     *near-vendored*: edit deliberately, keep close to upstream so `shadcn diff` stays usable.
     Large-scale variant: keep base primitives in `ui/` and product-specific wrappers in a separate
     `design-system/` folder so upstream code never mixes with product logic.
   - **composed / feature components** — app-specific assemblies (a `LoginForm`, a `WordCard`) built
     *from* primitives. Live in the app (`apps/web/components`), never in the shared primitives package.
 - **CLI routes correctly on its own** (`ui.shadcn.com/docs/monorepo`): `npx shadcn add login-01`
-  installs `button/input/card` into `packages/ui` but the composed `login-form` into
+  installs `button/input/card` into the shared UI package (`ui/`) but the composed `login-form` into
   `apps/web/components`, wiring deps + imports. Driven by each workspace's `components.json` aliases
   — a convention, not a mechanically-enforced constraint (so lint/layering rules still earn their keep).
 - **Wrap vs. fork** (⚠ *partly under-evidenced — treat as reasoned default, not doctrine*):
@@ -43,7 +44,7 @@ confidence tiers and the one genuinely-contested choice are flagged inline.
 Chakra component prop, while compiling to *static* classes.
 
 ```tsx
-// packages/ui/button.tsx
+// ui/button.tsx
 import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from './cn'
 
@@ -90,7 +91,7 @@ bundles both. Guidance:
 ## 3. `cn()` — non-negotiable, `twMerge(clsx(...))`
 
 ```ts
-// packages/ui/cn.ts
+// ui/cn.ts
 import { clsx, type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -249,11 +250,11 @@ an open question — directionally clear, no concrete primary-source figure.)*
 ## Kotodama fit (project-specific)
 
 This maps cleanly onto the existing FE layering (`frontend-layering.md`): a Chakra→shadcn move
-**swaps the styling engine *inside* `packages/ui`** while the tier contract is unchanged —
-`packages/ui` stays the web-only leaf, components still take **primitive props** (`WordCard(word,
+**swaps the styling engine *inside* `ui`** while the layer contract is unchanged —
+`ui` stays the web-only leaf, components still take **primitive props** (`WordCard(word,
 status)`, never a domain model), and the **semantic-token contract** (`bg.canvas`/`fg.default`) is
-exactly what `@theme` tokens formalise. The agnostic spine (`api-client ◄ repositories ◄ store`) is
-untouched. Net: the blast radius is `packages/ui` + `apps/web` render layer, not the
+exactly what `@theme` tokens formalise. The agnostic spine (`platform/api-client ◄ core/repositories ◄
+core/store`) is untouched. Net: the blast radius is `ui` + `apps/web` render layer, not the
 spine — the same boundary F-PLAT-014 was built to protect. Zero-runtime also **retires the
 `--webpack` constraint** from F-PLAT-016 (no Emotion → Turbopack is back on the table).
 

@@ -1,0 +1,23 @@
+{
+  "name": "@kotodama/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./repositories": "./repositories/src/index.ts",
+    "./store": "./store/src/index.ts"
+  },
+  "dependencies": {
+    "@kotodama/platform": "workspace:*"
+  },
+  "devDependencies": {
+    "@kotodama/tooling": "workspace:*",
+    "@types/react": "catalog:runtime",
+    "react": "catalog:react"
+  },
+  "scripts": {
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun --bun vitest run"
+  }
+}

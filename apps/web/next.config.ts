@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { clientEnv, loadRootEnv } from '@kotodama/config'
+import { clientEnv, loadRootEnv } from '@kotodama/platform/config'
 import type { NextConfig } from 'next'
 
 // Load the repo-root .env (fallback under process.env) before anything reads
@@ -21,7 +21,7 @@ const nextConfig: NextConfig = {
   typedRoutes: true,
   // Absolute monorepo root so Turbopack's workspace inference is deterministic.
   turbopack: { root: resolve(import.meta.dirname, '../..') },
-  // The single server -> client bridge: whatever @kotodama/config's clientSchema
+  // The single server -> client bridge: whatever @kotodama/platform/config's clientSchema
   // declares is inlined into the browser bundle at build. Empty today — nothing
   // crosses to the browser. Keep clientSchema plain-string (a transform/coerce would
   // inline the wrong shape); when a real NEXT_PUBLIC_* var lands, clientEnv() must

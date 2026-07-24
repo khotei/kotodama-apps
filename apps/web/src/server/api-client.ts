@@ -1,6 +1,6 @@
 import 'server-only'
-import { createApiClient } from '@kotodama/api-client'
-import { serverEnv } from '@kotodama/config'
+import { createApiClient } from '@kotodama/platform/api-client'
+import { serverEnv } from '@kotodama/platform/config'
 
 // THE server data-layer's transport factories. `server-only` makes a client-bundle
 // import a BUILD error, so the browser can never reach these (or the backend URL).

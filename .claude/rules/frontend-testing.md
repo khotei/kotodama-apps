@@ -32,9 +32,9 @@ paths:
 A test covers the decisions **its own layer owns**; a higher layer fakes the layer below and asserts
 only what it *adds* — never re-asserting the lower layer's branch logic.
 
-- **store model** (`narrowWordState`) — the real logic: fully unit-tested, happy + each failure
-  branch.
-- **repositories fetchX** — one success decode + one typed error shape against a Vitest-mocked
+- **store model** (`@kotodama/core/store` — `narrowWordState`) — the real logic: fully unit-tested,
+  happy + each failure branch.
+- **repositories fetchX** (`@kotodama/core/repositories`) — one success decode + one typed error shape against a Vitest-mocked
   `fetch` (`vi.fn<typeof fetch>()` resolving a `Response.json(...)`; no hand-rolled fake, no nock).
   The generated types already prove the response shape compiles — the type system is the test.
 - **the slice (`apps/web`)** — the app-consumption integration: render a `@kotodama/ui`
