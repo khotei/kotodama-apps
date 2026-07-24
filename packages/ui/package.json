@@ -35,6 +35,7 @@
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "tailwindcss": "catalog:style",
+    "@tailwindcss/vite": "catalog:style",
     "storybook": "catalog:ui",
     "@storybook/react-vite": "catalog:ui",
     "vite": "catalog:ui"
