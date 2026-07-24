@@ -20,20 +20,32 @@ export {
   EtymologyTimeline,
   type EtymologyTimelineProps,
 } from './components/etymology-timeline'
+export { FilterChip, type FilterChipProps } from './components/filter-chip'
 export {
   type GenerationStep,
   type GenerationStepState,
   GenerationSteps,
   type GenerationStepsProps,
 } from './components/generation-steps'
+export {
+  HighlightedText,
+  type HighlightedTextProps,
+} from './components/highlighted-text'
 export { ImageSlot, type ImageSlotProps } from './components/image-slot'
+export { PosPill } from './components/pos-pill'
 export { RankRow, type RankRowProps } from './components/rank-row'
 export { ResultRow, type ResultRowProps } from './components/result-row'
 export { Seal, type SealProps } from './components/seal'
 export { SearchBox, type SearchBoxProps } from './components/search-box'
 export { SectionRule, type SectionRuleProps } from './components/section-rule'
 export { Sparkline, type SparklineProps } from './components/sparkline'
-export { StatusBadge, type StatusBadgeProps, type WordStatus } from './components/status-badge'
+export {
+  StatusBadge,
+  type StatusBadgeProps,
+  StatusDot,
+  type StatusDotProps,
+  type WordStatus,
+} from './components/status-badge'
 export { TierChip, type TierChipProps, type WordTier } from './components/tier-chip'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {

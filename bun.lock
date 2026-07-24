@@ -169,6 +169,7 @@
       },
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
+        "@storybook/react-vite": "catalog:ui",
         "@types/react": "catalog:runtime",
         "@types/react-dom": "catalog:react",
         "react": "catalog:react",

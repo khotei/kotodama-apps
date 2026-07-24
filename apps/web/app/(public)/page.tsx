@@ -1,6 +1,6 @@
 import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/use-cases'
+import { LIBRARY_VIEW_MOCK } from '@kotodama/use-cases/fixtures'
 import type { Metadata } from 'next'
-import { LIBRARY_VIEW_MOCK } from '@/src/library/library.mock'
 import { requestWordBuild } from '@/src/server/words/word.actions'
 
 export const metadata: Metadata = {

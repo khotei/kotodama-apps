@@ -1,9 +1,9 @@
 import 'server-only'
 import { fetchWordState, type Language } from '@kotodama/repositories'
 import { narrowWordState, type WordStateModel } from '@kotodama/store'
+import { WORD_STATE_MOCKS_ALL } from '@kotodama/use-cases/fixtures'
 import { cache } from 'react'
 import { createStaticApiClient } from '../api-client'
-import { WORD_STATE_MOCKS_ALL } from './word.mock'
 
 /** The cache tag a word's Data-Cache entry carries, so a Server Action can bust
  *  exactly this word from anywhere (e.g. a future list page) with `revalidateTag`. */

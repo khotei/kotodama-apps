@@ -273,6 +273,9 @@ export const WORD_STATE_MOCKS: Readonly<Record<string, WordStateModel>> = {
 
 const MARIPOSA = WORD_STATE_MOCKS.mariposa as { kind: 'ready'; word: ReadyWord }
 
+/** The full ready entry alone — for the WordEntryView organism story. */
+export const READY_WORD_FIXTURE: ReadyWord = MARIPOSA.word
+
 /** The other list words marked `ready` reuse the mariposa entry (word + gloss
  *  swapped) so clicking their rows never lands on not-found mid-review. */
 const DERIVED_READY: readonly [string, string][] = [

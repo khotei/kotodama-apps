@@ -8,6 +8,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
+  cn,
   DepthTabs,
   DepthTabsContent,
   DepthTabsList,
@@ -22,20 +23,8 @@ import {
 import { ArrowLeftIcon, ArrowRightIcon, EllipsisIcon, PenLineIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { ListenButton } from '../library/listen-button.client'
+import { languageName } from './language-name'
 import { SaveWordButton } from './save-word-button.client'
-
-const LANGUAGE_NAME: Record<Language, string> = {
-  ru: 'Russian',
-  en: 'English',
-  es: 'Spanish',
-  fr: 'French',
-  de: 'German',
-  zh: 'Chinese',
-  ja: 'Japanese',
-  hi: 'Hindi',
-  ar: 'Arabic',
-  uk: 'Ukrainian',
-}
 
 const DEPTHS = [
   { id: 'quick', numeral: 'i', name: 'Quick', sublabel: 'one glance' },
@@ -67,16 +56,18 @@ function Shot({
   prompt,
   kind,
   caption,
-  imageClass = 'min-h-[260px]',
+  figureClass,
+  imageClass = 'flex-1 min-h-[260px]',
 }: {
   prompt: string
   kind: string
   caption?: string
+  figureClass?: string
   imageClass?: string
 }) {
   return (
-    <figure className="m-0 flex flex-col">
-      <ImageSlot label={prompt} className={`flex-1 ${imageClass}`} />
+    <figure className={cn('m-0 flex flex-col', figureClass)}>
+      <ImageSlot label={prompt} className={imageClass} />
       <figcaption className="mt-[11px] font-sans text-[13px] text-muted-foreground leading-[1.5]">
         <span className="mb-[5px] block font-mono text-[10px] text-seal uppercase tracking-[0.1em]">
           {kind}
@@ -124,7 +115,7 @@ export type WordEntryViewProps = {
 
 /** The full ready entry — every section derives from the real `ReadyWord`. */
 export function WordEntryView({ word, language, libraryHref, searchHref }: WordEntryViewProps) {
-  const languageName = LANGUAGE_NAME[language]
+  const languageLabel = languageName(language)
   const registerTier = word.lexical.register.find((r): r is WordTier =>
     (KNOWN_TIERS as readonly string[]).includes(r),
   )
@@ -146,6 +137,11 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
         timeZone: 'UTC',
       }).format(createdAt)
 
+  const hasVoices = word.authorExamples.length > 0
+  // The nav lists only sections that actually render — `sec-voices` is conditional,
+  // so an empty `authorExamples` must drop it or the anchor points nowhere.
+  const navSections = SECTIONS.filter(([id]) => id !== 'sec-voices' || hasVoices)
+
   const etymologySteps = [
     { when: 'origin', form: word.etymology.origin.from, note: word.etymology.origin.gloss },
     ...word.etymology.descent.map((step) => ({
@@ -164,7 +160,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href={searchHref}>{languageName}</BreadcrumbLink>
+            <BreadcrumbLink href={searchHref}>{languageLabel}</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -252,13 +248,13 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                 prompt={word.visuals.hero.prompt}
                 kind="Hero"
                 caption={word.visuals.hero.caption ?? word.visuals.hero.concept}
-                imageClass="min-h-[320px]"
+                imageClass="flex-1 min-h-[320px]"
               />
               <Shot
                 prompt={word.visuals.infographic.prompt}
                 kind="Infographic"
                 caption={word.visuals.infographic.caption ?? word.visuals.infographic.concept}
-                imageClass="min-h-[280px]"
+                imageClass="flex-1 min-h-[280px]"
               />
             </div>
             {word.visuals.memes.length > 0 && (
@@ -290,18 +286,14 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                 </div>
                 <div className="mt-[14px] flex snap-x snap-mandatory gap-[18px] overflow-x-auto pb-2.5">
                   {word.visuals.memes.map((meme) => (
-                    <figure
+                    <Shot
                       key={meme.imageKey}
-                      className="m-0 flex flex-[0_0_296px] snap-start flex-col"
-                    >
-                      <ImageSlot label={meme.prompt} className="aspect-[4/3] w-full" />
-                      <figcaption className="mt-[11px] font-sans text-[13px] text-muted-foreground leading-[1.5]">
-                        <span className="mb-[5px] block font-mono text-[10px] text-seal uppercase tracking-[0.1em]">
-                          Meme
-                        </span>
-                        {meme.caption ?? meme.concept}
-                      </figcaption>
-                    </figure>
+                      prompt={meme.prompt}
+                      kind="Meme"
+                      caption={meme.caption ?? meme.concept}
+                      figureClass="flex-[0_0_296px] snap-start"
+                      imageClass="aspect-[4/3] w-full"
+                    />
                   ))}
                 </div>
               </div>
@@ -354,7 +346,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
             )}
           </WordSection>
 
-          {word.authorExamples.length > 0 && (
+          {hasVoices && (
             <WordSection
               id="sec-voices"
               label="In the words of writers"
@@ -439,7 +431,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                       className="flex items-baseline gap-[18px] border-border-subtle border-b py-[13px]"
                     >
                       <span className="w-[130px] shrink-0 font-sans font-semibold text-[12.5px] text-subtle-foreground tracking-[0.04em]">
-                        {LANGUAGE_NAME[translation.language]}
+                        {languageName(translation.language)}
                       </span>
                       <span className="font-serif text-[19px]">{translation.term}</span>
                     </span>
@@ -513,7 +505,7 @@ export function WordEntryView({ word, language, libraryHref, searchHref }: WordE
                 On this page
               </div>
               <ul className="flex list-none flex-col gap-px p-0">
-                {SECTIONS.map(([id, label]) => (
+                {navSections.map(([id, label]) => (
                   <li key={id}>
                     <a
                       href={`#${id}`}
