@@ -21,7 +21,7 @@ export default defineProject({
   plugins: [react()],
   test: {
     // jsdom: the FE tiers + components are tested against a DOM. The agnostic
-    // spine (api-client/core/repositories/store/use-cases) is DOM-free at TYPE
+    // spine (api-client/core/repositories/store) is DOM-free at TYPE
     // level (tsconfig.base.json has no "dom" lib — S2/V2), but its *tests* still
     // run under jsdom uniformly so a hook/feature test can render with
     // testing-library without a per-package environment override.
