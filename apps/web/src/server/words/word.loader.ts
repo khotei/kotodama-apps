@@ -1,7 +1,7 @@
 import 'server-only'
 import { fetchWordState, type Language } from '@kotodama/repositories'
 import { narrowWordState, type WordStateModel } from '@kotodama/store'
-import { WORD_STATE_MOCKS_ALL } from '@kotodama/use-cases/fixtures'
+import { WORD_STATE_MOCKS_ALL } from '@kotodama/ui/fixtures'
 import { cache } from 'react'
 import { createStaticApiClient } from '../api-client'
 

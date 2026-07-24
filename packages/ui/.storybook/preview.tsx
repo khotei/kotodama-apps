@@ -1,6 +1,6 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
 import { useEffect } from 'react'
-import './preview.css'
+import '../src/styles.css'
 
 // The design-system stylesheet (Tailwind + tokens) is loaded once here so every
 // story renders with real styling; @tailwindcss/vite (see main.ts) compiles it.

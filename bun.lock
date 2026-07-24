@@ -36,11 +36,11 @@
         "@kotodama/config": "workspace:*",
         "@kotodama/store": "workspace:*",
         "@kotodama/ui": "workspace:*",
-        "@kotodama/use-cases": "workspace:*",
         "next": "catalog:next",
         "next-themes": "catalog:style",
         "react": "catalog:react",
         "react-dom": "catalog:react",
+        "react-use": "catalog:react",
         "server-only": "catalog:react",
       },
       "devDependencies": {
@@ -51,23 +51,6 @@
         "@types/react-dom": "catalog:react",
         "babel-plugin-react-compiler": "catalog:next",
         "tailwindcss": "catalog:style",
-      },
-    },
-    "core": {
-      "name": "@kotodama/core",
-      "version": "0.0.0",
-      "dependencies": {
-        "@kotodama/ui": "workspace:*",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
-        "@types/react": "catalog:runtime",
-        "@types/react-dom": "catalog:react",
-        "react": "catalog:react",
-        "react-dom": "catalog:react",
-      },
-      "peerDependencies": {
-        "react": "catalog:react",
       },
     },
     "packages/api-client": {
@@ -154,28 +137,6 @@
       "devDependencies": {
         "@kotodama/tooling": "workspace:*",
         "@types/react": "catalog:runtime",
-        "react": "catalog:react",
-      },
-    },
-    "use-cases": {
-      "name": "@kotodama/use-cases",
-      "version": "0.0.0",
-      "dependencies": {
-        "@kotodama/core": "workspace:*",
-        "@kotodama/store": "workspace:*",
-        "@kotodama/ui": "workspace:*",
-        "react-use": "catalog:react",
-        "sonner": "catalog:style",
-      },
-      "devDependencies": {
-        "@kotodama/tooling": "workspace:*",
-        "@storybook/react-vite": "catalog:ui",
-        "@types/react": "catalog:runtime",
-        "@types/react-dom": "catalog:react",
-        "react": "catalog:react",
-        "react-dom": "catalog:react",
-      },
-      "peerDependencies": {
         "react": "catalog:react",
       },
     },
@@ -448,8 +409,6 @@
 
     "@kotodama/config": ["@kotodama/config@workspace:packages/config"],
 
-    "@kotodama/core": ["@kotodama/core@workspace:core"],
-
     "@kotodama/e2e": ["@kotodama/e2e@workspace:apps/e2e"],
 
     "@kotodama/repositories": ["@kotodama/repositories@workspace:repositories"],
@@ -459,8 +418,6 @@
     "@kotodama/tooling": ["@kotodama/tooling@workspace:packages/tooling"],
 
     "@kotodama/ui": ["@kotodama/ui@workspace:packages/ui"],
-
-    "@kotodama/use-cases": ["@kotodama/use-cases@workspace:use-cases"],
 
     "@kotodama/web": ["@kotodama/web@workspace:apps/web"],
 

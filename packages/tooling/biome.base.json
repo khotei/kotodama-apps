@@ -90,8 +90,13 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/*"],
-                    "message": "Leaf violation: packages/ui is the design-system leaf (Tailwind + shadcn primitives + tokens) — it imports NOTHING internal and takes data via props. See frontend-layering.md."
+                    "group": [
+                      "@kotodama/store",
+                      "@kotodama/repositories",
+                      "@kotodama/config",
+                      "@kotodama/web"
+                    ],
+                    "message": "Independence violation: packages/ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/api-client (the leaf), but must NOT import the domain MODEL (store), repositories, config, or the app. It takes data via props. See frontend-layering.md."
                   }
                 ]
               }
@@ -110,8 +115,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/store", "@kotodama/core", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, core, the design system, or apps."
+                    "group": ["@kotodama/store", "@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: repositories may depend on @kotodama/api-client only — never store, the design system, or apps."
                   }
                 ]
               }
@@ -130,61 +135,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/core", "@kotodama/ui", "@kotodama/web"],
-                    "message": "Layer violation: store derives domain models over repositories — it must not import core, the design system, or apps. It is platform-agnostic spine."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["core/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/use-cases",
-                      "@kotodama/repositories",
-                      "@kotodama/config",
-                      "@kotodama/web",
-                      "next",
-                      "next/**"
-                    ],
-                    "message": "Layer violation: core is the web-only domain tier — composable domain-aware pieces over @kotodama/ui + @kotodama/store, composed by use-cases. It must not reach up into use-cases or apps, nor into repositories/config/next. See frontend-layering.md."
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
-    },
-    {
-      "includes": ["use-cases/**"],
-      "linter": {
-        "rules": {
-          "style": {
-            "noRestrictedImports": {
-              "level": "error",
-              "options": {
-                "patterns": [
-                  {
-                    "group": [
-                      "@kotodama/repositories",
-                      "@kotodama/config",
-                      "@kotodama/web",
-                      "next",
-                      "next/**"
-                    ],
-                    "message": "Layer violation: use-cases is the web-only feature tier — it composes @kotodama/ui + @kotodama/store into prop-driven assemblies. It must stay Next-free (the app injects loaders/actions/URLs as serializable props) and must not reach repositories, config, or apps. See frontend-layering.md."
+                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: store derives domain models over repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   }
                 ]
               }
@@ -226,8 +178,8 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/use-cases", "@kotodama/web"],
-                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system or use-cases. Presentation lives in @kotodama/use-cases."
+                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
                   }
                 ]
               }

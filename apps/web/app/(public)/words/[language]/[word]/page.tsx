@@ -1,9 +1,10 @@
 import type { Language, ReadyWord } from '@kotodama/store'
-import { WordScreen, WordStatusPoller } from '@kotodama/use-cases'
+import { WordScreen } from '@kotodama/ui'
 import type { Metadata } from 'next'
 import { getWordStatus, refreshWordPage, requestWordBuild } from '@/src/server/words/word.actions'
 import { getWordState } from '@/src/server/words/word.loader'
 import { WORD_SEED } from '@/src/word-seed'
+import { WordStatusPoller } from '@/src/words/word-status-poller.client'
 
 export const revalidate = 10
 export const dynamicParams = true

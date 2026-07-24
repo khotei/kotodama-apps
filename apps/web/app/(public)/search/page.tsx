@@ -1,5 +1,5 @@
-import { SearchPage } from '@kotodama/use-cases'
-import { SEARCH_WORDS_MOCK } from '@kotodama/use-cases/fixtures'
+import { SearchPage } from '@kotodama/ui'
+import { SEARCH_WORDS_MOCK } from '@kotodama/ui/fixtures'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {

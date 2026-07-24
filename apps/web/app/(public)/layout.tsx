@@ -1,4 +1,4 @@
-import { SEARCH_WORDS_MOCK } from '@kotodama/use-cases/fixtures'
+import { SEARCH_WORDS_MOCK } from '@kotodama/ui/fixtures'
 import type { ReactNode } from 'react'
 import { SiteChrome } from '@/src/chrome/site-chrome.client'
 

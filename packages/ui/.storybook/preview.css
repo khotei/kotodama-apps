@@ -1,6 +1,0 @@
-/* Storybook-only Tailwind entry: the shipped styles.css @sources ONLY ui's own
-   tree (it must stay path-clean for consumers), so the catalog adds use-cases
-   here — otherwise organism classes go unscanned and render unstyled. This file
-   never ships; it exists purely so the cross-tier catalog renders with real CSS. */
-@import "../src/styles.css";
-@source "../../../use-cases/src/**/*.{ts,tsx}";

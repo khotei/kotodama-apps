@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { plotSparkline } from '../src/components/sparkline/sparkline'
+import { plotSparkline } from '../src/components/atoms/sparkline/sparkline'
 
 describe('plotSparkline', () => {
   it('spans the full width and inverts y so larger values sit higher', () => {

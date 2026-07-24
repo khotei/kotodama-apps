@@ -1,12 +1,11 @@
 ---
 paths:
   - "apps/web/**"
-  - "use-cases/**"
 ---
 
 # react-use — check before you hand-roll a client hook
 
-**Path-scoped rule (`use-cases/**`, `apps/web/**`).** The habit this enforces: **before writing a
+**Path-scoped rule (`apps/web/**`).** The habit this enforces: **before writing a
 client-side React hook by hand — an interval, timeout, debounce/throttle, event listener, media query,
 mounted-state guard, clipboard, `localStorage`, geolocation, resize/intersection observer — check
 whether [`react-use`](https://github.com/streamich/react-use) already provides it.** When planning or
@@ -15,10 +14,10 @@ its version is heavier/buggier than a three-line effect.
 
 ## Where it may live — web-only, client-only
 
-- **`.client.tsx` islands ONLY** — in `use-cases` (where feature islands live) or `apps/web` (a
-  bypass). react-use is DOM-bound. It must NEVER enter the agnostic spine (`repositories`/`store`) —
-  the DOM-free `tsconfig.base.json` rejects it with a `tsc` error anyway — nor a `src/server/**`
-  loader/action (those are `server-only`). Don't add it to any other workspace's `package.json`.
+- **`apps/web` `.client.tsx` islands ONLY** (where the Next-wired islands live). react-use is
+  DOM-bound. It must NEVER enter the agnostic spine (`repositories`/`store`) — the DOM-free
+  `tsconfig.base.json` rejects it with a `tsc` error anyway — nor a `src/server/**` loader/action
+  (those are `server-only`). Don't add it to any other workspace's `package.json`.
 - This does not change the seam: the island still takes server-resolved data + injected Server Actions
   as props and reaches live data only through those (see `frontend-state.md`). react-use supplies the
   *mechanism* (the interval, the listener), never the data path.

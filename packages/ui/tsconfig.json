@@ -6,6 +6,7 @@
     "jsx": "react-jsx",
     "types": ["bun-types", "@types/react", "@testing-library/jest-dom/vitest"],
     "paths": {
+      "@kotodama/ui": ["./src/index.ts"],
       "@kotodama/ui/*": ["./src/*"]
     }
   },

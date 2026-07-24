@@ -1,4 +1,4 @@
-import { WordLoadingView } from '@kotodama/use-cases'
+import { WordLoadingView } from '@kotodama/ui'
 
 // Streaming fallback for the word route: shown while the RSC page resolves on
 // an uncached (soft) navigation. Fetching an existing entry — distinct from
