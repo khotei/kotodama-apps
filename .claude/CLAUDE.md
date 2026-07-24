@@ -72,11 +72,12 @@ only when you touch a matching file, keeping the always-on context lean (Claude 
 - **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` · `commits` ·
   `pull-requests` · `claude-md`.
 - **Path-scoped:** `frontend-state` → `apps/web/**`, `core/**` ·
+  `frontend-components` → `ui/**`, `apps/web/**` (policy-free frames, shaped from above) ·
   `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`, `ui/**` (check before hand-rolling a
   client hook) · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
   `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
-  modern-typescript, type-fest, commit-examples, tailwind-shadcn.
+  component-design, modern-typescript, type-fest, commit-examples, tailwind-shadcn.
 
 ## Per-layer context
 
