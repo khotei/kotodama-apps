@@ -1,0 +1,30 @@
+{
+  "name": "@kotodama/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun --bun vitest run",
+    "dev": "bun --bun run src/server.ts",
+    "build": "bun --bun scripts/build.ts",
+    "prerender": "bun --bun scripts/prerender.ts"
+  },
+  "dependencies": {
+    "@kotodama/fe-store": "workspace:*",
+    "@kotodama/fe-ui": "workspace:*",
+    "@tanstack/react-router": "catalog:tanstack",
+    "@tanstack/react-query": "catalog:tanstack",
+    "react": "catalog:react",
+    "react-dom": "catalog:react"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:runtime",
+    "@types/react-dom": "catalog:react"
+  }
+}
