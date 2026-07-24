@@ -4,6 +4,9 @@
   "packageManager": "bun@1.3.10",
   "workspaces": [
     "apps/*",
+    "repositories",
+    "store",
+    "use-cases",
     "packages/*"
   ],
   "catalogs": {

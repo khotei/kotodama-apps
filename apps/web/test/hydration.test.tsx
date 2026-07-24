@@ -1,4 +1,4 @@
-import { createApiClient } from '@kotodama/fe-store'
+import { createApiClient } from '@kotodama/api-client'
 import { hydrate, QueryClient } from '@tanstack/react-query'
 import { createBrowserHistory } from '@tanstack/react-router'
 import { act } from 'react'
@@ -39,9 +39,13 @@ describe('SSR hydration', () => {
 
     const recoverableErrors: unknown[] = []
     await act(async () => {
-      hydrateRoot(container, <App router={router} queryClient={queryClient} />, {
-        onRecoverableError: (error) => recoverableErrors.push(error),
-      })
+      hydrateRoot(
+        container,
+        <App router={router} queryClient={queryClient} apiClient={apiClient} />,
+        {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        },
+      )
     })
 
     const hydrationMismatches = recoverableErrors.filter((e) =>

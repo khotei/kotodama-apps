@@ -17,7 +17,7 @@ const OUT = join(
   dirname(fileURLToPath(import.meta.url)),
   '..',
   'packages',
-  'fe-api-client',
+  'api-client',
   'src',
   'schema.gen.ts',
 )

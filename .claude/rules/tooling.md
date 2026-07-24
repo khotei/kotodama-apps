@@ -10,7 +10,7 @@
 | `bun run tsc` | `bun run --filter '*' typecheck` (each workspace's `bun --bun tsc --noEmit`) | pre-commit + CI |
 | `bun run test` | `bun run --filter '*' test` (each workspace's `bun --bun vitest run`) | CI only |
 | `bun run check` | `lint` + `tsc` | manual / `/check` |
-| `bun run gen:api` | regenerate `fe-api-client/src/schema.gen.ts` from the live backend | CI drift gate |
+| `bun run gen:api` | regenerate `api-client/src/schema.gen.ts` from the live backend | CI drift gate |
 | `bun --bun scripts/new-package.ts <layer>/<name> [--dom]` | scaffold a workspace | — |
 
 **Bun 1.3 + `bunfig.toml` `linker = "hoisted"`.** Hoisted is **non-negotiable**: React must resolve

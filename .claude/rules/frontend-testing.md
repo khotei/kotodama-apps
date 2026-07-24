@@ -26,18 +26,22 @@ paths:
 A test covers the decisions **its own layer owns**; a higher layer fakes the layer below and asserts
 only what it *adds* — never re-asserting the lower layer's branch logic.
 
-- **fe-core** — the real logic (`narrowWordState`): fully unit-tested, happy + each failure branch.
-- **fe-store factory** — asserts the key + `staleTime` + that `select` routes through `fe-core`
-  (fake the fetchX). One representative test; don't re-assert core's branches.
-- **fe-api-client fetchX** — one success decode + one typed error shape against a fake `fetch`
+- **store model** (`narrowWordState`) — the real logic: fully unit-tested, happy + each failure
+  branch.
+- **store factory** — asserts the key + `staleTime` + that `select` routes through
+  `narrowWordState` (fake the fetchX). One representative test; don't re-assert the model's branches.
+- **repositories fetchX** — one success decode + one typed error shape against a fake `fetch`
   (the generated types already prove the response shape compiles — the type system is the test).
+- **use-cases hook** — one integration test: render `useWord` under jsdom with a fixture client,
+  assert it returns the narrowed state (exercises client → repositories → store `select` →
+  `narrowWordState`).
 - **the slice (`apps/web`)** — the load-bearing integration test: render the feature under jsdom
   with a faked store, assert the Chakra component shows the word content typed by the generated
   client (no `any`). SSR/hydration is verified by its own harness (render → put in a jsdom
   container → `hydrateRoot`, assert zero recoverable mismatch).
-- **fe-ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
+- **ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
   testing-library mount for assertions.
 
 **Deliberately untested:** the config scaffolding (proven transitively by CI going green),
-`fe-tokens` build output (Style Dictionary is trusted), `fe-theme` (a Chakra config object). When
+`tokens` build output (Style Dictionary is trusted), `theme` (a Chakra config object). When
 you stop short on purpose, leave a one-line owner pointer at the site.

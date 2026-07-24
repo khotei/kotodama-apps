@@ -9,13 +9,14 @@
 //   bun --bun scripts/new-package.ts <layer>/<name> [--dom] [--description "…"]
 //
 // Examples:
-//   bun --bun scripts/new-package.ts packages/fe-core
-//   bun --bun scripts/new-package.ts packages/fe-ui --dom
+//   bun --bun scripts/new-package.ts core
+//   bun --bun scripts/new-package.ts packages/api-client
+//   bun --bun scripts/new-package.ts packages/ui --dom
 //   bun --bun scripts/new-package.ts apps/web --dom
 //
 // --dom opts the workspace OUT of the DOM-free base and into a web tsconfig
-// (`lib: ["dom", ...]` + `jsx` + `@types/react`). OMIT it for the
-// platform-agnostic spine (fe-api-client / fe-core / fe-store / fe-tokens) so a
+// (`lib: ["dom", ...]` + `jsx` + `@types/react`). OMIT it for the platform-
+// agnostic tiers (core / repositories / store / packages/api-client) so a
 // stray `document`/`window`/react-dom import is a `tsc` error (S2/V2).
 import { existsSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
@@ -39,14 +40,25 @@ if (!target) {
 
 const segments = target.split('/').filter(Boolean)
 const layer = segments[0]
-if (layer !== 'apps' && layer !== 'packages') {
-  console.error(`Invalid layer "${layer}". Workspaces live under apps/* or packages/*.`)
+// Top-level tiers (single package each — a domain lives as src/<domain>/) plus
+// the two globbed roots. Mirrors the backend's core/repositories/use-cases tiers.
+const TIERS = ['apps', 'core', 'repositories', 'store', 'use-cases', 'packages']
+if (!layer || !TIERS.includes(layer)) {
+  console.error(`Invalid layer "${layer}". Workspaces live under: ${TIERS.join(', ')}.`)
+  process.exit(1)
+}
+// core/repositories/store/use-cases are single top-level packages; only apps/*
+// and packages/* take a nested name segment.
+const isTierRoot = layer !== 'apps' && layer !== 'packages'
+if (isTierRoot && segments.length !== 1) {
+  console.error(`"${layer}" is a single top-level package — scaffold it as just "${layer}".`)
   process.exit(1)
 }
 
-// Nested folders flatten to a dashed package name (mirrors backend naming.md):
-// packages/fe-core -> @kotodama/fe-core ; apps/web -> @kotodama/web.
-const flatName = segments.slice(1).join('-')
+// A tier root is its own name (`store` -> @kotodama/store); nested folders flatten
+// to a dashed name (`apps/web` -> @kotodama/web, `packages/api-client` ->
+// @kotodama/api-client). Mirrors naming.md.
+const flatName = isTierRoot ? layer : segments.slice(1).join('-')
 if (!flatName) {
   console.error('Missing <name> after the layer.')
   process.exit(1)
@@ -58,7 +70,7 @@ if (existsSync(dir)) {
   process.exit(1)
 }
 
-// Depth to the repo root, e.g. packages/fe-core -> "../.." .
+// Depth to the repo root, e.g. core -> ".." , apps/web -> "../.." .
 const toRoot = segments.map(() => '..').join('/')
 
 const packageJson = {

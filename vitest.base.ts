@@ -13,10 +13,10 @@ import { defineProject } from 'vitest/config'
 // exit codes, mirroring the `tsc` typecheck design.
 export default defineProject({
   test: {
-    // jsdom: the FE spine + components are tested against a DOM. The shared
-    // spine (fe-api-client/core/store/tokens) is DOM-free at TYPE level
-    // (tsconfig.base.json has no "dom" lib — S2/V2), but its *tests* still run
-    // under jsdom uniformly so a store/feature test can render a component with
+    // jsdom: the FE tiers + components are tested against a DOM. The agnostic
+    // spine (api-client/core/repositories/store/use-cases) is DOM-free at TYPE
+    // level (tsconfig.base.json has no "dom" lib — S2/V2), but its *tests* still
+    // run under jsdom uniformly so a hook/feature test can render with
     // testing-library without a per-package environment override.
     environment: 'jsdom',
     // Tests live in each workspace's `test/` folder (mirroring `src/`), separate

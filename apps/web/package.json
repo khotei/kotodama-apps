@@ -16,8 +16,10 @@
     "prerender": "bun --bun scripts/prerender.ts"
   },
   "dependencies": {
-    "@kotodama/fe-store": "workspace:*",
-    "@kotodama/fe-ui": "workspace:*",
+    "@kotodama/api-client": "workspace:*",
+    "@kotodama/store": "workspace:*",
+    "@kotodama/ui": "workspace:*",
+    "@kotodama/use-cases": "workspace:*",
     "@tanstack/react-router": "catalog:tanstack",
     "@tanstack/react-query": "catalog:tanstack",
     "react": "catalog:react",
