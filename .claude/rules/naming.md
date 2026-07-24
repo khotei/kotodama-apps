@@ -21,6 +21,7 @@ Files carry a dotted **role suffix** — `<name>.<role>.ts` — the fast index i
 | `.repo.ts` | bare `fetchX` access functions (`fetchWord`) | `core/repositories` |
 | `.entity.ts` | contract types as they arrive from the server (`WordEntity`, `WordStateEntity`) | `core/repositories` |
 | `.model.ts` | a derived domain model + its derivation (`WordStateModel`, `narrowWordState`) | `core/store` |
+| `.factory.ts` | test-only faker `make*` builders of wire values (`makeWord`) | `core/factories` |
 | `.loader.ts` | a `server-only` `React.cache` read (`getWordState`) | `apps/web/src/server` |
 | `.actions.ts` | a `'use server'` Server Action file (mutations + `revalidatePath`) | `apps/web/src/server` |
 | `.view.ts` | a React presentation shape, assembled purely for rendering | `ui` (`src/views/`) |

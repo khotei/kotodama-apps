@@ -55,6 +55,7 @@
       "zod": "^4.4.0"
     },
     "test": {
+      "@faker-js/faker": "^9.4.0",
       "vitest": "^4.1.0",
       "jsdom": "^29.0.0",
       "@vitejs/plugin-react": "^6.0.0",

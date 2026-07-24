@@ -14,6 +14,10 @@ package.
   union (`WordStateEntity`) into the tagged `WordStateModel` the render layer switches on; exposes
   `WordBuildStatus` for the poll island; re-exports `Language` so consumers need not reach into
   `/repositories`. No queries — reads are RSC, this tier is pure model.
+- **`./factories`** (`@kotodama/core/factories`) — **test-only** faker `make*` builders of wire
+  values, the mirror of the backend's `@kotodama/database/factories`. Own subpath so no shipped-code
+  graph imports faker (a devDependency; Biome bans it outside this folder). Not for Storybook —
+  curated design content lives in `@kotodama/ui/fixtures`.
 
 - **May import:** `@kotodama/platform/api-client` (the `ApiClient` type + raw `operations`). Direction is
   Biome-enforced: `store` may import `repositories`, never the reverse; neither imports `ui`/`apps`.

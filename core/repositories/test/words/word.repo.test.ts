@@ -1,16 +1,18 @@
+import { makeWord } from '@kotodama/core/factories'
 import { ApiError, createApiClient } from '@kotodama/platform/api-client'
 import { describe, expect, it, vi } from 'vitest'
 import { fetchWord, searchWords } from '../../src/index'
 
 // A mocked fetch (vi.fn<typeof fetch>()) exercises the fetchX functions without a
-// backend; the generated types already prove the response SHAPE compiles (the type
-// system is the test), so these stay thin: one success decode + one error surface.
+// backend; the factory-built payload is a fully-typed wire value, so a contract
+// change breaks this test at compile time. These stay thin: one success decode +
+// one error surface.
 
 describe('fetchWord', () => {
   it('returns the decoded word body on a 2xx, typed by the generated client', async () => {
     const fetchMock = vi
       .fn<typeof fetch>()
-      .mockResolvedValue(Response.json({ word: 'lumen', language: 'en', status: 'succeeded' }))
+      .mockResolvedValue(Response.json(makeWord({ word: 'lumen', language: 'en' })))
     const client = createApiClient({ baseUrl: 'http://test', fetch: fetchMock })
 
     const word = await fetchWord(client, 'en', 'lumen')

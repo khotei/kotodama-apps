@@ -30,7 +30,10 @@ paths:
 ## What each layer tests (DAMP over DRY; keep Arrange visible)
 
 A test covers the decisions **its own layer owns**; a higher layer fakes the layer below and asserts
-only what it *adds* — never re-asserting the lower layer's branch logic.
+only what it *adds* — never re-asserting the lower layer's branch logic. Wire values come from
+`@kotodama/core/factories` (`make*` + overrides — typed off the contract, so a schema regen breaks
+a factory at compile time, never a test at runtime); curated design content for stories stays in
+`@kotodama/ui/fixtures`.
 
 - **store model** (`@kotodama/core/store` — `narrowWordState`) — the real logic: fully unit-tested,
   happy + each failure branch.

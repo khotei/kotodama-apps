@@ -35,5 +35,5 @@ blob-report/
 .claude/scheduled_tasks.lock
 
 # Note: bun.lock is committed (do NOT ignore it).
-# Note: packages/fe-api-client/src/schema.gen.ts IS committed — the OpenAPI
+# Note: platform/api-client/src/schema.gen.ts IS committed — the OpenAPI
 # drift gate diffs the regenerated file against the committed one.
