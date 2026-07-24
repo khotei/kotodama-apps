@@ -6,6 +6,9 @@ dist/
 .turbo/
 .vite/
 storybook-static/
+.next/
+next-env.d.ts
+*.tsbuildinfo
 
 # Environment — keep .env.example, ignore everything else
 .env

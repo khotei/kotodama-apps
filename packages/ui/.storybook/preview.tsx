@@ -1,17 +1,8 @@
 import type { Preview } from '@storybook/react-vite'
-import { UiProvider } from '../src/provider'
 
-// Every story renders under the real Chakra system (theme), so a story is a
-// faithful render of the component as apps/web mounts it — the story-as-test
-// the frontend-testing rule relies on.
-const preview: Preview = {
-  decorators: [
-    (Story) => (
-      <UiProvider>
-        <Story />
-      </UiProvider>
-    ),
-  ],
-}
+// Stories render the components directly — Tailwind + shadcn primitives are
+// plain class strings, so there is no provider to wrap. (Tailwind CSS wiring for
+// the Storybook build is a follow-up.)
+const preview: Preview = {}
 
 export default preview

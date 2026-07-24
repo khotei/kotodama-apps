@@ -16,8 +16,9 @@
 **Bun 1.3 + `bunfig.toml` `linker = "hoisted"`.** Hoisted is **non-negotiable**: React must resolve
 to a single instance across every workspace or hooks/context break. Bun 1.3's default isolated
 linker + catalogs has an open dedupe bug (oven-sh/bun#23615) yielding multiple React copies.
-Re-evaluate once it closes. Versions are pinned via **catalogs** (`runtime`/`react`/`tanstack`/`ui`/
-`api`/`test`) — add an external dep as `catalog:<group>`, internal as `workspace:*`.
+Re-evaluate once it closes. Versions are pinned via **catalogs**
+(`runtime`/`react`/`next`/`tanstack`/`style`/`ui`/`api`/`test`) — add an external dep as
+`catalog:<group>`, internal as `workspace:*`.
 
 **Biome:** single root `biome.json` (2-space, single quotes, semicolons as-needed, width 100) + the
 `react` domain. Encodes the layer gradients via `style/noRestrictedImports` per-glob overrides — see
@@ -47,5 +48,6 @@ subset and exits 0 on failure; per-workspace runs give correct exit codes.
 `#!/usr/bin/env node` shebang and die on a node-less machine, so **every per-package script prefixes
 the bin with `bun --bun`**. Storybook is the exception: `bunx --bun storybook <cmd>` — a bare
 `bun --bun storybook` collides with the `storybook` script name and recurses. `bun test` invokes
-Bun's built-in runner and ignores the `test` script — always `bun run test`. **The app bundler is
-`Bun.build` (D2); Vite lives only inside Storybook.**
+Bun's built-in runner and ignores the `test` script — always `bun run test`. **The app is Next 16
+(App Router, Turbopack — never `--webpack`; Tailwind is zero-runtime so Emotion's Turbopack
+hydration bug can't occur); Vite lives only inside Storybook.**
