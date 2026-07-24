@@ -70,7 +70,7 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/*"],
+                    "group": ["@kotodama/*", "@kotodama/*/**"],
                     "message": "Layer violation: platform/api-client is the transport leaf — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse platform/config's loadRootEnv). See frontend-layering.md."
                   },
                   {
@@ -127,6 +127,7 @@
                       "@kotodama/core/store",
                       "@kotodama/core/store/**",
                       "@kotodama/ui",
+                      "@kotodama/ui/**",
                       "@kotodama/web"
                     ],
                     "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
@@ -134,6 +135,40 @@
                   {
                     "group": ["@faker-js/faker"],
                     "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["core/repositories/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": [
+                      "@kotodama/core/store",
+                      "@kotodama/core/store/**",
+                      "@kotodama/ui",
+                      "@kotodama/ui/**",
+                      "@kotodama/web"
+                    ],
+                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
                   }
                 ]
               }
@@ -178,12 +213,40 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
                     "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   },
                   {
                     "group": ["@faker-js/faker"],
                     "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["core/store/src/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
+                    "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
                   }
                 ]
               }
@@ -220,6 +283,34 @@
       }
     },
     {
+      "includes": ["apps/web/src/**", "apps/web/app/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
+                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
       "includes": ["apps/web/src/server/**"],
       "linter": {
         "rules": {
@@ -229,8 +320,16 @@
               "options": {
                 "patterns": [
                   {
-                    "group": ["@kotodama/ui", "@kotodama/web"],
+                    "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
                     "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
                   }
                 ]
               }

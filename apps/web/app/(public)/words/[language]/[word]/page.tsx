@@ -2,8 +2,8 @@ import type { Language, ReadyWord } from '@kotodama/core/store'
 import { WordScreen } from '@kotodama/ui'
 import type { Metadata } from 'next'
 import { getWordStatus, refreshWordPage, requestWordBuild } from '@/src/server/words/word.actions'
-import { getWordState } from '@/src/server/words/word.loader'
 import { WORD_SEED } from '@/src/word-seed'
+import { getWordScreenModel } from '@/src/words/word-design-fallback'
 import { WordStatusPoller } from '@/src/words/word-status-poller.client'
 
 export const revalidate = 10
@@ -20,9 +20,10 @@ export async function generateMetadata({
   params: Promise<{ language: string; word: string }>
 }): Promise<Metadata> {
   const { language, word } = await params
+  const lang = language as Language
   const decodedWord = decodeURIComponent(word)
   // Same React.cache-wrapped read as the page: one fetch per request.
-  const model = await getWordState(language as Language, decodedWord)
+  const model = await getWordScreenModel(lang, decodedWord)
   const ready = model?.kind === 'ready' ? model.word : null
 
   const title = ready?.word ?? decodedWord
@@ -64,7 +65,7 @@ export default async function WordPage({
   const { language, word } = await params
   const lang = language as Language
   const decodedWord = decodeURIComponent(word)
-  const model = await getWordState(lang, decodedWord)
+  const model = await getWordScreenModel(lang, decodedWord)
   // Poll only while the backend is still building; the poller re-syncs the page (via
   // the injected refreshWordPage action) once it lands on succeeded/failed. Both props
   // are bound Server Actions — the serializable IO the app injects into the island.

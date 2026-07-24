@@ -26,6 +26,12 @@ const STAGE_LABEL: Record<WordBuildStages[number]['stage'], string> = {
   final_review: 'Setting the entry',
 }
 
+/** Canonical stage order, derived off the exhaustive label Record above — ui's
+ *  one owner of the sequence; a backend stage addition breaks compilation here. */
+export const WORD_BUILD_STAGE_SEQUENCE = Object.keys(
+  STAGE_LABEL,
+) as WordBuildStages[number]['stage'][]
+
 function toGenerationSteps(stages: WordBuildStages): GenerationStep[] {
   return stages.map(({ stage, status }) => ({
     label: STAGE_LABEL[stage],
