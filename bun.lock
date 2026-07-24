@@ -98,6 +98,7 @@
         "lucide-react": "catalog:style",
         "next-themes": "catalog:style",
         "radix-ui": "catalog:style",
+        "react-use": "catalog:react",
         "sonner": "catalog:style",
         "tailwind-merge": "catalog:style",
       },

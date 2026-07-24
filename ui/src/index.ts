@@ -25,6 +25,8 @@ export { RetryButton, type RetryButtonProps } from './components/atoms/retry-but
 export { RetryLink } from './components/atoms/retry-link'
 export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
+export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
+export { SiteContainer, type SiteContainerProps } from './components/atoms/site-container'
 export { Skeleton } from './components/atoms/skeleton'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
@@ -42,6 +44,7 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/atoms/tier-chip'
+export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
   CommandTrigger,
   type CommandTriggerProps,
@@ -70,7 +73,6 @@ export {
   type LanguageMenuProps,
   type LanguageOption,
 } from './components/molecules/language-menu'
-export { type ColorMode, ModeMenu, type ModeMenuProps } from './components/molecules/mode-menu'
 export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export {
@@ -79,8 +81,16 @@ export {
 } from './components/molecules/save-word-button'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { StatusNote, type StatusNoteProps } from './components/molecules/status-note'
+export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
 export { WordCard, type WordCardProps } from './components/molecules/word-card'
-export { CommandPalette, type CommandPaletteProps } from './components/organisms/command-palette'
+export {
+  CommandPalette,
+  CommandPaletteGroup,
+  type CommandPaletteGroupProps,
+  CommandPaletteItem,
+  type CommandPaletteItemProps,
+  type CommandPaletteProps,
+} from './components/organisms/command-palette'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
 export {
   type MobileTab,
@@ -89,9 +99,16 @@ export {
 } from './components/organisms/mobile-tab-bar'
 export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
 export {
+  type CommandAction,
+  type PaletteItem,
+  SearchCommandPalette,
+  type SearchCommandPaletteProps,
+  WordCommandItem,
+  type WordCommandItemProps,
+} from './components/organisms/search-command-palette'
+export {
   SiteHeader,
   type SiteHeaderProps,
-  type SiteHeaderVariant,
   type SiteNavLink,
 } from './components/organisms/site-header'
 export {
@@ -105,9 +122,9 @@ export {
 export { WordEntryView, type WordEntryViewProps } from './components/organisms/word-entry'
 export { WordLoadingView, type WordLoadingViewProps } from './components/organisms/word-loading'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/word-of-the-day'
+export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
 export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { WordScreen, type WordScreenProps } from './components/pages/word'
-export { LibraryScreen, type LibraryScreenProps } from './components/templates/library-screen'
 export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {

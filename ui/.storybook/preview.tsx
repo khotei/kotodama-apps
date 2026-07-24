@@ -1,5 +1,6 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
 import { useEffect } from 'react'
+import { INITIAL_VIEWPORTS } from 'storybook/viewport'
 import '../src/styles.css'
 
 // The design-system stylesheet (Tailwind + tokens) is loaded once here so every
@@ -37,6 +38,9 @@ const preview: Preview = {
   decorators: [withTheme],
   parameters: {
     backgrounds: { disable: true },
+    // Populate the viewport toolbar with the stock device set; mobile-only stories
+    // (MobileTabBar, CommandFab) pin themselves to a phone via `globals.viewport`.
+    viewport: { options: INITIAL_VIEWPORTS },
   },
 }
 

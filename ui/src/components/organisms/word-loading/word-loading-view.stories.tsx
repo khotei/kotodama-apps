@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { SiteContainer } from '../../atoms/site-container'
 import { WordLoadingView } from './word-loading-view'
 
 const meta: Meta<typeof WordLoadingView> = {
@@ -7,9 +8,9 @@ const meta: Meta<typeof WordLoadingView> = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-[1160px] px-5 md:px-10">
+      <SiteContainer>
         <Story />
-      </div>
+      </SiteContainer>
     ),
   ],
 }

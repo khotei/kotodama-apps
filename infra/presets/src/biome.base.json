@@ -103,6 +103,10 @@
                     "message": "Independence violation: ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-layering.md."
                   },
                   {
+                    "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                  },
+                  {
                     "group": ["@faker-js/faker"],
                     "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
@@ -272,6 +276,10 @@
                     "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
                   },
                   {
+                    "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                  },
+                  {
                     "group": ["@faker-js/faker"],
                     "message": "faker is test-only: wire builders live in @kotodama/core/factories — import make* from there in tests."
                   }
@@ -294,6 +302,10 @@
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
                     "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                  },
+                  {
+                    "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
                   },
                   {
                     "group": [

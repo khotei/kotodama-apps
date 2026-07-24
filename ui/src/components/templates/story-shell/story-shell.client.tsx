@@ -1,41 +1,43 @@
 'use client'
 
-import type { SearchWordView } from '@kotodama/ui'
-import {
-  Button,
-  CommandFab,
-  CommandTrigger,
-  LanguageMenu,
-  MobileTabBar,
-  type PaletteItem,
-  SearchCommandPalette,
-  Show,
-  SiteHeader,
-  ThemeMenu,
-} from '@kotodama/ui'
-import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '@kotodama/ui/fixtures'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
-import { useTheme } from 'next-themes'
+import type { ReactNode } from 'react'
 import { useState } from 'react'
+import { toast } from 'sonner'
+import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
+import type { SearchWordView } from '../../../views/search.view'
+import { Show } from '../../atoms/show'
+import { SiteContainer } from '../../atoms/site-container'
+import { CommandFab } from '../../molecules/command-fab'
+import { CommandTrigger } from '../../molecules/command-trigger'
+import { LanguageMenu } from '../../molecules/language-menu'
+import { ThemeMenu } from '../../molecules/theme-menu'
+import { MobileTabBar } from '../../organisms/mobile-tab-bar'
+import { type PaletteItem, SearchCommandPalette } from '../../organisms/search-command-palette'
+import { SiteHeader } from '../../organisms/site-header'
+import { Button } from '../../ui/button'
+import { Toaster } from '../../ui/sonner'
+import { SiteShell } from '../site-shell'
 
-// Active-state needs usePathname, the palette needs router.push, and the theme
-// menu needs next-themes, so this Next wiring lives in apps/web; the presentational
-// pieces are prop-driven @kotodama/ui components. One component owns header +
-// tab bar + palette — the Jump tab and the ⌘K trigger share the palette's open state.
-
-export type SiteChromeProps = {
-  paletteWords: readonly SearchWordView[]
+export type StoryShellProps = {
+  /** Which nav tab reads active — mirrors the app's pathname derivation. */
+  active?: 'library' | 'search'
+  paletteWords?: readonly SearchWordView[]
+  children: ReactNode
 }
 
-export function SiteChrome({ paletteWords }: SiteChromeProps) {
-  const pathname = usePathname()
-  const router = useRouter()
-  const { theme, setTheme } = useTheme()
+/**
+ * Storybook-only harness: assembles the full public chrome — the controls-filled
+ * {@link SiteHeader}, the ⌘K palette, the mobile tab bar + FAB — inside the
+ * {@link SiteShell} backdrop, so a page story renders exactly as the app mounts
+ * it. Not for app code: the app wires real navigation in
+ * `apps/web/src/chrome/site-chrome.client.tsx` + `app/(public)/layout.tsx` — keep
+ * the composition in step when the app chrome changes. Navigation is stubbed here
+ * (`#`-local hrefs, palette selections toast) so a story never escapes its iframe.
+ */
+export function StoryShell({ active = 'library', paletteWords = [], children }: StoryShellProps) {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [paletteQuery, setPaletteQuery] = useState('')
-
-  const isSearch = pathname.startsWith('/search')
   const typed = paletteQuery.trim()
 
   const items: readonly PaletteItem[] = [
@@ -85,32 +87,32 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
     setPaletteOpen(false)
     setPaletteQuery('')
     if (item.entity === 'word') {
-      router.push(item.word.href)
+      toast(`Would navigate to ${item.word.href}`)
       return
     }
     switch (item.action.id) {
       case 'library':
-        router.push('/')
+        toast('Would go to Library')
         break
       case 'search':
-        router.push('/search')
+        toast('Would open search')
         break
       case 'generate':
-        router.push(typed ? `/words/es/${encodeURIComponent(typed)}` : '/search')
+        toast(typed ? `Would generate “${typed}”` : 'Would add a new word')
         break
       case 'saved':
-        router.push('/search?saved=1')
+        toast('Would open /search?saved=1')
         break
     }
   }
 
   return (
-    <>
+    <SiteShell>
       <SiteHeader
-        homeHref="/"
+        homeHref="#"
         nav={[
-          { label: 'Library', href: '/', active: !isSearch },
-          { label: 'Search', href: '/search', active: isSearch },
+          { label: 'Library', href: '#', active: active === 'library' },
+          { label: 'Search', href: '#', active: active === 'search' },
         ]}
         controls={
           <>
@@ -122,10 +124,8 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
               />
             </Show>
             <Show on="mobile">
-              <Button asChild variant="ghost" size="icon-sm" aria-label="Search">
-                <a href="/search">
-                  <SearchIcon />
-                </a>
+              <Button variant="ghost" size="icon-sm" aria-label="Search">
+                <SearchIcon />
               </Button>
             </Show>
             <Show on="desktop">
@@ -138,7 +138,7 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
                 languages={LANGUAGE_OPTIONS_MOCK}
               />
             </Show>
-            <ThemeMenu theme={theme} onThemeChange={setTheme} />
+            <ThemeMenu />
           </>
         }
       />
@@ -152,22 +152,21 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
       />
       <MobileTabBar
         tabs={[
-          { icon: <HouseIcon />, label: 'Library', href: '/', active: pathname === '/' },
-          {
-            icon: <SearchIcon />,
-            label: 'Search',
-            href: '/search',
-            active: pathname.startsWith('/search'),
-          },
+          { icon: <HouseIcon />, label: 'Library', href: '#', active: active === 'library' },
+          { icon: <SearchIcon />, label: 'Search', href: '#', active: active === 'search' },
           { icon: <SparklesIcon />, label: 'Jump', onSelect: () => setPaletteOpen(true) },
           {
             icon: <BookmarkIcon />,
             label: 'Saved',
-            onSelect: () => router.push('/search?saved=1'),
+            onSelect: () => toast('Would open /search?saved=1'),
           },
         ]}
       />
       <CommandFab onOpen={() => setPaletteOpen(true)} />
-    </>
+      <SiteContainer as="main" className="pb-24 md:pb-10">
+        {children}
+      </SiteContainer>
+      <Toaster position="bottom-right" />
+    </SiteShell>
   )
 }
