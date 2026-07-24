@@ -52,4 +52,6 @@ keep conventional names: `server.ts`, `router.tsx`, `entry-server.tsx`, `entry-c
 ## Scripts
 
 Every per-package `tsc`/`vitest` script is prefixed `bun --bun`; Storybook uses `bunx --bun
-storybook …` (a bare `bun --bun storybook` collides with the script name). See `tooling.md`.
+storybook …` (a bare `bun --bun storybook` collides with the script name). Playwright is the lone
+inversion — `apps/e2e` runs `bunx playwright test`, **never `--bun`** (oven-sh/bun#8222). See
+`tooling.md`.

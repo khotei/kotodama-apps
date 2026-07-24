@@ -14,10 +14,14 @@ paths:
   `tsc` sees them via `testing-matchers.d.ts` (included by every `--dom` workspace).
 - **Run:** `bun run test` (never `bun test`); per package `bun run --filter '@kotodama/<name>' test`.
   The `--bun` flag and the ban on aggregate multi-project `vitest run` are in
-  `@.claude/rules/tooling.md` — don't restructure the scripts without reading it.
+  `.claude/rules/tooling.md` — don't restructure the scripts without reading it.
 - **Files:** `*.test.ts(x)` in each workspace's `test/` folder (sibling of `src/`), imported via
   `../src/…`; the folder is in tsconfig `include` so `tsc` checks tests. **Every workspace keeps
-  ≥1 test** — `vitest run` exits 1 on zero test files, which would fail the gate.
+  ≥1 test** — `vitest run` exits 1 on zero test files, which would fail the gate. **The sole
+  exception is `apps/e2e`** (Playwright, no Vitest): its gate is `test:e2e`, and `bun run test`
+  skips it because `--filter '*'` only targets packages that define a `test` script.
+- **Playwright (`apps/e2e`) runs `bunx playwright test`, NEVER `--bun`** (oven-sh/bun#8222 —
+  hangs/segfaults); Node is an accepted prerequisite there only. See `.claude/rules/tooling.md`.
 - **Naming:** `describe` names the seam; `it` is a behaviour sentence; keep a trailing `(AC-n)` when
   a test maps to a feature AC `/sdd:verify` checks (the one allowed provenance tag).
 
@@ -35,13 +39,15 @@ only what it *adds* — never re-asserting the lower layer's branch logic.
 - **use-cases hook** — one integration test: render `useWord` under jsdom with a fixture client,
   assert it returns the narrowed state (exercises client → repositories → store `select` →
   `narrowWordState`).
-- **the slice (`apps/web`)** — the load-bearing integration test: render the feature under jsdom
-  with a faked store, assert the Chakra component shows the word content typed by the generated
-  client (no `any`). SSR/hydration is verified by its own harness (render → put in a jsdom
-  container → `hydrateRoot`, assert zero recoverable mismatch).
+- **the slice (`apps/web`)** — the load-bearing integration test: render the feature (`word-view`)
+  under jsdom with a seeded query cache, assert the presentational component (Tailwind/shadcn,
+  prop-driven) shows the word content typed by the generated client (no `any`).
+- **e2e (`apps/e2e`)** — Playwright over `next build && next start` against a fake backend: the first
+  spec asserts word content + JSON-LD in the raw SSR HTML with JS disabled (AC-9). Turbopack
+  hydration cleanliness is a manual harness check (see the feature Change log), not a committed test.
 - **ui component** — a Story IS the component's render test (`@storybook/react-vite`), plus a
   testing-library mount for assertions.
 
-**Deliberately untested:** the config scaffolding (proven transitively by CI going green),
-`tokens` build output (Style Dictionary is trusted), `theme` (a Chakra config object). When
-you stop short on purpose, leave a one-line owner pointer at the site.
+**Deliberately untested:** the config scaffolding (proven transitively by CI going green), the
+`@theme` token layer (static CSS variables, no logic). When you stop short on purpose, leave a
+one-line owner pointer at the site.

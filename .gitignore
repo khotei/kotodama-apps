@@ -10,6 +10,12 @@ storybook-static/
 next-env.d.ts
 *.tsbuildinfo
 
+# Playwright (apps/e2e)
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
 # Environment — keep .env.example, ignore everything else
 .env
 .env.*

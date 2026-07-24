@@ -52,14 +52,17 @@ emergencies only, never on `main`. PRs squash-merge (`.claude/rules/pull-request
 
 ## Rules (`.claude/rules/`)
 
-Claude Code auto-discovers every `.claude/rules/*.md`. Cross-cutting load **always**; the rest are
-**path-scoped** via `paths:` frontmatter.
+Claude Code **auto-discovers** every `.claude/rules/*.md` — no `@`-import needed (an `@`-import would
+re-load the file on top of discovery and force-load it every session, defeating path-scoping).
+Cross-cutting rules load **always**; the rest are **path-scoped** via `paths:` frontmatter and load
+only when you touch a matching file, keeping the always-on context lean (Claude Code guidance: target
+< 200 lines of always-loaded context per file; bloat reduces adherence).
 
 - **Always:** `frontend-layering` · `tooling` · `naming` · `comments` · `commits` · `pull-requests`
   · `claude-md`.
 - **Path-scoped:** `frontend-state` → `apps/web/src/**`, `store/**`, `repositories/**`, `use-cases/**` ·
-  `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` · `sdd` →
-  `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
+  `nextjs` → `apps/web/**` · `frontend-testing` → `**/test/**`, `**/*.test.*`, `**/*.stories.tsx` ·
+  `sdd` → `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`, `docs/**`.
 - **On-demand reference (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
   modern-typescript, type-fest, commit-examples, tailwind-shadcn.
 

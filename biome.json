@@ -168,6 +168,9 @@
     {
       "includes": ["apps/web/**"],
       "linter": {
+        "domains": {
+          "next": "recommended"
+        },
         "rules": {
           "style": {
             "noRestrictedImports": {

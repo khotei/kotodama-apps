@@ -1,5 +1,10 @@
 # apps/web — `@kotodama/web`
 
+> **Before any Next.js work, read the relevant doc under `node_modules/next/dist/docs/`** — Next
+> bundles its docs there, version-matched to the installed 16.2.10; your training data lags the
+> framework, so the bundled docs are the source of truth. Project invariants (RSC/SSG boundaries,
+> the data path, SEO, Playwright-never-`--bun`) are in `.claude/rules/nextjs.md`.
+
 The web app: the render layer + the walking-skeleton word slice, on **Next 16 (App Router,
 Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (why Turbopack, not
 `--webpack`; see the feature Change log).

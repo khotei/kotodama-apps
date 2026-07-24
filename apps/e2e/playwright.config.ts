@@ -13,6 +13,8 @@ export default defineConfig({
   fullyParallel: false,
   // CI serializes so the single Next server isn't contended.
   workers: 1,
+  // HTML report (uploaded as a CI artifact); plain list locally.
+  reporter: process.env.CI ? [['html', { open: 'never' }]] : 'list',
   use: { baseURL: APP_URL },
   webServer: [
     {

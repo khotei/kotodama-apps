@@ -11,7 +11,10 @@ Web-only (DOM-bound); does not port to native. Storybook consumes it directly.
 - **Add a registry component:** `bunx shadcn@latest add <name>` (run in `packages/ui`).
   `components.json` wires aliases to `@kotodama/ui/…`, so it writes to `components/ui/`, imports `cn`
   from `@kotodama/ui/lib/utils`, and resolves under Turbopack via the package.json `exports` subpaths.
-  Then re-export it from `src/index.ts`.
+  Then re-export it from `src/index.ts`. shadcn's **official MCP + Skills**
+  (`ui.shadcn.com/docs/{mcp,skills}`) can drive adds from the agent (opt-in, user-scope MCP — no
+  committed `.mcp.json`, per `sdd.md`); `.claude/agent-patterns/tailwind-shadcn.md` already encodes
+  the same Skills rules (semantic tokens, `cva` variants, `asChild`, full `Card` composition).
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `@radix-ui/react-slot`,
   `lucide-react`, `react`. **Imports nothing internal** (leaf). Never the spine or `apps/*` —
   components take data via props.
