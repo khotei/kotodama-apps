@@ -8,7 +8,6 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "devDependencies": {
-    "@kotodama/api-client": "workspace:*",
     "@kotodama/tooling": "workspace:*",
     "@playwright/test": "catalog:test",
     "@types/node": "catalog:runtime",

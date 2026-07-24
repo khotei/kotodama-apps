@@ -8,10 +8,16 @@
   "exports": {
     ".": "./src/index.ts"
   },
+  "scripts": {
+    "typecheck": "bun --bun tsc --noEmit",
+    "test": "bun --bun vitest run"
+  },
   "dependencies": {
-    "@kotodama/api-client": "workspace:*",
+    "@kotodama/core": "workspace:*",
     "@kotodama/store": "workspace:*",
-    "@tanstack/react-query": "catalog:tanstack"
+    "@kotodama/ui": "workspace:*",
+    "react-use": "catalog:react",
+    "sonner": "catalog:style"
   },
   "peerDependencies": {
     "react": "catalog:react"
@@ -19,10 +25,8 @@
   "devDependencies": {
     "@kotodama/tooling": "workspace:*",
     "@types/react": "catalog:runtime",
-    "react": "catalog:react"
-  },
-  "scripts": {
-    "typecheck": "bun --bun tsc --noEmit",
-    "test": "bun --bun vitest run"
+    "@types/react-dom": "catalog:react",
+    "react": "catalog:react",
+    "react-dom": "catalog:react"
   }
 }
