@@ -32,19 +32,7 @@
       "Glob(*)",
       "Grep(*)",
       "Edit(*)",
-      "Write(*)",
-      "WebFetch(domain:bun.com)",
-      "WebFetch(domain:tanstack.com)",
-      "WebFetch(domain:chakra-ui.com)",
-      "WebFetch(domain:ark-ui.com)",
-      "WebFetch(domain:biomejs.dev)",
-      "WebFetch(domain:styledictionary.com)",
-      "WebFetch(domain:openapi-ts.dev)",
-      "WebFetch(domain:storybook.js.org)",
-      "WebFetch(domain:code.claude.com)",
-      "WebFetch(domain:docs.claude.com)",
-      "WebFetch(domain:github.com)",
-      "WebFetch(domain:www.npmjs.com)"
+      "Write(*)"
     ],
     "ask": [
       "Bash(git checkout *)",
@@ -57,9 +45,7 @@
       "Bash(git branch --move*)",
       "Bash(git branch --force*)",
       "Bash(git rebase*)",
-      "Bash(git reset *)",
-      "WebFetch(*)",
-      "WebSearch(*)"
+      "Bash(git reset *)"
     ],
     "deny": [
       "Bash(git push --force*)",

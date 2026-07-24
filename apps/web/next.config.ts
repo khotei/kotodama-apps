@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
   // inline the wrong shape); when a real NEXT_PUBLIC_* var lands, clientEnv() must
   // read it via a literal `process.env.X` (Next inlines only literal member access).
   env: clientEnv(),
+  // @kotodama/ui exposes one flat barrel (src/index.ts) — Next rewrites a barrel
+  // import into per-symbol deep imports so a page pulls only the components it uses,
+  // not the whole design system. Our own workspace pkg isn't auto-optimized (only a
+  // curated upstream list is), so it must be named explicitly.
+  experimental: { optimizePackageImports: ['@kotodama/ui'] },
 }
 
 export default nextConfig

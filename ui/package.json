@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
+  "sideEffects": [
+    "**/*.css"
+  ],
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
@@ -35,14 +38,15 @@
   },
   "devDependencies": {
     "@kotodama/presets": "workspace:*",
+    "@storybook/addon-mcp": "catalog:ui",
+    "@storybook/react-vite": "catalog:ui",
+    "@tailwindcss/vite": "catalog:style",
     "@types/react": "catalog:runtime",
     "@types/react-dom": "catalog:react",
     "react": "catalog:react",
     "react-dom": "catalog:react",
-    "tailwindcss": "catalog:style",
-    "@tailwindcss/vite": "catalog:style",
     "storybook": "catalog:ui",
-    "@storybook/react-vite": "catalog:ui",
+    "tailwindcss": "catalog:style",
     "vite": "catalog:ui"
   }
 }
