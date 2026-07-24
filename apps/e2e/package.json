@@ -8,7 +8,7 @@
     "typecheck": "bun --bun tsc --noEmit"
   },
   "devDependencies": {
-    "@kotodama/tooling": "workspace:*",
+    "@kotodama/presets": "workspace:*",
     "@playwright/test": "catalog:test",
     "@types/node": "catalog:runtime",
     "bun-types": "catalog:runtime"

@@ -34,7 +34,7 @@
     "react-dom": "catalog:react"
   },
   "devDependencies": {
-    "@kotodama/tooling": "workspace:*",
+    "@kotodama/presets": "workspace:*",
     "@types/react": "catalog:runtime",
     "@types/react-dom": "catalog:react",
     "react": "catalog:react",

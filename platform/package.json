@@ -14,7 +14,7 @@
     "zod": "catalog:api"
   },
   "devDependencies": {
-    "@kotodama/tooling": "workspace:*",
+    "@kotodama/presets": "workspace:*",
     "openapi-typescript": "catalog:api"
   },
   "scripts": {

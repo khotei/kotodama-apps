@@ -83,7 +83,7 @@ detail.
 | `ui` | the web design system + ALL presentation: Tailwind v4 + shadcn primitives + `@theme` tokens, atoms→pages | web-only, prop-driven leaf |
 | `apps/web` | the Next shell: routing + the `src/server` data layer (loaders + actions) + wiring + SEO | the web process boundary |
 | `apps/e2e` | Playwright against a running app + real backend | the crawlability proof (JS off) |
-| `infra/tooling` | the `@kotodama/tooling` config presets (tsconfig/biome/vitest bases) | write-once shared config, referenced by specifier |
+| `infra/presets` | the `@kotodama/presets` config presets (tsconfig/biome/vitest bases) | write-once shared config, referenced by specifier |
 
 `platform` and `core` are each ONE package whose layers are subpath-exported folders
 (`@kotodama/platform/{api-client,config}`, `@kotodama/core/{repositories,store}`) — a new domain is a

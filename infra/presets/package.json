@@ -1,14 +1,13 @@
 {
-  "name": "@kotodama/tooling",
+  "name": "@kotodama/presets",
   "version": "0.0.0",
   "private": true,
   "type": "module",
   "exports": {
-    "./tsconfig.base.json": "./tsconfig.base.json",
-    "./tsconfig.dom.json": "./tsconfig.dom.json",
-    "./vitest.base": "./vitest.base.ts",
-    "./biome.base.json": "./biome.base.json",
-    "./package.json": "./package.json"
+    "./tsconfig.base.json": "./src/tsconfig.base.json",
+    "./tsconfig.dom.json": "./src/tsconfig.dom.json",
+    "./vitest.base": "./src/vitest.base.ts",
+    "./biome.base.json": "./src/biome.base.json"
   },
   "dependencies": {
     "@testing-library/jest-dom": "catalog:test",

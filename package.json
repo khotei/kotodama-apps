@@ -7,7 +7,7 @@
     "core",
     "platform",
     "ui",
-    "infra/tooling"
+    "infra/presets"
   ],
   "catalogs": {
     "runtime": {
@@ -67,7 +67,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
-    "@kotodama/tooling": "workspace:*",
+    "@kotodama/presets": "workspace:*",
     "@testing-library/dom": "catalog:test",
     "@testing-library/jest-dom": "catalog:test",
     "@testing-library/react": "catalog:test",
@@ -81,8 +81,8 @@
   "scripts": {
     "prepare": "husky",
     "bootstrap": "bun install",
-    "format": "biome format --write --config-path infra/tooling/biome.base.json .",
-    "lint": "biome lint --config-path infra/tooling/biome.base.json .",
+    "format": "biome format --write --config-path infra/presets/src/biome.base.json .",
+    "lint": "biome lint --config-path infra/presets/src/biome.base.json .",
     "tsc": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "check": "bun run lint && bun run tsc",

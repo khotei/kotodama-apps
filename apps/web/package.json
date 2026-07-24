@@ -22,7 +22,7 @@
     "server-only": "catalog:react"
   },
   "devDependencies": {
-    "@kotodama/tooling": "workspace:*",
+    "@kotodama/presets": "workspace:*",
     "@tailwindcss/postcss": "catalog:style",
     "babel-plugin-react-compiler": "catalog:next",
     "@types/node": "catalog:runtime",

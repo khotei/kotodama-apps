@@ -1,4 +1,4 @@
-import base from '@kotodama/tooling/vitest.base'
+import base from '@kotodama/presets/vitest.base'
 import { mergeConfig } from 'vitest/config'
 
 // The aggregate holds each layer in its own folder (`repositories/`, `store/`),

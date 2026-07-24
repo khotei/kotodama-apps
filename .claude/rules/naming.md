@@ -7,7 +7,7 @@
 `@kotodama/<folder>`, nested folders flatten with a dash. The agnostic **spine** and **base** are each
 ONE package whose layers are subpath-exported folders: `core` → `@kotodama/core/{repositories,store}`,
 `platform` → `@kotodama/platform/{api-client,config}`. The web design system is the `ui` leaf
-(`@kotodama/ui`); shared config presets are `@kotodama/tooling` at `infra/tooling`; apps drop the plural
+(`@kotodama/ui`); shared config presets are `@kotodama/presets` at `infra/presets`; apps drop the plural
 (`apps/web` → `@kotodama/web`). A **domain** is a `src/<domain>/` folder inside a layer — e.g. the
 `words` domain under `core/store`; split into per-domain packages only when a second domain demonstrates the need.
 
