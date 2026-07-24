@@ -7,7 +7,59 @@
 // `bunx shadcn@latest add <name>`); `components/<feature>/` = our compositions;
 // shared helpers in `lib/`. See `.claude/agent-patterns/tailwind-shadcn.md`.
 
+export {
+  DepthTabs,
+  DepthTabsContent,
+  DepthTabsList,
+  DepthTabsTrigger,
+  type DepthTabsTriggerProps,
+} from './components/depth-tabs'
+export { EmptyState, type EmptyStateProps } from './components/empty-state'
+export {
+  type EtymologyStep,
+  EtymologyTimeline,
+  type EtymologyTimelineProps,
+} from './components/etymology-timeline'
+export {
+  type GenerationStep,
+  type GenerationStepState,
+  GenerationSteps,
+  type GenerationStepsProps,
+} from './components/generation-steps'
+export { ImageSlot, type ImageSlotProps } from './components/image-slot'
+export { RankRow, type RankRowProps } from './components/rank-row'
+export { ResultRow, type ResultRowProps } from './components/result-row'
+export { Seal, type SealProps } from './components/seal'
+export { SearchBox, type SearchBoxProps } from './components/search-box'
+export { SectionRule, type SectionRuleProps } from './components/section-rule'
+export { Sparkline, type SparklineProps } from './components/sparkline'
+export { StatusBadge, type StatusBadgeProps, type WordStatus } from './components/status-badge'
+export { TierChip, type TierChipProps, type WordTier } from './components/tier-chip'
+export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
+export {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogOverlay,
+  AlertDialogPortal,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from './components/ui/alert-dialog'
 export { Badge, type BadgeProps, badgeVariants } from './components/ui/badge'
+export {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from './components/ui/breadcrumb'
 export { Button, buttonVariants } from './components/ui/button'
 export {
   Card,
@@ -17,5 +69,62 @@ export {
   CardHeader,
   CardTitle,
 } from './components/ui/card'
+export {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from './components/ui/command'
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from './components/ui/dialog'
+export {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from './components/ui/dropdown-menu'
+export { Input } from './components/ui/input'
+export { Kbd, KbdGroup } from './components/ui/kbd'
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from './components/ui/pagination'
+export { Separator } from './components/ui/separator'
+export { Skeleton } from './components/ui/skeleton'
+export { Toaster } from './components/ui/sonner'
+export { Spinner } from './components/ui/spinner'
+export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './components/ui/tabs'
+export { Toggle, toggleVariants } from './components/ui/toggle'
 export { WordCard, type WordCardProps } from './components/word-card'
 export { cn } from './lib/utils'
