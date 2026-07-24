@@ -1,0 +1,19 @@
+{
+  "name": "@kotodama/tooling",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./tsconfig.dom.json": "./tsconfig.dom.json",
+    "./vitest.base": "./vitest.base.ts",
+    "./biome.base.json": "./biome.base.json",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "catalog:test",
+    "@testing-library/react": "catalog:test",
+    "@vitejs/plugin-react": "catalog:test",
+    "vitest": "catalog:test"
+  }
+}

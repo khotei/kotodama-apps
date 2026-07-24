@@ -22,7 +22,8 @@
       "@types/react-dom": "^19.2.0"
     },
     "next": {
-      "next": "^16.2.10"
+      "next": "^16.2.10",
+      "babel-plugin-react-compiler": "^1.0.0"
     },
     "tanstack": {
       "@tanstack/react-query": "^5.101.0",
@@ -51,8 +52,9 @@
       "zod": "^4.4.0"
     },
     "test": {
-      "vitest": "^3.2.0",
+      "vitest": "^4.1.0",
       "jsdom": "^29.0.0",
+      "@vitejs/plugin-react": "^6.0.0",
       "@testing-library/react": "^16.3.0",
       "@testing-library/dom": "^10.4.0",
       "@testing-library/jest-dom": "^6.9.0",
@@ -61,7 +63,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.16",
-    "openapi-typescript": "catalog:api",
+    "@kotodama/tooling": "workspace:*",
     "@testing-library/dom": "catalog:test",
     "@testing-library/jest-dom": "catalog:test",
     "@testing-library/react": "catalog:test",
@@ -69,17 +71,17 @@
     "husky": "^9.1.7",
     "jsdom": "catalog:test",
     "typescript": "catalog:runtime",
-    "vitest": "catalog:test"
+    "vitest": "catalog:test",
+    "@vitejs/plugin-react": "catalog:test"
   },
   "scripts": {
     "prepare": "husky",
     "bootstrap": "bun install",
-    "format": "biome format --write .",
-    "lint": "biome lint .",
+    "format": "biome format --write --config-path packages/tooling/biome.base.json .",
+    "lint": "biome lint --config-path packages/tooling/biome.base.json .",
     "tsc": "bun run --filter '*' typecheck",
     "test": "bun run --filter '*' test",
     "check": "bun run lint && bun run tsc",
-    "new-package": "bun --bun scripts/new-package.ts",
-    "gen:api": "bun --bun scripts/gen-api.ts"
+    "gen:api": "bun run --filter '@kotodama/api-client' gen:api"
   }
 }

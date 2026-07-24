@@ -12,8 +12,9 @@ tsconfig having no `"dom"` lib.
   in `@kotodama/repositories`.
 - **`ApiError` + `unwrap` live here** (the result→throw seam is transport-level); every tier catches
   `ApiError` from `@kotodama/api-client`, not from `repositories`.
-- **`schema.gen.ts` is GENERATED, never hand-edited** — `bun run gen:api` live-fetches
-  `{KOTODAMA_API_URL}/api/openapi.json` and runs `openapi-typescript` (D4/AC-4). CI fails the drift
-  gate on a dirty diff; it is Biome-excluded so formatting can't perturb it.
+- **`schema.gen.ts` is GENERATED, never hand-edited** — the generator `gen-api.ts` lives HERE
+  (co-located with its output); it live-fetches `{KOTODAMA_API_URL}/api/openapi.json` and runs
+  `openapi-typescript` (D4/AC-4). Run it via `bun run gen:api` (root delegates to this package's
+  script). CI fails the drift gate on a dirty diff; it is Biome-excluded so formatting can't perturb it.
 - **`createApiClient({ baseUrl, fetch })`** — an openapi-fetch instance + JSON middleware. A factory,
   not a singleton: the SSR server, the browser entry, and tests each pass their own base URL / fetch.

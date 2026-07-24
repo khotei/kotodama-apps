@@ -1,8 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "../../tsconfig.base.json",
+  "extends": "@kotodama/tooling/tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src/**/*", "test/**/*", "*.config.ts"]
+  "include": ["src/**/*", "test/**/*", "gen-api.ts", "*.config.ts"]
 }

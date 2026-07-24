@@ -41,8 +41,10 @@ agnostic tier is a `tsc` error (the primary web↔native enforcer); and (2) **Bi
 | `bun run test` | Vitest per workspace (`bun run --filter '*' test`). NOT `bun test`. |
 | `bun run check` | `lint` + `tsc` |
 | `bun run gen:api` | regenerate `packages/api-client/src/schema.gen.ts` from the live backend (D4) |
-| `bun --bun scripts/new-package.ts <layer>/<name> [--dom]` | scaffold a workspace |
 | `bun run --filter '@kotodama/web' {dev,build,start}` | run the Next app (Turbopack) |
+
+Scaffolding a new workspace is the `/new-package` slash command (it writes the files directly — no
+script), mirroring kotodama-core.
 
 ## Commits & the pre-commit gate
 

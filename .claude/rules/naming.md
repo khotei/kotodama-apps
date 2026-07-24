@@ -30,8 +30,8 @@ Files carry a dotted **role suffix** — `<name>.<role>.ts` — the fast index i
 
 The role suffix tracks the layer a shape is derived at: **`entity`** (`repositories`, as fetched) →
 **`model`** (`store`, for the app) → **`view`** (`apps/web`, for the render). Pure cross-query
-domain structures take **no suffix** and belong to a reserved `core` tier — re-scaffold it (`bun
-scripts/new-package.ts core/<name>`) when the first one appears.
+domain structures take **no suffix** and belong to a reserved `core` tier — re-scaffold it via the
+`/new-package core` command when the first one appears.
 
 A component file is a bare kebab name exporting a `PascalCase` component. Render-layer entrypoints
 keep conventional names: `server.ts`, `router.tsx`, `entry-server.tsx`, `entry-client.tsx`,

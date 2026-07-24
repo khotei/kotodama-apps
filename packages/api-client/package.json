@@ -11,8 +11,13 @@
   "dependencies": {
     "openapi-fetch": "catalog:api"
   },
+  "devDependencies": {
+    "@kotodama/tooling": "workspace:*",
+    "openapi-typescript": "catalog:api"
+  },
   "scripts": {
     "typecheck": "bun --bun tsc --noEmit",
-    "test": "bun --bun vitest run"
+    "test": "bun --bun vitest run",
+    "gen:api": "bun --bun gen-api.ts"
   }
 }

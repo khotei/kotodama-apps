@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import react from '@vitejs/plugin-react'
 import { defineProject } from 'vitest/config'
 
 // Shared Vitest project settings. Every workspace's one-line vitest.config.ts
@@ -6,18 +7,18 @@ import { defineProject } from 'vitest/config'
 // list — the project set is still implied by package.json#workspaces, and each
 // workspace is run independently (see root `test` script + .claude/rules/tooling.md).
 //
-// Why per-package configs at all: on Bun 1.3.10 + Vitest 3.2.x a single
-// `vitest run` over many `projects` is unreliable — it runs only ~9/16 and
-// exits 0 even on failure. Running each workspace as its own `vitest run` (via
-// `bun run --filter '*' test`) sidesteps that and yields correct per-package
-// exit codes, mirroring the `tsc` typecheck design.
+// Why per-package configs at all: a single `vitest run` over many `projects`
+// was unreliable on Bun 1.3 + Vitest 3.2.x — it ran only ~9/16 and exited 0
+// even on failure. Kept on Vitest 4 (not re-verified against that bug); running
+// each workspace as its own `vitest run` (via `bun run --filter '*' test`)
+// yields correct per-package exit codes, mirroring the `tsc` typecheck design.
 export default defineProject({
-  // Pin the automatic JSX runtime for the transform. Vite/esbuild otherwise
-  // reads each workspace's tsconfig `jsx`, and apps/web sets `preserve` (Next
-  // owns the JSX transform) — which esbuild can't emit, so it falls back to the
-  // classic `React.createElement` and test renders die with "React is not
-  // defined". Automatic here makes every workspace transform JSX identically.
-  esbuild: { jsx: 'automatic' },
+  // The React plugin owns the JSX transform (automatic runtime), so tests use the
+  // SAME transformer as dev — the canonical Vitest+React setup. Without it, the
+  // bundler reads each workspace's tsconfig `jsx`, and apps/web sets `preserve`
+  // (Next owns the transform), so JSX falls back to classic `React.createElement`
+  // and renders die with "React is not defined".
+  plugins: [react()],
   test: {
     // jsdom: the FE tiers + components are tested against a DOM. The agnostic
     // spine (api-client/core/repositories/store/use-cases) is DOM-free at TYPE
@@ -33,9 +34,5 @@ export default defineProject({
     // absolute path off THIS file so it works no matter how deep the including
     // workspace sits (packages/* or apps/*).
     setupFiles: [fileURLToPath(new URL('./vitest.setup.ts', import.meta.url))],
-    // A cold first SSR render / hydrate round-trip in the walking-skeleton slice
-    // can exceed Vitest's 5s default on slower CI runners — raise the per-test
-    // ceiling in one place.
-    testTimeout: 30_000,
   },
 })

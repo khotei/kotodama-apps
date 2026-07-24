@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
-// gen:api — regenerate packages/fe-api-client/src/schema.gen.ts from the
-// backend's LIVE OpenAPI document (F-PLAT-014 D4). There is no committed
+// gen:api — regenerate this package's src/schema.gen.ts from the backend's
+// LIVE OpenAPI document (F-PLAT-014 D4). There is no committed
 // openapi.json crossing the repo boundary; the doc is fetched at gen time from
 // a configurable base URL, so the drift gate needs a reachable backend.
 //
@@ -13,14 +13,7 @@ import openapiTS, { astToString } from 'openapi-typescript'
 
 const BASE = (process.env.KOTODAMA_API_URL ?? 'http://localhost:3000').replace(/\/+$/, '')
 const DOC_URL = `${BASE}/api/openapi.json`
-const OUT = join(
-  dirname(fileURLToPath(import.meta.url)),
-  '..',
-  'packages',
-  'api-client',
-  'src',
-  'schema.gen.ts',
-)
+const OUT = join(dirname(fileURLToPath(import.meta.url)), 'src', 'schema.gen.ts')
 
 console.error(`gen:api → fetching ${DOC_URL}`)
 
