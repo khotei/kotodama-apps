@@ -5,10 +5,13 @@ semantic `@theme` token layer, and ALL presentation built on top. Web-only (DOM-
 to native. `ui ⊥ core` — takes data via props (see the import rule). Storybook is its design source of
 truth.
 
-- **Layout:** `components/ui/*` = shadcn registry primitives (`card`, `badge`, `button`);
-  `components/{atoms,molecules,organisms,templates,pages}/` = our Atomic-Design compositions (each a
-  folder + story + `index.ts` barrel); `views/` = ui-owned view types; `fixtures/` = design mocks (via
-  `@kotodama/ui/fixtures`); `lib/` = helpers (`cn`, `languageName`). `src/index.ts` = the public barrel.
+- **Layout:** `components/ui/*` = shadcn registry primitives (`card`, `badge`, `button`); then two
+  tiers of our own (each a folder + story + `index.ts` barrel): the **domain-free kit**
+  `{atoms,molecules,organisms}/` (generic, portable — Storybook sections `Atoms/Molecules/Organisms`)
+  and the **domain layer** `{core,features}/` (`core/` = entity blocks, `features/` = big entity
+  compositions with namespaced props — sections `Core/Features`); `{templates,pages}/` assemble.
+  `views/` = ui-owned view types; `fixtures/` = design mocks (via `@kotodama/ui/fixtures`); `lib/` =
+  helpers (`cn`, `languageName`). `src/index.ts` = the public barrel.
 - **Tokens:** `styles.css` is the Tailwind entry — `@import "tailwindcss"` + the `dark` variant + the
   shadcn token set hand-written in `:root`/`.dark` (hex; the Kotodama paper palette) + the `@theme
   inline` colour mapping + the non-colour theme (radius, shadows, type, motion, fonts). It `@source`s

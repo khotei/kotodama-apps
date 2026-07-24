@@ -37,6 +37,13 @@ const preview: Preview = {
   initialGlobals: { theme: 'light' },
   decorators: [withTheme],
   parameters: {
+    // Sidebar sections read as the component ladder (small → large), not
+    // alphabetically: vendor primitives → domain-free kit → domain → assembly.
+    options: {
+      storySort: {
+        order: ['UI', 'Atoms', 'Molecules', 'Organisms', 'Core', 'Features', 'Templates', 'Pages'],
+      },
+    },
     backgrounds: { disable: true },
     // Populate the viewport toolbar with the stock device set; mobile-only stories
     // (MobileTabBar, CommandFab) pin themselves to a phone via `globals.viewport`.

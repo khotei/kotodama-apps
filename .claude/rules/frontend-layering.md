@@ -29,8 +29,13 @@ One-way chain (mirrors the backend):
 - **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `platform`, `core`.
   **Web-only:** `ui`, `apps/web`. The web↔native line falls **below `core`**: `ui` renders (DOM), so
   it does NOT port; a native app reuses only the agnostic spine and builds its own presentation on top.
-- **`ui` holds ALL presentation**, organised by Atomic Design under
-  `components/{atoms,molecules,organisms,templates,pages}/`, plus `views/` (ui-owned view types like
+- **`ui` holds ALL presentation**, split under `components/` into a **domain-FREE kit** and a
+  **domain layer**: the Atomic kit `{atoms,molecules,organisms}/` is portable — generic props, no
+  business entity, reusable by any future `apps/*` (`organisms/` = the large domain-free frames like
+  `CommandPalette`/`SiteHeader`); then the Kotodama-domain `{core,features}/` wraps it — `core/` =
+  entity building-blocks (`WordCard`, `TierChip`, `StatusBadge`), `features/` = large entity
+  compositions (`WordEntry`, `ReadingRoom`) configured via **semantic namespaced props**
+  (`word={…}`, `search={…}`). `{templates,pages}/` assemble. Plus `views/` (ui-owned view types like
   `word.view.ts`), `fixtures/` (design-stage mocks, exported via the `@kotodama/ui/fixtures` subpath),
   and `lib/` (`cn`, `languageName`). Every component folder = component + story + `index.ts` barrel; the
   whole site assembles in ui's Storybook on mock data as the design source of truth.

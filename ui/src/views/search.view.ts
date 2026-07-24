@@ -1,4 +1,4 @@
-import type { WordStatus } from '../components/atoms/status-badge'
+import type { WordStatus } from '../components/core/status-badge'
 
 export type SearchPos = 'noun' | 'verb' | 'adjective' | 'adverb'
 

@@ -34,9 +34,9 @@ The role suffix tracks the layer a shape is derived at: **`entity`** (`core/repo
 so it is UNmarked (`.loader.ts` earns its suffix by role, not by being server); the rare **client**
 file is the one marked — `.client.tsx`, over its `'use client'` directive, surfacing the browser
 bundle in the file tree. (Don't confuse it with `api-client`'s transport `client.ts` — different
-layer, different extension.) Cross-query, cross-feature domain structures + molecules take **no
-suffix** and live in **`ui`** (`components/{molecules,organisms}/`), the web design system
-holding all presentation (see `frontend-layering.md`).
+layer, different extension.) Component structures take **no suffix** and live in **`ui`** — the
+domain-free kit under `components/{atoms,molecules,organisms}/`, the entity-bound compositions under
+`components/{core,features}/` (see `frontend-layering.md`).
 
 A component file is a bare kebab name exporting a `PascalCase` component. Render-layer entrypoints
 keep conventional names: `server.ts`, `router.tsx`, `entry-server.tsx`, `entry-client.tsx`,
