@@ -1,4 +1,4 @@
-import { WORD_BUILD_STAGE_SEQUENCE } from '../components/organisms/word-build/word-build-view'
+import { WORD_BUILD_STAGE_SEQUENCE } from '../components/features/word-build/word-build-view'
 import type { WordBuildStages, WordEntryContent, WordScreenView } from '../views/word.view'
 
 // Design-stage fixtures (mirror the handoff's Word artboards) so every screen

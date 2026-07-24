@@ -53,6 +53,24 @@ that absorbs its own mess.
 - **YAGNI on the API shape.** Model the axis that exists (`<Show on>` is binary — one `md`
   line), not the one that might.
 
+## The two tiers: domain-free kit → domain compositions
+
+The policy-free principle has a home in the folder tree (`frontend-layering.md`). The **kit**
+(`components/{atoms,molecules,organisms}/`) is domain-FREE and portable — generic props, **abstract
+names** (`Chip`, `ListRow`, `CommandPalette`); it never names a Kotodama entity. The **domain layer**
+(`components/{core,features}/`) wraps the kit around business entities with **concrete names**
+(`WordCard`, `TierChip`, `WordEntry`) — `core/` = entity blocks, `features/` = large compositions.
+
+- **A name that lies about its tier is a bug.** An abstract name (`ResultRow`) on an entity-bound
+  piece hides the domain; a concrete name (`WordChip`) on a generic frame blocks reuse. Kit → abstract,
+  domain → the entity.
+- **`features/` = the assembly point, configured by semantic namespaced props.** A big feature node
+  groups its props by domain concern — `word={{ value, onSave }}`, `search={{ query, onChange }}` —
+  each namespace named for the entity it carries, so a caller reads *what* to pass at a glance. The
+  node owns the whole composition; **the app only resolves data + injects Server Actions** (the
+  Container/Presentational seam). Assembly lives ONCE in `ui` + Storybook — the app never re-assembles,
+  so a design change never touches `apps/web`.
+
 ## Canonical names (shared vocabulary)
 
 Several moves are named React patterns ([patterns.dev/react](https://www.patterns.dev/react/)) —

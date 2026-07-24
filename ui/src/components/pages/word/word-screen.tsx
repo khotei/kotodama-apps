@@ -4,8 +4,8 @@ import {
   WordFailedView,
   WordGeneratingView,
   WordNotFoundView,
-} from '../../organisms/word-build/word-build-view'
-import { WordEntryView } from '../../organisms/word-entry/word-entry-view'
+} from '../../features/word-build/word-build-view'
+import { WordEntryView } from '../../features/word-entry/word-entry-view'
 
 export type WordScreenProps = {
   model: WordScreenView | null

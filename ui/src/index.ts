@@ -12,6 +12,7 @@ export {
   AccentedWordMark,
   accentedWordText,
 } from './components/atoms/accented-word'
+export { Chip, type ChipProps, chipVariants } from './components/atoms/chip'
 export { FilterChip, type FilterChipProps } from './components/atoms/filter-chip'
 export {
   HighlightedText,
@@ -31,19 +32,59 @@ export { Skeleton } from './components/atoms/skeleton'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
 export {
+  type EtymologyStep,
+  EtymologyTimeline,
+  type EtymologyTimelineProps,
+} from './components/core/etymology-timeline'
+export {
+  type GenerationStep,
+  type GenerationStepState,
+  GenerationSteps,
+  type GenerationStepsProps,
+} from './components/core/generation-steps'
+export { RankRow, type RankRowProps } from './components/core/rank-row'
+export { ResultRow, type ResultRowProps } from './components/core/result-row'
+export {
+  SaveWordButton,
+  type SaveWordButtonProps,
+} from './components/core/save-word-button'
+export {
   StatusBadge,
   type StatusBadgeProps,
   StatusDot,
   type StatusDotProps,
   type WordStatus,
-} from './components/atoms/status-badge'
+} from './components/core/status-badge'
+export { StatusNote, type StatusNoteProps } from './components/core/status-note'
 export {
   TierChip,
   type TierChipProps,
   TierDot,
   type TierDotProps,
   type WordTier,
-} from './components/atoms/tier-chip'
+} from './components/core/tier-chip'
+export { WordCard, type WordCardProps } from './components/core/word-card'
+export { LibraryHero, type LibraryHeroProps } from './components/features/library-hero'
+export { ReadingRoom, type ReadingRoomProps } from './components/features/reading-room'
+export {
+  type CommandAction,
+  type PaletteItem,
+  SearchCommandPalette,
+  type SearchCommandPaletteProps,
+  WordCommandItem,
+  type WordCommandItemProps,
+} from './components/features/search-command-palette'
+export {
+  WordFailedView,
+  type WordFailedViewProps,
+  WordGeneratingView,
+  type WordGeneratingViewProps,
+  WordNotFoundView,
+  type WordNotFoundViewProps,
+} from './components/features/word-build'
+export { WordEntryView, type WordEntryViewProps } from './components/features/word-entry'
+export { WordLoadingView, type WordLoadingViewProps } from './components/features/word-loading'
+export { WordOfTheDay, type WordOfTheDayProps } from './components/features/word-of-the-day'
 export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
   CommandTrigger,
@@ -58,31 +99,12 @@ export {
 } from './components/molecules/depth-tabs'
 export { EmptyState, type EmptyStateProps } from './components/molecules/empty-state'
 export {
-  type EtymologyStep,
-  EtymologyTimeline,
-  type EtymologyTimelineProps,
-} from './components/molecules/etymology-timeline'
-export {
-  type GenerationStep,
-  type GenerationStepState,
-  GenerationSteps,
-  type GenerationStepsProps,
-} from './components/molecules/generation-steps'
-export {
   LanguageMenu,
   type LanguageMenuProps,
   type LanguageOption,
 } from './components/molecules/language-menu'
-export { RankRow, type RankRowProps } from './components/molecules/rank-row'
-export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
-export {
-  SaveWordButton,
-  type SaveWordButtonProps,
-} from './components/molecules/save-word-button'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
-export { StatusNote, type StatusNoteProps } from './components/molecules/status-note'
 export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
-export { WordCard, type WordCardProps } from './components/molecules/word-card'
 export {
   CommandPalette,
   CommandPaletteGroup,
@@ -91,37 +113,16 @@ export {
   type CommandPaletteItemProps,
   type CommandPaletteProps,
 } from './components/organisms/command-palette'
-export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
 export {
   type MobileTab,
   MobileTabBar,
   type MobileTabBarProps,
 } from './components/organisms/mobile-tab-bar'
-export { ReadingRoom, type ReadingRoomProps } from './components/organisms/reading-room'
-export {
-  type CommandAction,
-  type PaletteItem,
-  SearchCommandPalette,
-  type SearchCommandPaletteProps,
-  WordCommandItem,
-  type WordCommandItemProps,
-} from './components/organisms/search-command-palette'
 export {
   SiteHeader,
   type SiteHeaderProps,
   type SiteNavLink,
 } from './components/organisms/site-header'
-export {
-  WordFailedView,
-  type WordFailedViewProps,
-  WordGeneratingView,
-  type WordGeneratingViewProps,
-  WordNotFoundView,
-  type WordNotFoundViewProps,
-} from './components/organisms/word-build'
-export { WordEntryView, type WordEntryViewProps } from './components/organisms/word-entry'
-export { WordLoadingView, type WordLoadingViewProps } from './components/organisms/word-loading'
-export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/word-of-the-day'
 export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
 export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { WordScreen, type WordScreenProps } from './components/pages/word'
