@@ -1,6 +1,6 @@
-import { Overline } from '@kotodama/ui'
 import { languageName } from '../../../lib/language-name'
 import type { WordEntryContent } from '../../../views/word.view'
+import { Overline } from '../../atoms/overline'
 import { WordSection } from './word-section'
 
 function TermList({

@@ -1,16 +1,16 @@
 'use client'
 
+import { ArrowDownIcon, CheckIcon, GlobeIcon } from 'lucide-react'
+import { toast } from 'sonner'
+import { cn } from '../../../lib/utils'
+import { Button } from '../../ui/button'
 import {
-  Button,
-  cn,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@kotodama/ui'
-import { ArrowDownIcon, CheckIcon, GlobeIcon } from 'lucide-react'
-import { toast } from 'sonner'
+} from '../../ui/dropdown-menu'
 
 export type LanguageOption = {
   label: string

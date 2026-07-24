@@ -1,20 +1,20 @@
+import { EllipsisIcon, PenLineIcon } from 'lucide-react'
+import { languageName } from '../../../lib/language-name'
+import { speechLang } from '../../../lib/speech-lang'
+import type { WordEntryContent } from '../../../views/word.view'
+import { ListenButton } from '../../atoms/listen-button'
+import { StatusBadge } from '../../atoms/status-badge'
+import { SaveWordButton } from '../../molecules/save-word-button'
+import { Badge } from '../../ui/badge'
 import {
-  Badge,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  Button,
-  ListenButton,
-  SaveWordButton,
-  StatusBadge,
-} from '@kotodama/ui'
-import { EllipsisIcon, PenLineIcon } from 'lucide-react'
-import { languageName } from '../../../lib/language-name'
-import { speechLang } from '../../../lib/speech-lang'
-import type { WordEntryContent } from '../../../views/word.view'
+} from '../../ui/breadcrumb'
+import { Button } from '../../ui/button'
 import { ConnectionsSection } from './connections-section'
 import { EntryAside } from './entry-aside'
 import { MeaningSection } from './meaning-section'

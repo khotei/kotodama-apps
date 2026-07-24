@@ -1,6 +1,9 @@
 'use client'
 
-import type { SearchWordView } from '@kotodama/ui'
+import { BookOpenIcon, SparklesIcon } from 'lucide-react'
+import { useState } from 'react'
+import type { SearchWordView } from '../../../views/search.view'
+import { StatusBadge } from '../../atoms/status-badge'
 import {
   CommandDialog,
   CommandEmpty,
@@ -8,11 +11,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  Kbd,
-  StatusBadge,
-} from '@kotodama/ui'
-import { BookOpenIcon, SparklesIcon } from 'lucide-react'
-import { useState } from 'react'
+} from '../../ui/command'
+import { Kbd } from '../../ui/kbd'
 
 export type CommandPaletteProps = {
   open: boolean

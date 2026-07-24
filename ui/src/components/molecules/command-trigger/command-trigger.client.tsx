@@ -1,7 +1,8 @@
 'use client'
 
-import { Button, Kbd } from '@kotodama/ui'
 import { SearchIcon } from 'lucide-react'
+import { Button } from '../../ui/button'
+import { Kbd } from '../../ui/kbd'
 
 export type CommandTriggerProps = {
   /** Opens the command palette; the shell that owns the palette state injects it. */

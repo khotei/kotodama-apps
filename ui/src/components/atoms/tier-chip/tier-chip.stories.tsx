@@ -4,6 +4,9 @@ import { TierChip } from './tier-chip'
 const meta: Meta<typeof TierChip> = {
   title: 'Atoms/TierChip',
   component: TierChip,
+  argTypes: {
+    tier: { control: 'select', options: ['everyday', 'cultural', 'formal', 'rare'] },
+  },
 }
 
 export default meta

@@ -1,21 +1,15 @@
-import {
-  AccentedWordMark,
-  accentedWordText,
-  PosPill,
-  pad2,
-  RankRow,
-  type RankRowProps,
-  RetryButton,
-  RetryLink,
-  SectionRule,
-  StatusBadge,
-  StatusDot,
-  StatusNote,
-  type WordStatus,
-} from '@kotodama/ui'
 import { BookmarkIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { pad2 } from '../../../lib/pad2'
 import type { RankedWordView } from '../../../views/library.view'
+import { AccentedWordMark, accentedWordText } from '../../atoms/accented-word'
+import { PosPill } from '../../atoms/pos-pill'
+import { RetryButton } from '../../atoms/retry-button'
+import { RetryLink } from '../../atoms/retry-link'
+import { SectionRule } from '../../atoms/section-rule'
+import { StatusBadge, StatusDot, type WordStatus } from '../../atoms/status-badge'
+import { RankRow, type RankRowProps } from '../../molecules/rank-row'
+import { StatusNote } from '../../molecules/status-note'
 
 type RetryHandler = (word: string) => void | Promise<void>
 

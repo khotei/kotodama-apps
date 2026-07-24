@@ -5,6 +5,10 @@ import { Toggle } from './toggle'
 const meta: Meta<typeof Toggle> = {
   title: 'UI/Toggle',
   component: Toggle,
+  argTypes: {
+    variant: { control: 'select', options: ['default', 'outline'] },
+    size: { control: 'select', options: ['default', 'sm', 'lg'] },
+  },
 }
 
 export default meta

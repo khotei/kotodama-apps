@@ -1,6 +1,11 @@
-import { Button, CommandTrigger, cn, LanguageMenu, ModeMenu, Seal } from '@kotodama/ui'
 import { SearchIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { cn } from '../../../lib/utils'
+import { Seal } from '../../atoms/seal'
+import { CommandTrigger } from '../../molecules/command-trigger'
+import { LanguageMenu } from '../../molecules/language-menu'
+import { ModeMenu } from '../../molecules/mode-menu'
+import { Button } from '../../ui/button'
 
 export type SiteNavLink = {
   label: string

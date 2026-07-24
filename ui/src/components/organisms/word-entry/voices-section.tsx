@@ -1,6 +1,6 @@
-import { ImageSlot } from '@kotodama/ui'
 import { cva } from 'class-variance-authority'
 import type { WordEntryContent } from '../../../views/word.view'
+import { ImageSlot } from '../../atoms/image-slot'
 import { WordSection } from './word-section'
 
 const provenancePill = cva(

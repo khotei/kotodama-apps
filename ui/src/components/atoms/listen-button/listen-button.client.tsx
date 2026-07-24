@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@kotodama/ui'
 import { Volume2Icon } from 'lucide-react'
 import { useState } from 'react'
+import { Button } from '../../ui/button'
 
 export type ListenButtonProps = {
   text: string

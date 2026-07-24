@@ -1,15 +1,15 @@
 'use client'
 
+import { ArrowDownIcon, CheckIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { cn } from '../../../lib/utils'
+import { Button } from '../../ui/button'
 import {
-  Button,
-  cn,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@kotodama/ui'
-import { ArrowDownIcon, CheckIcon, MonitorIcon, MoonIcon, SunIcon } from 'lucide-react'
+} from '../../ui/dropdown-menu'
 
 export type ColorMode = 'light' | 'system' | 'dark'
 

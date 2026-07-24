@@ -1,4 +1,4 @@
-import { cn } from '@kotodama/ui/lib/utils'
+import { cn } from '../../../lib/utils'
 
 function Spinner({ className, ...props }: React.ComponentProps<'span'>) {
   return (

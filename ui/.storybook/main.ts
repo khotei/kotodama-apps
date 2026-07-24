@@ -23,7 +23,7 @@ const config: StorybookConfig = {
     return config
   },
 
-  addons: ['@storybook/addon-mcp'],
+  addons: ['@storybook/addon-mcp', '@storybook/addon-a11y'],
 }
 
 export default config

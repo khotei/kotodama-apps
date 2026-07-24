@@ -1,5 +1,10 @@
-import { DepthTabs, DepthTabsContent, DepthTabsList, DepthTabsTrigger } from '@kotodama/ui'
 import type { WordEntryContent } from '../../../views/word.view'
+import {
+  DepthTabs,
+  DepthTabsContent,
+  DepthTabsList,
+  DepthTabsTrigger,
+} from '../../molecules/depth-tabs'
 import { WordSection } from './word-section'
 
 const DEPTHS = [

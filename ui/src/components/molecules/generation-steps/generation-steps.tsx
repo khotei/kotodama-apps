@@ -1,7 +1,7 @@
 import { CheckIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
-import { Spinner } from '../../ui/spinner'
+import { Spinner } from '../../atoms/spinner'
 
 export type GenerationStepState = 'done' | 'active' | 'pending'
 

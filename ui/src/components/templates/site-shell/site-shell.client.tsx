@@ -1,16 +1,14 @@
 'use client'
 
-import {
-  CommandPalette,
-  MobileTabBar,
-  type SearchWordView,
-  SiteHeader,
-  Toaster,
-} from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
+import type { SearchWordView } from '../../../views/search.view'
+import { CommandPalette } from '../../organisms/command-palette'
+import { MobileTabBar } from '../../organisms/mobile-tab-bar'
+import { SiteHeader } from '../../organisms/site-header'
+import { Toaster } from '../../ui/sonner'
 
 export type SiteShellProps = {
   /** Which nav tab reads active — mirrors the app's pathname derivation. */
