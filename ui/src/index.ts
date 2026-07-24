@@ -19,6 +19,7 @@ export {
 } from './components/atoms/highlighted-text'
 export { ImageSlot, type ImageSlotProps } from './components/atoms/image-slot'
 export { ListenButton, type ListenButtonProps } from './components/atoms/listen-button'
+export { Overline, type OverlineProps } from './components/atoms/overline'
 export { PosPill } from './components/atoms/pos-pill'
 export { RetryButton, type RetryButtonProps } from './components/atoms/retry-button'
 export { RetryLink } from './components/atoms/retry-link'
@@ -32,7 +33,17 @@ export {
   type StatusDotProps,
   type WordStatus,
 } from './components/atoms/status-badge'
-export { TierChip, type TierChipProps, type WordTier } from './components/atoms/tier-chip'
+export {
+  TierChip,
+  type TierChipProps,
+  TierDot,
+  type TierDotProps,
+  type WordTier,
+} from './components/atoms/tier-chip'
+export {
+  CommandTrigger,
+  type CommandTriggerProps,
+} from './components/molecules/command-trigger'
 export {
   DepthTabs,
   DepthTabsContent,
@@ -52,6 +63,12 @@ export {
   GenerationSteps,
   type GenerationStepsProps,
 } from './components/molecules/generation-steps'
+export {
+  LanguageMenu,
+  type LanguageMenuProps,
+  type LanguageOption,
+} from './components/molecules/language-menu'
+export { type ColorMode, ModeMenu, type ModeMenuProps } from './components/molecules/mode-menu'
 export { RankRow, type RankRowProps } from './components/molecules/rank-row'
 export { ResultRow, type ResultRowProps } from './components/molecules/result-row'
 export {
@@ -59,7 +76,8 @@ export {
   type SaveWordButtonProps,
 } from './components/molecules/save-word-button'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
-export { StatusNote } from './components/molecules/status-note'
+export { StatusNote, type StatusNoteProps } from './components/molecules/status-note'
+export { WordCard, type WordCardProps } from './components/molecules/word-card'
 export { CommandPalette, type CommandPaletteProps } from './components/organisms/command-palette'
 export { LibraryHero, type LibraryHeroProps } from './components/organisms/library-hero'
 export {
@@ -71,6 +89,7 @@ export { ReadingRoom, type ReadingRoomProps } from './components/organisms/readi
 export {
   SiteHeader,
   type SiteHeaderProps,
+  type SiteHeaderVariant,
   type SiteNavLink,
 } from './components/organisms/site-header'
 export {
@@ -87,6 +106,7 @@ export { WordOfTheDay, type WordOfTheDayProps } from './components/organisms/wor
 export { SearchPage, type SearchPageProps } from './components/pages/search'
 export { WordScreen, type WordScreenProps } from './components/pages/word'
 export { LibraryScreen, type LibraryScreenProps } from './components/templates/library-screen'
+export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
 export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
@@ -178,8 +198,9 @@ export { Toaster } from './components/ui/sonner'
 export { Spinner } from './components/ui/spinner'
 export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './components/ui/tabs'
 export { Toggle, toggleVariants } from './components/ui/toggle'
-export { WordCard, type WordCardProps } from './components/word-card'
 export { languageName } from './lib/language-name'
+export { pad2 } from './lib/pad2'
+export { speechLang } from './lib/speech-lang'
 export { cn } from './lib/utils'
 export type {
   GlanceSpan,

@@ -1,1 +1,1 @@
-export { StatusNote } from './status-note'
+export { StatusNote, type StatusNoteProps } from './status-note'

@@ -58,8 +58,11 @@ export function CommandPalette({
         <CommandGroup heading="Your library">
           {words.map((row) => (
             <CommandItem
-              key={row.word}
-              value={row.word}
+              // href is the unique identity (the same word can exist in two
+              // languages); the word itself stays the match term via keywords.
+              key={row.href}
+              value={row.href}
+              keywords={[row.word]}
               onSelect={() => {
                 close()
                 onSelect(row.href)

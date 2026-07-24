@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
+import { SiteShell } from '../../templates/site-shell'
 import { SearchPage } from './search-page.client'
 
 // Pages/Search · the client filter island over an injected word list, one story
@@ -11,9 +12,9 @@ const meta: Meta<typeof SearchPage> = {
   args: { generatePathPrefix: '/words/es/' },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-[1160px] px-5 md:px-10">
+      <SiteShell active="search" paletteWords={SEARCH_WORDS_MOCK}>
         <Story />
-      </div>
+      </SiteShell>
     ),
   ],
 }

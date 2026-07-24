@@ -25,7 +25,14 @@ export type RankRowProps = Omit<ComponentProps<'a'>, 'children'> & {
   meta?: ReactNode
 }
 
-/** A ranked reading-room row: leading marker · serif word · italic gloss · meta. */
+/**
+ * A ranked reading-room row: leading marker · serif word · italic gloss · meta.
+ *
+ * The row is a `div` with a stretched-link anchor (`after:inset-0`), NOT an
+ * `<a>` wrapping everything — `meta` may hold an interactive Retry button, and
+ * nesting a button inside an anchor is invalid HTML that hijacks its clicks.
+ * `meta` stacks above the overlay via `relative`, so its controls stay live.
+ */
 export function RankRow({
   index,
   marker,
@@ -38,25 +45,25 @@ export function RankRow({
   ...props
 }: RankRowProps) {
   return (
-    <a
+    <div
       className={cn(
-        'group grid grid-cols-[30px_1fr_auto] items-center gap-[18px] rounded-sm px-2 py-[15px] transition-colors hover:bg-card',
+        'group relative grid grid-cols-[30px_1fr_auto] items-center gap-[18px] rounded-sm px-2 py-[15px] transition-colors hover:bg-card',
         className,
       )}
-      {...props}
     >
       <span className="flex items-center font-mono text-[13px] text-faint-foreground tracking-[0.06em]">
         {index ?? marker}
       </span>
       <span className="min-w-0">
-        <span
+        <a
           className={cn(
-            'font-serif text-[22px] font-medium leading-[1.1] tracking-[-0.01em] transition-colors',
+            'font-serif text-[22px] font-medium leading-[1.1] tracking-[-0.01em] transition-colors after:absolute after:inset-0',
             WORD_TONE[wordTone],
           )}
+          {...props}
         >
           {word}
-        </span>
+        </a>
         {gloss != null && (
           <span className="mt-[3px] block font-serif text-[15px] text-muted-foreground italic leading-snug">
             {gloss}
@@ -68,7 +75,7 @@ export function RankRow({
           </span>
         )}
       </span>
-      {meta != null && <span className="flex shrink-0 items-center gap-4">{meta}</span>}
-    </a>
+      {meta != null && <span className="relative flex shrink-0 items-center gap-4">{meta}</span>}
+    </div>
   )
 }

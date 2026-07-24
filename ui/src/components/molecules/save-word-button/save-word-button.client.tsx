@@ -25,6 +25,19 @@ export type SaveWordButtonProps = {
   look?: 'hero' | 'wotd' | 'ghost'
 }
 
+const LOOK: Record<
+  NonNullable<SaveWordButtonProps['look']>,
+  { unsavedLabel: string; variant: 'accent' | 'outline' | 'ghost'; className?: string }
+> = {
+  hero: { unsavedLabel: 'Save word', variant: 'accent' },
+  wotd: {
+    unsavedLabel: 'Save to library',
+    variant: 'outline',
+    className: 'rounded-md font-medium text-muted-foreground hover:border-seal hover:text-seal',
+  },
+  ghost: { unsavedLabel: 'Save', variant: 'ghost' },
+}
+
 /**
  * Save toggle with the design's full ritual: saving fires an Undo toast;
  * un-saving asks first (AlertDialog), then offers Undo too. State is local
@@ -49,29 +62,17 @@ export function SaveWordButton({ word, initialSaved = false, look = 'hero' }: Sa
     })
   }
 
-  const label = saved
-    ? 'Saved'
-    : look === 'hero'
-      ? 'Save word'
-      : look === 'wotd'
-        ? 'Save to library'
-        : 'Save'
-  const variant =
-    look === 'hero' ? (saved ? 'outline' : 'accent') : look === 'wotd' ? 'outline' : 'ghost'
+  const { unsavedLabel, variant, className } = LOOK[look]
 
   return (
     <>
       <Button
-        variant={variant}
-        className={
-          look === 'wotd'
-            ? 'rounded-md font-medium text-muted-foreground hover:border-seal hover:text-seal'
-            : undefined
-        }
+        variant={saved && look === 'hero' ? 'outline' : variant}
+        className={className}
         onClick={() => (saved ? setConfirming(true) : save())}
       >
         <BookmarkIcon className={saved ? 'fill-current' : undefined} />
-        {label}
+        {saved ? 'Saved' : unsavedLabel}
       </Button>
       <AlertDialog open={confirming} onOpenChange={setConfirming}>
         <AlertDialogContent>

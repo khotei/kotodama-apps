@@ -1,4 +1,4 @@
-import { Button, cn, Seal } from '@kotodama/ui'
+import { Button, CommandTrigger, cn, LanguageMenu, ModeMenu, Seal } from '@kotodama/ui'
 import { SearchIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 
@@ -8,10 +8,20 @@ export type SiteNavLink = {
   active?: boolean
 }
 
+export type SiteHeaderVariant = 'controls'
+
 export type SiteHeaderProps = {
   homeHref: string
   searchHref: string
   nav: readonly SiteNavLink[]
+  /**
+   * `'controls'` pre-fills the right-hand slots with the stock molecules
+   * (⌘K trigger + language menu + mode menu); an explicitly passed slot
+   * still wins over the variant's fill. Omit for the bare nav-only header.
+   */
+  variant?: SiteHeaderVariant
+  /** Opens the command palette — consumed by the variant-filled ⌘K trigger. */
+  onCommandOpen?: () => void
   /** App-wired slots: the ⌘K trigger, the language menu, the color-mode menu. */
   commandTrigger?: ReactNode
   languageMenu?: ReactNode
@@ -38,11 +48,19 @@ export function SiteHeader({
   homeHref,
   searchHref,
   nav,
+  variant,
+  onCommandOpen,
   commandTrigger,
   languageMenu,
   modeMenu,
   languageBadge,
 }: SiteHeaderProps) {
+  const filled = variant === 'controls'
+  const commandSlot = commandTrigger ?? (filled ? <CommandTrigger onOpen={onCommandOpen} /> : null)
+  const languageSlot = languageMenu ?? (filled ? <LanguageMenu /> : null)
+  const languageBadgeSlot = languageBadge ?? (filled ? <LanguageMenu compact /> : null)
+  const modeSlot = modeMenu ?? (filled ? <ModeMenu /> : null)
+
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
       <div className="mx-auto hidden h-[76px] max-w-[1160px] items-center justify-between px-5 md:flex lg:px-10">
@@ -65,9 +83,9 @@ export function SiteHeader({
           </nav>
         </div>
         <div className="flex items-center gap-[14px]">
-          {commandTrigger}
-          {languageMenu}
-          {modeMenu}
+          {commandSlot}
+          {languageSlot}
+          {modeSlot}
         </div>
       </div>
 
@@ -79,8 +97,8 @@ export function SiteHeader({
               <SearchIcon />
             </a>
           </Button>
-          {languageBadge}
-          {modeMenu}
+          {languageBadgeSlot}
+          {modeSlot}
         </div>
       </div>
     </header>

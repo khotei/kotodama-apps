@@ -4,10 +4,14 @@ import {
   AccentedWordMark,
   accentedWordText,
   Button,
+  cn,
   ListenButton,
+  Overline,
+  pad2,
   SaveWordButton,
+  SectionRule,
   Sparkline,
-  type WordTier,
+  TierDot,
 } from '@kotodama/ui'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 import { useState } from 'react'
@@ -29,75 +33,73 @@ function Glance({ value }: { value: GlanceText }) {
   })
 }
 
-const TIER_DOT: Record<WordTier, string> = {
-  everyday: 'bg-tier-everyday',
-  cultural: 'bg-tier-cultural',
-  formal: 'bg-tier-formal',
-  rare: 'bg-tier-rare',
-}
-
-const pad = (n: number) => String(n).padStart(2, '0')
-
 export type WordOfTheDayProps = {
   /** The rotation, newest first; prev/next wrap around it. */
   wotds: readonly WotdView[]
 }
 
 export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
-  const [index, setIndex] = useState(0)
+  const [rawIndex, setIndex] = useState(0)
   const count = wotds.length
+  // Clamp instead of trusting state: a revalidation may shrink the rotation
+  // below a previously-reached index — show the newest item, never blank out.
+  const index = Math.min(rawIndex, count - 1)
   const wotd = wotds[index]
   if (wotd == null) return null
-  const step = (delta: number) => setIndex((i) => (i + delta + count) % count)
+  const step = (delta: number) => setIndex((i) => (Math.min(i, count - 1) + delta + count) % count)
 
   return (
     <section className="mt-16">
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
-        <span className="whitespace-nowrap font-mono text-2xs font-medium text-seal uppercase tracking-[0.22em]">
-          Word of the day
-        </span>
-        <span className="h-px min-w-8 flex-1 bg-border-strong" />
-        <div className="flex shrink-0 items-center gap-[14px]">
-          <span className="whitespace-nowrap font-mono text-2xs text-faint-foreground tracking-[0.14em]">
-            {pad(index + 1)} / {pad(count)}
+      <SectionRule
+        label="Word of the day"
+        meta={
+          <span className="flex shrink-0 items-center gap-[14px]">
+            <span className="whitespace-nowrap font-mono text-2xs text-faint-foreground tracking-[0.14em]">
+              {pad2(index + 1)} / {pad2(count)}
+            </span>
+            <span
+              className="flex items-center gap-[7px]"
+              role="tablist"
+              aria-label="Words of the day"
+            >
+              {wotds.map((w, i) => (
+                <button
+                  key={w.dateTag}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === index}
+                  aria-label={accentedWordText(w.word)}
+                  onClick={() => setIndex(i)}
+                  className={cn(
+                    'size-[7px] rounded-full transition-transform',
+                    i === index ? 'scale-[1.15] bg-seal' : 'bg-border-strong hover:scale-125',
+                  )}
+                />
+              ))}
+            </span>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              className="rounded-full"
+              aria-label="Previous"
+              disabled={count < 2}
+              onClick={() => step(-1)}
+            >
+              <ArrowLeftIcon />
+            </Button>
+            <Button
+              variant="outline"
+              size="icon-sm"
+              className="rounded-full"
+              aria-label="Next"
+              disabled={count < 2}
+              onClick={() => step(1)}
+            >
+              <ArrowRightIcon />
+            </Button>
           </span>
-          <div className="flex items-center gap-[7px]" role="tablist" aria-label="Words of the day">
-            {wotds.map((w, i) => (
-              <button
-                key={w.dateTag}
-                type="button"
-                role="tab"
-                aria-selected={i === index}
-                aria-label={accentedWordText(w.word)}
-                onClick={() => setIndex(i)}
-                className={`size-[7px] rounded-full transition-transform ${
-                  i === index ? 'scale-[1.15] bg-seal' : 'bg-border-strong hover:scale-125'
-                }`}
-              />
-            ))}
-          </div>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            className="rounded-full"
-            aria-label="Previous"
-            disabled={count < 2}
-            onClick={() => step(-1)}
-          >
-            <ArrowLeftIcon />
-          </Button>
-          <Button
-            variant="outline"
-            size="icon-sm"
-            className="rounded-full"
-            aria-label="Next"
-            disabled={count < 2}
-            onClick={() => step(1)}
-          >
-            <ArrowRightIcon />
-          </Button>
-        </div>
-      </div>
+        }
+      />
 
       <article className="mt-[22px] grid grid-cols-1 overflow-hidden rounded-lg border bg-card shadow-soft lg:grid-cols-[1.18fr_1fr]">
         <div className="flex flex-col px-10 pt-[38px] pb-[34px] lg:border-border-subtle lg:border-r">
@@ -138,9 +140,9 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
         </div>
 
         <aside className="flex flex-col bg-secondary p-9">
-          <h4 className="mb-[22px] font-mono text-2xs font-medium text-faint-foreground uppercase tracking-[0.2em]">
+          <Overline className="mb-[22px] text-faint-foreground tracking-[0.2em]">
             Entry at a glance
-          </h4>
+          </Overline>
           <dl className="m-0 grid grid-cols-[auto_1fr] items-baseline gap-x-[22px] gap-y-4">
             <dt className="font-sans text-[13px] text-faint-foreground">Etymology</dt>
             <dd className="m-0 font-serif text-[15px] leading-[1.45]">
@@ -153,7 +155,7 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
             <dt className="font-sans text-[13px] text-faint-foreground">Tier coverage</dt>
             <dd className="m-0 flex items-center gap-1.5">
               {wotd.glance.tiers.map((tier) => (
-                <span key={tier} className={`size-[9px] rounded-xs ${TIER_DOT[tier]}`} />
+                <TierDot key={tier} tier={tier} />
               ))}
               <span className="ml-1 text-[12px] text-muted-foreground">
                 {wotd.glance.tiersLabel}

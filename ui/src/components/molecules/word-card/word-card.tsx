@@ -1,15 +1,7 @@
 import type { ComponentProps } from 'react'
-import { StatusBadge, type WordStatus } from '../atoms/status-badge/status-badge'
-import { Badge } from '../ui/badge'
-import { Card, CardContent, CardHeader } from '../ui/card'
-
-// The one skeleton composition. Presentational: it takes PRIMITIVE props (never
-// the store's WordStateModel — ui may not import the spine), so the feature
-// layer maps domain → props. Built from the shadcn primitives over the semantic
-// tokens (`bg-card`, `text-muted-foreground`, …) — never raw colors. Status
-// renders through StatusBadge, the one word-lifecycle vocabulary. Owns no outer
-// width/margin — the call site controls placement via className (Card merges it
-// last-wins through cn).
+import { StatusBadge, type WordStatus } from '../../atoms/status-badge/status-badge'
+import { Badge } from '../../ui/badge'
+import { Card, CardContent, CardHeader } from '../../ui/card'
 
 export type WordCardProps = {
   word: string

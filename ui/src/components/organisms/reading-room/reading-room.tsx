@@ -2,6 +2,7 @@ import {
   AccentedWordMark,
   accentedWordText,
   PosPill,
+  pad2,
   RankRow,
   type RankRowProps,
   RetryButton,
@@ -71,7 +72,7 @@ function RankedList({
         <li key={row.href} className="border-border-subtle border-t last:border-b">
           <RankRow
             href={row.href}
-            index={numbered ? String(index + 1).padStart(2, '0') : undefined}
+            index={numbered ? pad2(index + 1) : undefined}
             marker={numbered ? undefined : <StatusDot status={row.status} className="ml-1" />}
             word={<AccentedWordMark word={row.word} />}
             wordTone={WORD_TONE[row.status]}
@@ -127,7 +128,7 @@ export function ReadingRoom({ mostLookedUp, recentlyAdded, onRetry }: ReadingRoo
           }
           sub="A small chronicle of what learners are puzzling through. Updated hourly."
         >
-          <RankedList rows={mostLookedUp} numbered />
+          <RankedList rows={mostLookedUp} numbered onRetry={onRetry} />
         </Column>
         <Column
           title={

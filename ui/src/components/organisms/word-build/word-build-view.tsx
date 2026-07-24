@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   CardContent,
+  cn,
   type GenerationStep,
   GenerationSteps,
   Skeleton,
@@ -59,7 +60,7 @@ function StateShell({
         </a>
       </Button>
       <Card className={cardClassName}>
-        <CardContent className={contentClassName ?? 'p-8'}>{children}</CardContent>
+        <CardContent className={cn('p-8', contentClassName)}>{children}</CardContent>
       </Card>
     </div>
   )
@@ -69,10 +70,18 @@ export type WordGeneratingViewProps = {
   word: string
   stages: WordBuildStages
   backHref: string
+  /** Badge state: a queued build shows `pending` (Queued), a running one `generating` —
+   *  the same vocabulary the library rows use, so the two surfaces never disagree. */
+  status?: 'pending' | 'generating'
 }
 
 /** The build-in-progress state; steps map from the REAL backend stages. */
-export function WordGeneratingView({ word, stages, backHref }: WordGeneratingViewProps) {
+export function WordGeneratingView({
+  word,
+  stages,
+  backHref,
+  status = 'generating',
+}: WordGeneratingViewProps) {
   return (
     <StateShell backHref={backHref}>
       <div className="mb-[26px] flex flex-wrap items-start justify-between gap-3">
@@ -82,7 +91,7 @@ export function WordGeneratingView({ word, stages, backHref }: WordGeneratingVie
           </div>
           <div className="mt-2 font-mono text-[13px] text-muted-foreground">added just now</div>
         </div>
-        <StatusBadge status="generating" />
+        <StatusBadge status={status} />
       </div>
       <GenerationSteps steps={toGenerationSteps(stages)} />
       <div className="mt-7 flex flex-col gap-2.5">
