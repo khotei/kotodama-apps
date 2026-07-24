@@ -16,6 +16,11 @@ Turbopack)**. Zero-runtime Tailwind — so no Emotion/CSS-in-JS hydration bug (w
   `word-view.tsx` reads `useWord` and is the ONE place domain (`WordStateModel`) → WordCard props
   mapping lives. `prefetchQuery` never throws, so a backend-less build hydrates nothing and WordView
   renders the loading/error arm. Import the app's own source via `@/*` (tsconfig path).
+- **SEO (same route):** `generateMetadata` + the page share one `React.cache`-wrapped `loadWord`
+  (one fetch/request, same prefetched client dehydrated). An inline JSON-LD `DefinedTerm` renders
+  only when the word is ready; its `JSON.stringify` MUST `<`→`<`-escape (dangerouslySetInnerHTML
+  does not) or a value breaks out of `<script>`. `metadataBase` (root layout, per-env) resolves the
+  `opengraph-image.tsx` URL. Unready/absent word → `robots:{index:false}`.
 - **`globals.css`** imports `@kotodama/ui/styles.css` and `@source`s the ui package so Tailwind
   detects its classes; PostCSS via `@tailwindcss/postcss`.
 - **Client config is one file — `src/api-client.ts`:** three factories — `createBrowserApiClient`
