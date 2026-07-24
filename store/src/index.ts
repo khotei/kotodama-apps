@@ -4,4 +4,9 @@
 // derivation (`narrowWordState`), co-located with the query it shapes.
 export type { Language } from '@kotodama/repositories'
 export { wordQueryOptions } from './words/word.store'
-export type { ReadyWord, UnreadyStages, WordStateModel } from './words/word-state.model'
+export type {
+  ReadyWord,
+  UnreadyStages,
+  WordBuildStatus,
+  WordStateModel,
+} from './words/word-state.model'
