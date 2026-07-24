@@ -67,9 +67,7 @@ const button = cva(
   },
 )
 
-export interface ButtonProps
-  extends React.ComponentProps<'button'>,
-    VariantProps<typeof button> {}
+export type ButtonProps = React.ComponentProps<'button'> & VariantProps<typeof button>
 
 export function Button({ className, variant, size, ...props }: ButtonProps) {
   return <button className={cn(button({ variant, size }), className)} {...props} />
@@ -254,8 +252,8 @@ This maps cleanly onto the existing FE layering (`frontend-layering.md`): a Chak
 **swaps the styling engine *inside* `packages/ui`** while the tier contract is unchanged —
 `packages/ui` stays the web-only leaf, components still take **primitive props** (`WordCard(word,
 status)`, never a domain model), and the **semantic-token contract** (`bg.canvas`/`fg.default`) is
-exactly what `@theme` tokens formalise. The agnostic spine (`api-client ◄ repositories ◄ store ◄
-use-cases`) is untouched. Net: the blast radius is `packages/ui` + `apps/web` render layer, not the
+exactly what `@theme` tokens formalise. The agnostic spine (`api-client ◄ repositories ◄ store`) is
+untouched. Net: the blast radius is `packages/ui` + `apps/web` render layer, not the
 spine — the same boundary F-PLAT-014 was built to protect. Zero-runtime also **retires the
 `--webpack` constraint** from F-PLAT-016 (no Emotion → Turbopack is back on the table).
 

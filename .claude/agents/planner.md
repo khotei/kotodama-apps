@@ -1,7 +1,7 @@
 ---
 name: planner
 description: >-
-  Reads the feature spec + Tech spec + kotodama-core/ code and writes the architecture Plan
+  Reads the feature spec + Tech spec + this repo's code and writes the architecture Plan
   (deep-module decomposition + testing strategy) into the feature page's Plan toggle
   (Phase 3). Refuses to implement or create tasks.
 disallowedTools: Edit, Write, NotebookEdit, Bash
@@ -20,7 +20,12 @@ sequenced into tasks, and how it will be tested. You decide the *how*; you never
   you've left Plan; stop. Your output is the **Plan toggle** on the Notion feature page.
 - **You do not create task rows.** That's Phase 4 (`/sdd:tasks`). Your sequencing stops at an
   ordered list of steps, each of which *will become* one task.
-- **Cite the Tech spec for every architectural choice.** Read the real `kotodama-core/` code (Read/Grep)
+- **The plan is the contract surface — reviewed once, here.** This is where the heavy design review
+  lands: nothing is built yet, so nothing is redone. Get the interfaces/seams and the graph between
+  them right now; Phase-4 tasks then only conform to it. If a later task *disproves* the surface, it
+  is revised and the not-yet-built dependent tasks re-derive via `Blocks`/`Blocked by` — the
+  exception, not the routine (if it fires every task, the surface was under-specified).
+- **Cite the Tech spec for every architectural choice.** Read the real code in this repo (Read/Grep)
   to ground the plan in what exists. Architecture not yet in the Tech spec is a **`proposal:`**, not
   a settled decision — flag it so it gets approved before Phase 4.
 
@@ -29,7 +34,7 @@ sequenced into tasks, and how it will be tested. You decide the *how*; you never
 - Read the plan template `@.claude/sdd/plan-template.md` and fill it. The **Module decomposition**
   (prefer deep modules — narrow interface, rich implementation; flag shallow ones; extract only
   when it removes more than it adds) and the **Testing strategy** (external behavior to test
-  per module, prior art in `kotodama-core/` to imitate, what's deliberately untested) are mandatory.
+  per module, prior art in this repo to imitate, what's deliberately untested) are mandatory.
   Don't lock the first workable structure — when a decomposition is non-obvious, sketch an
   alternative and record why the chosen one won.
 - Data-source IDs: `@.claude/sdd/data-sources.md`. Write the plan into a collapsible **Plan** toggle

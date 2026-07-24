@@ -28,7 +28,7 @@ Features collection id lives there).
    digits.
 2. **Read the sources to cite.** Search the Specs DB for the Product / Tech / Design / Research
    specs and the Personas doc; read the sections that justify this feature's choices. Open the
-   relevant `kotodama-core/` code if it grounds a claim.
+   relevant code in this repo if it grounds a claim.
 3. **Fill every section** of `@.claude/sdd/feature-template.md`. Crystallise what implementation
    must produce — do **not** restate the spec; cite it by section (`Tech spec §2.6`).
 4. **Write acceptance criteria in EARS** — *WHEN \<event\> THE SYSTEM SHALL \<behavior\>*. Each AC

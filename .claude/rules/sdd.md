@@ -17,6 +17,24 @@ keep it that way so unrelated sessions don't pay for it. Feature: F-PLAT-006.
 > two steps: edit the playbook §6/§7/§8, then regenerate the affected command(s). Do not let a
 > command's content drift from its source section.
 
+## The loop every phase instantiates (why the commands are shaped this way)
+
+SDD is one loop at two scales: **Frame → Delegate → Verify → Comprehend**. The seven phases are that
+loop at *feature* scale — `research → … → verify` is the **Frame** beat one floor up (the plan is
+where the whole picture exists before any code); each task then runs its own small turn of it. The
+scarce resource is **your comprehension**, not the agent's tokens, so every command is built to
+protect it — this is the *why* behind their shape:
+
+- **The contract goes first** — ACs/tests committed before the fill (`/sdd:implement` writes the
+  failing test first).
+- **The heavy review lands once, on the plan** — a reviewed contract surface; tasks only conform.
+- **Each slice stays under ~400 LOC** — read hunk-by-hunk (`git add -p`), or it's two tasks.
+- **Verification is evidence, not assertion** — a fresh `verifier` re-checks behavior, output shown.
+
+Engineer the durable; vibe-code only the throwaway (a spike, a prototype). The moment code must be
+*evolved*, Verify and Comprehend come back on. Full rationale: playbook §1 + "the loop underneath
+every phase."
+
 ## File layout & naming
 
 - **Commands are flat** in `.claude/commands/` with **literal-colon filenames** —

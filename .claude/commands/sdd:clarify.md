@@ -24,7 +24,7 @@ answered (spec updated) or explicitly deferred.
 2. **Walk the whole decision tree** — don't just collect existing `[TBD]`s. Surface every
    unresolved decision the spec implies, including assumptions the author never flagged.
 3. **Self-answer first.** Before asking anything, try to resolve each question from the specs, the
-   Tech/Design spec sections, and the `kotodama-core/` codebase (Read/Grep/Glob). Only escalate what
+   Tech/Design spec sections, and this repo's codebase (Read/Grep/Glob). Only escalate what
    *genuinely* needs a human — product/intent calls, irreversible architecture choices.
 4. **For every remaining question, recommend an answer.** Propose 2–3 options with trade-offs (cite
    specs/research) and state your recommendation. Never ask what the code or specs already decide.

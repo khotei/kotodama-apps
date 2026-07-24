@@ -13,7 +13,7 @@ the repo-root `CLAUDE.md`, so the optional pre-Specify step here is evidence-gat
 
 **Embedded — do NOT fetch from Notion:** the data-source IDs `@.claude/sdd/data-sources.md` (the
 Specs collection id lives there); the target is `Doc type = Research`.
-**Fetch live:** the web sources, plus any existing Kotodama specs / `kotodama-core/` code that bear on the
+**Fetch live:** the web sources, plus any existing Kotodama specs / this repo's code that bear on the
 topic.
 
 ## Steps
