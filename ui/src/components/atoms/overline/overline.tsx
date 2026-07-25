@@ -7,10 +7,7 @@ export type OverlineProps = ComponentProps<'h3'>
 export function Overline({ className, ...props }: OverlineProps) {
   return (
     <h3
-      className={cn(
-        'font-mono text-2xs font-medium text-seal uppercase tracking-[0.18em]',
-        className,
-      )}
+      className={cn('font-mono text-2xs font-medium text-seal uppercase tracking-caps', className)}
       {...props}
     />
   )

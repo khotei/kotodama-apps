@@ -20,7 +20,7 @@ export function MobileTabBar({ tabs }: MobileTabBarProps) {
     <nav className="fixed inset-x-0 bottom-0 z-40 grid auto-cols-fr grid-flow-col border-border border-t bg-background/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-[8px] md:hidden">
       {tabs.map(({ icon, label, href, onSelect, active }) => {
         const className = cn(
-          'flex min-h-11 flex-col items-center justify-center gap-1 py-2 font-semibold text-[10.5px] no-underline tracking-[0.04em] [&_svg]:size-5',
+          'flex min-h-11 flex-col items-center justify-center gap-1 py-2 font-semibold text-2xs no-underline tracking-wide [&_svg]:size-5',
           active ? 'text-seal' : 'text-subtle-foreground',
         )
         const body = (

@@ -27,7 +27,7 @@ export function WordCommandItem({ word, onSelect }: WordCommandItemProps) {
       trailing={
         ready ? (
           word.posLabel != null && (
-            <span className="text-[13px] text-subtle-foreground">{word.posLabel}</span>
+            <span className="text-sm text-subtle-foreground">{word.posLabel}</span>
           )
         ) : (
           <StatusBadge status={word.status} />

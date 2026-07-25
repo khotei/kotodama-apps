@@ -1,4 +1,4 @@
-import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
+import { LibraryHero, LibraryScreen, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
 import { LIBRARY_VIEW_MOCK } from '@kotodama/ui/fixtures'
 import type { Metadata } from 'next'
 import { requestWordBuild } from '@/src/server/words/word.actions'
@@ -12,14 +12,16 @@ export const metadata: Metadata = {
 export default function LibraryPage() {
   const library = LIBRARY_VIEW_MOCK
   return (
-    <>
-      <LibraryHero stats={library.stats} tryWords={library.tryWords} searchPath="/search" />
-      <WordOfTheDay wotds={library.wordsOfTheDay} />
-      <ReadingRoom
-        mostLookedUp={library.mostLookedUp}
-        recentlyAdded={library.recentlyAdded}
-        onRetry={requestWordBuild.bind(null, 'es')}
-      />
-    </>
+    <LibraryScreen
+      hero={<LibraryHero stats={library.stats} tryWords={library.tryWords} searchPath="/search" />}
+      wordOfTheDay={<WordOfTheDay wotds={library.wordsOfTheDay} />}
+      readingRoom={
+        <ReadingRoom
+          mostLookedUp={library.mostLookedUp}
+          recentlyAdded={library.recentlyAdded}
+          onRetry={requestWordBuild.bind(null, 'es')}
+        />
+      }
+    />
   )
 }

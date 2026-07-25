@@ -20,7 +20,7 @@ export function CommandFab({ onOpen }: CommandFabProps) {
       size="icon-lg"
       aria-label="Add or jump"
       onClick={onOpen}
-      className="fixed right-[18px] bottom-[76px] z-50 size-[54px] shadow-hero md:hidden"
+      className="fixed right-[18px] bottom-[76px] z-50 size-14 shadow-hero md:hidden"
     >
       <PlusIcon className="size-6" />
     </Button>

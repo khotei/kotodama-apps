@@ -6,7 +6,7 @@ const meta: Meta<typeof StatusNote> = {
   component: StatusNote,
   decorators: [
     (Story) => (
-      <span className="font-mono text-[11px] uppercase tracking-[0.13em]">
+      <span className="font-mono text-xs uppercase tracking-widest">
         <Story />
       </span>
     ),

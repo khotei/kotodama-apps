@@ -25,10 +25,10 @@ export const ReadingRoom: Story = {
         gloss="butterfly"
         meta={
           <>
-            <Badge variant="outline" className="font-mono text-[10.5px]">
+            <Badge variant="outline" className="font-mono text-2xs">
               noun
             </Badge>
-            <span className="font-mono text-[11px] text-muted-foreground">2h ago</span>
+            <span className="font-mono text-xs text-muted-foreground">2h ago</span>
           </>
         }
       />

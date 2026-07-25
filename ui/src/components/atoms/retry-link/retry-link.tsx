@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 import { cn } from '../../../lib/utils'
 
 const retryLinkClass =
-  'cursor-pointer border-border border-b bg-transparent px-0.5 py-1 font-mono text-[11px] text-faint-foreground uppercase tracking-[0.1em] transition-colors hover:border-destructive hover:text-destructive disabled:opacity-50'
+  'cursor-pointer border-border border-b bg-transparent px-0.5 py-1 font-mono text-xs text-faint-foreground uppercase tracking-widest transition-colors hover:border-destructive hover:text-destructive disabled:opacity-50'
 
 /**
  * The quiet mono retry affordance. A plain (non-`'use client'`) module so a

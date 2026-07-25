@@ -53,9 +53,6 @@ export type TierDotProps = ComponentProps<'span'> & { tier: WordTier }
 /** The square tier swatch — TierChip's colour vocabulary as a standalone glyph. */
 export function TierDot({ tier, className, ...props }: TierDotProps) {
   return (
-    <span
-      className={cn('inline-block size-[9px] rounded-xs', TIER_DOT[tier], className)}
-      {...props}
-    />
+    <span className={cn('inline-block size-2 rounded-xs', TIER_DOT[tier], className)} {...props} />
   )
 }

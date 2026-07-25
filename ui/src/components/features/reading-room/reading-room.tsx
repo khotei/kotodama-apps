@@ -15,9 +15,7 @@ type RetryHandler = (word: string) => void | Promise<void>
 
 function rowMeta(row: RankedWordView, onRetry?: RetryHandler) {
   const when = (
-    <span className="font-mono text-[12px] text-faint-foreground tracking-[0.04em]">
-      {row.when}
-    </span>
+    <span className="font-mono text-xs text-faint-foreground tracking-wide">{row.when}</span>
   )
   if (row.status === 'failed') {
     return (
@@ -61,7 +59,7 @@ function RankedList({
   onRetry?: RetryHandler
 }) {
   return (
-    <ol className="mt-5">
+    <ol>
       {rows.map((row, index) => (
         <li key={row.href} className="border-border-subtle border-t last:border-b">
           <RankRow
@@ -93,9 +91,11 @@ const WORD_TONE = {
 
 function Column({ title, sub, children }: { title: ReactNode; sub: string; children: ReactNode }) {
   return (
-    <div>
-      <h2 className="font-serif text-2xl font-medium leading-snug tracking-[-0.02em]">{title}</h2>
-      <p className="mt-2 text-sm text-muted-foreground leading-[1.5]">{sub}</p>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <h2 className="font-serif text-2xl font-medium leading-snug tracking-tighter">{title}</h2>
+        <p className="text-sm text-muted-foreground leading-normal">{sub}</p>
+      </div>
       {children}
     </div>
   )
@@ -111,9 +111,9 @@ export type ReadingRoomProps = {
 
 export function ReadingRoom({ mostLookedUp, recentlyAdded, onRetry }: ReadingRoomProps) {
   return (
-    <section className="mt-16 pb-20">
+    <section className="flex flex-col gap-8">
       <SectionRule label="The reading room" meta="Recent activity · updates hourly" />
-      <div className="mt-7 grid grid-cols-1 gap-x-16 gap-y-10 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
         <Column
           title={
             <>

@@ -46,7 +46,7 @@ export function StatusBadge({ status, className, children, ...props }: StatusBad
   )
 }
 
-const statusDotVariants = cva('size-[7px] shrink-0 rounded-full', {
+const statusDotVariants = cva('size-2 shrink-0 rounded-full', {
   variants: {
     status: {
       ready: 'bg-border-strong',

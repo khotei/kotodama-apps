@@ -38,6 +38,8 @@ that absorbs its own mess.
 | A hard-coded domain list / current value inside presentation (`DEFAULT_LANGUAGES`) | **Inject data** — required `current`/`items` props; curated stand-ins live in `fixtures/` |
 | A capability wired in the shell but advertised by the component (⌘K badge vs listener) | **Own what you advertise** — the listener lives in the component showing the shortcut |
 | An organism reaching into specific molecules to self-fill (`variant="controls"`) | **Slot host** — the frame owns none of the molecules; the composer fills the slots |
+| A component's ROOT sets outer margin/padding that positions it vs siblings (`mt-16`, `pb-20`) | **The composer owns OUTER spacing** — a frame sets margin/padding only for its own internal correctness; any gap that changes per page/context (between siblings, page insets) is the parent's, applied on top by stacking the slots (`flex flex-col gap-N`). Same frame reuses at any rhythm |
+| Per-child `mt-N` repeated down a component's own children | **`gap` on the container** — a `flex`/`grid` stack owns the rhythm (Chakra `Stack`'s idiom); reach for per-child `mt` only where the rhythm is deliberately non-uniform |
 | A visual/layout recipe copy-pasted across call sites, starting to drift | **Extract a primitive** — component for *structure* (`SiteContainer`), utility for a pure visual recipe |
 | Raw markup reinventing an existing variant (a `<button>` re-doing `Button accent`) | **Extract a molecule** on the primitive — inherit its focus ring, press, a11y |
 | A test-only harness exported / named as if it were the prod piece | **Name for what mounts in prod**; keep the harness unexported |

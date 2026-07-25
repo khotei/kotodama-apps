@@ -6,7 +6,7 @@ export function PosPill({ className, ...props }: ComponentProps<'span'>) {
   return (
     <span
       className={cn(
-        'inline-grid h-6 min-w-9 place-items-center rounded-[5px] border bg-secondary px-[9px] font-mono text-[11px] text-muted-foreground tracking-[0.04em]',
+        'inline-grid h-6 min-w-9 place-items-center rounded-[5px] border bg-secondary px-2 font-mono text-xs text-muted-foreground tracking-wide',
         className,
       )}
       {...props}

@@ -47,17 +47,17 @@ export function RankRow({
   return (
     <div
       className={cn(
-        'group relative grid grid-cols-[30px_1fr_auto] items-center gap-[18px] rounded-sm px-2 py-[15px] transition-colors hover:bg-card',
+        'group relative grid grid-cols-[30px_1fr_auto] items-center gap-4 rounded-sm px-2 py-4 transition-colors hover:bg-card',
         className,
       )}
     >
-      <span className="flex items-center font-mono text-[13px] text-faint-foreground tracking-[0.06em]">
+      <span className="flex items-center font-mono text-sm text-faint-foreground tracking-wider">
         {index ?? marker}
       </span>
       <span className="min-w-0">
         <a
           className={cn(
-            'font-serif text-[22px] font-medium leading-[1.1] tracking-[-0.01em] transition-colors after:absolute after:inset-0',
+            'font-serif text-xl font-medium leading-[1.1] tracking-tight transition-colors after:absolute after:inset-0',
             WORD_TONE[wordTone],
           )}
           {...props}
@@ -65,12 +65,12 @@ export function RankRow({
           {word}
         </a>
         {gloss != null && (
-          <span className="mt-[3px] block font-serif text-[15px] text-muted-foreground italic leading-snug">
+          <span className="mt-0.5 block font-serif text-base text-muted-foreground italic leading-snug">
             {gloss}
           </span>
         )}
         {note != null && (
-          <span className="mt-[5px] block whitespace-nowrap font-mono text-[11px] text-faint-foreground uppercase tracking-[0.13em]">
+          <span className="mt-1 block whitespace-nowrap font-mono text-xs text-faint-foreground uppercase tracking-widest">
             {note}
           </span>
         )}

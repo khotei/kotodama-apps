@@ -67,14 +67,14 @@ export function Sparkline({
         )}
       </div>
       {axisLabels != null && axisLabels.length > 0 ? (
-        <div className="mt-1 flex justify-between font-mono text-[10px] text-faint-foreground tracking-[0.08em]">
+        <div className="mt-1 flex justify-between font-mono text-2xs text-faint-foreground tracking-wider">
           {axisLabels.map((label) => (
             <span key={label}>{label}</span>
           ))}
         </div>
       ) : (
         (startLabel != null || endLabel != null) && (
-          <div className="mt-1 flex justify-between font-mono text-[10px] text-subtle-foreground">
+          <div className="mt-1 flex justify-between font-mono text-2xs text-subtle-foreground">
             <span>{startLabel}</span>
             <span>{endLabel}</span>
           </div>

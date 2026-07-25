@@ -48,7 +48,7 @@ export function CommandPaletteItem({
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="truncate">{children}</span>
         {description && (
-          <span className="truncate text-[13px] text-subtle-foreground">{description}</span>
+          <span className="truncate text-sm text-subtle-foreground">{description}</span>
         )}
       </span>
       {trailing}

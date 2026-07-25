@@ -30,7 +30,7 @@ export function CommandTrigger({ label, shortcut, onTrigger }: CommandTriggerPro
     <Button
       variant="outline"
       size="sm"
-      className="min-w-[210px] justify-start gap-2.5 pr-2 pl-3.5 text-[13px] text-subtle-foreground hover:border-muted-foreground"
+      className="min-w-[210px] justify-start gap-3 pr-2 pl-4 text-sm text-subtle-foreground hover:border-muted-foreground"
       onClick={onTrigger}
     >
       <SearchIcon />

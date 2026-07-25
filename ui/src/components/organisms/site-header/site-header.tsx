@@ -19,12 +19,12 @@ export type SiteHeaderProps = {
 
 function Wordmark({ href }: { href: string }) {
   return (
-    <a href={href} className="flex items-center gap-[11px] text-foreground no-underline">
+    <a href={href} className="flex items-center gap-3 text-foreground no-underline">
       <Seal />
-      <span className="hidden font-serif font-semibold text-[21px] leading-none tracking-[-0.02em] md:inline">
+      <span className="hidden font-serif font-semibold text-xl leading-none tracking-tighter md:inline">
         Kotodama
       </span>
-      <span className="hidden font-serif text-[15px] text-muted-foreground leading-none tracking-[0.04em] md:inline">
+      <span className="hidden font-serif text-base text-muted-foreground leading-none tracking-wide md:inline">
         言霊
       </span>
     </a>
@@ -35,16 +35,16 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
       <SiteContainer className="flex h-14 items-center justify-between md:h-[76px]">
-        <div className="flex items-center gap-6 lg:gap-10">
+        <div className="flex items-center gap-6 lg:gap-12">
           <Wordmark href={homeHref} />
           <Show on="desktop">
-            <nav className="flex items-center gap-5 lg:gap-[30px]">
+            <nav className="flex items-center gap-6 lg:gap-8">
               {nav.map(({ label, href, active }) => (
                 <a
                   key={href}
                   href={href}
                   className={cn(
-                    'relative py-1.5 font-medium text-[14px] text-muted-foreground no-underline tracking-[0.01em] transition-colors hover:text-foreground',
+                    'relative py-2 font-medium text-sm text-muted-foreground no-underline tracking-wide transition-colors hover:text-foreground',
                     active &&
                       'text-foreground after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1.5px] after:bg-seal after:content-[""]',
                   )}
@@ -55,7 +55,7 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
             </nav>
           </Show>
         </div>
-        <div className="flex items-center gap-1.5 md:gap-[14px]">{controls}</div>
+        <div className="flex items-center gap-2 md:gap-4">{controls}</div>
       </SiteContainer>
     </header>
   )

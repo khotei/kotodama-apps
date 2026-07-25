@@ -7,8 +7,8 @@ const sealVariants = cva(
   {
     variants: {
       size: {
-        default: 'size-8 rounded-[6px] text-[17px]',
-        sm: 'size-6 rounded-[5px] text-[13px]',
+        default: 'size-8 rounded-[6px] text-lg',
+        sm: 'size-6 rounded-[5px] text-sm',
       },
     },
     defaultVariants: { size: 'default' },

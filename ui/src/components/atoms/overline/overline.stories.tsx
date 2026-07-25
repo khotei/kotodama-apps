@@ -12,5 +12,5 @@ type Story = StoryObj<typeof Overline>
 
 export const Default: Story = { args: { children: 'Etymology' } }
 export const WiderTracking: Story = {
-  args: { children: 'At a glance', className: 'tracking-[0.2em]' },
+  args: { children: 'At a glance', className: 'tracking-caps' },
 }

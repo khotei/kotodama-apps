@@ -32,7 +32,7 @@ export function LanguageMenu({ current, languages, onSelect, compact = false }: 
         <Button
           variant="outline"
           size="sm"
-          className="text-[13px] text-muted-foreground hover:border-muted-foreground hover:text-foreground"
+          className="text-sm text-muted-foreground hover:border-muted-foreground hover:text-foreground"
         >
           {compact ? (
             current.code

@@ -81,7 +81,7 @@ function Demo() {
               value={page.id}
               icon={page.icon}
               description={page.description}
-              trailing={<span className="text-[12.5px] text-muted-foreground">{page.hint}</span>}
+              trailing={<span className="text-sm text-muted-foreground">{page.hint}</span>}
               onSelect={() => setOpen(false)}
             >
               {page.label}

@@ -23,15 +23,15 @@ export function SearchBox({
   return (
     <div
       className={cn(
-        'flex items-center gap-[14px] rounded-full border border-border-strong bg-popover py-[10px] pr-[10px] pl-[22px] shadow-soft transition-[border-color] focus-within:border-foreground',
+        'flex items-center gap-4 rounded-full border border-border-strong bg-popover py-3 pr-3 pl-6 shadow-soft transition-[border-color] focus-within:border-foreground',
         className,
       )}
     >
-      <SearchIcon className="size-[18px] shrink-0 text-subtle-foreground" />
+      <SearchIcon className="size-4.5 shrink-0 text-subtle-foreground" />
       <input
         type="search"
         className={cn(
-          'min-w-0 flex-1 border-none bg-transparent font-serif text-[21px] text-foreground outline-none placeholder:text-subtle-foreground placeholder:italic [&::-webkit-search-decoration]:hidden',
+          'min-w-0 flex-1 border-none bg-transparent font-serif text-xl text-foreground outline-none placeholder:text-subtle-foreground placeholder:italic [&::-webkit-search-decoration]:hidden',
           hideNativeClear && '[&::-webkit-search-cancel-button]:hidden',
         )}
         {...props}

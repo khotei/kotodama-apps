@@ -13,7 +13,7 @@ type Story = StoryObj<typeof SiteContainer>
 
 export const Default: Story = {
   render: () => (
-    <div className="bg-muted py-10">
+    <div className="bg-muted py-12">
       <SiteContainer>
         <div className="grid h-40 place-items-center rounded-lg border border-border-strong border-dashed bg-card text-center text-muted-foreground">
           Centered at the site max-width, inset by the page gutter
