@@ -1,8 +1,0 @@
-export { ConnectionsSection, type ConnectionsSectionProps } from './connections-section'
-export { EntryAside, type EntryAsideProps } from './entry-aside'
-export { MeaningSection, type MeaningSectionProps } from './meaning-section'
-export { OriginsSection, type OriginsSectionProps } from './origins-section'
-export { PicturesSection, type PicturesSectionProps } from './pictures-section'
-export { SourcesSection, type SourcesSectionProps } from './sources-section'
-export { VoicesSection, type VoicesSectionProps } from './voices-section'
-export { WordEntryView, type WordEntryViewProps } from './word-entry-view'

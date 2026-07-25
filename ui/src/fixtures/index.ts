@@ -4,4 +4,3 @@
 export { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from './language.fixture'
 export { LIBRARY_VIEW_MOCK } from './library.fixture'
 export { SEARCH_WORDS_MOCK } from './search.fixture'
-export { WORD_STATE_MOCKS_ALL } from './word.fixture'

@@ -13,12 +13,6 @@ export {
   accentedWordText,
 } from './components/atoms/accented-word'
 export { Chip, type ChipProps, chipVariants } from './components/atoms/chip'
-export { FilterChip, type FilterChipProps } from './components/atoms/filter-chip'
-export {
-  HighlightedText,
-  type HighlightedTextProps,
-} from './components/atoms/highlighted-text'
-export { ImageSlot, type ImageSlotProps } from './components/atoms/image-slot'
 export { ListenButton, type ListenButtonProps } from './components/atoms/listen-button'
 export { Overline, type OverlineProps } from './components/atoms/overline'
 export { PosPill } from './components/atoms/pos-pill'
@@ -28,22 +22,9 @@ export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
 export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
 export { SiteContainer, type SiteContainerProps } from './components/atoms/site-container'
-export { Skeleton } from './components/atoms/skeleton'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
-export {
-  type EtymologyStep,
-  EtymologyTimeline,
-  type EtymologyTimelineProps,
-} from './components/core/etymology-timeline'
-export {
-  type GenerationStep,
-  type GenerationStepState,
-  GenerationSteps,
-  type GenerationStepsProps,
-} from './components/core/generation-steps'
 export { RankRow, type RankRowProps } from './components/core/rank-row'
-export { ResultRow, type ResultRowProps } from './components/core/result-row'
 export {
   SaveWordButton,
   type SaveWordButtonProps,
@@ -63,7 +44,6 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/core/tier-chip'
-export { WordCard, type WordCardProps } from './components/core/word-card'
 export { LibraryHero, type LibraryHeroProps } from './components/features/library-hero'
 export { ReadingRoom, type ReadingRoomProps } from './components/features/reading-room'
 export {
@@ -74,30 +54,12 @@ export {
   WordCommandItem,
   type WordCommandItemProps,
 } from './components/features/search-command-palette'
-export {
-  WordFailedView,
-  type WordFailedViewProps,
-  WordGeneratingView,
-  type WordGeneratingViewProps,
-  WordNotFoundView,
-  type WordNotFoundViewProps,
-} from './components/features/word-build'
-export { WordEntryView, type WordEntryViewProps } from './components/features/word-entry'
-export { WordLoadingView, type WordLoadingViewProps } from './components/features/word-loading'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/features/word-of-the-day'
 export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
   CommandTrigger,
   type CommandTriggerProps,
 } from './components/molecules/command-trigger'
-export {
-  DepthTabs,
-  DepthTabsContent,
-  DepthTabsList,
-  DepthTabsTrigger,
-  type DepthTabsTriggerProps,
-} from './components/molecules/depth-tabs'
-export { EmptyState, type EmptyStateProps } from './components/molecules/empty-state'
 export {
   LanguageMenu,
   type LanguageMenuProps,
@@ -124,10 +86,7 @@ export {
   type SiteNavLink,
 } from './components/organisms/site-header'
 export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
-export { SearchPage, type SearchPageProps } from './components/pages/search'
-export { WordScreen, type WordScreenProps } from './components/pages/word'
 export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
-export { Alert, AlertDescription, AlertTitle } from './components/ui/alert'
 export {
   AlertDialog,
   AlertDialogAction,
@@ -143,24 +102,7 @@ export {
   AlertDialogTrigger,
 } from './components/ui/alert-dialog'
 export { Badge, type BadgeProps, badgeVariants } from './components/ui/badge'
-export {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from './components/ui/breadcrumb'
 export { Button, buttonVariants } from './components/ui/button'
-export {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from './components/ui/card'
 export {
   Command,
   CommandDialog,
@@ -201,24 +143,9 @@ export {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from './components/ui/dropdown-menu'
-export { Input } from './components/ui/input'
 export { Kbd, KbdGroup } from './components/ui/kbd'
-export {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from './components/ui/pagination'
-export { Separator } from './components/ui/separator'
 export { Toaster } from './components/ui/sonner'
-export { Tabs, TabsContent, TabsList, TabsTrigger, tabsListVariants } from './components/ui/tabs'
-export { Toggle, toggleVariants } from './components/ui/toggle'
-export { languageName } from './lib/language-name'
 export { pad2 } from './lib/pad2'
-export { speechLang } from './lib/speech-lang'
 export { cn } from './lib/utils'
 export type {
   GlanceSpan,
@@ -231,8 +158,3 @@ export type {
   WotdView,
 } from './views/library.view'
 export type { SearchPos, SearchWordView } from './views/search.view'
-export type {
-  WordBuildStages,
-  WordEntryContent,
-  WordScreenView,
-} from './views/word.view'
