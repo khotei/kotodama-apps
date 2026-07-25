@@ -23,7 +23,7 @@ export function SearchBox({
   return (
     <div
       className={cn(
-        'flex items-center gap-4 rounded-full border border-border-strong bg-popover py-3 pr-3 pl-6 shadow-soft transition-[border-color] focus-within:border-foreground',
+        'flex items-center gap-md rounded-full border border-border-strong bg-popover py-sm pr-sm pl-lg shadow-soft transition-[border-color] focus-within:border-foreground',
         className,
       )}
     >

@@ -17,7 +17,7 @@ export const Failed: Story = { args: { status: 'failed' } }
 
 export const All: Story = {
   render: () => (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-md">
       <StatusDot status="ready" />
       <StatusDot status="generating" />
       <StatusDot status="pending" />

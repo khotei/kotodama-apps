@@ -42,7 +42,7 @@ export function ThemeMenu({ theme, onThemeChange = applyTheme }: ThemeMenuProps)
           variant="outline"
           size="sm"
           aria-label="Color mode"
-          className="gap-2 px-3 text-muted-foreground hover:border-muted-foreground hover:text-foreground"
+          className="gap-xs px-sm text-muted-foreground hover:border-muted-foreground hover:text-foreground"
         >
           <SunIcon className="dark:hidden" />
           <MoonIcon className="hidden dark:block" />

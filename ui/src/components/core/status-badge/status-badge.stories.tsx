@@ -24,7 +24,7 @@ export const CustomLabel: Story = {
 
 export const All: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-sm">
       <StatusBadge status="ready" />
       <StatusBadge status="generating" />
       <StatusBadge status="pending" />

@@ -47,7 +47,7 @@ export function RankRow({
   return (
     <div
       className={cn(
-        'group relative grid grid-cols-[30px_1fr_auto] items-center gap-4 rounded-sm px-2 py-4 transition-colors hover:bg-card',
+        'group relative grid grid-cols-[30px_1fr_auto] items-center gap-md rounded-sm px-xs py-md transition-colors hover:bg-card',
         className,
       )}
     >
@@ -70,12 +70,12 @@ export function RankRow({
           </span>
         )}
         {note != null && (
-          <span className="mt-1 block whitespace-nowrap font-mono text-xs text-faint-foreground uppercase tracking-widest">
+          <span className="mt-2xs block whitespace-nowrap font-mono text-xs text-faint-foreground uppercase tracking-widest">
             {note}
           </span>
         )}
       </span>
-      {meta != null && <span className="relative flex shrink-0 items-center gap-4">{meta}</span>}
+      {meta != null && <span className="relative flex shrink-0 items-center gap-md">{meta}</span>}
     </div>
   )
 }

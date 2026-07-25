@@ -238,6 +238,22 @@
   --leading-body-tight: 1.45;
   --leading-body: 1.55;
 
+  /* Spacing t-shirt scale — semantic aliases over the design's coarse --sp
+     steps, so OUR components speak gap-md/p-lg. Tailwind's numeric scale
+     (gap-2/p-4, driven by --spacing) still works and is what the shadcn
+     primitives in components/ui/* use — the two coexist. Values = the design
+     --sp scale {4,8,12,16,24,32,48,64,96,128}. */
+  --spacing-2xs: 4px;
+  --spacing-xs: 8px;
+  --spacing-sm: 12px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+  --spacing-5xl: 128px;
+
   /* Motion: the design's house easing + durations. */
   --ease-kdm: cubic-bezier(0.2, 0.6, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

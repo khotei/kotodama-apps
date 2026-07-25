@@ -17,5 +17,7 @@ export function SiteContainer<E extends ElementType = 'div'>({
   ...props
 }: SiteContainerProps<E>) {
   const Component = as ?? 'div'
-  return <Component className={cn('mx-auto max-w-[1160px] px-6 md:px-12', className)} {...props} />
+  return (
+    <Component className={cn('mx-auto max-w-[1160px] px-lg md:px-2xl', className)} {...props} />
+  )
 }

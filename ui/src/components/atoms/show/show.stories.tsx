@@ -12,12 +12,14 @@ type Story = StoryObj<typeof Show>
 
 export const Responsive: Story = {
   render: () => (
-    <div className="flex gap-2">
+    <div className="flex gap-xs">
       <Show on="mobile">
-        <span className="rounded bg-seal px-3 py-1 text-seal-foreground text-sm">On mobile</span>
+        <span className="rounded bg-seal px-sm py-2xs text-seal-foreground text-sm">On mobile</span>
       </Show>
       <Show on="desktop">
-        <span className="rounded bg-foreground px-3 py-1 text-background text-sm">On desktop</span>
+        <span className="rounded bg-foreground px-sm py-2xs text-background text-sm">
+          On desktop
+        </span>
       </Show>
     </div>
   ),

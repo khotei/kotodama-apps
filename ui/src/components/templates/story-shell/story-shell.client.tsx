@@ -163,7 +163,7 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
         ]}
       />
       <CommandFab onOpen={() => setPaletteOpen(true)} />
-      <SiteContainer as="main" className="pb-24 md:pb-12">
+      <SiteContainer as="main" className="pb-4xl md:pb-2xl">
         {children}
       </SiteContainer>
       <Toaster position="bottom-right" />

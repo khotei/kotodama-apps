@@ -19,7 +19,7 @@ export type LibraryScreenProps = {
  */
 export function LibraryScreen({ hero, wordOfTheDay, readingRoom }: LibraryScreenProps) {
   return (
-    <div className="flex flex-col gap-16 pt-8 pb-24 md:pt-16">
+    <div className="flex flex-col gap-3xl pt-xl pb-4xl md:pt-3xl">
       {hero}
       {wordOfTheDay}
       {readingRoom}

@@ -20,7 +20,7 @@ export const Rare: Story = { args: { tier: 'rare' } }
 
 export const All: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex flex-wrap items-center gap-sm">
       <TierChip tier="everyday" />
       <TierChip tier="cultural" />
       <TierChip tier="formal" />

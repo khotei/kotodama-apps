@@ -6,7 +6,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 
 const chipVariants = cva(
-  'inline-flex items-center gap-2 rounded-full border border-current px-2 py-0.5 font-sans text-2xs font-semibold text-current uppercase tracking-widest [&_svg]:size-3.5',
+  'inline-flex items-center gap-xs rounded-full border border-current px-xs py-0.5 font-sans text-2xs font-semibold text-current uppercase tracking-widest [&_svg]:size-3.5',
   {
     variants: {
       pressable: {

@@ -59,14 +59,14 @@ export function CommandPalette({
         <CommandEmpty>{empty}</CommandEmpty>
         {children}
       </CommandList>
-      <div className="flex items-center gap-4 border-border-subtle border-t px-4 py-3 font-mono text-2xs text-subtle-foreground tracking-wider">
-        <span className="flex items-center gap-2">
+      <div className="flex items-center gap-md border-border-subtle border-t px-md py-sm font-mono text-2xs text-subtle-foreground tracking-wider">
+        <span className="flex items-center gap-xs">
           <Kbd>↑↓</Kbd> navigate
         </span>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-xs">
           <Kbd>↵</Kbd> open
         </span>
-        <span className="flex items-center gap-2">
+        <span className="flex items-center gap-xs">
           <Kbd>esc</Kbd> close
         </span>
       </div>

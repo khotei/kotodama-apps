@@ -65,7 +65,7 @@ function RankedList({
           <RankRow
             href={row.href}
             index={numbered ? pad2(index + 1) : undefined}
-            marker={numbered ? undefined : <StatusDot status={row.status} className="ml-1" />}
+            marker={numbered ? undefined : <StatusDot status={row.status} className="ml-2xs" />}
             word={<AccentedWordMark word={row.word} />}
             wordTone={WORD_TONE[row.status]}
             gloss={row.status === 'ready' ? row.gloss : undefined}
@@ -91,8 +91,8 @@ const WORD_TONE = {
 
 function Column({ title, sub, children }: { title: ReactNode; sub: string; children: ReactNode }) {
   return (
-    <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-lg">
+      <div className="flex flex-col gap-xs">
         <h2 className="font-serif text-2xl font-medium leading-snug tracking-tighter">{title}</h2>
         <p className="text-sm text-muted-foreground leading-normal">{sub}</p>
       </div>
@@ -111,9 +111,9 @@ export type ReadingRoomProps = {
 
 export function ReadingRoom({ mostLookedUp, recentlyAdded, onRetry }: ReadingRoomProps) {
   return (
-    <section className="flex flex-col gap-8">
+    <section className="flex flex-col gap-xl">
       <SectionRule label="The reading room" meta="Recent activity · updates hourly" />
-      <div className="grid grid-cols-1 gap-x-16 gap-y-12 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-x-3xl gap-y-2xl lg:grid-cols-2">
         <Column
           title={
             <>

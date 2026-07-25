@@ -29,7 +29,7 @@ export const Pressed: Story = {
 
 export const Row: Story = {
   render: () => (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-center gap-xs">
       <Chip className="text-tier-everyday">Everyday</Chip>
       <Chip className="text-tier-rare">Rare</Chip>
       <Chip pressable leading={<BookmarkIcon />}>

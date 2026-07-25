@@ -15,7 +15,7 @@ export const Verb: Story = { args: { children: 'v.' } }
 
 export const Row: Story = {
   render: () => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-xs">
       <PosPill>n.</PosPill>
       <PosPill>v.</PosPill>
       <PosPill>adj.</PosPill>
