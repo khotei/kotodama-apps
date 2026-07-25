@@ -21,7 +21,7 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.75rem; /* design r-lg 12px; sm/md/lg/xl → 8/10/12/16 */
+  --radius: 0.75rem; /* 12px — the lg step AND the single knob that re-themes the whole radius scale (shadcn convention) */
 
   --background: #f2ecde; /* washi page */
   --foreground: #18151a; /* sumi ink */
@@ -143,10 +143,14 @@
    inline) them for dark-mode remapping to work. Emits `bg-card`, `text-primary`,
    `rounded-lg`, … — the utilities every shadcn component expects. */
 @theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  /* Radius = a single-knob scale (shadcn pattern): change --radius and every
+     step rescales. The ratios are tuned to the design --r scale, so at the
+     default 12px base they are exactly xs 3 · sm 5 · md 8 · lg 12 · xl 18. */
+  --radius-xs: calc(var(--radius) / 4);
+  --radius-sm: calc(var(--radius) * 5 / 12);
+  --radius-md: calc(var(--radius) * 2 / 3);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --radius-xl: calc(var(--radius) * 3 / 2);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
