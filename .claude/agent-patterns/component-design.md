@@ -12,6 +12,24 @@ audit. Snippets are trimmed (`…`) to the load-bearing lines.
 
 ---
 
+## Stratified design — build by composing the tier below
+
+The design system is a stack of vocabularies, each composed by the tier above (Abelson–Sussman;
+SICP §2.2.4): shadcn primitives ◄ the domain-free **kit** (`atoms/molecules/organisms`) ◄ the
+**domain** tier (`core/features`) ◄ `templates/pages`; the app injects data (RSC loaders) + actions,
+never re-assembling. Build a screen as a **composition of the tier below** — the nine moves are all
+"peel the concrete out, compose it back on top" — so the further up you build the less markup you add.
+
+- **Reuse first.** Reach for an existing kit atom/molecule (and `react-use` for a client hook) before
+  hand-rolling; a raw `<button>` re-doing `Button` drops its a11y (move 9). Library primitives are
+  tested + documented — prefer them.
+- **Compose your own on top, kept small.** New components sit over the kit as single-purpose frames
+  that slot `children`; a concrete organism composes them (move 4).
+- **Extract late.** Name what a recipe becomes for the next composition, but **extract on drift, not
+  on sight** (`frontend-components.md`) — duplication is cheaper than the wrong frame; one caller ⇒ inline.
+
+---
+
 ## 1. Report, don't decide — no baked-in behaviour
 
 The palette baked in a `run` helper that closed + cleared on every pick. A caller wanting a
