@@ -1,13 +1,13 @@
 ---
 description: "Phase 3 (Plan): write the architecture Plan (deep modules + testing strategy) onto the feature page"
-argument-hint: "F-AREA-NNN"
+argument-hint: "KO-N"
 context: fork
 agent: planner
 ---
 
-<!-- Generated from SDD playbook §7.4 (+ §6.3 template) — https://www.notion.so/36dfb28bd5f181238a86d26457bc24e7. Re-sync on change. -->
+<!-- Compiled from the Kotodama Notion hub («О системе» + «Playbook — Notion PM Setup») + the agent-loop guide github.com/khotei/terminal-stack/blob/main/docs/working-with-agents.md. Re-sync on change. -->
 
-You are running **Phase 3 (Plan)** of the Kotodama SDD playbook on `$ARGUMENTS`.
+You are running **Phase 3 (Plan)** of the Kotodama SDD loop on `$ARGUMENTS`.
 
 > **The plan is the feature's contract surface — the one heavy review, spent here where nothing is
 > built yet, so nothing is redone.** Phase-4 tasks only *conform* to it. When a later task
@@ -16,30 +16,32 @@ You are running **Phase 3 (Plan)** of the Kotodama SDD playbook on `$ARGUMENTS`.
 
 **Embedded — do NOT fetch from Notion:** the plan template `@.claude/sdd/plan-template.md` and the
 data-source IDs `@.claude/sdd/data-sources.md`.
-**Fetch live:** the feature spec (the page body), the Tech spec sections it cites, and this repo's
-code that grounds the plan.
+**Fetch live:** the feature spec (the page body), the Knowledge docs it cites, and this repo's code
+that grounds the plan.
 
 ## Steps
 
-1. **Re-read the feature spec** (`$ARGUMENTS`) end to end — goal, scope, ACs, the `Reflects:`
-   pointer.
+1. **Re-read the feature spec** (`$ARGUMENTS`) end to end — goal, scope, ACs, References.
 2. **Produce the plan** — fill `@.claude/sdd/plan-template.md`. The **Module decomposition**
    (prefer *deep modules* — narrow interface, rich implementation; flag shallow wrappers for
    redesign; don't lock the first workable structure when the decomposition is non-obvious) and
    the **Testing strategy** (external behavior to test per module, the prior art in this repo to
    imitate, what's deliberately left untested) are mandatory. Record non-obvious trade-offs and
    where you declined a seam/abstraction, and why.
-3. **Cite the Tech spec section** behind every architectural choice. Architecture **not yet** in the
-   Tech spec → prefix it **`proposal:`** (it must be approved before Phase 4).
-4. **Sequence the work** into ordered steps — each step becomes exactly one Phase-4 task. Aim for
-   5–15 steps; >20 means the feature is too big — say so and recommend a split.
-5. **Write the plan into a collapsible "Plan" toggle** inside the Notion feature page (Notion MCP;
-   consult `notion://docs/enhanced-markdown-spec` for toggle syntax if unsure). Set the feature
-   **`Status = In design`**.
-6. **End with one line:** `Plan drafted for $ARGUMENTS. New tech-spec proposals: <list | none>. Next: /sdd:tasks $ARGUMENTS.`
+3. **Cite the repo path / existing module** behind every architectural choice (the repo is the
+   source of truth for *how* — there is no Notion Tech spec). New architecture not yet in the repo →
+   prefix it **`proposal:`** (it must be approved before Phase 4).
+4. **Sequence the work** into ordered steps — each step becomes exactly one Phase-4 **Task
+   sub-item**. Aim for 5–15 steps; >20 means the feature is too big — say so and recommend a split.
+5. **Write the plan into a collapsible "Plan" toggle** on the feature (Work) page (Notion MCP;
+   consult `notion://docs/enhanced-markdown-spec` for toggle syntax if unsure). Keep the feature
+   **`Status = Shaped`**. On request, the plan's contracts are realised as **code without
+   implementation** (types / schemas / interfaces, no bodies) on a branch — the contract committed
+   before the fill.
+6. **End with one line:** `Plan drafted for $ARGUMENTS. New proposals: <list | none>. Next: /sdd:tasks $ARGUMENTS.`
 
 ## Do not
 
 - Do **not** write code. (It's denied to you by tool policy anyway.)
-- Do **not** create task rows — that's Phase 4 (`/sdd:tasks`). Stop at the ordered step list.
+- Do **not** create task sub-items — that's Phase 4 (`/sdd:tasks`). Stop at the ordered step list.
 - Do **not** fetch the plan template / data-source IDs from Notion — they're embedded above.
