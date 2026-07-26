@@ -6,65 +6,33 @@ paths:
 
 # Frontend state — where a data concern lives
 
-**The default is the server.** Reads are RSC, writes are Server Actions, the client cache is gone.
-One tier owns each decision; put a new data concern in the tier that owns it.
+**Default is the server: reads are RSC loaders, writes are Server Actions, there is NO client
+data cache** (no QueryClient, no `HydrationBoundary`, no `prefetchQuery`). Layer identities live
+in `frontend-layering.md` + `naming.md`; this file holds only the non-derivable contracts.
 
-- **transport (`@kotodama/platform/api-client`)** — the openapi-fetch client + raw generated
-  `operations`. No access logic. `createApiClient({ baseUrl, fetch })` is a factory the app constructs + injects.
-- **repositories (`@kotodama/core/repositories`)** — bare async `fetchX` functions (`fetchWord`,
-  `fetchWordState`, `searchWords`) over the client; the ONLY code that speaks path-strings + query params.
-  Owns the contract **entity types** (`*Entity`); takes an optional trailing `init` (fetch options — e.g.
-  Next's `{ next: { tags } }`) it forwards verbatim. Throws `ApiError` on non-2xx. No React, no caching.
-- **store (`@kotodama/core/store`)** — the domain **model** layer: `narrowWordState` (the tagged
-  `WordStateModel`) + the model types. Pure, DOM-free, agnostic — the reuse unit a web loader AND a future
-  native app share. May import `core/repositories`, never the reverse. No queryOptions, no React.
-- **server data layer (`apps/web/src/server/`)** — the app's ONLY door to `core/repositories`:
-  - `*.loader.ts` (`import 'server-only'`) — `React.cache`-wrapped reads: `fetchX(staticClient, …,
-    { next: { tags } })` → `narrowWordState`. One fetch/request, shared by the page + `generateMetadata`.
-    NEVER throws (unreachable backend → `null`), so SSG builds without a live backend.
-  - `*.actions.ts` (`'use server'`) — the ONE mutation/revalidation door: `fetchX(serverClient, dto)`
-    then `revalidatePath`/`revalidateTag`. Verify the session here (Server Actions are reachable by
-    direct POST). No `server-only` — a client island imports the action as a network reference.
-- **presentation (`@kotodama/ui`)** — all rendering (atoms→pages + view types + fixtures): prop-driven
-  components that take the resolved model + injected Server Actions/URLs as **serializable** props. `ui`
-  is independent of the domain model (`ui ⊥ core`); the app maps domain → props by injection. Wiring lives
-  in `apps/web` (`app/**` + `src/chrome/**` + `src/words/**`).
+- **repositories** — `fetchX` takes an optional trailing `init` and forwards it verbatim (e.g.
+  Next `{ next: { tags } }`); throws `ApiError` on non-2xx.
+- **`*.loader.ts`** (`server-only`, `React.cache`) — the ONLY door to `core/repositories`. **NEVER
+  throws**: an unreachable backend returns `null`, so the public tree builds (SSG) without a live
+  backend. One fetch/request, shared by page + `generateMetadata` + JSON-LD.
+- **`*.actions.ts`** (`'use server'`) — the ONE mutation door. **Verify the session here** — Server
+  Actions are reachable by direct POST. No `server-only` (a client island imports the action as a
+  network reference).
+- **The client is injected, never a singleton. There is NO browser client and NO `/api/*` rewrite** —
+  the browser talks only to Next (RSC + Server Actions).
 
-## Discipline
+## Client islands (`.client.tsx`) — justified exceptions only
 
-- **Reads flow RSC → props, not through a client cache.** The page calls a `*.loader.ts`, passes the
-  model down; feature components are pure functions of props. No `HydrationBoundary`, no QueryClient.
-- **One `React.cache` per request** dedupes the loader across the page, `generateMetadata`, and
-  JSON-LD — never fetch the same datum twice.
-- **The client is injected, never a singleton.** The loaders build `createStaticApiClient()` /
-  `createServerApiClient()` (server-only). There is NO browser client and no `/api/*` rewrite — the
-  browser talks only to Next (RSC + Server Actions); a client island that needs live data calls an
-  injected Server Action (or, if warranted, an injected URL for a client GET).
+- Take IO as **serializable** injected props (a plain closure can't cross the RSC→client boundary).
+- **Poll:** injected Server Action per tick (`cache:'no-store'`) + injected `onSettled` action.
+  Actions dispatch serially per client — fine for a lone poll; if a page runs many competing
+  actions, poll via an injected URL (client GET) so it doesn't queue.
+- A client data library (React Query/SWR) is deliberately deferred — adopt only if islands multiply
+  or a native app arrives.
 
-## Client islands (`.client.tsx`) — the justified exceptions
+## Cross-page staleness
 
-A `'use client'` island is warranted ONLY for what the server model can't do; it lives in `apps/web`
-(`.client.tsx` under `src/**`), taking its IO as **serializable** injected props:
-
-- **Frequently polled data** — a poll island calls an injected typed **Server Action** (`poll`) each
-  tick and an injected `onSettled` action once terminal (→ `revalidatePath` → RSC re-render). Both are
-  serializable Server Action references (the only way to hand a client "a function" from an RSC page —
-  a plain closure won't cross the boundary, and a URL string is stringly-typed); the status read uses
-  `cache: 'no-store'` for freshness. Server Actions dispatch serially per client — harmless for a lone
-  periodic poll; only if a page runs many competing actions, poll via a client GET (inject a URL
-  string) so the poll doesn't queue behind them.
-- **Client-only Web APIs** (geolocation, storage, media), **optimistic UI** (`useOptimistic` over an
-  action), **form pending/validation** (`useActionState`).
-- **A client data library (React Query/SWR) returns ONLY if** islands multiply into a real
-  client-cache need (many polled/optimistic surfaces) or a native app arrives. Then it's a deliberate
-  choice, wrapping the `store` model — not the default.
-
-## Cache model & the cross-page staleness fix
-
-`fetch` is uncached by default; a route's `export const revalidate` opts its reads into the Data
-Cache (ISR). The client **Router Cache** holds statically-generated pages ~5 min, so A→B(mutate)→A
-shows stale A. The one lever that fixes it: **`revalidatePath`/`revalidateTag` from a Server Action**
-busts the Data Cache, the Full Route Cache, AND the client Router Cache in one round-trip and
-re-renders. The same call from a Route Handler only marks for next-visit — so mutations go through
-`*.actions.ts`, never a self-owned Route Handler. Each page re-runs its own loader on soft
-navigation, so page B never depends on page A's fetch.
+`fetch` is uncached; `export const revalidate` opts a route into ISR. The client Router Cache holds
+static pages ~5 min, so A→B(mutate)→A shows stale A. **Only `revalidatePath`/`revalidateTag` from a
+Server Action** busts the Data + Full-Route + Router caches in one round-trip — the same call from a
+Route Handler only marks for next-visit, so mutations go through `*.actions.ts`.

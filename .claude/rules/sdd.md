@@ -7,142 +7,57 @@ paths:
 
 # SDD command & agent toolkit — conventions
 
-The `/sdd:*` slash commands + their subagents are the **compiled, runnable form** of the
-[SDD playbook](https://www.notion.so/36dfb28bd5f181238a86d26457bc24e7) (the authored source).
-This file is the build contract every `commands/sdd:*.md` + `agents/*.md` follows. It is loaded
-**on demand** (referenced when authoring or running the toolkit), not in the always-loaded block —
-keep it that way so unrelated sessions don't pay for it. Feature: F-PLAT-006.
+The `/sdd:*` commands + subagents are the **compiled form** of the
+[SDD playbook](https://www.notion.so/36dfb28bd5f181238a86d26457bc24e7) (canonical source).
+Loaded on-demand. Feature: F-PLAT-006.
 
-> **The playbook stays canonical; the commands are generated from it.** Any `/sdd:` change is
-> two steps: edit the playbook §6/§7/§8, then regenerate the affected command(s). Do not let a
-> command's content drift from its source section.
+> **The playbook stays canonical; commands are generated from it.** Any `/sdd:` change = edit the
+> playbook §, then regenerate the command. Don't let a command drift from its source section.
 
-## The loop every phase instantiates (why the commands are shaped this way)
+Operational rules the loop enforces: contract first (ACs/tests before fill; `/sdd:implement` writes
+the failing test first) · the heavy review lands once, on the plan · each slice ≤ ~400 LOC · verify
+is evidence (a fresh `verifier` re-checks, output shown).
 
-SDD is one loop at two scales: **Frame → Delegate → Verify → Comprehend**. The seven phases are that
-loop at *feature* scale — `research → … → verify` is the **Frame** beat one floor up (the plan is
-where the whole picture exists before any code); each task then runs its own small turn of it. The
-scarce resource is **your comprehension**, not the agent's tokens, so every command is built to
-protect it — this is the *why* behind their shape:
+## Layout
 
-- **The contract goes first** — ACs/tests committed before the fill (`/sdd:implement` writes the
-  failing test first).
-- **The heavy review lands once, on the plan** — a reviewed contract surface; tasks only conform.
-- **Each slice stays under ~400 LOC** — read hunk-by-hunk (`git add -p`), or it's two tasks.
-- **Verification is evidence, not assertion** — a fresh `verifier` re-checks behavior, output shown.
+- **Commands flat** in `.claude/commands/` with **literal-colon filenames** (`sdd:specify.md` →
+  `/sdd:specify`). **Never nest** under `commands/<dir>/` — subdir namespacing is undocumented.
+- **Shared bundle** in `.claude/sdd/` — a **non-command** folder so its files never register as
+  commands: `feature-template.md`, `task-template.md`, `property-contract.md`, `data-sources.md`.
+- Every generated file begins with the re-sync header pointing back at its playbook §:
+  `<!-- Generated from SDD playbook §X — <link>. Re-sync on change. -->`
+- **`@`-reference the bundle, never inline it** — the single shared file is the real drift defense.
 
-Engineer the durable; vibe-code only the throwaway (a spike, a prototype). The moment code must be
-*evolved*, Verify and Comprehend come back on. Full rationale: playbook §1 + "the loop underneath
-every phase."
+## Tool boundaries
 
-## File layout & naming
+- A command's **`allowed-tools` GRANTS/pre-approves — it does NOT restrict** which tools are
+  available. Never rely on it for a "refuses to X" guarantee. The only hard boundary is the subagent.
+- **No-code agents (spec-author, planner, task-splitter, researcher, verifier) use `disallowedTools`
+  (e.g. `Edit, Write, NotebookEdit`, +`Bash` for non-implementers), NOT an allowlist.** Reason: a
+  denylist expresses "cannot touch code" AND lets the agent inherit the connected Notion MCP under
+  whatever name it has — so no agent file hardcodes a per-connection server id. We deliberately do
+  NOT commit a `.mcp.json`, so agents stay portable by never naming the Notion server.
 
-- **Commands are flat** in `.claude/commands/` with **literal-colon filenames** —
-  `sdd:specify.md` → invokes as `/sdd:specify` (command name = filename without extension; the
-  colon is just a character). Confirmed creatable on the repo's APFS; macOS/Linux only, which is
-  fine (Bun + Linux CI). **Never nest** under `commands/<dir>/` — subdirectory namespacing is
-  undocumented for commands.
-- **Agents are flat** in `.claude/agents/` — `spec-author.md`, `planner.md`, etc.
-- **Shared contract bundle** lives in `.claude/sdd/` — a **non-command** folder, so its files
-  never register as slash commands: `feature-template.md` (§6.1), `task-template.md` (§6.2),
-  `property-contract.md` (§4), `data-sources.md` (the `collection://` IDs).
+## Fork map — interactive phases CANNOT fork
 
-## The re-sync header (every command + bundle file)
+`AskUserQuestion` (and `Agent`/`ExitPlanMode`/…) is unavailable to subagents, and a fork runs to
+completion — so any phase that must ask the user mid-run lives in the **main context** (it adopts
+its agent's discipline by `@`-referencing the agent file, without the hard tool-lock).
 
-Each generated file begins with:
-
-```
-<!-- Generated from SDD playbook §X — <playbook-link>. Re-sync on change. -->
-```
-
-It points a future reader back at the authored source so a hand-edit can be reconciled.
-
-## Anti-drift: `@`-reference the bundle, never inline
-
-The §6.1 template, the §4 property contract, and the `collection://` IDs live in **one** place —
-`.claude/sdd/`. Every command `@`-references those files (`@.claude/sdd/feature-template.md`)
-instead of copy-pasting them into seven commands. **The single shared file is the real drift
-defense**; the re-sync header just points back at the playbook.
-
-## Tool boundaries live on the AGENT, never the command
-
-- A command's **`allowed-tools` GRANTS / pre-approves** permission — it does **not restrict**
-  which tools are available (Claude Code docs: *"It does not restrict which tools are available"*).
-  So never lean on a command's `allowed-tools` for a "refuses to X" guarantee.
-- The **only** hard tool boundary is the **subagent**. Two mechanisms, per the current Claude Code
-  docs:
-  - **`tools:`** — an *allowlist*: the agent may use **only** those tools. Anything unlisted
-    (including connected MCP tools) is denied.
-  - **`disallowedTools:`** — a *denylist*: the agent inherits everything from the main session
-    **except** the named tools.
-- **Kotodama uses `disallowedTools` for the "refuses to write code" agents** (spec-author, planner,
-  task-splitter, researcher, verifier): e.g. `disallowedTools: Edit, Write, NotebookEdit` (add
-  `Bash` for the non-implementer agents). **Decision — why denylist, not an allowlist:** the hard
-  boundary we care about is "cannot touch code." A denylist expresses exactly that **and** lets the
-  agent **inherit the connected Notion MCP under whatever name it has** — so no agent file hardcodes
-  the per-connection server id. An allowlist would force us to *name* every kept tool, including
-  `mcp__<server>__*`, which only has a stable name behind a committed `.mcp.json`. We deliberately
-  **do not** commit a `.mcp.json` (F-PLAT-006: dropped from T01) — agents stay portable by never
-  naming the Notion server. The implementer (which legitimately writes code) gets no code denial,
-  only the scope discipline in its prompt.
-
-## The fork map (which phases fork, which run in the main context)
-
-A phase command runs in a forked subagent by setting, in frontmatter, **`context: fork`** +
-**`agent: <subagent>`** — the command body becomes the subagent's prompt in a **fresh context**.
-Forking is what gives `/sdd:verify` its fresh-context verifier (no memory of how the feature was
-built) and what enforces a no-code agent's tool restriction.
-
-**But forking is not universal — interactive phases cannot fork.** Verified against the current
-Claude Code docs: **`AskUserQuestion` is unavailable to subagents** (so are `Agent`,
-`EnterPlanMode`, `ExitPlanMode`, `ScheduleWakeup`, `WaitForMcpServers`), and a forked subagent runs
-to completion — it structurally cannot pause mid-run for the user's input. So any phase that must
-ask the user something while it runs has to live in the **main context**.
-
-| Phase command | Runs in | Why |
-|---|---|---|
-| `/sdd:research` | **fork** → `researcher` | autonomous; clean tool-restricted context |
-| `/sdd:specify` | **fork** → `spec-author` | autonomous draft; enforce no-code |
-| `/sdd:clarify` | **main context** | grill-me `AskUserQuestion` loop — can't fork |
-| `/sdd:plan` | **fork** → `planner` | autonomous; enforce no-code |
-| `/sdd:tasks` | **main context** | presents the breakdown and iterates to *approval* |
-| `/sdd:implement` | **main context** | HITL gate + spec-gap STOP both pause for the human |
-| `/sdd:verify` | **fork** → `verifier` | fresh context is the whole point (AC-7) |
-
-**Main-context phases still adopt their agent's discipline** by `@`-referencing the agent file
-(`@.claude/agents/<agent>.md`) for the recipe + stated boundaries — they just can't get the *hard*
-tool-lock a fork gives. That's acceptable: these are the human-in-the-loop phases where the user is
-actively supervising. (`/sdd:implement` is the code-writer anyway, so it has no "no-code" lock to
-lose.)
-
-## Notion-at-runtime degradation
-
-The commands fetch live content from the Notion MCP. If it is not connected, the fetch fails and
-Claude says so — connect Notion, then re-run. Each command should also degrade gracefully: if
-Notion is unavailable, fall back to "paste the spec/task body" and still run from its embedded
-recipe. (Connecting Notion needs no repo config — there is no committed `.mcp.json`; see above.)
-
-## Artifacts are Notion-only
-
-Deliberate divergence from the playbook §1.4/§3, which also writes local `specs/F-NNN-slug/`
-mirrors (`spec.md` / `plan.md` / `tasks.md`). Kotodama writes **only** to Notion (Feature row,
-Research page, Task rows on the board, Verify report toggle). Recorded so a future reader doesn't
-"restore" the folder.
-
-## AC notation: EARS only
-
-Specs/feature ACs use **EARS** — *WHEN \<event\> THE SYSTEM SHALL \<behavior\>* (also WHILE /
-WHERE / IF–THEN). Do **not** mix in Gherkin's *Given/When/Then* — it is a different system.
-Standardise on EARS across `/sdd:specify` and the feature template.
-
-## Command ↔ agent ↔ source map
-
-| Command | Agent | Restriction | Playbook source |
+| Command | Runs in | Agent | Restriction |
 |---|---|---|---|
-| `/sdd:research` | `researcher` | denylist: no code writes | §1.5 (grounding) |
-| `/sdd:specify` | `spec-author` | denylist: no code writes | §6.1, §7.2, §4 |
-| `/sdd:clarify` | `spec-author` (reused) | denylist: no code writes | §7.3 |
-| `/sdd:plan` | `planner` | denylist: no code writes | §6.3, §7.4 |
-| `/sdd:tasks` | `task-splitter` | denylist: no code writes | §6.2, §7.5, §4 |
-| `/sdd:implement` | `implementer` | full tools (writes code) | §7.6 |
-| `/sdd:verify` | `verifier` | denylist: no code writes; fresh ctx | §7.7, §8, §5 |
+| `/sdd:research` | fork | `researcher` | denylist: no code |
+| `/sdd:specify` | fork | `spec-author` | denylist: no code |
+| `/sdd:clarify` | **main** | `spec-author` | grill-me `AskUserQuestion` loop |
+| `/sdd:plan` | fork | `planner` | denylist: no code |
+| `/sdd:tasks` | **main** | `task-splitter` | iterates to approval |
+| `/sdd:implement` | **main** | `implementer` | full tools (writes code) |
+| `/sdd:verify` | fork | `verifier` | denylist: no code; fresh ctx |
+
+## Standing decisions
+
+- **Artifacts are Notion-only** — no local `specs/F-NNN-slug/` mirror (divergence from playbook
+  §1.4/§3). Recorded so a future reader doesn't "restore" the folder.
+- **AC notation is EARS only** (*WHEN … THE SYSTEM SHALL …*) — never mix in Gherkin Given/When/Then.
+- **Notion degradation:** if the MCP isn't connected, fall back to "paste the spec/task body" and
+  run from the command's embedded recipe.
