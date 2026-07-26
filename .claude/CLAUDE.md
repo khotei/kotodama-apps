@@ -61,8 +61,8 @@ Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest
   `ui/**`,`apps/web/**` · `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`,`ui/**` ·
   `frontend-testing` → `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` →
   `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`,`docs/**`.
-- **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — design-principles,
-  component-design, modern-typescript, type-fest, commit-examples, tailwind-shadcn.
+- **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — component-design,
+  tailwind-shadcn, commit-examples.
 
 ## Per-layer context
 

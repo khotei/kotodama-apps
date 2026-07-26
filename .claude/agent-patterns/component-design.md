@@ -79,7 +79,7 @@ onSelect: (item: PaletteItem) => void   // hands back the whole item, not a bare
 
 **Lesson:** when a caller builds "an X or a Y" and reads back "which one", make it *one*
 discriminated type, reused verbatim as the payload. Parallel arrays/callbacks are a sync bug
-waiting to happen (make illegal states unrepresentable — `design-principles.md`).
+waiting to happen (make illegal states unrepresentable).
 
 ---
 
@@ -138,7 +138,7 @@ export const LANGUAGE_OPTIONS_MOCK = [{ code: 'ES', label: 'Spanish' }, …]
 **Lesson:** presentation must not decide *what is offered*. Make data a required prop; put the
 design-stage stand-in in `fixtures/` (stories and the app feed it identically). Note the bonus
 cut: `available` + its "not available yet" toast were **dropped** — the composer filters the list,
-so the menu is a pure switcher (define errors out of existence — `design-principles.md`).
+so the menu is a pure switcher (define errors out of existence).
 
 ---
 
@@ -260,29 +260,18 @@ as such and kept off the public surface. Rename the ambiguous *symbol*, not the 
 
 ## The moves as named React patterns
 
-These aren't ad-hoc; most are catalogued patterns ([patterns.dev/react](https://www.patterns.dev/react/)).
-Name them in review — the name carries the intent:
+Named in review the intent carries — but only the repo-anchored mappings earn a line:
 
-- **Container / Presentational** — the end-state of *every* move: `apps/web` (container) resolves
-  data + owns policy; `ui` (presentational) is a pure function of props. This IS `ui ⊥ core`.
-- **Compound components** — move 4. `CommandPalette` + `CommandPaletteGroup`/`CommandPaletteItem`
-  are a compound: parts composed as `children`, the frame coordinates the shared shell. The
-  canonical name for "frame + composition."
-- **Controlled props** — move 2 (`query`, `open`).
-- **Custom hooks** — move 6 in hook form: `useKey` co-located in `CommandTrigger`; the reusable
-  client-hook default is `react-use` (`react-use.md`), not hand-rolled effects.
-- **Slots over render props** — moves 1/7. We arrange with `ReactNode` slots (`children`,
-  `controls`, `trailing`), not render props. Reach for a render prop only when the frame must hand
-  the child its own internal state; prefer hooks/compound over **HOCs** (legacy — hooks supersede).
+- **Container / Presentational** is the end-state of every move and IS `ui ⊥ core`: `apps/web`
+  resolves data + owns policy; `ui` is a pure function of props.
+- **Compound components** — move 4 (`CommandPalette` + `CommandPaletteGroup`/`Item`): the canonical
+  name for "frame + composition."
+- **Slots over render props** — moves 1/7: arrange with `ReactNode` slots, not render props; prefer
+  hooks/compound over HOCs. Reach for a render prop only when the frame must hand the child its own
+  internal state. The reusable client-hook default is `react-use` (`react-use.md`).
 
-### The one pattern we haven't needed yet — Provider / Context
-
-No commit here uses it (YAGNI — nothing is prop-drilled far enough to warrant it; `theme` rides one
-prop). Reach for it only for a *genuinely cross-cutting* concern shared by many descendants (a theme,
-a live client, an auth session), never to dodge one level of props. Two forward-looking notes:
-
-- It stays **policy-free and shaped from above**: the `Provider` is wired by the composer at the
-  top (like every other decision), the consumer just reads context — the principle is unchanged.
-- It is the shape **agnostic React logic** would take if React ever lands *below* `ui` — a headless
-  tier of hooks + `Provider`s a future `apps/mobile` shares, with each platform building its own
-  presentation on top. If that happens, extend `frontend-components.md`'s `paths:` to that tier.
+**Provider / Context — not used yet** (YAGNI; `theme` rides one prop). Reach for it only for a
+genuinely cross-cutting concern (theme, a live client, an auth session), never to dodge one level of
+props; it stays policy-free and shaped from above. It is also the shape agnostic React logic would
+take if React ever lands *below* `ui` (a headless tier a future `apps/mobile` shares) — then extend
+`frontend-components.md`'s `paths:` to that tier.

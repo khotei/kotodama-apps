@@ -27,6 +27,14 @@ Binding decisions + the rejected alternative · invariants types can't express +
 coupling · non-obvious gotchas (footguns, ordering, version quirks) · boundaries (import
 rules, ownership, single-source-of-X) · pointers (Notion, `agent-patterns/*`, the file).
 
+## On-demand reference (`agent-patterns/*`)
+
+Pointer-loaded, so it doesn't tax the always-on budget — but the why-not-what test applies
+*harder*: a cheat-sheet for a **stable, well-known API** (standard shadcn/Tailwind, generic TS,
+textbook design theory) teaches what the model already knows → cut it. Keep only a **fast-moving
+target it gets wrong**, or **this repo's own decisions/components**. Every anchor must name a symbol
+that exists in THIS repo — a dangling or wrong-repo anchor is worse than no file.
+
 ## Timing
 
 Refresh only when a real change lands, as part of the commit — never on exploratory edits.

@@ -13,9 +13,8 @@ agnostic layer, or `apps/mobile`), extend `paths:` above.
 > behaviour, data, arrangement — it pushes UP to the composer.** Leaf frames stay policy-free; you
 > build concrete, opinionated components ON TOP (`SearchCommandPalette` over `CommandPalette`).
 
-Quality here is **reuse surface** — inverse to decisions baked in (deep module in JSX; theory in
-`design-principles.md`). A component that renders can still be low-quality if a second caller must
-fight a baked-in default.
+Quality here is **reuse surface** — inverse to decisions baked in (deep module in JSX). A component
+that renders can still be low-quality if a second caller must fight a baked-in default.
 
 ## Project-specific moves
 
