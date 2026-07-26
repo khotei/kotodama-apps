@@ -29,7 +29,8 @@ truth.
   `react`, `react-use` (per-hook, in `.client.tsx` — `see react-use.md`),
   `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
   `@kotodama/platform/config`, or `apps/*` — data comes via props. Self-compose via RELATIVE paths, not
-  the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle).
+  the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle). The
+  barrel is for consumers — **only `.stories.tsx` may import `@kotodama/ui`** (stories aren't re-exported, so no cycle).
 - **`cn` = `twMerge(clsx(...))`** — wrap the final className so a consumer's `className` (passed last) wins.
 - **Variants via `cva`** — a typed prop API (`variant` + `defaultVariants`); not `tailwind-variants`.
 - **Props are ui-owned view types**, never `core`'s model; the app injects the model as props.

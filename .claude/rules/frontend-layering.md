@@ -42,7 +42,9 @@ One-way chain (mirrors the backend):
 - **`ui ⊥ core`:** ui is independent of the domain MODEL — it takes data via props. It MAY read the
   generated WIRE CONTRACT **type-only** from `@kotodama/platform/api-client` (e.g. `word.view.ts` derives
   its content type off `operations['words.buildWord']`); it must NOT import `core` (either domain layer),
-  `@kotodama/platform/config`, or the app. It may self-compose via `@kotodama/ui` (a benign barrel self-import).
+  `@kotodama/platform/config`, or the app. Self-referencing `@kotodama/ui` doesn't break the leaf rule, but
+  components self-compose via RELATIVE paths — the barrel is the external surface (a self-barrel import
+  risks an ESM cycle); only stories/consumers use it. `ui/CLAUDE.md` is the authority on the mechanics.
 - **`platform/api-client` is a leaf importable by every layer** (for the client + raw `operations` —
   "everything → platform"). **`ui` is a leaf too, but web-only:** only `apps/web` may import it (plus its
   own Storybook); the agnostic spine must not (it is DOM-bound and would break portability).
