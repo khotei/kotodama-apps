@@ -1,45 +1,33 @@
 # Maintaining `CLAUDE.md` and rules (context, not a code dump)
 
-**Always-loaded rule.** A `CLAUDE.md` (or a rule file) is a cache of what the **code cannot say**.
-The source is the source of truth for *what* the code is; these docs exist only for the *why* and
-for constraints that aren't local to one file. Optimize for the next reader and for low drift —
-every line here is paid for in every matching session, so a rule earns its place only by changing
-behaviour.
+**Always-loaded rule.** A `CLAUDE.md`/rule caches only what the **code can't say** — the
+*why* and non-local constraints. Every line is paid for each session.
 
-## The test, before writing any line
+## Before writing any line
 
-1. **"Would Claude get this right anyway — from the code, the surrounding style, or general
-   knowledge of the stack?"** If yes → don't write it. Restating a signature, a function's
-   behaviour, or a visible idiom duplicates the code, and the next refactor silently turns it
-   into a lie.
-2. **"Would a reader get this wrong, or waste real time, without it?"** If yes → write it.
+Write it ONLY if a reader would get it wrong or waste real time without it, AND it isn't
+already gettable from the code, the stack, or the surrounding style.
 
-Sharp signal: **if a rename/refactor forces a doc edit, the doc was holding *what*, not *why*** —
-delete the line instead of updating it.
+**Sharp signal:** if a rename/refactor forces a doc edit, the doc held *what*, not *why* —
+**delete the line, don't update it.**
 
-## Hard limits (check whenever preparing a commit that touches these files)
+## Hard limits
 
-- **A package `CLAUDE.md` stays ≤ ~40 lines; a rule file ≤ ~80.** Over budget ⇒ cut, don't append.
-- **Decision history lives in commit messages, never here.** `commits.md` mandates a `Decision:`
-  paragraph and squash-merge lands it in `git log` — that IS the changelog. A doc states only the
-  *currently binding* constraint: no dates, no "supersedes / reversed / user-driven" chains, no
-  task/AC/feature numbers, no tombstones for moved or deleted code.
-- **No behaviour narration.** A line that names a function/handler and describes what it does is
-  banned — the reader has the source. Same for per-export signature/return-type listings and
-  test-file narration (keep the run command + non-obvious requirements like "needs Docker").
-- **One author per fact.** If another doc already states it, link by name; never restate.
+- Package `CLAUDE.md` ≤ ~40 lines; rule file ≤ ~80. Over budget ⇒ cut, don't append.
+- **Decision history lives in commit messages, never here.** No dates, no
+  "supersedes/reversed" chains, no task/AC/feature numbers, no tombstones for moved code —
+  a doc states only the *currently binding* constraint.
+- **No behaviour narration:** never name a function and say what it does; no per-export
+  signature/return listings; no test-file narration (keep run command + non-obvious reqs).
+- **One author per fact** — if another doc states it, link by name; never restate.
 
 ## Belongs (keep)
 
-- **Binding decisions + the rejected alternative** — only ones a reader would otherwise "fix" back.
-- **Invariants the types can't express**, and cross-file / cross-package coupling (e.g. "this
-  read's SQL must match an index defined in `database/`").
-- **Non-obvious gotchas** — footguns, ordering rules, version quirks (usually debugging trophies).
-- **Boundaries** — import rules, ownership, "this is the single source of X".
-- **Pointers** — to the spec (Notion), `.claude/agent-patterns/*`, or the file where the surface lives.
+Binding decisions + the rejected alternative · invariants types can't express + cross-file
+coupling · non-obvious gotchas (footguns, ordering, version quirks) · boundaries (import
+rules, ownership, single-source-of-X) · pointers (Notion, `agent-patterns/*`, the file).
 
-## Shape & timing
+## Timing
 
-Refresh only when a real change is about to land, as part of preparing the commit — never on
-exploratory edits (then `bun run lint`). When in doubt, cut: a missing line costs one `Read`; a
-wrong line costs a silent mistake made with confidence.
+Refresh only when a real change lands, as part of the commit — never on exploratory edits.
+When in doubt, cut: a missing line costs one `Read`; a wrong line costs a confident mistake.
