@@ -14,9 +14,10 @@ Vitest + jsdom + `@testing-library/react`. Matchers + auto-cleanup register in
 entry in each `--dom` tsconfig `types` (no ambient `.d.ts`). Run commands + the `--bun` /
 no-aggregate-`vitest run` rules are in `tooling.md`.
 
-- **Every workspace keeps ≥1 test** — `vitest run` exits 1 on zero files and fails the gate. The
-  only exemptions: `apps/e2e` (Playwright, gate `test:e2e`) and `@kotodama/presets` (no `test`
-  script; `--filter '*'` skips it).
+- **Every workspace keeps ≥1 test — and the gate will NOT tell you when one is missing:** on
+  Vitest 4 `vitest run` exits **0** on zero test files (verified), so an empty suite passes
+  silently. Sanctioned exceptions: `apps/e2e` (Playwright, gate `test:e2e`) and
+  `@kotodama/presets` (no `test` script; `--filter '*'` skips it).
 - **Naming:** keep a trailing `(AC-n)` when a test maps to a feature AC `/sdd:verify` checks — the
   one allowed provenance tag.
 - **Wire values come from `@kotodama/core/factories`** (`make*` + overrides, typed off the contract

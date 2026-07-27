@@ -38,19 +38,12 @@ One-way chain (mirrors the backend):
 - **Platform-agnostic spine** (reusable by any future `apps/*` — desktop/native): `platform`, `core`.
   **Web-only:** `ui`, `apps/web`. The web↔native line falls **below `core`**: `ui` renders (DOM), so
   it does NOT port; a native app reuses only the agnostic spine and builds its own presentation on top.
-- **`ui` holds ALL presentation**, split under `components/` into a **domain-FREE kit** and a
-  **domain layer**: the Atomic kit `{atoms,molecules,organisms}/` is portable — generic props, no
-  business entity, reusable by any future `apps/*` (`organisms/` = the large domain-free frames like
-  `CommandPalette`/`SiteHeader`); then the Kotodama-domain `{core,features}/` wraps it — `core/` =
-  entity building-blocks (`WordCard`, `TierChip`, `StatusBadge`), `features/` = large entity
-  compositions (`WordEntry`, `ReadingRoom`) configured via **semantic namespaced props**
-  (`word={…}`, `search={…}`). `{templates,pages}/` assemble. Plus `views/` (ui-owned view types like
-  `word.view.ts`), `fixtures/` (design-stage mocks, exported via the `@kotodama/ui/fixtures` subpath),
-  and `lib/` (`cn`, `languageName`). Every component folder = component + story + `index.ts` barrel; the
-  whole site assembles in ui's Storybook on mock data as the design source of truth.
+- **`ui` holds ALL presentation.** Its internal tiers (the domain-free kit vs the Kotodama-domain
+  layer, `views/`, `fixtures/`, `lib/`) are owned by `frontend-components.md` (the design policy) +
+  `ui/CLAUDE.md` (the layout & mechanics) — not restated here.
 - **`ui ⊥ core`:** ui is independent of the domain MODEL — it takes data via props. It MAY read the
-  generated WIRE CONTRACT **type-only** from `@kotodama/platform/api-client` (e.g. `word.view.ts` derives
-  its content type off `operations['words.buildWord']`); it must NOT import `core` (either domain layer),
+  generated WIRE CONTRACT **type-only** from `@kotodama/platform/api-client`
+  (a `views/*.view.ts` type may derive off `operations`); it must NOT import `core` (either domain layer),
   `@kotodama/platform/config`, or the app. Self-referencing `@kotodama/ui` doesn't break the leaf rule, but
   components self-compose via RELATIVE paths — the barrel is the external surface (a self-barrel import
   risks an ESM cycle); only stories/consumers use it. `ui/CLAUDE.md` is the authority on the mechanics.

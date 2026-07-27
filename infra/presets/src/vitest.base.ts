@@ -27,7 +27,7 @@ export default defineProject({
     // testing-library without a per-package environment override.
     environment: 'jsdom',
     // Tests live in each workspace's `test/` folder (mirroring `src/`), separate
-    // from source. See `@.claude/rules/testing.md`.
+    // from source. See `@.claude/rules/frontend-testing.md`.
     include: ['test/**/*.test.ts', 'test/**/*.test.tsx'],
     // `@testing-library/jest-dom` matchers (toBeInTheDocument, …) + automatic
     // cleanup between tests, registered once for every workspace. Resolved as an

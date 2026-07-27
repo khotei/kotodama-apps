@@ -19,8 +19,8 @@ In `app/(public)/**`, loaders fetch **only** with `createStaticApiClient()` (ano
 ## RSC / client boundaries
 
 `'use client'` in the app lives ONLY in `providers.tsx` (theme), `src/chrome/*.client.tsx` (nav/mode
-chrome — `usePathname` + next-themes), and feature islands (`.client.tsx` under `src/**`, e.g.
-`src/words/`). Everything else is an RSC shell resolving data via `src/server` loaders.
+chrome — `usePathname` + next-themes), and feature islands (`.client.tsx` under `src/**`).
+Everything else is an RSC shell resolving data via `src/server` loaders.
 
 ## SEO
 

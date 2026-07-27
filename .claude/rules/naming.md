@@ -10,7 +10,7 @@ paths:
 - **Packages:** `@kotodama/<folder>`, nested folders dash-flatten. `core`/`platform` are single
   packages with subpath-exported layer folders; `ui` = `@kotodama/ui`; presets = `@kotodama/presets`
   (`infra/presets`); apps drop the plural (`apps/web` → `@kotodama/web`).
-- **All source files are `kebab-case` whatever they export** (`word-card.tsx` → `WordCard`), plus a
+- **All source files are `kebab-case` whatever they export** (`status-badge.tsx` → `StatusBadge`), plus a
   dotted **role suffix** `<name>.<role>.ts` — the index into a tier:
 
 | Suffix | Role | Layer |

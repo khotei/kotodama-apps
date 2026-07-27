@@ -36,7 +36,7 @@ that renders can still be low-quality if a second caller must fight a baked-in d
 - **kit** (`components/{atoms,molecules,organisms}/`) — domain-FREE, **abstract names** (`Chip`,
   `ListRow`, `CommandPalette`); never names a Kotodama entity.
 - **domain** (`components/{core,features}/`) — wraps the kit around entities, **concrete names**
-  (`WordCard`, `WordEntry`). **A name that lies about its tier is a bug.**
+  (`StatusBadge`, `ReadingRoom`). **A name that lies about its tier is a bug.**
 - **`features/` is the assembly point, configured by semantic namespaced props** (`word={{…}}`,
   `search={{…}}`). Assembly lives ONCE in `ui` + Storybook — the app resolves data + injects
   Actions but NEVER re-assembles, so a design change never touches `apps/web`.

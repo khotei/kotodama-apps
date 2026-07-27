@@ -11,7 +11,7 @@ truth.
   and the **domain layer** `{core,features}/` (`core/` = entity blocks, `features/` = big entity
   compositions with namespaced props — sections `Core/Features`); `{templates,pages}/` assemble.
   `views/` = ui-owned view types; `fixtures/` = design mocks (via `@kotodama/ui/fixtures`); `lib/` =
-  helpers (`cn`, `languageName`). `src/index.ts` = the public barrel.
+  helpers (`cn`). `src/index.ts` = the public barrel.
 - **Tokens:** `styles.css` is the Tailwind entry — `@import "tailwindcss"` + the `dark` variant + the
   shadcn token set hand-written in `:root`/`.dark` (hex; the Kotodama paper palette) + the `@theme
   inline` colour mapping + the non-colour theme (radius, shadows, type, motion, fonts). It `@source`s
