@@ -66,11 +66,12 @@ Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest
 
 ## Per-layer context
 
-One `CLAUDE.md` per package (`core`,`platform`,`ui`) + `apps/web/CLAUDE.md`; this ancestor
-always loads, a package's loads when you touch its subtree. Content rule: `claude-md.md`.
+Per-package `CLAUDE.md`s: `core`, `ui`, `apps/web`, `apps/e2e` (none for `platform`/`presets` —
+nothing non-derivable to say); this ancestor always loads, a package's loads when you touch its
+subtree. Content rule: `claude-md.md`.
 
 ## Slash commands
 
 `/new-package` · `/sweep`. **SDD toolkit:**
-`/sdd:{research,specify,clarify,plan,tasks,implement,verify}` (Notion-driven). Quickstart:
+`/sdd:{specify,clarify,plan,tasks,implement,verify}` (Notion-driven). Quickstart:
 `.claude/commands/README.md`. Conventions: `.claude/rules/sdd.md`.
