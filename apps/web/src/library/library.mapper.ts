@@ -2,7 +2,7 @@ import type { Language, Library, ReadyListWord, WordListItem } from '@kotodama/c
 import { formatDayMonth, formatRelative } from '@kotodama/platform/dates'
 import { DEFAULT_LOCALE, languageName } from '@kotodama/platform/languages'
 import type { LibraryView, RankedWordView, WotdView } from '@kotodama/ui'
-import { capitalize } from '../lib/text'
+import { capitalize } from '../utils/text'
 import { wordHref } from '../words/hrefs'
 
 // The render-tier mapper — the ONLY place the wire vocabulary meets the ui

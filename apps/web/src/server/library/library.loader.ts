@@ -7,7 +7,7 @@ import {
 } from '@kotodama/core/repositories'
 import { type Language, type Library, narrowLibrary } from '@kotodama/core/words'
 import { cache } from 'react'
-import { createServerApiClient } from './server-api-client'
+import { createServerApiClient } from '../server-api-client'
 
 // Rail sizes mirror the library composition (6-row ranked rails, a 4-card
 // word-of-the-day run) — the render tier trims from these, never fetches more.

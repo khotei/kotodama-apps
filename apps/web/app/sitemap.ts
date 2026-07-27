@@ -1,6 +1,6 @@
 import { serverEnv } from '@kotodama/platform/config'
 import type { MetadataRoute } from 'next'
-import { WORD_SEED } from '@/src/word-seed'
+import { WORD_SEED } from '@/src/words/word-seed'
 
 // A single sitemap.xml over the seed words. Per-language chunking via
 // generateSitemaps (feature §7) and `lastModified` from each word's `updatedAt`

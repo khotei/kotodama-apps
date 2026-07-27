@@ -333,7 +333,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
-                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + domain models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
+                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + domain models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/shared/components/chrome, never the data layer."
                   },
                   {
                     "group": [

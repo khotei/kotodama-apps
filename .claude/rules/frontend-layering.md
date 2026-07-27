@@ -67,7 +67,7 @@ One-way chain (mirrors the backend):
 - **`apps/web` splits in two internally:** `src/server/**` is the RSC data layer — the ONE place in
   the app allowed to import `@kotodama/core/repositories` (it composes fetchX + `@kotodama/core/words`
   domain types + `@kotodama/platform/config` into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**`
-  is the routing shell — plus the client-wiring chrome/islands under `src/chrome/**` + `src/words/**` —
+  is the routing shell — plus the client-wiring chrome/islands under `src/shared/components/chrome/**` + `src/words/**` —
   that composes `@kotodama/ui` components, injecting the loaders' data + the actions. `src/server` must
   not import `ui` — presentation lives in `ui`, data in `src/server`.
 

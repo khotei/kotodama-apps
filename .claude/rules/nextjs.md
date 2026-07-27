@@ -19,7 +19,7 @@ site (`createServerApiClient({ headers: … })`) and belongs to the authed `(app
 
 ## RSC / client boundaries
 
-`'use client'` in the app lives ONLY in `providers.tsx` (theme), `src/chrome/*.client.tsx` (nav/mode
+`'use client'` in the app lives ONLY in `providers.tsx` (theme), `src/shared/components/chrome/*.client.tsx` (nav/mode
 chrome — `usePathname` + next-themes), and feature islands (`.client.tsx` under `src/**`).
 Everything else is an RSC shell resolving data via `src/server` loaders.
 
