@@ -15,8 +15,8 @@ commit `Decision:` paragraphs, never a Notion change-log).
 
 **specify → clarify → plan → tasks → implement → verify**
 
-Each command ends by naming the next. `/sdd:specify` opens with evidence-gathering (formerly a
-separate research phase) and emits the Feature **+ a linked research Spike**.
+Each command ends by naming the next. `/sdd:specify` opens with evidence-gathering and emits the
+Feature **+ a linked research Spike**.
 
 ## Commands
 

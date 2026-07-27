@@ -5,7 +5,7 @@
 //
 // Layout: `components/ui/*` = shadcn registry primitives (add more via
 // `bunx shadcn@latest add <name>`); `components/<feature>/` = our compositions;
-// shared helpers in `lib/`. See `.claude/agent-patterns/tailwind-shadcn.md`.
+// shared helpers in `lib/`. See `ui/CLAUDE.md`.
 
 export {
   type AccentedWord,
