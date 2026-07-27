@@ -60,7 +60,7 @@ Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest
 - **Path-scoped:** `frontend-state` → `apps/web/**`,`core/**` · `frontend-components` →
   `ui/**`,`apps/web/**` · `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`,`ui/**` ·
   `frontend-testing` → `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` →
-  `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`,`docs/**`.
+  `.claude/{commands,agents,sdd}/**`.
 - **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — component-design,
   commit-examples.
 
