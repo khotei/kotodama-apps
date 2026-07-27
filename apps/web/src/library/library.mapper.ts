@@ -1,7 +1,8 @@
 import type { Language, Library, ReadyListWord, WordListItem } from '@kotodama/core/words'
 import { formatDayMonth, formatRelative } from '@kotodama/platform/dates'
-import { DEFAULT_LOCALE, languageName } from '@kotodama/platform/languages'
+import { languageName } from '@kotodama/platform/languages'
 import type { LibraryView, RankedWordView, WotdView } from '@kotodama/ui'
+import { DEFAULT_LANGUAGE } from '../language/language'
 import { capitalize } from '../utils/text'
 import { wordHref } from '../words/hrefs'
 
@@ -27,7 +28,7 @@ function rankedFromItem(item: WordListItem, language: Language, now: Date): Rank
       word: { pre: item.word.word },
       gloss: item.word.coreDefinition,
       pos: item.word.lexical.partOfSpeech,
-      when: formatRelative(item.word.createdAt, now, DEFAULT_LOCALE),
+      when: formatRelative(item.word.createdAt, now, DEFAULT_LANGUAGE),
       status: 'succeeded',
       saved: false,
     }
@@ -35,10 +36,10 @@ function rankedFromItem(item: WordListItem, language: Language, now: Date): Rank
   return {
     href: wordHref(item.language, item.word),
     word: { pre: item.word },
-    when: formatRelative(item.createdAt, now, DEFAULT_LOCALE),
+    when: formatRelative(item.createdAt, now, DEFAULT_LANGUAGE),
     status: item.status,
     saved: false,
-    statusNote: `${capitalize(languageName(item.language, DEFAULT_LOCALE))} · ${STATUS_NOTE_LABEL[item.status]}`,
+    statusNote: `${capitalize(languageName(item.language, DEFAULT_LANGUAGE))} · ${STATUS_NOTE_LABEL[item.status]}`,
   }
 }
 
@@ -48,12 +49,12 @@ function wotdFromWord(word: ReadyListWord, language: Language): WotdView {
   const years = word.frequency?.series.map((p) => p.year).filter((y) => typeof y === 'number') ?? []
   const note = word.frequency?.trendNote ?? word.frequency?.changeNote
   const translations = word.translations.flatMap((t) => [
-    { text: ` · ${capitalize(languageName(t.language, DEFAULT_LOCALE))} (` },
+    { text: ` · ${capitalize(languageName(t.language, DEFAULT_LANGUAGE))} (` },
     { text: t.term, accent: true },
     { text: ')' },
   ])
   return {
-    dateTag: formatDayMonth(word.createdAt, DEFAULT_LOCALE),
+    dateTag: formatDayMonth(word.createdAt, DEFAULT_LANGUAGE),
     // No syllable-stress source on the wire — the whole word goes in `pre`,
     // never a fabricated stress split.
     word: { pre: word.word },
@@ -79,8 +80,8 @@ function wotdFromWord(word: ReadyListWord, language: Language): WotdView {
       tiers: ['rare', 'everyday', 'formal', 'cultural'],
       tiersLabel: 'All four',
       languages: translations.length
-        ? [{ text: capitalize(languageName(language, DEFAULT_LOCALE)) }, ...translations]
-        : capitalize(languageName(language, DEFAULT_LOCALE)),
+        ? [{ text: capitalize(languageName(language, DEFAULT_LANGUAGE)) }, ...translations]
+        : capitalize(languageName(language, DEFAULT_LANGUAGE)),
       frequency: word.frequency
         ? [
             { text: capitalize(word.frequency.band) + (note ? ' · ' : '') },

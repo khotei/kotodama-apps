@@ -2,15 +2,6 @@
 export type Locale = Intl.UnicodeBCP47LocaleIdentifier
 
 /**
- * The project's standard ui-copy locale — language names and dates must match
- * the surrounding English strings. When i18n lands, callers switch from this
- * constant to an injected viewer locale (every function here already takes
- * one) — never a header read in render: Accept-Language would dynamify a
- * static route.
- */
-export const DEFAULT_LOCALE: Locale = 'en-GB'
-
-/**
  * A language's display name via the built-in Intl.DisplayNames, exactly as
  * CLDR spells it (`'es'` → `'Español'`, `('es', 'en-GB')` → `'Spanish'`) —
  * casing follows the locale's CLDR data, so a caller wanting a guaranteed
