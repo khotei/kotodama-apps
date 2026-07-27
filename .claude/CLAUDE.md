@@ -19,7 +19,8 @@ Details: `.claude/rules/tooling.md`.
 apps/web · apps/e2e   Next shell (App Router) + Playwright crawlability proof   [web-only]
 core          @kotodama/core       agnostic domain spine (DOM-free): subpath folders
                                    @kotodama/core/repositories (fetchX + *Entity) ◄ /words (domain)
-platform      @kotodama/platform   agnostic base leaf: /api-client (transport) + /config (env)
+platform      @kotodama/platform   agnostic base leaves: /api-client (transport) + /config (env) +
+                                   /dates,/languages (locale-parameterized Intl helpers)
 ui            @kotodama/ui         the ENTIRE web design system + all presentation   [web-only leaf]
 infra/presets @kotodama/presets    write-once config presets (tsconfig/biome/vitest bases)
 

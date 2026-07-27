@@ -78,7 +78,7 @@ detail.
 
 | Layer | Owns | Why it's here |
 |---|---|---|
-| `platform` (`./api-client` · `./config`) | the openapi-fetch client + generated `schema.gen`; the Zod-validated env | the agnostic base leaf — transport + env, imported by all |
+| `platform` (`./api-client` · `./config` · `./dates` · `./languages`) | the openapi-fetch client + generated `schema.gen`; the Zod-validated env; locale-parameterized Intl helpers | the agnostic base leaves, imported by all |
 | `core` (`./repositories` · `./words`) | bare `fetchX` + contract `*Entity` types ◄ the words domain module (`narrowWordState` + bare-noun domain types) | the agnostic domain spine a future native app reuses |
 | `ui` | the web design system + ALL presentation: Tailwind v4 + shadcn primitives + `@theme` tokens, atoms→pages | web-only, prop-driven leaf |
 | `apps/web` | the Next shell: routing + the `src/server` data layer (loaders + actions) + wiring + SEO | the web process boundary |
@@ -86,7 +86,7 @@ detail.
 | `infra/presets` | the `@kotodama/presets` config presets (tsconfig/biome/vitest bases) | write-once shared config, referenced by specifier |
 
 `platform` and `core` are each ONE package whose layers are subpath-exported folders
-(`@kotodama/platform/{api-client,config}`, `@kotodama/core/{repositories,words}`) — a new domain is a
+(`@kotodama/platform/{api-client,config,dates,languages}`, `@kotodama/core/{repositories,words}`) — a new domain is a
 folder under a `core` layer, never a new package.
 
 **Dependency direction** (enforced by Biome + a DOM-free `tsconfig`):

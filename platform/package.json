@@ -6,7 +6,9 @@
   "sideEffects": false,
   "exports": {
     "./api-client": "./api-client/src/index.ts",
-    "./config": "./config/src/index.ts"
+    "./config": "./config/src/index.ts",
+    "./dates": "./dates/src/index.ts",
+    "./languages": "./languages/src/index.ts"
   },
   "dependencies": {
     "dotenv": "^17.4.0",

@@ -14,9 +14,11 @@ the right layer is the whole point of this doc.
 
 ```
 Agnostic base + spine (import nothing web-bound):
-  platform  @kotodama/platform   two leaves as folders, subpath-exported; imports nothing internal:
+  platform  @kotodama/platform   base leaves as folders, subpath-exported; imports nothing internal:
     ./config      env: repo-root .env loader + Zod schema over process.env   [base leaf, importable by ALL]
     ./api-client  transport: openapi-fetch client + generated schema.gen
+    ./dates       locale-parameterized date formatting over built-in Intl (policy-free)
+    ./languages   language display names over Intl.DisplayNames (generic over the code string)
   core      @kotodama/core       two domain layers as folders, subpath-exported:
     ./repositories  raw fetchX + the contract *Entity types
     ./words         the words domain module (narrowWordState + the bare-noun domain types)

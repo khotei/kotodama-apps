@@ -10,6 +10,10 @@
     "api-client/test/**/*",
     "config/src/**/*",
     "config/test/**/*",
+    "dates/src/**/*",
+    "dates/test/**/*",
+    "languages/src/**/*",
+    "languages/test/**/*",
     "*.config.ts"
   ]
 }
