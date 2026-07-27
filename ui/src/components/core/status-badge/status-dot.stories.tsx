@@ -10,16 +10,16 @@ export default meta
 
 type Story = StoryObj<typeof StatusDot>
 
-export const Ready: Story = { args: { status: 'ready' } }
-export const Generating: Story = { args: { status: 'generating' } }
+export const Ready: Story = { args: { status: 'succeeded' } }
+export const Generating: Story = { args: { status: 'running' } }
 export const Pending: Story = { args: { status: 'pending' } }
 export const Failed: Story = { args: { status: 'failed' } }
 
 export const All: Story = {
   render: () => (
     <div className="flex items-center gap-md">
-      <StatusDot status="ready" />
-      <StatusDot status="generating" />
+      <StatusDot status="succeeded" />
+      <StatusDot status="running" />
       <StatusDot status="pending" />
       <StatusDot status="failed" />
     </div>

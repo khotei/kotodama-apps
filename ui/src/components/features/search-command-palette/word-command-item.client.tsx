@@ -16,7 +16,7 @@ export type WordCommandItemProps = {
  * while it's still building. `href` is the identity; the word stays the match term.
  */
 export function WordCommandItem({ word, onSelect }: WordCommandItemProps) {
-  const ready = word.status === 'ready'
+  const ready = word.status === 'succeeded'
   return (
     <CommandPaletteItem
       value={word.href}

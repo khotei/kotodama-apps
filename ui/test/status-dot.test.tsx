@@ -4,7 +4,7 @@ import { StatusDot } from '../src/index'
 
 describe('StatusDot', () => {
   it('renders a dot styled by status and forwards className', () => {
-    const { container } = render(<StatusDot status="generating" className="ml-2" />)
+    const { container } = render(<StatusDot status="running" className="ml-2" />)
     const dot = container.querySelector('span')
 
     expect(dot).toHaveClass('ml-2')

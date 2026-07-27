@@ -1,7 +1,7 @@
 import type { WordStatus } from '../../core/status-badge'
 
 function verbClass(status: WordStatus) {
-  return status === 'generating'
+  return status === 'running'
     ? 'text-seal'
     : status === 'failed'
       ? 'text-destructive'

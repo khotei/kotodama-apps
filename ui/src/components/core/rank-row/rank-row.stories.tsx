@@ -36,7 +36,7 @@ export const ReadingRoom: Story = {
         href="#"
         index="02"
         word="resquemor"
-        meta={<StatusBadge status="generating">Spanish · arriving</StatusBadge>}
+        meta={<StatusBadge status="running">Spanish · arriving</StatusBadge>}
       />
       <RankRow href="#" index="03" word="duende" meta={<StatusBadge status="pending" />} />
       <RankRow

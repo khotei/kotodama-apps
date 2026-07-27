@@ -1,3 +1,4 @@
+import type { operations } from '@kotodama/platform/api-client'
 import { cva } from 'class-variance-authority'
 import { TriangleAlertIcon } from 'lucide-react'
 import type { ComponentProps, ReactNode } from 'react'
@@ -5,14 +6,19 @@ import { cn } from '../../../lib/utils'
 import { Spinner } from '../../atoms/spinner'
 import { Badge, type BadgeProps } from '../../ui/badge'
 
-/** The one word-lifecycle status vocabulary — every surface consumes this. */
-export type WordStatus = 'ready' | 'generating' | 'pending' | 'failed'
+/** The one word-lifecycle status vocabulary — the wire's own union, read
+ *  type-only off the contract so a backend status change breaks these Records
+ *  at compile time. Display copy stays this component's ({@link StatusBadge}
+ *  renders `running` as “Generating…”). */
+export type WordStatus = NonNullable<
+  NonNullable<operations['words.search']['parameters']['query']>['status']
+>
 
 const statusBadgeVariants = cva('', {
   variants: {
     status: {
-      ready: 'bg-success-subtle text-success',
-      generating: 'bg-warning-subtle text-warning',
+      succeeded: 'bg-success-subtle text-success',
+      running: 'bg-warning-subtle text-warning',
       pending: 'bg-secondary text-muted-foreground',
       failed: 'bg-destructive-subtle text-destructive',
     },
@@ -20,15 +26,15 @@ const statusBadgeVariants = cva('', {
 })
 
 const STATUS_LABEL: Record<WordStatus, string> = {
-  ready: 'Ready',
-  generating: 'Generating…',
+  succeeded: 'Ready',
+  running: 'Generating…',
   pending: 'Queued',
   failed: 'Failed',
 }
 
 const STATUS_GLYPH: Record<WordStatus, ReactNode> = {
-  ready: <span className="size-1.5 rounded-full bg-current" />,
-  generating: <Spinner className="size-3" />,
+  succeeded: <span className="size-1.5 rounded-full bg-current" />,
+  running: <Spinner className="size-3" />,
   pending: <span className="size-1.5 rounded-full shadow-[inset_0_0_0_1.5px_currentColor]" />,
   failed: <TriangleAlertIcon className="size-3" />,
 }
@@ -49,8 +55,8 @@ export function StatusBadge({ status, className, children, ...props }: StatusBad
 const statusDotVariants = cva('size-2 shrink-0 rounded-full', {
   variants: {
     status: {
-      ready: 'bg-border-strong',
-      generating: 'bg-seal',
+      succeeded: 'bg-border-strong',
+      running: 'bg-seal',
       pending: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--border-strong)]',
       failed: 'bg-transparent shadow-[inset_0_0_0_1.5px_var(--destructive)]',
     },

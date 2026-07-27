@@ -29,7 +29,7 @@ function rowMeta(row: RankedWordView, onRetry?: RetryHandler) {
       </>
     )
   }
-  if (row.status !== 'ready') {
+  if (row.status !== 'succeeded') {
     return (
       <>
         <StatusBadge status={row.status} />
@@ -68,9 +68,9 @@ function RankedList({
             marker={numbered ? undefined : <StatusDot status={row.status} className="ml-2xs" />}
             word={<AccentedWordMark word={row.word} />}
             wordTone={WORD_TONE[row.status]}
-            gloss={row.status === 'ready' ? row.gloss : undefined}
+            gloss={row.status === 'succeeded' ? row.gloss : undefined}
             note={
-              row.status !== 'ready' && row.statusNote != null ? (
+              row.status !== 'succeeded' && row.statusNote != null ? (
                 <StatusNote note={row.statusNote} status={row.status} />
               ) : undefined
             }
@@ -83,8 +83,8 @@ function RankedList({
 }
 
 const WORD_TONE = {
-  ready: 'default',
-  generating: 'shimmer',
+  succeeded: 'default',
+  running: 'shimmer',
   pending: 'muted',
   failed: 'muted',
 } satisfies Record<WordStatus, RankRowProps['wordTone']>

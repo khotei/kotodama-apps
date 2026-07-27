@@ -16,7 +16,7 @@ const meta: Meta<typeof StatusNote> = {
 export default meta
 type Story = StoryObj<typeof StatusNote>
 
-export const Arriving: Story = { args: { note: 'Spanish · arriving', status: 'generating' } }
+export const Arriving: Story = { args: { note: 'Spanish · arriving', status: 'running' } }
 export const Queued: Story = { args: { note: 'Spanish · queued', status: 'pending' } }
 export const Failed: Story = { args: { note: 'Spanish · didn’t settle', status: 'failed' } }
-export const SingleSegment: Story = { args: { note: 'arriving', status: 'generating' } }
+export const SingleSegment: Story = { args: { note: 'arriving', status: 'running' } }
