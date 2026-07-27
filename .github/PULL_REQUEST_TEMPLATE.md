@@ -19,7 +19,7 @@
   │  [ ] `bun run check` passes (Biome lint + `bun run tsc`)                   │
   │  [ ] `bun run test` passes                                                 │
   │  [ ] Layer direction intact: platform/api-client ◄ core/repositories ◄     │
-  │      core/store ◄ apps/web; ui is the web-only leaf (`/scan-deps`)         │
+  │      core/store ◄ apps/web; ui is the web-only leaf (`bun run check`)      │
   │  [ ] Agnostic spine (platform+core) DOM-free; render reads via src/server, │
   │      never raw core/repositories; ui ⊥ core, wired by apps/web             │
   │  [ ] Docs/rules updated if behaviour or conventions changed                │

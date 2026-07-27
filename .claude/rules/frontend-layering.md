@@ -75,7 +75,7 @@ One-way chain (mirrors the backend):
    but NOT `platform/api-client` — its wire contract is allowed type-only) + the one-way chain on the
    `@kotodama/core/<layer>` specifier + the agnostic-spine-never-imports-`ui`/`apps` rule + the
    `apps/web` `core/repositories` ban (waived only for `apps/web/src/server/**`, which also bans
-   `@kotodama/ui`/`@kotodama/web`). Run `/scan-deps`.
+   `@kotodama/ui`/`@kotodama/web`). `bun run check` runs both planes.
 
 **The invariant both protect: the web↔native boundary.** The agnostic spine is what a future
 `apps/mobile` reuses unchanged; `ui`/`apps/web` are DOM-bound and do not port — only `ui`'s

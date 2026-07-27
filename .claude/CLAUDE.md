@@ -28,7 +28,7 @@ platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web
 ```
 
 Full layering rule + the two enforcement planes (DOM-free `tsconfig.base` + Biome
-`noRestrictedImports`): `.claude/rules/frontend-layering.md`. Run `/scan-deps`. A new domain
+`noRestrictedImports`): `.claude/rules/frontend-layering.md`. A new domain
 is a `src/<domain>/` folder under each layer, never a new package.
 
 ## Root scripts
@@ -71,6 +71,6 @@ always loads, a package's loads when you touch its subtree. Content rule: `claud
 
 ## Slash commands
 
-`/check` · `/scan-deps` · `/new-package` · `/sweep`. **SDD toolkit:**
+`/new-package` · `/sweep`. **SDD toolkit:**
 `/sdd:{research,specify,clarify,plan,tasks,implement,verify}` (Notion-driven). Quickstart:
 `.claude/commands/README.md`. Conventions: `.claude/rules/sdd.md`.
