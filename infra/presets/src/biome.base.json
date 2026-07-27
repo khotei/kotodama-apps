@@ -349,6 +349,26 @@
           }
         }
       }
+    },
+    {
+      "includes": ["apps/web/app/(public)/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["next/headers"],
+                    "message": "SSG violation: cookies()/headers() makes a route dynamic and SILENTLY kills the public tree's static generation. The public tree calls createServerApiClient() anonymously; per-request identity belongs to the authed (app) tree."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }

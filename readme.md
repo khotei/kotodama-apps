@@ -34,7 +34,7 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
       │
       ▼
   RSC page ──► getWordState()  (src/server · server-only · React.cache)
-      │              │ createStaticApiClient() — anonymous, keeps SSG
+      │              │ createServerApiClient() — anonymous by default, keeps SSG
       │              ▼
       │        fetchWordState ─► GET /api/words/ja/言葉/state ─► kotodama-core   @kotodama/core/repositories
       │              (via the typed client generated from the backend's OpenAPI)  @kotodama/platform/api-client

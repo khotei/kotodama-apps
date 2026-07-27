@@ -1,4 +1,4 @@
-import createClient, { type Client, type Middleware } from 'openapi-fetch'
+import createClient, { type Client, type ClientOptions, type Middleware } from 'openapi-fetch'
 import type { paths } from './schema.gen'
 
 // The transport half of the package: a configured openapi-fetch instance over
@@ -14,6 +14,11 @@ export type ApiClientOptions = {
   baseUrl: string
   /** Injectable fetch — the SSR server and tests pass their own. */
   fetch?: typeof fetch
+  /** Default headers attached to every request — the per-request identity seam:
+   *  each runtime injects its own way (the server forwards a Cookie, a native
+   *  app a bearer token). Omitted = anonymous. openapi-fetch's own type, not
+   *  `HeadersInit` — the DOM-free tsconfig has no DOM lib. */
+  headers?: ClientOptions['headers']
 }
 
 // The single middleware seam: where auth headers, tracing, and error
@@ -31,8 +36,8 @@ const jsonMiddleware: Middleware = {
  * module-level singleton so the SSR server, the browser entry, and tests each
  * supply their own base URL / fetch without shared mutable state.
  */
-export function createApiClient({ baseUrl, fetch }: ApiClientOptions) {
-  const client = createClient<paths>({ baseUrl, fetch })
+export function createApiClient({ baseUrl, fetch, headers }: ApiClientOptions) {
+  const client = createClient<paths>({ baseUrl, fetch, headers })
   client.use(jsonMiddleware)
   return client
 }

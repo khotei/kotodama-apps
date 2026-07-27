@@ -3,7 +3,7 @@
 import { buildWord, fetchWordState, type Language } from '@kotodama/core/repositories'
 import type { WordBuildStatus } from '@kotodama/core/words'
 import { revalidatePath } from 'next/cache'
-import { createServerApiClient, createStaticApiClient } from '../api-client'
+import { createServerApiClient } from '../server-api-client'
 
 // The word feature's client-callable server surface (`'use server'`). A `'use server'`
 // module imported by a client island exposes NETWORK REFERENCES, not the code, so it
@@ -21,7 +21,7 @@ export async function getWordStatus(
   word: string,
 ): Promise<WordBuildStatus | null> {
   try {
-    const state = await fetchWordState(createStaticApiClient(), language, word, {
+    const state = await fetchWordState(createServerApiClient(), language, word, {
       cache: 'no-store',
     })
     return state?.status ?? null
@@ -50,7 +50,7 @@ export async function refreshWordPage(language: Language, word: string) {
  */
 export async function requestWordBuild(language: Language, word: string) {
   try {
-    await buildWord(await createServerApiClient(), language, word)
+    await buildWord(createServerApiClient(), language, word)
   } catch {}
   revalidatePath(`/words/${language}/${word}`)
 }

@@ -12,9 +12,10 @@ direction in `frontend-layering.md`, Turbopack/Playwright in `tooling.md`.
 
 ## The load-bearing invariant — the public tree stays statically generable
 
-In `app/(public)/**`, loaders fetch **only** with `createStaticApiClient()` (anonymous, cookie-free).
-`cookies()` or `createServerApiClient()` there makes the route **dynamic** and **silently kills SSG**
-— no build error, just a lost prerender.
+In `app/(public)/**`, loaders call `createServerApiClient()` **bare — never injecting `headers`**, and the
+tree bans `next/headers` (Biome): `cookies()` in a render makes the route **dynamic** and **silently
+kills SSG** — no build error, just a lost prerender. Per-request identity is injected at the call
+site (`createServerApiClient({ headers: … })`) and belongs to the authed `(app)` tree only.
 
 ## RSC / client boundaries
 
