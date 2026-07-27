@@ -57,7 +57,7 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
             <span className="flex items-center gap-xs" role="tablist" aria-label="Words of the day">
               {wotds.map((w, i) => (
                 <button
-                  key={w.dateTag}
+                  key={accentedWordText(w.word)}
                   type="button"
                   role="tab"
                   aria-selected={i === index}

@@ -60,6 +60,8 @@ export type RankedWordView = {
 export type LibraryView = {
   stats: readonly LibraryStat[]
   tryWords: readonly TryWordView[]
+  /** Study-language display name — the hero lookup placeholder. */
+  languageName: string
   wordsOfTheDay: readonly WotdView[]
   mostLookedUp: readonly RankedWordView[]
   recentlyAdded: readonly RankedWordView[]

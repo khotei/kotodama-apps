@@ -31,7 +31,14 @@ export default async function LibraryPage() {
   const library = libraryViewFromModel(model, { language: DEFAULT_LANGUAGE, now: new Date() })
   return (
     <LibraryScreen
-      hero={<LibraryHero stats={library.stats} tryWords={library.tryWords} searchPath="/search" />}
+      hero={
+        <LibraryHero
+          stats={library.stats}
+          tryWords={library.tryWords}
+          languageName={library.languageName}
+          searchPath="/search"
+        />
+      }
       wordOfTheDay={<WordOfTheDay wotds={library.wordsOfTheDay} />}
       readingRoom={
         <ReadingRoom

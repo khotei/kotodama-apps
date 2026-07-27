@@ -1,11 +1,13 @@
 'use client'
 
+import { languageName } from '@kotodama/platform/languages'
 import type { SearchWordView } from '@kotodama/ui'
 import {
   Button,
   CommandFab,
   CommandTrigger,
   LanguageMenu,
+  type LanguageOption,
   MobileTabBar,
   type PaletteItem,
   SearchCommandPalette,
@@ -13,11 +15,13 @@ import {
   SiteHeader,
   ThemeMenu,
 } from '@kotodama/ui'
-import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '@kotodama/ui/fixtures'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
+import { DEFAULT_LANGUAGE } from '@/src/language/language'
+import { capitalize } from '@/src/utils/text'
+import { wordHref } from '@/src/words/hrefs'
 
 // Active-state needs usePathname, the palette needs router.push, and the theme
 // menu needs next-themes, so this Next wiring lives in apps/web; the presentational
@@ -27,6 +31,13 @@ import { useState } from 'react'
 export type SiteChromeProps = {
   paletteWords: readonly SearchWordView[]
 }
+
+// A one-entry menu until the language becomes route state (`/[language]`).
+const CURRENT_LANGUAGE: LanguageOption = {
+  code: DEFAULT_LANGUAGE.toUpperCase(),
+  label: capitalize(languageName(DEFAULT_LANGUAGE)),
+}
+const LANGUAGE_OPTIONS: readonly LanguageOption[] = [CURRENT_LANGUAGE]
 
 export function SiteChrome({ paletteWords }: SiteChromeProps) {
   const pathname = usePathname()
@@ -96,7 +107,7 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
         router.push('/search')
         break
       case 'generate':
-        router.push(typed ? `/words/es/${encodeURIComponent(typed)}` : '/search')
+        router.push(typed ? wordHref(DEFAULT_LANGUAGE, encodeURIComponent(typed)) : '/search')
         break
       case 'saved':
         router.push('/search?saved=1')
@@ -129,14 +140,10 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
               </Button>
             </Show>
             <Show on="desktop">
-              <LanguageMenu current={CURRENT_LANGUAGE_MOCK} languages={LANGUAGE_OPTIONS_MOCK} />
+              <LanguageMenu current={CURRENT_LANGUAGE} languages={LANGUAGE_OPTIONS} />
             </Show>
             <Show on="mobile">
-              <LanguageMenu
-                compact
-                current={CURRENT_LANGUAGE_MOCK}
-                languages={LANGUAGE_OPTIONS_MOCK}
-              />
+              <LanguageMenu compact current={CURRENT_LANGUAGE} languages={LANGUAGE_OPTIONS} />
             </Show>
             <ThemeMenu theme={theme} onThemeChange={setTheme} />
           </>

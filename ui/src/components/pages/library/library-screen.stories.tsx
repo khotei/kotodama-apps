@@ -31,6 +31,7 @@ export const Populated: Story = {
         <LibraryHero
           stats={LIBRARY_VIEW_MOCK.stats}
           tryWords={LIBRARY_VIEW_MOCK.tryWords}
+          languageName={LIBRARY_VIEW_MOCK.languageName}
           searchPath="/search"
         />
       }

@@ -10,6 +10,7 @@ export const LIBRARY_VIEW_MOCK: LibraryView = {
     { value: '4', label: 'saved for review' },
     { value: 'Español', label: 'your study language' },
   ],
+  languageName: 'Spanish',
   tryWords: ['sobremesa', 'madrugar', 'friolero', 'estrenar', 'anteayer', 'tutear'].map((word) => ({
     word,
     href: `/words/es/${word}`,

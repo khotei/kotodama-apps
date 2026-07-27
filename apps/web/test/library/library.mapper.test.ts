@@ -32,6 +32,7 @@ describe('libraryViewFromModel · stats (AC-2, AC-12)', () => {
     expect(view.stats[0]).toEqual({ value: '12', label: 'words in the library' })
     expect(view.stats[1]).toEqual({ value: '3', label: 'being written now' })
     expect(view.stats[2]).toEqual({ value: 'Español', label: 'your study language' })
+    expect(view.languageName).toBe('Español')
     for (const stat of view.stats) {
       expect(stat.label).not.toMatch(/saved/i)
     }

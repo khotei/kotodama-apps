@@ -43,11 +43,13 @@ const PROPS = [
 export type LibraryHeroProps = {
   stats: readonly LibraryStat[]
   tryWords: readonly TryWordView[]
+  /** Study-language display name for the lookup placeholder — `Spanish`. */
+  languageName: string
   /** GET-form target for the hero search — `/search`. */
   searchPath: string
 }
 
-export function LibraryHero({ stats, tryWords, searchPath }: LibraryHeroProps) {
+export function LibraryHero({ stats, tryWords, languageName, searchPath }: LibraryHeroProps) {
   return (
     <section>
       <div className="mb-xl flex items-center gap-sm">
@@ -70,7 +72,7 @@ export function LibraryHero({ stats, tryWords, searchPath }: LibraryHeroProps) {
         <form action={searchPath}>
           <SearchBox
             name="q"
-            placeholder="Look up a word in Spanish…"
+            placeholder={`Look up a word in ${languageName}…`}
             aria-label="Search words"
             className="border-2 border-foreground bg-popover shadow-hero"
             actions={

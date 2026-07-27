@@ -120,11 +120,13 @@ export function libraryViewFromModel(
   model: Library,
   { language, now }: { language: Language; now: Date },
 ): LibraryView {
+  const studyLanguage = capitalize(languageName(language))
   return {
+    languageName: studyLanguage,
     stats: [
       { value: String(model.counts.succeeded), label: 'words in the library' },
       { value: String(model.counts.pending + model.counts.running), label: 'being written now' },
-      { value: capitalize(languageName(language)), label: 'your study language' },
+      { value: studyLanguage, label: 'your study language' },
     ],
     tryWords: tryWordsFrom(model, language),
     wordsOfTheDay: model.wotd.slice(0, 4).map((w) => wotdFromWord(w, language)),

@@ -15,6 +15,7 @@ export const Default: Story = {
   args: {
     stats: LIBRARY_VIEW_MOCK.stats,
     tryWords: LIBRARY_VIEW_MOCK.tryWords,
+    languageName: LIBRARY_VIEW_MOCK.languageName,
     searchPath: '/search',
   },
 }
