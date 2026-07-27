@@ -1,9 +1,15 @@
 import { faker } from '@faker-js/faker'
-import type { WordEntity, WordStateEntity } from '@kotodama/core/repositories'
+import type {
+  WordCountsEntity,
+  WordEntity,
+  WordSearchResultEntity,
+  WordStateEntity,
+} from '@kotodama/core/repositories'
 
 type Word = NonNullable<WordEntity>
 type SucceededWordState = Extract<WordStateEntity, { status: 'succeeded' }>
 type UnreadyWordState = Exclude<WordStateEntity, { status: 'succeeded' }>
+type UnreadySearchItem = Exclude<WordSearchResultEntity['items'][number], { status: 'succeeded' }>
 type Stage = Word['stages'][number]
 
 // An exhaustive Record, not a plain array — `satisfies` on an array checks only
@@ -138,6 +144,30 @@ export function makeWord(overrides: Partial<Word> = {}): Word {
     updatedAt: created,
     ...overrides,
   }
+}
+
+/** A still-building (or failed) search list item: identity + status + a stage
+ *  trail consistent with that status. */
+export function makeUnreadySearchItem(
+  status: UnreadySearchItem['status'] = 'running',
+  overrides: Partial<UnreadySearchItem> = {},
+): UnreadySearchItem {
+  const created = faker.date.past().toISOString()
+  return {
+    id: faker.string.uuid(),
+    word: faker.lorem.word(),
+    language: 'en',
+    status,
+    stages: makeStages(status),
+    createdAt: created,
+    updatedAt: created,
+    ...overrides,
+  }
+}
+
+/** A contract-valid `words.counts` body; pin asserted fields via `overrides`. */
+export function makeWordCounts(overrides: Partial<WordCountsEntity> = {}): WordCountsEntity {
+  return { total: 10, pending: 2, running: 1, succeeded: 6, failed: 1, ...overrides }
 }
 
 /** The `succeeded` arm of the word build state. */
