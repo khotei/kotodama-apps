@@ -5,7 +5,7 @@ import type { Language } from './word.entity'
 // The data-access tier: bare `fetchX` functions over the transport client — the
 // ONLY code that speaks path-strings + query params. Returns plain Promises of
 // the generated contract types (the type system is the test). Platform-agnostic;
-// `store` builds queryOptions on top of these.
+// `core/words` derives the domain model on top.
 
 // `init` forwards fetch options (e.g. Next's `{ next: { tags, revalidate } }`) from
 // the caller's edge to openapi-fetch. `body` is excluded — these are GET reads, and

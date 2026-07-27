@@ -1,6 +1,6 @@
 import type { WordStateEntity } from '@kotodama/core/repositories'
 
-// The load-bearing view-model of the foundation: the FE analogue of the
+// The load-bearing domain type of the foundation: the FE analogue of the
 // backend's `collapseWordState`. The backend emits `WordStateEntity` as a bare
 // `anyOf` through `OpenApi.fromApi` (no JSON-Schema discriminator), so the
 // generated type is a plain union with a `status` literal on each branch. We
@@ -22,7 +22,7 @@ export type ReadyWord = SucceededState['word']
 /** A non-terminal (or failed) build: identity + status + per-stage progress. */
 export type UnreadyStages = UnreadyState['stages']
 
-export type WordStateModel =
+export type WordState =
   | { readonly kind: 'ready'; readonly word: ReadyWord }
   | {
       readonly kind: 'unready'
@@ -31,7 +31,7 @@ export type WordStateModel =
     }
 
 /**
- * Narrow a raw `WordStateEntity` into a tagged {@link WordStateModel}. `succeeded`
+ * Narrow a raw `WordStateEntity` into a tagged {@link WordState}. `succeeded`
  * yields the `word` branch; every other status (`pending` | `running` |
  * `failed`) yields the `stages` branch.
  *
@@ -40,7 +40,7 @@ export type WordStateModel =
  * this stops compiling — a build error, never a silent relabel (the backend
  * `collapseWordState` invariant).
  */
-export function narrowWordState(state: WordStateEntity): WordStateModel {
+export function narrowWordState(state: WordStateEntity): WordState {
   if (state.status === 'succeeded') {
     return { kind: 'ready', word: state.word }
   }

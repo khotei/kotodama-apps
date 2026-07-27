@@ -1,7 +1,7 @@
 import base from '@kotodama/presets/vitest.base'
 import { mergeConfig } from 'vitest/config'
 
-// The aggregate holds each layer in its own folder (`repositories/`, `store/`),
+// The aggregate holds each layer in its own folder (`repositories/`, `words/`),
 // so tests sit at `<layer>/test/**` — one level deeper than the base's `test/**`.
 export default mergeConfig(base, {
   test: { include: ['*/test/**/*.test.ts', '*/test/**/*.test.tsx'] },

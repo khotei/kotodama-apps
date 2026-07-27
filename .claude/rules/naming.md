@@ -17,7 +17,6 @@ paths:
 |---|---|---|
 | `.repo.ts` | bare `fetchX` functions (`fetchWord`) | `core/repositories` |
 | `.entity.ts` | contract types as fetched (`WordEntity`) | `core/repositories` |
-| `.model.ts` | derived model + derivation (`WordStateModel`, `narrowWordState`) | `core/store` |
 | `.factory.ts` | test-only faker `make*` builders | `core/factories` |
 | `.loader.ts` | `server-only` `React.cache` read (`getWordState`) | `apps/web/src/server` |
 | `.actions.ts` | `'use server'` mutation file | `apps/web/src/server` |
@@ -27,9 +26,11 @@ paths:
 | `*.gen.ts` | GENERATED, never hand-edited | `platform/api-client`, `ui` |
 
   Server is the default → UNmarked; only the client island is marked `.client.tsx` (not to be
-  confused with api-client's transport `client.ts`). Component files take **no** suffix. Tests
-  mirror the source name (suffix included) under the workspace's `test/<domain>/`.
+  confused with api-client's transport `client.ts`). Component files take **no** suffix, and neither
+  do domain-module files (`core/words`) — there the file IS the domain noun (`word-state.ts`,
+  mirroring the backend's `core/words/src/*`). Tests mirror the source name (suffix included) under
+  the workspace's `test/` (per-domain subfolders where the layer has them).
 - **Symbols:** props type `<Component>Props` (a `type`, never `interface`). fetchX verb-first taking
-  `client` first (`fetchWord`); loaders `get<Domain>`; actions verb-first; model `<Domain>Model`.
-  Entity types carry `*Entity`; value/enum types (`Language`, `JobStatus`) stay plain; **never suffix
-  a type `<X>Schema`.**
+  `client` first (`fetchWord`); loaders `get<Domain>`; actions verb-first. Domain types are bare
+  nouns (`WordState`, `Library`) — only the boundary tiers carry a postfix: wire `*Entity`, render
+  `*View`. Value/enum types (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**

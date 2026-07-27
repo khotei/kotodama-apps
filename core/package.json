@@ -6,7 +6,7 @@
   "sideEffects": false,
   "exports": {
     "./repositories": "./repositories/src/index.ts",
-    "./store": "./store/src/index.ts",
+    "./words": "./words/src/index.ts",
     "./factories": "./factories/src/index.ts"
   },
   "dependencies": {

@@ -2,7 +2,7 @@ import type { operations } from '@kotodama/platform/api-client'
 
 // The contract types projected straight off the generated `operations` — no
 // hand-written response shapes. They live here, in the data-access tier that
-// owns the wire vocabulary, so `store` (and any future consumer) reads one
+// owns the wire vocabulary, so `core/words` (and any future consumer) reads one
 // domain home; `api-client` stays pure transport (client + raw `operations`).
 // Entity nouns carry the `*Entity` role suffix (as-fetched); shared value types
 // (`Language`, `JobStatus`) stay plain — they travel across layers as primitives.

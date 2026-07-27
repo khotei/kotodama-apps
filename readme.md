@@ -38,8 +38,8 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
       │              ▼
       │        fetchWordState ─► GET /api/words/ja/言葉/state ─► kotodama-core   @kotodama/core/repositories
       │              (via the typed client generated from the backend's OpenAPI)  @kotodama/platform/api-client
-      ▼              │ narrowWordState                                            @kotodama/core/store
-  WordStateModel ──► WordScreen (RSC, prop-driven) ──► WordCard   @kotodama/ui
+      ▼              │ narrowWordState                                            @kotodama/core/words
+  WordState ──────► WordScreen (RSC, prop-driven) ──► WordCard   @kotodama/ui
       │
       ▼
   Server-rendered HTML: <title> · OpenGraph · JSON-LD DefinedTerm   (crawlable, JavaScript off)
@@ -79,18 +79,18 @@ detail.
 | Layer | Owns | Why it's here |
 |---|---|---|
 | `platform` (`./api-client` · `./config`) | the openapi-fetch client + generated `schema.gen`; the Zod-validated env | the agnostic base leaf — transport + env, imported by all |
-| `core` (`./repositories` · `./store`) | bare `fetchX` + contract `*Entity` types ◄ the domain-model derivation (`narrowWordState` + `*Model` types) | the agnostic domain spine a future native app reuses |
+| `core` (`./repositories` · `./words`) | bare `fetchX` + contract `*Entity` types ◄ the words domain module (`narrowWordState` + bare-noun domain types) | the agnostic domain spine a future native app reuses |
 | `ui` | the web design system + ALL presentation: Tailwind v4 + shadcn primitives + `@theme` tokens, atoms→pages | web-only, prop-driven leaf |
 | `apps/web` | the Next shell: routing + the `src/server` data layer (loaders + actions) + wiring + SEO | the web process boundary |
 | `apps/e2e` | Playwright against a running app + real backend | the crawlability proof (JS off) |
 | `infra/presets` | the `@kotodama/presets` config presets (tsconfig/biome/vitest bases) | write-once shared config, referenced by specifier |
 
 `platform` and `core` are each ONE package whose layers are subpath-exported folders
-(`@kotodama/platform/{api-client,config}`, `@kotodama/core/{repositories,store}`) — a new domain is a
+(`@kotodama/platform/{api-client,config}`, `@kotodama/core/{repositories,words}`) — a new domain is a
 folder under a `core` layer, never a new package.
 
 **Dependency direction** (enforced by Biome + a DOM-free `tsconfig`):
-`platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web`, and everything → `platform`. The
+`platform/api-client ◄ core/repositories ◄ core/words ◄ apps/web`, and everything → `platform`. The
 agnostic spine (`platform` + `core`) is what a future native app reuses; `ui`/`apps/web` are web-bound
 and don't port (the web↔native line is below `core`, since `ui` renders). Within `apps/web`, only
 `src/server/**` may reach `core/repositories`; `ui` stays prop-driven. Full rule + enforcement:

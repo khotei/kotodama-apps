@@ -5,5 +5,5 @@
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["repositories/**/*", "store/**/*", "factories/**/*", "*.config.ts"]
+  "include": ["repositories/**/*", "words/**/*", "factories/**/*", "*.config.ts"]
 }

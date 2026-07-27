@@ -19,18 +19,18 @@ Agnostic base + spine (import nothing web-bound):
     ./api-client  transport: openapi-fetch client + generated schema.gen
   core      @kotodama/core       two domain layers as folders, subpath-exported:
     ./repositories  raw fetchX + the contract *Entity types
-    ./store         the domain-model derivation (narrowWordState + *Model types)
+    ./words         the words domain module (narrowWordState + the bare-noun domain types)
 
 Web-only leaf:
   ui        @kotodama/ui         the ENTIRE web design system + all presentation
 
 One-way chain (mirrors the backend):
-  platform/api-client ◄ core/repositories ◄ core/store ◄ apps/web
+  platform/api-client ◄ core/repositories ◄ core/words ◄ apps/web
   (platform/config a base leaf importable by ALL; ui the web-only leaf apps/web wires)
 ```
 
 - **Aggregate packages, subpath entry points.** `core` and `platform` are each ONE package whose
-  layers are folders exported as subpaths (`@kotodama/core/{repositories,store}`,
+  layers are folders exported as subpaths (`@kotodama/core/{repositories,words}`,
   `@kotodama/platform/{api-client,config}`) — NOT flat barrels. Each subpath is a separate entry
   point, so tree-shaking stays independent AND the layer direction is Biome-lintable on the
   `@kotodama/core/<layer>` specifier. **A new domain is a `src/<domain>/` folder under each layer,
@@ -55,12 +55,16 @@ One-way chain (mirrors the backend):
   `gen-api.ts` build script is Biome-exempted to reuse its `loadRootEnv`. The `api-client` *library*
   still reads no env — it takes `baseUrl` injected.
 - **Layer direction:** `core/repositories` = raw fetchX + the contract entity types (`*Entity`);
-  `core/store` = the domain model derivation (`narrowWordState` + the `*Model` types); `apps/web` = the
+  `core/words` = the words domain module (`narrowWordState` + bare-noun domain types); `apps/web` = the
   Next shell (routing + the server data layer + wiring that composes `ui`). Never import upward
-  (`store` may import `repositories`, never the reverse), and the agnostic spine never imports `ui`/`apps`.
+  (`words` may import `repositories`, never the reverse), and the agnostic spine never imports `ui`/`apps`.
+- **`core/use-cases` is a reserved slot, not a license.** The backend's `use-cases` hold COMMAND
+  orchestration only — its api handler composes READS at the edge (`searchWords` straight from
+  repositories). Mirror that: reads compose in `apps/web/src/server` loaders; create
+  `core/use-cases` only with the first multi-step mutation flow, never for a read aggregate.
 - **`apps/web` splits in two internally:** `src/server/**` is the RSC data layer — the ONE place in
-  the app allowed to import `@kotodama/core/repositories` (it composes fetchX + `@kotodama/core/store`
-  models + `@kotodama/platform/config` into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**`
+  the app allowed to import `@kotodama/core/repositories` (it composes fetchX + `@kotodama/core/words`
+  domain types + `@kotodama/platform/config` into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**`
   is the routing shell — plus the client-wiring chrome/islands under `src/chrome/**` + `src/words/**` —
   that composes `@kotodama/ui` components, injecting the loaders' data + the actions. `src/server` must
   not import `ui` — presentation lives in `ui`, data in `src/server`.

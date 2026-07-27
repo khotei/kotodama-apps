@@ -1,6 +1,6 @@
 import { makeSucceededWordState, makeUnreadyWordState } from '@kotodama/core/factories'
 import { describe, expect, it } from 'vitest'
-import { narrowWordState } from '../../src/words/word-state.model'
+import { narrowWordState } from '../src/word-state'
 
 describe('narrowWordState', () => {
   it('routes a succeeded state to the ready branch, carrying the word', () => {

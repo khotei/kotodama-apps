@@ -128,13 +128,13 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/core/store",
-                      "@kotodama/core/store/**",
+                      "@kotodama/core/words",
+                      "@kotodama/core/words/**",
                       "@kotodama/ui",
                       "@kotodama/ui/**",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
+                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the domain layer (@kotodama/core/words), the design system, or apps."
                   },
                   {
                     "group": ["@faker-js/faker"],
@@ -158,13 +158,13 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/core/store",
-                      "@kotodama/core/store/**",
+                      "@kotodama/core/words",
+                      "@kotodama/core/words/**",
                       "@kotodama/ui",
                       "@kotodama/ui/**",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the store layer (@kotodama/core/store), the design system, or apps."
+                    "message": "Layer violation: core/repositories may depend on @kotodama/platform/api-client only — never the domain layer (@kotodama/core/words), the design system, or apps."
                   },
                   {
                     "group": [
@@ -192,13 +192,13 @@
                 "patterns": [
                   {
                     "group": [
-                      "@kotodama/core/store",
-                      "@kotodama/core/store/**",
+                      "@kotodama/core/words",
+                      "@kotodama/core/words/**",
                       "@kotodama/ui",
                       "@kotodama/ui/**",
                       "@kotodama/web"
                     ],
-                    "message": "Layer violation: core/factories builds WIRE values over the repositories entity types — it must not import the store model, the design system, or apps."
+                    "message": "Layer violation: core/factories builds WIRE values over the repositories entity types — it must not import the domain model, the design system, or apps."
                   }
                 ]
               }
@@ -208,7 +208,7 @@
       }
     },
     {
-      "includes": ["core/store/**"],
+      "includes": ["core/words/**"],
       "linter": {
         "rules": {
           "style": {
@@ -218,7 +218,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
-                    "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
+                    "message": "Layer violation: core/words derives the domain model over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   },
                   {
                     "group": ["@faker-js/faker"],
@@ -232,7 +232,7 @@
       }
     },
     {
-      "includes": ["core/store/src/**"],
+      "includes": ["core/words/src/**"],
       "linter": {
         "rules": {
           "style": {
@@ -242,7 +242,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
-                    "message": "Layer violation: core/store derives domain models over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
+                    "message": "Layer violation: core/words derives the domain model over core/repositories — it must not import the design system or apps. It is platform-agnostic spine."
                   },
                   {
                     "group": [
@@ -333,7 +333,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
-                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + store models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
+                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + domain models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/** + src/chrome, never the data layer."
                   },
                   {
                     "group": [

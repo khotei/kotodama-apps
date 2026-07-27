@@ -1,6 +1,6 @@
 // @kotodama/core/repositories — the data-access tier: bare fetchX access functions
-// over the transport client. Platform-agnostic (no DOM). `store` builds
-// queryOptions on top of these.
+// over the transport client. Platform-agnostic (no DOM). `core/words`
+// derives the domain model on top.
 
 export type {
   JobStatus,

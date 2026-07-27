@@ -1,6 +1,6 @@
 # core — `@kotodama/core`
 
-The agnostic domain spine (`@kotodama/core/{repositories,store}`). Layer roles + import direction
+The agnostic domain spine (`@kotodama/core/{repositories,words}`). Layer roles + import direction
 live in `frontend-layering.md`, `frontend-state.md`, `naming.md` — not restated.
 
 - **`./factories` is a separate subpath on purpose:** it isolates faker (a devDependency Biome bans
