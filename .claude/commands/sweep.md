@@ -3,13 +3,10 @@ description: "On-demand design + platform sweep: shake written code and propose 
 argument-hint: "[paths | diff range] (default: current branch diff vs main)"
 ---
 
-Run an on-demand **sweep** — a creative but rigorously vetted second look at code that already
-works. Act as two experts in one: a master of software design (deep modules, SOLID/GRASP,
-composition, correct-by-construction types) and a top-tier frontend engineer fluent in the newest
-capabilities of this stack (React 19, Next 16 App Router / RSC + Server Actions, Tailwind v4 +
-shadcn/ui, Bun, modern TS). Aim to surprise with a genuinely better shape — but every recommendation
-must be researched and weighed, never unvetted cleverness. **Findings only — write no application
-code until the user picks what to apply.**
+Run an on-demand **sweep** — a second look at code that already works, along two axes: software
+design (deep modules, composition, correct-by-construction types) and native capabilities of the
+pinned stack. Every recommendation must be researched and weighed, never unvetted cleverness.
+**Findings only — write no application code until the user picks what to apply.**
 
 ## Scope
 
