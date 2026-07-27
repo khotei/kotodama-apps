@@ -20,8 +20,8 @@ dominate here — leverage (framework/platform reuse, render/SSG behavior, corre
 ## Leg A — platform sweep (don't reinvent)
 
 For each subsystem the code touches, enumerate the advanced/native capabilities that could dissolve
-hand-written code or improve rendering — not the CRUD basics. Consult in order: the repo catalog
-**`.claude/agent-patterns/tailwind-shadcn.md`** (design-system primitives + the Kotodama fit); the
+hand-written code or improve rendering — not the CRUD basics. Consult in order: the design-system
+mechanics in **`ui/CLAUDE.md`**; the
 native capabilities of **React 19** (Actions, `use`, Suspense), **Next 16 App Router** (RSC, Server
 Actions, `React.cache`, the cache/revalidation model — see `.claude/rules/{nextjs,frontend-state}.md`),
 and **Tailwind v4**; then the **bundled version-matched docs** (`node_modules/next/dist/docs/`) as the

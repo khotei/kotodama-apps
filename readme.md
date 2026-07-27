@@ -25,7 +25,7 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
 > + the [Tech spec](https://www.notion.so/36dfb28bd5f181988f16de6ab423eb3e) (authoritative). This
 > README is the **front door** — what this is and how to run it. Depth is linked, never restated:
 > conventions in `.claude/rules/*` + per-layer `CLAUDE.md` (auto-loaded in Claude Code); the
-> component standard in [`.claude/agent-patterns/tailwind-shadcn.md`](.claude/agent-patterns/tailwind-shadcn.md).
+> component standard in [`ui/CLAUDE.md`](ui/CLAUDE.md).
 
 ## How it works
 
@@ -154,7 +154,7 @@ workspace with zero root-config edits. One piece of tooling stays out of the rep
 
 - **[`apps/web/CLAUDE.md`](apps/web/CLAUDE.md)** + **[`.claude/rules/nextjs.md`](.claude/rules/nextjs.md)** — the render shell (RSC/SSG boundaries, the data path, SEO)
 - **[`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md)** — the spine + the web↔native boundary
-- **[`.claude/agent-patterns/tailwind-shadcn.md`](.claude/agent-patterns/tailwind-shadcn.md)** — the component standard (`cva`, `cn`, semantic tokens)
+- **[`ui/CLAUDE.md`](ui/CLAUDE.md)** — the component standard (`cva`, `cn`, semantic tokens)
 - **[`.claude/rules/tooling.md`](.claude/rules/tooling.md)** · **[`commits.md`](.claude/rules/commits.md)** · **[`pull-requests.md`](.claude/rules/pull-requests.md)** — scripts, the pre-commit gate, commit/PR shape
 - **[Frontend Foundation Architecture](https://www.notion.so/38efb28bd5f181d794c3d9b1fd5629ba)** · **[Tech spec](https://www.notion.so/36dfb28bd5f181988f16de6ab423eb3e)** — the authoritative why / what
 - **`.claude/`** — AI-agent context (root [`.claude/CLAUDE.md`](.claude/CLAUDE.md) + `.claude/rules/*` + per-layer `CLAUDE.md`), loaded automatically in Claude Code

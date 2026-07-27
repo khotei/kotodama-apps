@@ -62,7 +62,7 @@ Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest
   `frontend-testing` → `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` →
   `.claude/{commands,agents,sdd}/**` · `human-docs` → `readme.md`,`docs/**`.
 - **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — component-design,
-  tailwind-shadcn, commit-examples.
+  commit-examples.
 
 ## Per-layer context
 
