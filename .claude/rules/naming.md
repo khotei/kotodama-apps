@@ -1,6 +1,11 @@
-# Naming conventions
+---
+paths:
+  - "**/*.ts"
+  - "**/*.tsx"
+  - "**/package.json"
+---
 
-**Always-loaded rule.**
+# Naming conventions
 
 - **Packages:** `@kotodama/<folder>`, nested folders dash-flatten. `core`/`platform` are single
   packages with subpath-exported layer folders; `ui` = `@kotodama/ui`; presets = `@kotodama/presets`

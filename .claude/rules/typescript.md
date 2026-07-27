@@ -1,6 +1,12 @@
+---
+paths:
+  - "**/*.ts"
+  - "**/*.tsx"
+---
+
 # TypeScript conventions
 
-**Always-loaded rule.** Two idioms Biome can't enforce.
+Two idioms Biome can't enforce.
 
 - **`type`, never `interface`.** Declare every object/prop/option shape as a `type` alias; compose
   with `&`, derive off the owner with `Pick`/`Omit`/`T['k']`. (Rationale: avoid `interface`

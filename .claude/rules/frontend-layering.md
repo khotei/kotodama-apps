@@ -1,6 +1,15 @@
+---
+paths:
+  - "apps/**"
+  - "core/**"
+  - "platform/**"
+  - "ui/**"
+  - "infra/**"
+---
+
 # Frontend layering (the rule the scaffolding protects)
 
-**Always-loaded rule.** The FE mirrors the backend's top-level workspaces. Getting a new file into
+The FE mirrors the backend's top-level workspaces. Getting a new file into
 the right layer is the whole point of this doc.
 
 ```

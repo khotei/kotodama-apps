@@ -55,12 +55,12 @@ Follow `.claude/rules/commits.md`; husky runs `biome check --staged` + `bun run 
 Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest are
 **path-scoped** via `paths:` frontmatter and load only on a matching file.
 
-- **Always:** `frontend-layering` · `tooling` · `naming` · `typescript` · `comments` ·
-  `commits` · `pull-requests` · `claude-md`.
-- **Path-scoped:** `frontend-state` → `apps/web/**`,`core/**` · `frontend-components` →
-  `ui/**`,`apps/web/**` · `nextjs` → `apps/web/**` · `react-use` → `apps/web/**`,`ui/**` ·
-  `frontend-testing` → `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` →
-  `.claude/{commands,agents,sdd}/**`.
+- **Always:** `tooling` · `comments` · `commits` · `pull-requests` · `claude-md`.
+- **Path-scoped:** `frontend-layering` → the source workspaces (`apps|core|platform|ui|infra/**`) ·
+  `naming` → `**/*.ts{,x}`,`**/package.json` · `typescript` → `**/*.ts{,x}` · `frontend-state` →
+  `apps/web/**`,`core/**` · `frontend-components` → `ui/**`,`apps/web/**` · `nextjs` →
+  `apps/web/**` · `react-use` → `apps/web/**`,`ui/**` · `frontend-testing` →
+  `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` → `.claude/{commands,agents,sdd}/**`.
 - **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — component-design,
   commit-examples.
 
