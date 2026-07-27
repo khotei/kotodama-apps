@@ -61,6 +61,45 @@ export function searchWords(client: ApiClient, language: Language, params: Searc
     .then(unwrap)
 }
 
+export type WordCountsParams = operations['words.counts']['parameters']['query']
+
+export function fetchWordCounts(
+  client: ApiClient,
+  language: Language,
+  params?: WordCountsParams,
+  init?: ReadInit,
+) {
+  return client
+    .GET('/api/words/{language}/counts', {
+      params: { path: { language }, query: params },
+      ...init,
+    })
+    .then(unwrap)
+}
+
+type RecentWordsParams = Pick<SearchWordsParams, 'page' | 'limit'>
+
+// "Most looked up" and "word of the day" have no dedicated backend source yet:
+// both read recent succeeded words via search — recency, never a fabricated
+// popularity signal. Deliberately two named intents (not one shared wrapper):
+// when a real /trending or WOTD endpoint lands, only this file changes.
+
+export function fetchMostLookedUp(
+  client: ApiClient,
+  language: Language,
+  params: RecentWordsParams,
+) {
+  return searchWords(client, language, { ...params, status: 'succeeded' })
+}
+
+export function fetchWordsOfTheDay(
+  client: ApiClient,
+  language: Language,
+  params: RecentWordsParams,
+) {
+  return searchWords(client, language, { ...params, status: 'succeeded' })
+}
+
 /** Queue (or re-queue) a build for the word — POST, no body; the state row is the reply. */
 export function buildWord(client: ApiClient, language: Language, word: string) {
   return client

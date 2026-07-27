@@ -10,5 +10,13 @@ export type {
   WordSearchResultEntity,
   WordStateEntity,
 } from './words/word.entity'
-export type { SearchWordsParams } from './words/word.repo'
-export { buildWord, fetchWord, fetchWordState, searchWords } from './words/word.repo'
+export type { SearchWordsParams, WordCountsParams } from './words/word.repo'
+export {
+  buildWord,
+  fetchMostLookedUp,
+  fetchWord,
+  fetchWordCounts,
+  fetchWordState,
+  fetchWordsOfTheDay,
+  searchWords,
+} from './words/word.repo'
