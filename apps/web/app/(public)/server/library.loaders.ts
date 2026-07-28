@@ -27,34 +27,30 @@ export type LibraryAggregation = {
 /**
  * The library page's ONE read (page + `generateMetadata` share it via
  * `React.cache`): four anonymous reads fanned out in parallel, assembled into one
- * {@link LibraryAggregation}. NEVER throws — an unreachable backend resolves `null`, so the
- * page renders degraded and `next build` passes without a live backend. The
- * client stays anonymous (no headers injected) — the public tree must remain
- * statically generable.
+ * {@link LibraryAggregation}. An unreachable backend THROWS through to the route's
+ * `error.tsx` — the degraded state lives once in the boundary, never as a
+ * null-branch in the page. The client stays anonymous (no headers injected) —
+ * the public tree must remain statically generable.
  *
  * `recent` deliberately reads UNfiltered search (building words surface as
  * unready rows); the succeeded-only rails go through their intent wrappers.
  */
 export const loadLibraryAggregation = cache(
-  async (language: Language): Promise<LibraryAggregation | null> => {
+  async (language: Language): Promise<LibraryAggregation> => {
     const client = createServerApiClient()
-    try {
-      const [counts, recent, mostLooked, wotd] = await Promise.all([
-        fetchWordCounts(client, language),
-        searchWords(client, language, { page: 1, limit: RANKED_LIMIT }),
-        fetchMostLookedUp(client, language, { page: 1, limit: RANKED_LIMIT }),
-        fetchWordsOfTheDay(client, language, { page: 1, limit: WOTD_LIMIT }),
-      ])
-      return {
-        counts,
-        recent: recent.items,
-        mostLooked: mostLooked.items,
-        // The wotd rail renders inline word content, so an unready row has
-        // nothing to show — deliberately no `getWord` fan-out to fill it.
-        wotd: wotd.items.filter((item) => item.status === 'succeeded'),
-      }
-    } catch {
-      return null
+    const [counts, recent, mostLooked, wotd] = await Promise.all([
+      fetchWordCounts(client, language),
+      searchWords(client, language, { page: 1, limit: RANKED_LIMIT }),
+      fetchMostLookedUp(client, language, { page: 1, limit: RANKED_LIMIT }),
+      fetchWordsOfTheDay(client, language, { page: 1, limit: WOTD_LIMIT }),
+    ])
+    return {
+      counts,
+      recent: recent.items,
+      mostLooked: mostLooked.items,
+      // The wotd rail renders inline word content, so an unready row has
+      // nothing to show — deliberately no `getWord` fan-out to fill it.
+      wotd: wotd.items.filter((item) => item.status === 'succeeded'),
     }
   },
 )

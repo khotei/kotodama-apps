@@ -17,17 +17,6 @@ export const metadata: Metadata = {
 
 export default async function LibraryPage() {
   const model = await loadLibraryAggregation(DEFAULT_LANGUAGE)
-  // Unreachable backend (including `next build` with none running) → the
-  // honest degraded page, never mock data and never a build failure.
-  if (!model) {
-    return (
-      <main className="flex min-h-[60vh] items-center justify-center px-6 text-center">
-        <p className="text-muted-foreground">
-          The library shelves are being restocked — check back in a moment.
-        </p>
-      </main>
-    )
-  }
   const library = libraryViewFromModel(model, { language: DEFAULT_LANGUAGE, now: new Date() })
   return (
     <LibraryScreen

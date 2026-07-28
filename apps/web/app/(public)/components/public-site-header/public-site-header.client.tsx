@@ -20,7 +20,7 @@ export function PublicSiteHeader() {
   const [words, setWords] = useState<readonly WordListItem[]>([])
 
   const handleSearch = async (query: string) => {
-    setWords(await loadWordSearch(DEFAULT_LANGUAGE, query.trim()))
+    setWords((await loadWordSearch(DEFAULT_LANGUAGE, query.trim())).items)
   }
 
   useMount(() => {

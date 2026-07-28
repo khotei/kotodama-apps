@@ -15,8 +15,9 @@ in `frontend-layering.md` + `naming.md`; this file holds only the non-derivable 
 - **`*.loaders.ts`** — the read door (`load*`), in two flavors: the RSC loader (`server-only` +
   `React.cache`, one fetch/request shared by page + `generateMetadata` + JSON-LD) and the
   island-callable read (`'use server'` — imported by the client as a network reference, so no
-  `server-only`). Either flavor **NEVER throws**: an unreachable backend returns `null`/`[]`, so
-  the public tree builds (SSG) without a live backend.
+  `server-only`). Loaders do NOT swallow errors: a failed read throws through to the route's
+  `error.tsx` — the ONE home of the degraded state (so `next build`'s prerender needs a reachable
+  backend); an island-callable read rejects into its caller, which owns the retry/degrade policy.
 - **`*.requests.ts`** (`'use server'`) — the ONE mutation door: every export is a `request*`
   Server Action. **Verify the session here** — Server Actions are reachable by direct POST. No
   `server-only` (a client island imports the request as a network reference).

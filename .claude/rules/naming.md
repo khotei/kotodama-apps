@@ -34,9 +34,8 @@ paths:
   module. Tests mirror the source name (suffix included) under
   the workspace's `test/` (per-domain subfolders where the layer has them).
 - **Symbols:** props type `<Component>Props` (a `type`, never `interface`). The data tiers own
-  reserved verb prefixes — `fetch*` wire call taking `client` first (`fetchWord`), `load*` read that
-  never throws (`loadLibraryAggregation`), `request*` `'use server'` command (`requestWordBuild`);
-  any other
+  reserved verb prefixes — `fetch*` wire call taking `client` first (`fetchWord`), `load*` read
+  (`loadLibraryAggregation`), `request*` `'use server'` command (`requestWordBuild`); any other
   verb is not a data function. Domain types are bare
   nouns (`WordState`, `LibraryAggregation`) — only the boundary tiers carry a postfix: wire `*Entity`, render
   `*View`. Value/enum types (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**
