@@ -10,13 +10,9 @@ import type { Language, ReadyListWord, WordListItem } from '@kotodama/core/words
 import { cache } from 'react'
 import { createServerApiClient } from '@/src/server/server-api-client'
 
-// Rail sizes mirror the library composition (6-row ranked rails, a 4-card
-// word-of-the-day run) — the render tier trims from these, never fetches more.
 const RANKED_LIMIT = 6
 const WOTD_LIMIT = 4
 
-/** The library read aggregate — the ONE type both sides of the seam name: this
- *  loader (ui-free) returns it, the render tier maps it into ui's LibraryView. */
 export type LibraryAggregation = {
   readonly counts: WordCountsEntity
   readonly recent: readonly WordListItem[]
@@ -24,32 +20,23 @@ export type LibraryAggregation = {
   readonly wotd: readonly ReadyListWord[]
 }
 
-/**
- * The library page's ONE read (`React.cache` dedupes it within a request):
- * four anonymous reads fanned out in parallel, assembled into one
- * {@link LibraryAggregation}. An unreachable backend THROWS through to the route's
- * `error.tsx` — the degraded state lives once in the boundary, never as a
- * null-branch in the page. The client stays anonymous (no headers injected) —
- * the public tree must remain statically generable.
- *
- * `recent` deliberately reads UNfiltered search (building words surface as
- * unready rows); the succeeded-only rails go through their intent wrappers.
- */
+// @todo: add tryWords call, return type should ready words
 export const loadLibraryAggregation = cache(
   async (language: Language): Promise<LibraryAggregation> => {
     const client = createServerApiClient()
     const [counts, recent, mostLooked, wotd] = await Promise.all([
       fetchWordCounts(client, language),
+      // @todo: wrap into own fn
       searchWords(client, language, { page: 1, limit: RANKED_LIMIT }),
+      // @todo: force to return ready word
       fetchMostLookedUp(client, language, { page: 1, limit: RANKED_LIMIT }),
+      // @todo: force to return ready word
       fetchWordsOfTheDay(client, language, { page: 1, limit: WOTD_LIMIT }),
     ])
     return {
       counts,
       recent: recent.items,
       mostLooked: mostLooked.items,
-      // The wotd rail renders inline word content, so an unready row has
-      // nothing to show — deliberately no `getWord` fan-out to fill it.
       wotd: wotd.items.filter((item) => item.status === 'succeeded'),
     }
   },

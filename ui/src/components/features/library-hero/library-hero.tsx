@@ -50,6 +50,7 @@ export type LibraryHeroProps = {
   searchPath: string
 }
 
+// @todo: split into manageble components
 export function LibraryHero({ stats, tryWords, languageName, searchPath }: LibraryHeroProps) {
   return (
     <section>

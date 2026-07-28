@@ -11,6 +11,7 @@ export type SiteShellProps = {
  * fight the rest of the document. Wrap the whole public tree in it — the app
  * layout mounts it; {@link StoryShell} reuses it for stories.
  */
+// @todo: rename to AppContainer?
 export function SiteShell({ children }: SiteShellProps) {
   return (
     <div className="relative isolate min-h-screen">

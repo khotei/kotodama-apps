@@ -1,3 +1,4 @@
+// @todo: move file to (public)
 import type { Language, ReadyListWord, WordListItem } from '@kotodama/core/words'
 import { formatDayMonth, formatRelative } from '@kotodama/platform/dates'
 import { languageName } from '@kotodama/platform/languages'
@@ -36,7 +37,7 @@ function rankedFromItem(item: WordListItem, language: Language, now: Date): Rank
   }
 }
 
-function wotdFromWord(word: ReadyListWord, language: Language): WotdView {
+function mapWordOfDay(word: ReadyListWord, language: Language): WotdView {
   const year = word.etymology.firstAttested.year
   const series = word.frequency?.series.filter((p) => typeof p.value === 'number') ?? []
   const years = word.frequency?.series.map((p) => p.year).filter((y) => typeof y === 'number') ?? []
@@ -93,22 +94,18 @@ function wotdFromWord(word: ReadyListWord, language: Language): WotdView {
   }
 }
 
-/** The unused-word invite rail: unique ready words across the rails, capped at 6. */
+// @todo: remvoe, library will return ready on tryWords
 function tryWordsFrom(model: LibraryAggregation, language: Language) {
   const names = [
     ...model.wotd.map((w) => w.word),
+    //@todo: remove filtering, word should be ready already
     ...model.mostLooked.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
+    //@todo: remove filtering, word should be ready already
     ...model.recent.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
   ]
   return [...new Set(names)].slice(0, 6).map((word) => ({ word, href: wordHref(language, word) }))
 }
 
-/**
- * Map the domain {@link LibraryAggregation} into ui's `LibraryView` — wire vocabulary in,
- * presentation vocabulary out. Pure: `now` is injected (relative "when" labels),
- * `language` names the catalogue being browsed. The auth-gated "saved" surface
- * is omitted throughout (`saved: false`, no saved-count tile) until auth lands.
- */
 export function libraryViewFromModel(
   model: LibraryAggregation,
   { language, now }: { language: Language; now: Date },
@@ -116,13 +113,15 @@ export function libraryViewFromModel(
   const studyLanguage = capitalize(languageName(language))
   return {
     languageName: studyLanguage,
+    // @todo: think about labels. write more meaningful and frendly
     stats: [
       { value: String(model.counts.succeeded), label: 'words in the library' },
       { value: String(model.counts.pending + model.counts.running), label: 'being written now' },
       { value: studyLanguage, label: 'your study language' },
     ],
     tryWords: tryWordsFrom(model, language),
-    wordsOfTheDay: model.wotd.slice(0, 4).map((w) => wotdFromWord(w, language)),
+    // @todo: remove slice
+    wordsOfTheDay: model.wotd.slice(0, 4).map((w) => mapWordOfDay(w, language)),
     mostLookedUp: model.mostLooked.map((i) => rankedFromItem(i, language, now)),
     recentlyAdded: model.recent.map((i) => rankedFromItem(i, language, now)),
   }

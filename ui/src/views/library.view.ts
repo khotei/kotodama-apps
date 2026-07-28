@@ -18,6 +18,7 @@ export type GlanceSpan = { text: string; accent?: boolean }
 /** A glance value — a plain string, or spans where some carry the accent. */
 export type GlanceText = string | readonly GlanceSpan[]
 
+// @todo: move to component? is this reusable elsewhere, seems like this is part of props types
 export type WotdGlanceView = {
   etymology: GlanceText
   firstAttested: GlanceText
@@ -27,6 +28,7 @@ export type WotdGlanceView = {
   frequency: GlanceText
 }
 
+// @todo: move to component? is this reusable elsewhere, seems like this is part of props types
 export type WotdView = {
   dateTag: string
   word: AccentedWord
@@ -45,6 +47,7 @@ export type WotdView = {
   axisLabels: readonly string[]
 }
 
+// @todo: move to component? is this reusable elsewhere, seems like this is part of props types
 export type RankedWordView = {
   href: string
   word: AccentedWord

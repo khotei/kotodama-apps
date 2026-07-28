@@ -109,6 +109,7 @@ export type ReadingRoomProps = {
   onRetry?: RetryHandler
 }
 
+// @todo: split into single reusable components fro recent&mostlooked instead of sinlge (side by side)
 export function ReadingRoom({ mostLookedUp, recentlyAdded, onRetry }: ReadingRoomProps) {
   return (
     <section className="flex flex-col gap-xl">

@@ -36,6 +36,8 @@ export type WordOfTheDayProps = {
   wotds: readonly WotdView[]
 }
 
+// @todo: split content into sub-components
+// @todo: look into shadcn to find slider, or create agnostic slider
 export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
   const [rawIndex, setIndex] = useState(0)
   const count = wotds.length

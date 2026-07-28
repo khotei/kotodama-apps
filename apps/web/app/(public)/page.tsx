@@ -18,6 +18,9 @@ export const metadata: Metadata = {
 export default async function LibraryPage() {
   const model = await loadLibraryAggregation(DEFAULT_LANGUAGE)
   const library = libraryViewFromModel(model, { language: DEFAULT_LANGUAGE, now: new Date() })
+
+  // @todo: think about: Library Scrren Container, or Template LibraryPageTemplate
+  // @todo: childer instead slots?
   return (
     <LibraryScreen
       hero={

@@ -28,6 +28,7 @@ export type StoryShellProps = {
  * framework's next/* mocks (route via `parameters.nextjs.navigation.pathname`),
  * palette commands toast.
  */
+// @todo: reanem to StorybookPageContainer
 export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
   return (
     <SiteShell>
