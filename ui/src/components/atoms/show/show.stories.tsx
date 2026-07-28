@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { Show } from './show'
 
 // Resize the preview across the `md` (768px) line to watch the two swap.

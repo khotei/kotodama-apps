@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { ThemeMenu } from './theme-menu.client'
 
 const meta: Meta<typeof ThemeMenu> = {

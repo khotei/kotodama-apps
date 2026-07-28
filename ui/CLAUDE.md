@@ -26,7 +26,9 @@ truth.
 - **Storybook MCP** (`@storybook/addon-mcp`): exposes this package's stories/props to the agent; served
   over `storybook:dev` (:6006) — dead unless that dev server is up. Global `autodocs` + `addon-a11y` on.
 - **May import:** `class-variance-authority`, `clsx`, `tailwind-merge`, `radix-ui`, `lucide-react`,
-  `react`, `react-use` (per-hook, in `.client.tsx` — `see react-use.md`),
+  `react`, `react-use` (per-hook, in `.client.tsx` — `see react-use.md`), `next` **presentational
+  modules only** (`next/link`, `next/navigation` — Storybook's `@storybook/nextjs-vite` framework
+  mocks them; never `next/headers`/data APIs — data still comes via props),
   `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
   `@kotodama/platform/config`, or `apps/*` — data comes via props. Self-compose via RELATIVE paths, not
   the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle). The

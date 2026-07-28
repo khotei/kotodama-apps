@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CompassIcon, HouseIcon, LayersIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { useState } from 'react'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'

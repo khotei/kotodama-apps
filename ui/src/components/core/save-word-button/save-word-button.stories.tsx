@@ -1,5 +1,5 @@
 import { Toaster } from '@kotodama/ui'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { SaveWordButton } from './save-word-button.client'
 
 const meta: Meta<typeof SaveWordButton> = {

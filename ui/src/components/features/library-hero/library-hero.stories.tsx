@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { LibraryHero } from './library-hero'
 

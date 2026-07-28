@@ -16,7 +16,8 @@ import {
   ThemeMenu,
 } from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon, SparklesIcon } from 'lucide-react'
-import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import { DEFAULT_LANGUAGE } from '@/src/language/language'
@@ -40,13 +41,11 @@ const CURRENT_LANGUAGE: LanguageOption = {
 const LANGUAGE_OPTIONS: readonly LanguageOption[] = [CURRENT_LANGUAGE]
 
 export function SiteChrome({ paletteWords }: SiteChromeProps) {
-  const pathname = usePathname()
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [paletteQuery, setPaletteQuery] = useState('')
 
-  const isSearch = pathname.startsWith('/search')
   const typed = paletteQuery.trim()
 
   const items: readonly PaletteItem[] = [
@@ -120,8 +119,8 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
       <SiteHeader
         homeHref="/"
         nav={[
-          { label: 'Library', href: '/', active: !isSearch },
-          { label: 'Search', href: '/search', active: isSearch },
+          { label: 'Library', href: '/' },
+          { label: 'Search', href: '/search' },
         ]}
         controls={
           <>
@@ -134,9 +133,9 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
             </Show>
             <Show on="mobile">
               <Button asChild variant="ghost" size="icon-sm" aria-label="Search">
-                <a href="/search">
+                <Link href="/search">
                   <SearchIcon />
-                </a>
+                </Link>
               </Button>
             </Show>
             <Show on="desktop">
@@ -159,13 +158,8 @@ export function SiteChrome({ paletteWords }: SiteChromeProps) {
       />
       <MobileTabBar
         tabs={[
-          { icon: <HouseIcon />, label: 'Library', href: '/', active: pathname === '/' },
-          {
-            icon: <SearchIcon />,
-            label: 'Search',
-            href: '/search',
-            active: pathname.startsWith('/search'),
-          },
+          { icon: <HouseIcon />, label: 'Library', href: '/' },
+          { icon: <SearchIcon />, label: 'Search', href: '/search' },
           { icon: <SparklesIcon />, label: 'Jump', onSelect: () => setPaletteOpen(true) },
           {
             icon: <BookmarkIcon />,

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { BookmarkIcon } from 'lucide-react'
 import { StatusBadge } from '../../core/status-badge'
 import { Badge } from '../../ui/badge'

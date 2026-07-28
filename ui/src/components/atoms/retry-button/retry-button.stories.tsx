@@ -1,5 +1,5 @@
 import { Toaster } from '@kotodama/ui'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { RetryButton } from './retry-button.client'
 
 const meta: Meta<typeof RetryButton> = {

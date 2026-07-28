@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CommandFab } from './command-fab.client'
 
 // Mobile-only (hidden at md+) — the story opens in a phone viewport so it shows.

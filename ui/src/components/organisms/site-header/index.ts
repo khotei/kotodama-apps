@@ -1,1 +1,1 @@
-export { SiteHeader, type SiteHeaderProps, type SiteNavLink } from './site-header'
+export { SiteHeader, type SiteHeaderProps, type SiteNavLink } from './site-header.client'

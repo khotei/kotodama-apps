@@ -20,8 +20,6 @@ import { Toaster } from '../../ui/sonner'
 import { SiteShell } from '../site-shell'
 
 export type StoryShellProps = {
-  /** Which nav tab reads active — mirrors the app's pathname derivation. */
-  active?: 'library' | 'search'
   paletteWords?: readonly SearchWordView[]
   children: ReactNode
 }
@@ -32,10 +30,11 @@ export type StoryShellProps = {
  * {@link SiteShell} backdrop, so a page story renders exactly as the app mounts
  * it. Not for app code: the app wires real navigation in
  * `apps/web/src/chrome/site-chrome.client.tsx` + `app/(public)/layout.tsx` — keep
- * the composition in step when the app chrome changes. Navigation is stubbed here
- * (`#`-local hrefs, palette selections toast) so a story never escapes its iframe.
+ * the composition in step when the app chrome changes. Navigation never escapes
+ * the iframe: links go through the framework's next/* mocks (set the route via
+ * `parameters.nextjs.navigation.pathname`), palette selections toast.
  */
-export function StoryShell({ active = 'library', paletteWords = [], children }: StoryShellProps) {
+export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [paletteQuery, setPaletteQuery] = useState('')
   const typed = paletteQuery.trim()
@@ -109,10 +108,10 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
   return (
     <SiteShell>
       <SiteHeader
-        homeHref="#"
+        homeHref="/"
         nav={[
-          { label: 'Library', href: '#', active: active === 'library' },
-          { label: 'Search', href: '#', active: active === 'search' },
+          { label: 'Library', href: '/' },
+          { label: 'Search', href: '/search' },
         ]}
         controls={
           <>
@@ -152,8 +151,8 @@ export function StoryShell({ active = 'library', paletteWords = [], children }: 
       />
       <MobileTabBar
         tabs={[
-          { icon: <HouseIcon />, label: 'Library', href: '#', active: active === 'library' },
-          { icon: <SearchIcon />, label: 'Search', href: '#', active: active === 'search' },
+          { icon: <HouseIcon />, label: 'Library', href: '/' },
+          { icon: <SearchIcon />, label: 'Search', href: '/search' },
           { icon: <SparklesIcon />, label: 'Jump', onSelect: () => setPaletteOpen(true) },
           {
             icon: <BookmarkIcon />,

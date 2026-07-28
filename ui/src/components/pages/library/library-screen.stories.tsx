@@ -1,5 +1,5 @@
 import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
 import { StoryShell } from '../../templates/story-shell'

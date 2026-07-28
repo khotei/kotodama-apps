@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { TierChip } from './tier-chip'
 
 const meta: Meta<typeof TierChip> = {

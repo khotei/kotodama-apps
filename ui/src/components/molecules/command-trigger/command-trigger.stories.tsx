@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CommandTrigger } from './command-trigger.client'
 
 const meta: Meta<typeof CommandTrigger> = {

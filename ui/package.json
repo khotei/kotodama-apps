@@ -33,6 +33,7 @@
     "tailwind-merge": "catalog:style"
   },
   "peerDependencies": {
+    "next": "catalog:next",
     "react": "catalog:react",
     "react-dom": "catalog:react"
   },
@@ -40,10 +41,11 @@
     "@kotodama/presets": "workspace:*",
     "@storybook/addon-a11y": "catalog:ui",
     "@storybook/addon-mcp": "catalog:ui",
-    "@storybook/react-vite": "catalog:ui",
+    "@storybook/nextjs-vite": "catalog:ui",
     "@tailwindcss/vite": "catalog:style",
     "@types/react": "catalog:runtime",
     "@types/react-dom": "catalog:react",
+    "next": "catalog:next",
     "react": "catalog:react",
     "react-dom": "catalog:react",
     "storybook": "catalog:ui",

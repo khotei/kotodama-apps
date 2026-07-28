@@ -32,7 +32,7 @@ no-aggregate-`vitest run` rules are in `tooling.md`.
 - **apps/web slice** — one render through the package boundary as the app wires it (proves
   consumption; branch coverage lives in `ui`). The `server-only` loader and `.client.tsx` poll are
   NOT jsdom-tested — loader SSG resilience is proven by `next build` going green, the slice by e2e.
-- **ui component** — a Story IS the render test (`@storybook/react-vite`) + a testing-library mount;
+- **ui component** — a Story IS the render test (`@storybook/nextjs-vite`) + a testing-library mount;
   **`ui` owns the view-branch tests** (render each view branch, assert the right card).
 - **e2e** — Playwright vs a REAL backend you start yourself (no stub, no auto-launch; `E2E_BASE_URL`
   points at the app). First spec asserts the JSON-LD STRUCTURE in raw SSR HTML with JS disabled (AC-9).

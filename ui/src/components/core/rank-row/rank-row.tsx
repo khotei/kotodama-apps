@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { ComponentProps, ReactNode } from 'react'
 import { cn } from '../../../lib/utils'
 
@@ -11,7 +12,7 @@ const WORD_TONE: Record<RankWordTone, string> = {
     'bg-[linear-gradient(100deg,var(--muted-foreground)_34%,var(--seal)_50%,var(--muted-foreground)_66%)] bg-[length:220%_100%] bg-clip-text text-transparent animate-[kdm-rk-shimmer_2.6s_linear_infinite]',
 }
 
-export type RankRowProps = Omit<ComponentProps<'a'>, 'children'> & {
+export type RankRowProps = Omit<ComponentProps<typeof Link>, 'children'> & {
   /** Mono ordinal for a ranked list (`01`). Mutually exclusive with `marker`. */
   index?: ReactNode
   /** Status dot for the recent list — occupies the same leading column as `index`. */
@@ -55,7 +56,7 @@ export function RankRow({
         {index ?? marker}
       </span>
       <span className="min-w-0">
-        <a
+        <Link
           className={cn(
             'font-serif text-xl font-medium leading-[1.1] tracking-tight transition-colors after:absolute after:inset-0',
             WORD_TONE[wordTone],
@@ -63,7 +64,7 @@ export function RankRow({
           {...props}
         >
           {word}
-        </a>
+        </Link>
         {gloss != null && (
           <span className="mt-0.5 block font-serif text-base text-muted-foreground italic leading-snug">
             {gloss}

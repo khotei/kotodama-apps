@@ -1,4 +1,4 @@
-import type { Decorator, Preview } from '@storybook/react-vite'
+import type { Decorator, Preview } from '@storybook/nextjs-vite'
 import { useEffect } from 'react'
 import { INITIAL_VIEWPORTS } from 'storybook/viewport'
 import '../src/styles.css'
@@ -45,6 +45,9 @@ const preview: Preview = {
       },
     },
     backgrounds: { disable: true },
+    // App Router mocks: usePathname/useRouter come from the framework; a story
+    // sets its route via `parameters.nextjs.navigation` (pathname defaults to `/`).
+    nextjs: { appDirectory: true },
     // Populate the viewport toolbar with the stock device set; mobile-only stories
     // (MobileTabBar, CommandFab) pin themselves to a phone via `globals.viewport`.
     viewport: { options: INITIAL_VIEWPORTS },

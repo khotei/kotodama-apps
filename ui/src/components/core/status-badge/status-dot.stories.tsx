@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { StatusDot } from './status-badge'
 
 const meta: Meta<typeof StatusDot> = {

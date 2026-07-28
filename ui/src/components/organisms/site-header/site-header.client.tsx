@@ -1,4 +1,9 @@
+'use client'
+
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
+import { activeHref } from '../../../lib/active-href'
 import { cn } from '../../../lib/utils'
 import { Seal } from '../../atoms/seal'
 import { Show } from '../../atoms/show'
@@ -7,7 +12,6 @@ import { SiteContainer } from '../../atoms/site-container'
 export type SiteNavLink = {
   label: string
   href: string
-  active?: boolean
 }
 
 export type SiteHeaderProps = {
@@ -19,7 +23,7 @@ export type SiteHeaderProps = {
 
 function Wordmark({ href }: { href: string }) {
   return (
-    <a href={href} className="flex items-center gap-sm text-foreground no-underline">
+    <Link href={href} className="flex items-center gap-sm text-foreground no-underline">
       <Seal />
       <span className="hidden font-serif font-semibold text-xl leading-none tracking-tighter md:inline">
         Kotodama
@@ -27,11 +31,15 @@ function Wordmark({ href }: { href: string }) {
       <span className="hidden font-serif text-base text-muted-foreground leading-none tracking-wide md:inline">
         言霊
       </span>
-    </a>
+    </Link>
   )
 }
 
 export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
+  const active = activeHref(
+    usePathname(),
+    nav.map(({ href }) => href),
+  )
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
       <SiteContainer className="flex h-14 items-center justify-between md:h-[76px]">
@@ -39,18 +47,18 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
           <Wordmark href={homeHref} />
           <Show on="desktop">
             <nav className="flex items-center gap-lg lg:gap-xl">
-              {nav.map(({ label, href, active }) => (
-                <a
+              {nav.map(({ label, href }) => (
+                <Link
                   key={href}
                   href={href}
                   className={cn(
                     'relative py-xs font-medium text-sm text-muted-foreground no-underline tracking-wide transition-colors hover:text-foreground',
-                    active &&
+                    href === active &&
                       'text-foreground after:absolute after:right-0 after:-bottom-[2px] after:left-0 after:h-[1.5px] after:bg-seal after:content-[""]',
                   )}
                 >
                   {label}
-                </a>
+                </Link>
               ))}
             </nav>
           </Show>

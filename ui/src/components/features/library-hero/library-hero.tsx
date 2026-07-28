@@ -1,4 +1,5 @@
 import { ArrowRightIcon } from 'lucide-react'
+import Link from 'next/link'
 import { Fragment } from 'react'
 import type { LibraryStat, TryWordView } from '../../../views/library.view'
 import { SearchBox } from '../../molecules/search-box'
@@ -98,12 +99,12 @@ export function LibraryHero({ stats, tryWords, languageName, searchPath }: Libra
             {tryWords.map(({ word, href }, i) => (
               <Fragment key={word}>
                 {i > 0 && <span className="size-0.5 self-center rounded-full bg-border-strong" />}
-                <a
+                <Link
                   href={href}
                   className="border-border-strong border-b pb-0.5 font-serif text-lg text-muted-foreground italic no-underline transition-colors hover:border-seal hover:text-seal"
                 >
                   {word}
-                </a>
+                </Link>
               </Fragment>
             ))}
           </div>

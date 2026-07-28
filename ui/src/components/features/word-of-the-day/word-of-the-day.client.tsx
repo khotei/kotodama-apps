@@ -1,6 +1,7 @@
 'use client'
 
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
 import { pad2 } from '../../../lib/pad2'
 import { cn } from '../../../lib/utils'
@@ -120,9 +121,9 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
           </p>
           <div className="mt-auto flex flex-wrap items-center gap-md pt-lg">
             <Button asChild>
-              <a href={wotd.entryHref}>
+              <Link href={wotd.entryHref}>
                 Read the full entry <ArrowRightIcon />
-              </a>
+              </Link>
             </Button>
             <SaveWordButton
               word={accentedWordText(wotd.word)}

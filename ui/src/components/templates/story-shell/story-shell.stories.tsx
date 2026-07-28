@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
 import { StoryShell } from './story-shell.client'
 
@@ -19,9 +19,10 @@ const placeholder = (
 )
 
 export const Library: Story = {
-  args: { active: 'library', children: placeholder },
+  args: { children: placeholder },
 }
 
 export const Search: Story = {
-  args: { active: 'search', children: placeholder },
+  args: { children: placeholder },
+  parameters: { nextjs: { navigation: { pathname: '/search' } } },
 }

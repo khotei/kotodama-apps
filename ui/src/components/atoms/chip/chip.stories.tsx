@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { BookmarkIcon } from 'lucide-react'
 import { Chip } from './chip'
 
