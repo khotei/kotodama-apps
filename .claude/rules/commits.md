@@ -24,5 +24,3 @@ Refs: <Notion sub-task URL>
   🔒`:lock:` security · 🚧`:construction:` WIP.
 - **`Decision:` is MANDATORY** whenever a choice is non-obvious (trade-off, rejected
   alternative, downstream implication); omit only on trivial/mechanical commits.
-
-Non-trivial commit needs a model? Read `.claude/agent-patterns/commit-examples.md`.

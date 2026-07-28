@@ -57,7 +57,7 @@ fresh code. Before proposing modules, run three tenses and record the answers in
 - **Grow the vocabulary, but extract late.** Prefer building at a higher tier over modifying a lower
   one; a shared abstraction earns its place only on the third real repeat of a *knowledge* (not a
   shape) — "duplication is cheaper than the wrong abstraction." One caller ⇒ inline. Full frame +
-  per-tier inventory: the design reference (`@.claude/agent-patterns/component-design.md`).
+  per-tier inventory: the design rule (`@.claude/rules/frontend-components.md`).
 
 ## Notion availability
 

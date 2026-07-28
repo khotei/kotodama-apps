@@ -48,7 +48,7 @@ UI, on a framework-agnostic spine a future native app reuses unchanged.
 A component never touches a raw `fetch` — reads flow through a `server-only` `React.cache` loader in
 `src/server` and pass down as props; writes are Server Actions that `revalidatePath`. No client cache.
 The public word tree stays statically generable (only the anonymous client is legal there). Full
-topology: [`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md) ·
+topology: [`.claude/rules/frontend-architecture.md`](.claude/rules/frontend-architecture.md) ·
 [`apps/web/CLAUDE.md`](apps/web/CLAUDE.md).
 
 ## The stack
@@ -94,7 +94,7 @@ folder under a `core` layer, never a new package.
 agnostic spine (`platform` + `core`) is what a future native app reuses; `ui`/`apps/web` are web-bound
 and don't port (the web↔native line is below `core`, since `ui` renders). Within `apps/web`, only
 `src/server/**` may reach `core/repositories`; `ui` stays prop-driven. Full rule + enforcement:
-[`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md).
+[`.claude/rules/frontend-architecture.md`](.claude/rules/frontend-architecture.md).
 
 ## Requirements
 
@@ -153,7 +153,7 @@ workspace with zero root-config edits. One piece of tooling stays out of the rep
 ## Docs & conventions
 
 - **[`apps/web/CLAUDE.md`](apps/web/CLAUDE.md)** + **[`.claude/rules/nextjs.md`](.claude/rules/nextjs.md)** — the render shell (RSC/SSG boundaries, the data path, SEO)
-- **[`.claude/rules/frontend-layering.md`](.claude/rules/frontend-layering.md)** — the spine + the web↔native boundary
+- **[`.claude/rules/frontend-architecture.md`](.claude/rules/frontend-architecture.md)** — the spine + the web↔native boundary
 - **[`ui/CLAUDE.md`](ui/CLAUDE.md)** — the component standard (`cva`, `cn`, semantic tokens)
 - **[`.claude/rules/tooling.md`](.claude/rules/tooling.md)** · **[`commits.md`](.claude/rules/commits.md)** · **[`pull-requests.md`](.claude/rules/pull-requests.md)** — scripts, the pre-commit gate, commit/PR shape
 - **[Frontend Foundation Architecture](https://www.notion.so/38efb28bd5f181d794c3d9b1fd5629ba)** · **[Tech spec](https://www.notion.so/36dfb28bd5f181988f16de6ab423eb3e)** — the authoritative why / what

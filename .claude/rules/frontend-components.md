@@ -4,41 +4,95 @@ paths:
   - "apps/web/**"
 ---
 
-# Component design — policy-free frames, shaped from above
+# Components — policy-free frames, shaped from above
 
-Applies to **every** React component. If React ever lands in a new tier (headless hooks in an
-agnostic layer, or `apps/mobile`), extend `paths:` above.
+> **A component owns only its look and its own advertised capability; every other decision —
+> behaviour, data, arrangement — goes UP to the composer.** Concrete components compose ON TOP of
+> frames (`SearchCommandPalette` over `CommandPalette`).
 
-> **A component owns only its look and its own advertised capability. Every other decision —
-> behaviour, data, arrangement — it pushes UP to the composer.** Leaf frames stay policy-free; you
-> build concrete, opinionated components ON TOP (`SearchCommandPalette` over `CommandPalette`).
+Where a component lives: generic frame → kit `{atoms,molecules,organisms}`, ABSTRACT name
+(`Chip`, `Show`) · entity-bound → domain `{core,features}`, CONCRETE name (`StatusBadge`,
+`ReadingRoom`) — **a name that lies about its tier is a bug** · app-only wiring (an island binding
+loaders/actions to a feature) → route-colocated `app/(public)/components/**`, never in `ui` and
+never a `src/shared` chrome folder. `features/` assemble ONCE in ui + Storybook with namespaced
+props (`word={{…}}`); the app injects data + bound actions, NEVER re-assembles — no derived
+adapter/wrapper types around ui components either (configure by data).
 
-Quality here is **reuse surface** — inverse to decisions baked in (deep module in JSX). A component
-that renders can still be low-quality if a second caller must fight a baked-in default.
+## The moves (each a real refactor — reproduce this diff shape)
 
-## Project-specific moves
+**Composer owns outer rhythm** — a frame never sets its own outer margin:
 
-- **Report, don't decide** — an event handler hands back *what happened* (`onSelect(item)`); the
-  caller owns close/clear/navigate.
-- **The composer owns OUTER spacing.** A frame sets margin/padding ONLY for its own internal
-  correctness; any gap that changes per page/context (between siblings, page insets) is the
-  parent's, applied by stacking slots. Same frame reuses at any rhythm. *(A recurring failure mode —
-  do not bake `mt-16`/`pb-20` into a frame's root.)*
-- **Inject data, never hard-code a domain list/current value** — required `current`/`items` props;
-  curated stand-ins live in `fixtures/`.
-- **Own what you advertise** — the listener for a shortcut lives in the component showing the badge.
-- **Frame + composition** — a primitive slots `children`; concrete rows/organisms compose above.
-- **Extract on drift, not on sight** — a recipe earns a primitive when duplicated AND diverging.
-- **Name for what mounts in prod**; keep a test-only harness unexported.
+```tsx
+// ✗ <section className="mt-16 pb-20">        — in the frame's root
+// ✓ <div className="flex flex-col gap-3xl">  — the page stack (pages/library/library-screen.tsx)
+```
 
-## Two tiers
+**Named scale, not raw values** — a raw `[…]` survives only as a pointed display decision
+(`leading-[0.94]`, `max-w-[24ch]`); vendored `components/ui/*` stays Tailwind-numeric:
 
-- **kit** (`components/{atoms,molecules,organisms}/`) — domain-FREE, **abstract names** (`Chip`,
-  `ListRow`, `CommandPalette`); never names a Kotodama entity.
-- **domain** (`components/{core,features}/`) — wraps the kit around entities, **concrete names**
-  (`StatusBadge`, `ReadingRoom`). **A name that lies about its tier is a bug.**
-- **`features/` is the assembly point, configured by semantic namespaced props** (`word={{…}}`,
-  `search={{…}}`). Assembly lives ONCE in `ui` + Storybook — the app resolves data + injects
-  Actions but NEVER re-assembles, so a design change never touches `apps/web`.
+```tsx
+// ✗ text-[13px] tracking-[0.04em] gap-[18px] mt-[26px]
+// ✓ text-sm     tracking-wide     gap-md     mt-lg
+```
 
-Worked bad→good examples: `.claude/agent-patterns/component-design.md` (on-demand).
+**Namespaced props at the assembly tier ONLY** — when a feature/organism folds many components,
+group props one namespace per sub-concern, data + its callbacks travelling together; a pass-through
+group reuses the child's props type verbatim; kit leaves stay FLAT:
+
+```tsx
+// ✓ feature (SiteChrome): nav: { homeHref, desktop, mobile } · words: { list, onSearch?, onSelect }
+//                         · theme: ThemeMenuProps            — the child's type, not a re-declaration
+// ✓ kit leaf (RankRow):   { index, word, gloss, meta }       — flat; no nesting a leaf never needs
+```
+
+**Report, don't decide** — hand back WHAT happened as ONE discriminated union (never parallel
+lists + callbacks); the caller owns close/clear/navigate:
+
+```tsx
+// ✗ onSelect={() => { close(); onSelect(row.href) }}
+// ✓ onSelect={() => onSelect(item)}   // item: PaletteItem = { entity: 'action' | 'word'; … }
+```
+
+**Derive router state, don't accept it** — and internal anchors are `next/link`
+(`Omit<ComponentProps<typeof Link>, 'children'>`, see `core/rank-row`):
+
+```tsx
+// ✗ nav.map(({ href, active }) => …)                      — an `active` prop drifts from the router
+// ✓ const active = activeHref(usePathname(), hrefs)       — organisms/site-header.client.tsx
+```
+
+**Inject what data can source** — the `*View` carries display values; the component interpolates:
+
+```tsx
+// ✗ placeholder="Look up a word in Spanish…"
+// ✓ placeholder={`Look up a word in ${languageName}…`}
+```
+
+**Status tokens speak the wire union** — never a private render vocabulary:
+
+```tsx
+// ✗ type WordStatus = 'ready' | 'generating' | …          — a translation table with no divergence
+// ✓ WordStatus = operations['words.search'][…]['status']  — type-only (core/status-badge);
+//   copy maps live at the consumer under a `satisfies Record<WordStatus, …>` canary
+```
+
+- **Controlled prop over observed state** — a value the caller must see/drive is lifted
+  (`query`/`onQueryChange`), not internal `useState`.
+- **Own what you advertise** — the ⌘K listener lives in `CommandTrigger`, the component showing
+  the badge; no shell re-implements it.
+- **Frame + composition** — when "a new variant" means editing the primitive, split into a
+  `children`-slotting frame + concrete pieces above (`CommandPalette ◄ CommandPaletteItem ◄
+  WordCommandItem ◄ SearchCommandPalette`). Slot granularity = what the arrangement needs
+  (`SiteHeader` has ONE `controls` slot; the composer gates with `<Show>`).
+- **Extract on drift, not on sight** — a primitive after duplication DIVERGES (`SiteContainer`,
+  5 drifting copies); React component for structure, `@utility` only for a visual recipe. Never
+  raw markup re-doing a variant (`CommandFab` = `Button variant="accent"`, not a `<button>` that
+  drops focus/press states).
+- **Name for what mounts in prod** — `SiteShell` mounts; `StoryShell` stays unexported. List keys
+  from stable content (`accentedWordText(w.word)`), never a collidable field.
+
+## Client hooks (`.client.tsx` in `ui`/`apps/web` only)
+
+- Check `react-use` first; **import `react-use/esm/<hook>` (default export)** — the bare barrel /
+  `lib/` is CJS: Storybook's Vite hands you `{ default: hook }` → `useX is not a function`.
+- If a hook fights React 19 or its types, hand-roll it (`ui/src/lib/use-debounced-callback.ts`).

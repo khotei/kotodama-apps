@@ -5,7 +5,7 @@ paths:
   - "**/package.json"
 ---
 
-# Naming conventions
+# Naming & TypeScript conventions
 
 - **Packages:** `@kotodama/<folder>`, nested folders dash-flatten. `core`/`platform` are single
   packages with subpath-exported layer folders; `ui` = `@kotodama/ui`; presets = `@kotodama/presets`
@@ -21,21 +21,36 @@ paths:
 | `.model.ts` | domain model derived off the wire (`WordListItem`) | `core/words` |
 | `.loaders.ts` | `load*` reads (`loadLibraryAggregation`) | `apps/web` (`src/<domain>/server` · route `server/`) |
 | `.requests.ts` | `'use server'` `request*` commands — the Server Actions | `apps/web/src/<domain>/server` |
+| `.mapper.ts` | pure render mapper — the one wire→View seam (`libraryViewFromModel`) | `apps/web/src/<domain>` |
 | `.view.ts` | React render shape | `ui` (`src/views/`) |
+| `.fixture.ts` | curated design mocks for stories | `ui` (`src/fixtures/`) |
 | `.client.tsx` | a `'use client'` island | `ui` · `apps/web` |
 | `.stories.tsx` | Storybook story | `ui` |
-| `*.gen.ts` | GENERATED, never hand-edited | `platform/api-client`, `ui` |
+| `*.gen.ts` | GENERATED, never hand-edited | `platform/api-client` |
 
   Server is the default → UNmarked; only the client island is marked `.client.tsx` (not to be
-  confused with api-client's transport `client.ts`). Component files take **no** suffix; in
-  `core/words` the base name is the domain noun (`word-state.model.ts`, mirroring the backend's
-  `core/words/src/*` dotted roles). In `apps/web/src/<domain>/` the base name LEADS with the
-  domain folder's name (`words-search.mapper.ts`, `words-hrefs.ts`) so a tab/grep hit names its
-  module. Tests mirror the source name (suffix included) under
-  the workspace's `test/` (per-domain subfolders where the layer has them).
+  confused with api-client's transport `client.ts`). Component files take **no** suffix. Base
+  names: in `core/words` the base name is the domain noun (`word-state.model.ts`, mirroring the
+  backend's dotted roles) — likewise in a `server/` data folder (`word.loaders.ts`,
+  `word.requests.ts`); elsewhere in `apps/web/src/<domain>/` the base name LEADS with the domain
+  folder's name (`words-search.mapper.ts`, `words-hrefs.ts`) so a tab/grep hit names its module.
+  Tests mirror the source name (suffix included) under the workspace's `test/` (per-domain
+  subfolders where the layer has them).
 - **Symbols:** props type `<Component>Props` (a `type`, never `interface`). The data tiers own
   reserved verb prefixes — `fetch*` wire call taking `client` first (`fetchWord`), `load*` read
   (`loadLibraryAggregation`), `request*` `'use server'` command (`requestWordBuild`); any other
-  verb is not a data function. Domain types are bare
-  nouns (`WordState`, `LibraryAggregation`) — only the boundary tiers carry a postfix: wire `*Entity`, render
-  `*View`. Value/enum types (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**
+  verb is not a data function. Domain types are bare nouns (`WordState`, `LibraryAggregation`) —
+  only the boundary tiers carry a postfix: wire `*Entity`, render `*View`. Value/enum types
+  (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**
+
+## TypeScript idioms (Biome can't enforce)
+
+- **`type`, never `interface`.** Declare every object/prop/option shape as a `type` alias; compose
+  with `&`, derive off the owner with `Pick`/`Omit`/`T['k']`. (Rationale: avoid `interface`
+  declaration-merging silently widening a type.) **Exception:** `*.gen.ts` — `openapi-typescript`
+  emits `interface`; generated, never converted.
+- **Drop return types `tsc` already infers identically** (delete-test: strip it; if `tsc` passes and
+  nothing widened, leave it deleted). **Keep** a return annotation only when it does work the body
+  can't: a generic assertion `tsc` can't infer (`unwrap<T>(): T`); a contract check that must fail
+  the build (`libraryViewFromModel(): LibraryView`); or a framework contract validated nowhere else
+  (Next `robots`/`sitemap`/`generateMetadata`).

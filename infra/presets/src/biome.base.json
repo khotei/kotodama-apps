@@ -71,7 +71,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/*", "@kotodama/*/**"],
-                    "message": "Layer violation: platform/api-client is the transport leaf — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse platform/config's loadRootEnv). See frontend-layering.md."
+                    "message": "Layer violation: platform/api-client is the transport leaf — it imports NO internal package (only openapi-fetch + its own generated schema.gen). The gen-api.ts build script is exempt (it may reuse platform/config's loadRootEnv). See frontend-architecture.md."
                   },
                   {
                     "group": ["@faker-js/faker"],
@@ -100,11 +100,11 @@
                       "@kotodama/platform/config",
                       "@kotodama/web"
                     ],
-                    "message": "Independence violation: ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-layering.md."
+                    "message": "Independence violation: ui is pure presentation — it may self-compose via @kotodama/ui and read the generated WIRE CONTRACT type-only from @kotodama/platform/api-client (the leaf), but must NOT import the domain spine (@kotodama/core/*), platform/config, or the app. It takes data via props. See frontend-architecture.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
-                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See frontend-components.md § Client hooks."
                   },
                   {
                     "group": ["@faker-js/faker"],
@@ -273,11 +273,11 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
-                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-architecture.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
-                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See frontend-components.md § Client hooks."
                   },
                   {
                     "group": ["@faker-js/faker"],
@@ -301,11 +301,11 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
-                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-architecture.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
-                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See frontend-components.md § Client hooks."
                   },
                   {
                     "group": [
@@ -365,11 +365,11 @@
                   },
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
-                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-architecture.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
-                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See frontend-components.md § Client hooks."
                   },
                   {
                     "group": [

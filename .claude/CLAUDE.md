@@ -9,7 +9,7 @@ later features ship cheaply onto an enforced spine. It is a pure consumer of the
 
 **Bun 1.3** (`packageManager`-pinned, runs `.ts`, `linker="hoisted"`) · **TypeScript strict,
 DOM-free base** · **React 19** · **Next 16 (App Router, Turbopack, RSC + Server Actions,
-server-first)** · **TanStack Form** · **Tailwind v4 + shadcn/ui** · **openapi-fetch /
+server-first)** · **Tailwind v4 + shadcn/ui** · **openapi-fetch /
 openapi-typescript** · **Zod**. Versions pinned via Bun catalogs. **No Effect on the FE.**
 Details: `.claude/rules/tooling.md`.
 
@@ -29,7 +29,7 @@ platform/api-client ◄ core/repositories ◄ core/words ◄ apps/web
 ```
 
 Full layering rule + the two enforcement planes (DOM-free `tsconfig.base` + Biome
-`noRestrictedImports`): `.claude/rules/frontend-layering.md`. A new domain
+`noRestrictedImports`): `.claude/rules/frontend-architecture.md`. A new domain
 is a `src/<domain>/` folder under each layer, never a new package.
 
 ## Root scripts
@@ -57,13 +57,12 @@ Auto-discovered — no `@`-import. Cross-cutting rules load **always**; the rest
 **path-scoped** via `paths:` frontmatter and load only on a matching file.
 
 - **Always:** `tooling` · `comments` · `commits` · `pull-requests` · `claude-md`.
-- **Path-scoped:** `frontend-layering` → the source workspaces (`apps|core|platform|ui|infra/**`) ·
-  `naming` → `**/*.ts{,x}`,`**/package.json` · `typescript` → `**/*.ts{,x}` · `frontend-state` →
-  `apps/web/**`,`core/**` · `frontend-components` → `ui/**`,`apps/web/**` · `nextjs` →
-  `apps/web/**` · `react-use` → `apps/web/**`,`ui/**` · `frontend-testing` →
+- **Path-scoped (one file per system):** `frontend-architecture` → the source workspaces
+  (`apps|core|platform|ui|infra/**`) · `naming` (files + symbols + TS idioms) →
+  `**/*.ts{,x}`,`**/package.json` · `nextjs` (the server-first data path) →
+  `apps/web/**`,`core/**` · `frontend-components` (design policy + client hooks) →
+  `ui/**`,`apps/web/**` · `frontend-testing` →
   `**/test/**`,`**/*.test.*`,`**/*.stories.tsx` · `sdd` → `.claude/{commands,agents,sdd}/**`.
-- **On-demand (pointer-loaded):** `.claude/agent-patterns/*` — component-design,
-  commit-examples.
 
 ## Per-layer context
 
@@ -73,6 +72,6 @@ subtree. Content rule: `claude-md.md`.
 
 ## Slash commands
 
-`/new-package` · `/sweep`. **SDD toolkit:**
+`/new-package`. **SDD toolkit:**
 `/sdd:{specify,clarify,plan,tasks,implement,verify}` (Notion-driven). Quickstart:
 `.claude/commands/README.md`. Conventions: `.claude/rules/sdd.md`.

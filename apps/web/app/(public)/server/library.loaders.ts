@@ -25,8 +25,8 @@ export type LibraryAggregation = {
 }
 
 /**
- * The library page's ONE read (page + `generateMetadata` share it via
- * `React.cache`): four anonymous reads fanned out in parallel, assembled into one
+ * The library page's ONE read (`React.cache` dedupes it within a request):
+ * four anonymous reads fanned out in parallel, assembled into one
  * {@link LibraryAggregation}. An unreachable backend THROWS through to the route's
  * `error.tsx` — the degraded state lives once in the boundary, never as a
  * null-branch in the page. The client stays anonymous (no headers injected) —

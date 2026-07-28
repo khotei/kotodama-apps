@@ -9,33 +9,29 @@ paths:
 
 # Testing
 
-Vitest + jsdom + `@testing-library/react`. Matchers + auto-cleanup register in
-`@kotodama/presets/vitest.setup.ts`; `tsc` sees them via the `@testing-library/jest-dom/vitest`
-entry in each `--dom` tsconfig `types` (no ambient `.d.ts`). Run commands + the `--bun` /
-no-aggregate-`vitest run` rules are in `tooling.md`.
+Vitest + jsdom + `@testing-library/react`; matchers/auto-cleanup register in
+`@kotodama/presets/vitest.setup.ts` (jest-dom types via each `--dom` tsconfig `types`). Run
+commands: `tooling.md`.
 
-- **Every workspace keeps ≥1 test — and the gate will NOT tell you when one is missing:** on
-  Vitest 4 `vitest run` exits **0** on zero test files (verified), so an empty suite passes
-  silently. Sanctioned exceptions: `apps/e2e` (Playwright, gate `test:e2e`) and
-  `@kotodama/presets` (no `test` script; `--filter '*'` skips it).
-- **Naming:** keep a trailing `(AC-n)` when a test maps to a feature AC `/sdd:verify` checks — the
-  one allowed provenance tag.
-- **Wire values come from `@kotodama/core/factories`** (`make*` + overrides, typed off the contract
-  → a schema regen breaks a factory at compile time, not a test at runtime); curated story content
-  from `@kotodama/ui/fixtures`.
+- **Vitest 4 exits 0 on zero test files (verified)** — every workspace keeps ≥1 test; the gate
+  won't tell you one is missing. Sanctioned exceptions: `apps/e2e` (gate `test:e2e`),
+  `@kotodama/presets` (no `test` script).
+- A trailing `(AC-n)` when a test maps to a feature AC — the one allowed provenance tag.
+- Wire values from `@kotodama/core/factories` (`make*` — a schema regen breaks a factory at
+  compile time, not a test at runtime); curated story content from `@kotodama/ui/fixtures`.
 
-## What each layer tests (each covers only the decisions it owns; higher layers fake the layer below)
+## Per layer (cover only the decisions the layer owns; fake the layer below)
 
-- **store model** — the real logic: fully unit-tested, happy + each failure branch.
-- **repositories** — one success decode + one typed error against `vi.fn<typeof fetch>()` resolving
-  a `Response.json(...)`. No nock/msw; the generated types already prove the shape compiles.
-- **apps/web slice** — one render through the package boundary as the app wires it (proves
-  consumption; branch coverage lives in `ui`). The `server-only` loader and `.client.tsx` poll are
-  NOT jsdom-tested — loader SSG resilience is proven by `next build` going green, the slice by e2e.
-- **ui component** — a Story IS the render test (`@storybook/nextjs-vite`) + a testing-library mount;
-  **`ui` owns the view-branch tests** (render each view branch, assert the right card).
-- **e2e** — Playwright vs a REAL backend you start yourself (no stub, no auto-launch; `E2E_BASE_URL`
-  points at the app). First spec asserts the JSON-LD STRUCTURE in raw SSR HTML with JS disabled (AC-9).
+- **repositories** — one success decode + one typed error via `vi.fn<typeof fetch>()` +
+  `Response.json(...)`. No nock/msw.
+- **platform leaves** — pin real `Intl` output (`en-GB`/`ru`).
+- **core/words** — pure type derivation: nothing to unit-test until real logic lands
+  (exhaustiveness = `satisfies Record<…>` at consumers).
+- **apps/web mappers** — THE unit-test locus (`library.mapper.ts`): pure, time + locale injected.
+  The server data layer is NOT jsdom-tested — its proof is `next build` + e2e.
+- **ui** — a Story IS the render test + a testing-library mount; ui owns the view-branch tests.
+- **e2e** — Playwright vs a REAL backend you start yourself (`E2E_BASE_URL`); asserts JSON-LD
+  STRUCTURE in raw SSR HTML, JS disabled (AC-9).
 
-**Deliberately untested:** config scaffolding (proven by CI green) + the `@theme` token layer (static
-CSS, no logic). When you stop short on purpose, leave a one-line owner pointer at the site.
+Deliberately untested: config scaffolding + the `@theme` token layer. Stopping short on purpose ⇒
+one-line owner pointer at the site.

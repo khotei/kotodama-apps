@@ -11,7 +11,7 @@ Steps:
    under `apps/`, `infra/`, or a new leaf beside `core`/`platform`/`ui`. **A new domain is NOT a new
    workspace** — it is a `src/<domain>/` folder under a `core` layer (or a new subpath on `core`/
    `platform`); use this command only for a genuinely new package. Confirm the intended dependencies
-   respect `@.claude/rules/frontend-layering.md` (one-way chain; `platform`/`ui` are leaves). Decide
+   respect `@.claude/rules/frontend-architecture.md` (one-way chain; `platform`/`ui` are leaves). Decide
    `--dom`: pass it for a web workspace that renders (apps/web, ui). OMIT it for the platform-agnostic
    packages (`core`, `platform`) so a stray `document`/`window`/react-dom import is a `tsc` error —
    the DOM-free base tsconfig is the primary web↔native enforcer.
