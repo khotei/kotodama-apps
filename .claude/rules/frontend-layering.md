@@ -21,7 +21,7 @@ Agnostic base + spine (import nothing web-bound):
     ./languages   language display names over Intl.DisplayNames (generic over the code string)
   core      @kotodama/core       two domain layers as folders, subpath-exported:
     ./repositories  raw fetchX + the contract *Entity types
-    ./words         the words domain module (narrowWordState + the bare-noun domain types)
+    ./words         the words domain module (the bare-noun domain types over the wire union)
 
 Web-only leaf:
   ui        @kotodama/ui         the ENTIRE web design system + all presentation
@@ -57,20 +57,23 @@ One-way chain (mirrors the backend):
   `gen-api.ts` build script is Biome-exempted to reuse its `loadRootEnv`. The `api-client` *library*
   still reads no env — it takes `baseUrl` injected.
 - **Layer direction:** `core/repositories` = raw fetchX + the contract entity types (`*Entity`);
-  `core/words` = the words domain module (`narrowWordState` + bare-noun domain types); `apps/web` = the
+  `core/words` = the words domain module (bare-noun domain types over the wire union); `apps/web` = the
   Next shell (routing + the server data layer + wiring that composes `ui`). Never import upward
   (`words` may import `repositories`, never the reverse), and the agnostic spine never imports `ui`/`apps`.
 - **`core/use-cases` is a reserved slot, not a license.** The backend's `use-cases` hold COMMAND
   orchestration only — its api handler composes READS at the edge (`searchWords` straight from
   repositories). Mirror that: reads compose in `apps/web/src/server` loaders; create
   `core/use-cases` only with the first multi-step mutation flow, never for a read aggregate.
-- **`apps/web` splits in two internally:** `src/server/**` is the RSC data layer — the ONE place in
-  the app allowed to import `@kotodama/core/repositories` (it composes fetchX + `@kotodama/core/words`
-  domain types + `@kotodama/platform/config` into `*.loader.ts` reads and `*.actions.ts` mutations); `app/**`
+- **`apps/web` splits in two internally:** the data layer — the per-domain server folders
+  (`src/<domain>/server/**`), the transport glue in `src/server/**`, plus the route-colocated
+  loaders under `app/(public)/server/**` — is the ONE stratum allowed to import
+  `@kotodama/core/repositories` (it composes fetchX + `@kotodama/core/words` domain types +
+  `@kotodama/platform/config` into `*.loaders.ts` reads (`load*`) and `*.requests.ts` commands
+  (`request*`)); `app/**`
   is the routing shell — plus the layout-colocated chrome under `app/(public)/components/**` and the
   islands under `src/words/**` —
-  that composes `@kotodama/ui` components, injecting the loaders' data + the actions. `src/server` must
-  not import `ui` — presentation lives in `ui`, data in `src/server`.
+  that composes `@kotodama/ui` components, injecting the loaders' data + the actions. The data layer must
+  not import `ui` — presentation lives in `ui`, data in the loaders/actions.
 
 ## Two enforcement planes
 
@@ -83,8 +86,10 @@ One-way chain (mirrors the backend):
    leaf rules (`platform` imports nothing internal; `ui` bans `core`/`@kotodama/platform/config`/`web`
    but NOT `platform/api-client` — its wire contract is allowed type-only) + the one-way chain on the
    `@kotodama/core/<layer>` specifier + the agnostic-spine-never-imports-`ui`/`apps` rule + the
-   `apps/web` `core/repositories` ban (waived only for `apps/web/src/server/**`, which also bans
-   `@kotodama/ui`/`@kotodama/web`). `bun run check` runs both planes.
+   `apps/web` `core/repositories` ban (waived only for `apps/web/src/{server,*/server}/**` and
+   `app/(public)/**/*.loaders.ts`, which also ban `@kotodama/ui`/`@kotodama/web`). NOTE: a Biome
+   override REPLACES `noRestrictedImports` for its glob (no merge) — a narrower override must
+   restate every ban it still wants. `bun run check` runs both planes.
 
 **The invariant both protect: the web↔native boundary.** The agnostic spine is what a future
 `apps/mobile` reuses unchanged; `ui`/`apps/web` are DOM-bound and do not port — only `ui`'s

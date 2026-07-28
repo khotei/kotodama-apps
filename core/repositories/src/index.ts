@@ -7,6 +7,7 @@ export type {
   Language,
   WordCountsEntity,
   WordEntity,
+  WordSearchEntity,
   WordSearchResultEntity,
   WordStateEntity,
 } from './words/word.entity'

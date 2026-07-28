@@ -273,7 +273,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
-                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
@@ -301,7 +301,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
-                    "message": "Layer violation: only apps/web/src/server (the RSC data layer) may touch raw fetchX in core/repositories. Render code reaches data through the src/server loaders. See frontend-layering.md."
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
                   },
                   {
                     "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
@@ -323,7 +323,7 @@
       }
     },
     {
-      "includes": ["apps/web/src/server/**"],
+      "includes": ["apps/web/src/server/**", "apps/web/src/*/server/**"],
       "linter": {
         "rules": {
           "style": {
@@ -333,7 +333,7 @@
                 "patterns": [
                   {
                     "group": ["@kotodama/ui", "@kotodama/ui/**", "@kotodama/web"],
-                    "message": "Layer violation: the RSC data layer (apps/web/src/server) composes repositories + domain models + config into loaders and actions — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/**, never the data layer."
+                    "message": "Layer violation: the data layer (src/server transport + the src/<domain>/server folders) composes repositories + domain models + config into *.loaders.ts reads and *.requests.ts commands — it must not import the design system. Presentation lives in @kotodama/ui and is wired in app/**, never the data layer."
                   },
                   {
                     "group": [
@@ -362,6 +362,54 @@
                   {
                     "group": ["next/headers"],
                     "message": "SSG violation: cookies()/headers() makes a route dynamic and SILENTLY kills the public tree's static generation. The public tree calls createServerApiClient() anonymously; per-request identity belongs to the authed (app) tree."
+                  },
+                  {
+                    "group": ["@kotodama/core/repositories", "@kotodama/core/repositories/**"],
+                    "message": "Layer violation: only the data layer — a domain's server folder (apps/web/src/<domain>/server) and a route-colocated server/*.loaders.ts — may touch raw fetchX in core/repositories. See frontend-layering.md."
+                  },
+                  {
+                    "group": ["react-use", "react-use/lib/*", "react-use/lib/**"],
+                    "message": "Import react-use per-hook from the ESM build (react-use/esm/<hook>), never the bare barrel or lib/. The barrel is CJS and pulls ~13 transitive deps (no tree-shaking); the lib/ CJS default resolves to { default: hook } under Storybook's Vite — a 'useX is not a function' crash. See react-use.md."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "includes": ["apps/web/app/(public)/**/*.loaders.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noRestrictedImports": {
+              "level": "error",
+              "options": {
+                "patterns": [
+                  {
+                    "group": ["next/headers"],
+                    "message": "SSG violation: cookies()/headers() makes a route dynamic and SILENTLY kills the public tree's static generation. The public tree calls createServerApiClient() anonymously; per-request identity belongs to the authed (app) tree."
+                  },
+                  {
+                    "group": ["@kotodama/ui", "@kotodama/ui/**"],
+                    "message": "Layer violation: a loader is the data layer — it must not import the design system. Presentation lives in @kotodama/ui and is wired by the page, never the loader."
+                  },
+                  {
+                    "group": [
+                      "@faker-js/faker",
+                      "@kotodama/core/factories",
+                      "@kotodama/core/factories/**"
+                    ],
+                    "message": "Test-only violation: the faker graph (@faker-js/faker, @kotodama/core/factories) may be imported from test files only — never from shipped code."
                   }
                 ]
               }

@@ -8,9 +8,9 @@ import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import useMount from 'react-use/esm/useMount'
 import { DEFAULT_LANGUAGE } from '@/src/language/language'
-import { searchLibraryWords } from '@/src/server/words/word.actions'
-import { wordHref } from '@/src/words/hrefs'
-import { mapSearchWord } from '@/src/words/search.mapper'
+import { loadWordSearch } from '@/src/words/server/word.loaders'
+import { wordHref } from '@/src/words/words-hrefs'
+import { mapSearchWord } from '@/src/words/words-search.mapper'
 import { LANGUAGES } from './languages'
 import { DESKTOP_NAV, MOBILE_NAV } from './nav'
 
@@ -20,7 +20,7 @@ export function PublicSiteHeader() {
   const [words, setWords] = useState<readonly WordListItem[]>([])
 
   const handleSearch = async (query: string) => {
-    setWords(await searchLibraryWords(DEFAULT_LANGUAGE, query.trim()))
+    setWords(await loadWordSearch(DEFAULT_LANGUAGE, query.trim()))
   }
 
   useMount(() => {

@@ -1,28 +1,18 @@
 import { makeUnreadySearchItem, makeWord, makeWordCounts } from '@kotodama/core/factories'
-import { narrowLibrary } from '@kotodama/core/words'
 import { describe, expect, it } from 'vitest'
+import type { LibraryAggregation } from '../../app/(public)/server/library.loaders'
 import { libraryViewFromModel } from '../../src/library/library.mapper'
-
-// The wire envelope type, derived off narrowLibrary — apps/web test code may not
-// import core/repositories (src/server only), and it needs no more than this.
-type SearchEnvelope = Parameters<typeof narrowLibrary>[0]['recent']
-
-const envelope = (items: SearchEnvelope['items']): SearchEnvelope => ({
-  items,
-  pagination: { page: 1, limit: 6, total: items.length, pageCount: 1 },
-})
 
 const NOW = new Date('2026-07-27T12:00:00Z')
 const minutesAgo = (m: number) => new Date(NOW.getTime() - m * 60_000).toISOString()
 
-const model = (over: Partial<Parameters<typeof narrowLibrary>[0]> = {}) =>
-  narrowLibrary({
-    counts: makeWordCounts({ total: 15, pending: 2, running: 1, succeeded: 12, failed: 0 }),
-    recent: envelope([]),
-    mostLooked: envelope([]),
-    wotd: envelope([]),
-    ...over,
-  })
+const model = (over: Partial<LibraryAggregation> = {}): LibraryAggregation => ({
+  counts: makeWordCounts({ total: 15, pending: 2, running: 1, succeeded: 12, failed: 0 }),
+  recent: [],
+  mostLooked: [],
+  wotd: [],
+  ...over,
+})
 
 describe('libraryViewFromModel · stats (AC-2, AC-12)', () => {
   it('derives three tiles from live counts + language — no auth-gated "saved" tile', () => {
@@ -43,7 +33,7 @@ describe('libraryViewFromModel · word of the day (AC-4)', () => {
   it('maps the first 4 ready words off inline content — no fabricated stress, real hrefs', () => {
     const words = Array.from({ length: 5 }, (_, i) => makeWord({ word: `palabra${i}` }))
 
-    const view = libraryViewFromModel(model({ wotd: envelope(words) }), {
+    const view = libraryViewFromModel(model({ wotd: words }), {
       language: 'es',
       now: NOW,
     })
@@ -62,7 +52,7 @@ describe('libraryViewFromModel · ranked rows (AC-10)', () => {
   it('maps a ready item to a ready row: gloss from content, relative when, no statusNote', () => {
     const ready = makeWord({ word: 'lumen', createdAt: minutesAgo(2) })
 
-    const view = libraryViewFromModel(model({ mostLooked: envelope([ready]) }), {
+    const view = libraryViewFromModel(model({ mostLooked: [ready] }), {
       language: 'es',
       now: NOW,
     })
@@ -90,7 +80,7 @@ describe('libraryViewFromModel · ranked rows (AC-10)', () => {
       createdAt: minutesAgo(90),
     })
 
-    const view = libraryViewFromModel(model({ recent: envelope([item]) }), {
+    const view = libraryViewFromModel(model({ recent: [item] }), {
       language: 'es',
       now: NOW,
     })
@@ -110,10 +100,10 @@ describe('libraryViewFromModel · try words', () => {
     const wotd = [shared, makeWord({ word: 'una' })]
     const looked = [shared, ...Array.from({ length: 6 }, (_, i) => makeWord({ word: `otra${i}` }))]
 
-    const view = libraryViewFromModel(
-      model({ wotd: envelope(wotd), mostLooked: envelope(looked) }),
-      { language: 'es', now: NOW },
-    )
+    const view = libraryViewFromModel(model({ wotd: wotd, mostLooked: looked }), {
+      language: 'es',
+      now: NOW,
+    })
 
     const names = view.tryWords.map((t) => t.word)
     expect(names).toHaveLength(6)

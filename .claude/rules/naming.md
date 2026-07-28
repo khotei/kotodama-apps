@@ -18,19 +18,25 @@ paths:
 | `.repo.ts` | bare `fetchX` functions (`fetchWord`) | `core/repositories` |
 | `.entity.ts` | contract types as fetched (`WordEntity`) | `core/repositories` |
 | `.factory.ts` | test-only faker `make*` builders | `core/factories` |
-| `.loader.ts` | `server-only` `React.cache` read (`getWordState`) | `apps/web/src/server` |
-| `.actions.ts` | `'use server'` mutation file | `apps/web/src/server` |
+| `.model.ts` | domain model derived off the wire (`WordListItem`) | `core/words` |
+| `.loaders.ts` | `load*` reads (`loadLibraryAggregation`) | `apps/web` (`src/<domain>/server` · route `server/`) |
+| `.requests.ts` | `'use server'` `request*` commands — the Server Actions | `apps/web/src/<domain>/server` |
 | `.view.ts` | React render shape | `ui` (`src/views/`) |
 | `.client.tsx` | a `'use client'` island | `ui` · `apps/web` |
 | `.stories.tsx` | Storybook story | `ui` |
 | `*.gen.ts` | GENERATED, never hand-edited | `platform/api-client`, `ui` |
 
   Server is the default → UNmarked; only the client island is marked `.client.tsx` (not to be
-  confused with api-client's transport `client.ts`). Component files take **no** suffix, and neither
-  do domain-module files (`core/words`) — there the file IS the domain noun (`word-state.ts`,
-  mirroring the backend's `core/words/src/*`). Tests mirror the source name (suffix included) under
+  confused with api-client's transport `client.ts`). Component files take **no** suffix; in
+  `core/words` the base name is the domain noun (`word-state.model.ts`, mirroring the backend's
+  `core/words/src/*` dotted roles). In `apps/web/src/<domain>/` the base name LEADS with the
+  domain folder's name (`words-search.mapper.ts`, `words-hrefs.ts`) so a tab/grep hit names its
+  module. Tests mirror the source name (suffix included) under
   the workspace's `test/` (per-domain subfolders where the layer has them).
-- **Symbols:** props type `<Component>Props` (a `type`, never `interface`). fetchX verb-first taking
-  `client` first (`fetchWord`); loaders `get<Domain>`; actions verb-first. Domain types are bare
-  nouns (`WordState`, `Library`) — only the boundary tiers carry a postfix: wire `*Entity`, render
+- **Symbols:** props type `<Component>Props` (a `type`, never `interface`). The data tiers own
+  reserved verb prefixes — `fetch*` wire call taking `client` first (`fetchWord`), `load*` read that
+  never throws (`loadLibraryAggregation`), `request*` `'use server'` command (`requestWordBuild`);
+  any other
+  verb is not a data function. Domain types are bare
+  nouns (`WordState`, `LibraryAggregation`) — only the boundary tiers carry a postfix: wire `*Entity`, render
   `*View`. Value/enum types (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**

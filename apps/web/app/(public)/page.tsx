@@ -2,8 +2,8 @@ import { LibraryHero, LibraryScreen, ReadingRoom, WordOfTheDay } from '@kotodama
 import type { Metadata } from 'next'
 import { DEFAULT_LANGUAGE } from '@/src/language/language'
 import { libraryViewFromModel } from '@/src/library/library.mapper'
-import { getLibrary } from '@/src/server/library/library.loader'
-import { requestWordBuild } from '@/src/server/words/word.actions'
+import { requestWordBuild } from '@/src/words/server/word.requests'
+import { loadLibraryAggregation } from './server/library.loaders'
 
 // ISR: the anonymous library re-renders at most once a minute — the loader's
 // static (cookie-free) client is what keeps this route statically generable.
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function LibraryPage() {
-  const model = await getLibrary(DEFAULT_LANGUAGE)
+  const model = await loadLibraryAggregation(DEFAULT_LANGUAGE)
   // Unreachable backend (including `next build` with none running) → the
   // honest degraded page, never mock data and never a build failure.
   if (!model) {

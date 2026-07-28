@@ -4,10 +4,10 @@ The Next 16 render shell (App Router, Turbopack). The framework invariants (SSG/
 the data path, SEO, the read-the-bundled-docs-first directive) live in `.claude/rules/nextjs.md` +
 `frontend-state.md`; this file keeps only the package's own facts.
 
-- **Currently a single public library page** rendering `@kotodama/ui` on mock fixtures — the word
-  slice (routes, loaders, poller, tests) is not wired. Reads would live in
-  `src/server/**/*.loader.ts`; the one live wire is the `requestWordBuild` Server Action
-  (`src/server/words/word.actions.ts`) injected into the page as a prop.
+- **Live today: the public library page + site chrome** over loader data; the word routes/poller
+  are not wired. The data layer is per-domain — `src/<domain>/server/` holds `*.loaders.ts`
+  (`load*` reads) and `*.requests.ts` (`request*` Server Actions), plus route-colocated
+  `app/(public)/server/*.loaders.ts`.
 - **`src/server/server-api-client.ts`** (`server-only`) builds the ONE `createServerApiClient` off
   `serverEnv().KOTODAMA_API_URL` — anonymous by default; a per-request caller injects identity
   via `{ headers }` at the call site (public tree: bare calls only, `nextjs.md`).

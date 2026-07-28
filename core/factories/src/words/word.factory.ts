@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker'
 import type {
   WordCountsEntity,
   WordEntity,
-  WordSearchResultEntity,
+  WordSearchEntity,
   WordStateEntity,
 } from '@kotodama/core/repositories'
 
 type Word = NonNullable<WordEntity>
 type SucceededWordState = Extract<WordStateEntity, { status: 'succeeded' }>
 type UnreadyWordState = Exclude<WordStateEntity, { status: 'succeeded' }>
-type UnreadySearchItem = Exclude<WordSearchResultEntity['items'][number], { status: 'succeeded' }>
+type UnreadySearchItem = Exclude<WordSearchEntity, { status: 'succeeded' }>
 type Stage = Word['stages'][number]
 
 // An exhaustive Record, not a plain array — `satisfies` on an array checks only
@@ -74,7 +74,11 @@ export function makeStages(status: 'pending' | 'running' | 'succeeded' | 'failed
 
 /** A full, contract-valid ready word — every section populated with plausible
  *  generated content; pin what a test asserts on via `overrides`. */
-export function makeWord(overrides: Partial<Word> = {}): Word {
+// The narrowed return (status pinned to 'succeeded') lets a ready word feed
+// ready-only slots (e.g. a wotd rail) without a cast — a full word IS ready.
+export function makeWord(overrides: Partial<Omit<Word, 'status'>> = {}): Word & {
+  status: 'succeeded'
+} {
   const word = faker.lorem.word()
   const created = faker.date.past().toISOString()
   return {

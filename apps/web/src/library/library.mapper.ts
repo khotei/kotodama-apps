@@ -1,25 +1,28 @@
-import type { Language, Library, ReadyListWord, WordListItem } from '@kotodama/core/words'
+import type { Language, ReadyListWord, WordListItem } from '@kotodama/core/words'
 import { formatDayMonth, formatRelative } from '@kotodama/platform/dates'
 import { languageName } from '@kotodama/platform/languages'
 import type { LibraryView, RankedWordView, WotdView } from '@kotodama/ui'
+// A type-only reach into the loader — erased at compile, so no `server-only`
+// runtime crosses into the render tier.
+import type { LibraryAggregation } from '@/app/(public)/server/library.loaders'
 import { DEFAULT_LANGUAGE } from '../language/language'
 import { capitalize } from '../utils/text'
-import { wordHref } from '../words/hrefs'
-import { unreadyStatusNote } from '../words/status-note'
+import { wordHref } from '../words/words-hrefs'
+import { unreadyStatusNote } from '../words/words-status.mapper'
 
 // The render-tier mapper — the ONLY place the wire vocabulary meets the ui
 // vocabulary. Pure: time is injected, locale work comes from the platform Intl
 // leaves, so the unit tests (this file's locus) pin every derivation.
 
 function rankedFromItem(item: WordListItem, language: Language, now: Date): RankedWordView {
-  if (item.kind === 'ready') {
+  if (item.status === 'succeeded') {
     return {
-      href: wordHref(language, item.word.word),
-      word: { pre: item.word.word },
-      gloss: item.word.coreDefinition,
-      pos: item.word.lexical.partOfSpeech,
-      when: formatRelative(item.word.createdAt, now, DEFAULT_LANGUAGE),
-      status: 'succeeded',
+      href: wordHref(language, item.word),
+      word: { pre: item.word },
+      gloss: item.coreDefinition,
+      pos: item.lexical.partOfSpeech,
+      when: formatRelative(item.createdAt, now, DEFAULT_LANGUAGE),
+      status: item.status,
       saved: false,
     }
   }
@@ -91,23 +94,23 @@ function wotdFromWord(word: ReadyListWord, language: Language): WotdView {
 }
 
 /** The unused-word invite rail: unique ready words across the rails, capped at 6. */
-function tryWordsFrom(model: Library, language: Language) {
+function tryWordsFrom(model: LibraryAggregation, language: Language) {
   const names = [
     ...model.wotd.map((w) => w.word),
-    ...model.mostLooked.flatMap((i) => (i.kind === 'ready' ? [i.word.word] : [])),
-    ...model.recent.flatMap((i) => (i.kind === 'ready' ? [i.word.word] : [])),
+    ...model.mostLooked.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
+    ...model.recent.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
   ]
   return [...new Set(names)].slice(0, 6).map((word) => ({ word, href: wordHref(language, word) }))
 }
 
 /**
- * Map the domain {@link Library} into ui's `LibraryView` — wire vocabulary in,
+ * Map the domain {@link LibraryAggregation} into ui's `LibraryView` — wire vocabulary in,
  * presentation vocabulary out. Pure: `now` is injected (relative "when" labels),
  * `language` names the catalogue being browsed. The auth-gated "saved" surface
  * is omitted throughout (`saved: false`, no saved-count tile) until auth lands.
  */
 export function libraryViewFromModel(
-  model: Library,
+  model: LibraryAggregation,
   { language, now }: { language: Language; now: Date },
 ): LibraryView {
   const studyLanguage = capitalize(languageName(language))

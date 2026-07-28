@@ -22,7 +22,8 @@ site (`createServerApiClient({ headers: … })`) and belongs to the authed `(app
 `'use client'` in the app lives ONLY in `providers.tsx` (theme), layout-colocated chrome under
 `app/(public)/components/**` (nav/mode wiring — `usePathname` + next-themes), and feature islands
 (`.client.tsx` under `src/**`).
-Everything else is an RSC shell resolving data via `src/server` loaders.
+Everything else is an RSC shell resolving data via the data-layer loaders
+(`src/<domain>/server/**` or a route-colocated `server/` folder).
 
 ## SEO
 

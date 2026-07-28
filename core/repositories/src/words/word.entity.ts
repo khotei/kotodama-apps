@@ -18,5 +18,7 @@ export type WordStateEntity =
   operations['words.buildWord']['responses'][200]['content']['application/json']
 export type WordSearchResultEntity =
   operations['words.search']['responses'][200]['content']['application/json']
+/** One search-page row — the two-branch wire union discriminated on `status`. */
+export type WordSearchEntity = WordSearchResultEntity['items'][number]
 export type WordCountsEntity =
   operations['words.counts']['responses'][200]['content']['application/json']
