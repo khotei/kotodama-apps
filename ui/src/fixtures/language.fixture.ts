@@ -1,11 +1,8 @@
-import type { LanguageOption } from '../components/molecules/language-menu'
+import type { Language } from '../views/language.view'
 
-// Design-stage language options — the standing set the chrome offers until a
-// backend/config source lands. Spanish is the only built language, so it is current.
-export const LANGUAGE_OPTIONS_MOCK = [
-  { code: 'ES', label: 'Spanish' },
-  { code: 'FR', label: 'French' },
-  { code: 'DE', label: 'German' },
-] as const satisfies readonly LanguageOption[]
+// Design-stage language codes — the standing set the chrome offers until a
+// backend/config source lands. Spanish is the only built language, so it is
+// current; display labels derive inside LanguageMenu (autonyms).
+export const LANGUAGE_OPTIONS_MOCK: readonly Language[] = ['es', 'fr', 'de']
 
-export const CURRENT_LANGUAGE_MOCK: LanguageOption = LANGUAGE_OPTIONS_MOCK[0]
+export const CURRENT_LANGUAGE_MOCK: Language = 'es'

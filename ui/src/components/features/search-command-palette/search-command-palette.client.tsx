@@ -12,13 +12,16 @@ import { WordCommandItem } from './word-command-item.client'
 export type CommandAction = {
   /** Stable identity + cmdk match value. */
   id: string
-  label: string
+  /** Static copy, or derived from the trimmed query — `Add “lumen”`. */
+  label: string | ((typed: string) => string)
   description?: ReactNode
   icon?: ReactNode
   /** Extra match terms — so typing "create word" surfaces "Add a new word". */
   keywords?: string[]
   /** Stay visible even when the query filters it out (an always-offered CTA). */
   forceMount?: boolean
+  /** The action's own behaviour — run on pick with the trimmed query, after the pick is reported. */
+  onSelect?: (typed: string) => void
 }
 
 /**
@@ -42,8 +45,9 @@ export type SearchCommandPaletteProps = {
   /** The mixed row list; the palette splits it into the `Actions` + `Words` groups. */
   items: readonly PaletteItem[]
   /**
-   * A row was chosen. The palette reports WHICH item was picked and does nothing else —
-   * the caller decides whether to close, clear the query, navigate, or run a command.
+   * A row was chosen — reported BEFORE the action's own `onSelect` runs, so the
+   * caller closes/clears first. A word row is report-only: navigation stays the
+   * caller's decision.
    */
   onSelect: (item: PaletteItem) => void
 }
@@ -51,8 +55,10 @@ export type SearchCommandPaletteProps = {
 /**
  * The app's ⌘K palette: a concrete {@link CommandPalette} that lists library words
  * and app commands side by side. It splits `items` by `entity` into the `Actions` +
- * `Words` groups and reports the pick via `onSelect`; it owns no behaviour — `query`
- * stays lifted and the selection is the caller's to act on. cmdk fuzzy-filters both.
+ * `Words` groups — a `forceMount` action is pinned below them instead — resolves
+ * function labels against the trimmed query, and on pick reports via `onSelect`
+ * then runs the action's own `onSelect`; `query` stays lifted. cmdk fuzzy-filters
+ * the groups.
  */
 export function SearchCommandPalette({
   open,
@@ -62,8 +68,35 @@ export function SearchCommandPalette({
   items,
   onSelect,
 }: SearchCommandPaletteProps) {
-  const actions = items.filter((item): item is ActionItem => item.entity === 'action')
+  const actions = items.filter(
+    (item): item is ActionItem => item.entity === 'action' && !item.action.forceMount,
+  )
+  // The always-offered CTAs render OUTSIDE the filtered groups: cmdk hides a
+  // group whose children all filtered out EVEN with a forceMounted child (the
+  // row stays keyboard-selectable while invisible), so the pinned group
+  // force-mounts itself — and, scoring zero, sorts last: a matched word owns Enter.
+  const pinned = items.filter(
+    (item): item is ActionItem => item.entity === 'action' && item.action.forceMount === true,
+  )
   const words = items.filter((item): item is WordItem => item.entity === 'word')
+  const typed = query.trim()
+
+  const actionRow = (item: ActionItem) => (
+    <CommandPaletteItem
+      key={item.action.id}
+      value={item.action.id}
+      keywords={item.action.keywords}
+      forceMount={item.action.forceMount}
+      icon={item.action.icon}
+      description={item.action.description}
+      onSelect={() => {
+        onSelect(item)
+        item.action.onSelect?.(typed)
+      }}
+    >
+      {typeof item.action.label === 'function' ? item.action.label(typed) : item.action.label}
+    </CommandPaletteItem>
+  )
 
   return (
     <CommandPalette
@@ -77,21 +110,7 @@ export function SearchCommandPalette({
       empty="No matches."
     >
       {actions.length > 0 && (
-        <CommandPaletteGroup heading="Actions">
-          {actions.map((item) => (
-            <CommandPaletteItem
-              key={item.action.id}
-              value={item.action.id}
-              keywords={item.action.keywords}
-              forceMount={item.action.forceMount}
-              icon={item.action.icon}
-              description={item.action.description}
-              onSelect={() => onSelect(item)}
-            >
-              {item.action.label}
-            </CommandPaletteItem>
-          ))}
-        </CommandPaletteGroup>
+        <CommandPaletteGroup heading="Actions">{actions.map(actionRow)}</CommandPaletteGroup>
       )}
       {words.length > 0 && (
         <CommandPaletteGroup heading="Words">
@@ -103,6 +122,9 @@ export function SearchCommandPalette({
             />
           ))}
         </CommandPaletteGroup>
+      )}
+      {pinned.length > 0 && (
+        <CommandPaletteGroup forceMount>{pinned.map(actionRow)}</CommandPaletteGroup>
       )}
     </CommandPalette>
   )

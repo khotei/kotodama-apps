@@ -5,21 +5,11 @@ import type { LibraryView, RankedWordView, WotdView } from '@kotodama/ui'
 import { DEFAULT_LANGUAGE } from '../language/language'
 import { capitalize } from '../utils/text'
 import { wordHref } from '../words/hrefs'
+import { unreadyStatusNote } from '../words/status-note'
 
 // The render-tier mapper — the ONLY place the wire vocabulary meets the ui
 // vocabulary. Pure: time is injected, locale work comes from the platform Intl
 // leaves, so the unit tests (this file's locus) pin every derivation.
-
-type UnreadyItem = Extract<WordListItem, { kind: 'unready' }>
-
-// Render-only copy for the unready row's mono note — never branched on. The
-// status TOKEN itself flows through untranslated: ui's WordStatus IS the wire
-// union (the vocabularies were unified by decision on T4).
-const STATUS_NOTE_LABEL = {
-  pending: 'queued',
-  running: 'arriving',
-  failed: 'didn’t settle',
-} as const satisfies Record<UnreadyItem['status'], string>
 
 function rankedFromItem(item: WordListItem, language: Language, now: Date): RankedWordView {
   if (item.kind === 'ready') {
@@ -39,7 +29,7 @@ function rankedFromItem(item: WordListItem, language: Language, now: Date): Rank
     when: formatRelative(item.createdAt, now, DEFAULT_LANGUAGE),
     status: item.status,
     saved: false,
-    statusNote: `${capitalize(languageName(item.language, DEFAULT_LANGUAGE))} · ${STATUS_NOTE_LABEL[item.status]}`,
+    statusNote: unreadyStatusNote(item),
   }
 }
 

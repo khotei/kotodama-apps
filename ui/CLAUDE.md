@@ -29,7 +29,8 @@ truth.
   `react`, `react-use` (per-hook, in `.client.tsx` — `see react-use.md`), `next` **presentational
   modules only** (`next/link`, `next/navigation` — Storybook's `@storybook/nextjs-vite` framework
   mocks them; never `next/headers`/data APIs — data still comes via props),
-  `@kotodama/platform/api-client` **types only**. Never `@kotodama/core`,
+  `@kotodama/platform/api-client` **types only**, `@kotodama/platform/languages` (the agnostic
+  Intl leaf — lets LanguageMenu derive labels from bare codes). Never `@kotodama/core`,
   `@kotodama/platform/config`, or `apps/*` — data comes via props. Self-compose via RELATIVE paths, not
   the `@kotodama/ui` barrel (it's the external surface; a self-barrel import risks an ESM cycle). The
   barrel is for consumers — **only `.stories.tsx` may import `@kotodama/ui`** (stories aren't re-exported, so no cycle).

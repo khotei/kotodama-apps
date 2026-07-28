@@ -1,12 +1,10 @@
 import type { WordStatus } from '../components/core/status-badge'
 
-export type SearchPos = 'noun' | 'verb' | 'adjective' | 'adverb'
-
 export type SearchWordView = {
   href: string
   word: string
   /** Filter axis — `noun`; `posLabel` is what the badge shows (`n. f.`). */
-  pos?: SearchPos
+  pos?: string
   posLabel?: string
   ipa?: string
   gloss?: string

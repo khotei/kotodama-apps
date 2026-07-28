@@ -1,7 +1,7 @@
 'use server'
 
-import { buildWord, fetchWordState, type Language } from '@kotodama/core/repositories'
-import type { WordBuildStatus } from '@kotodama/core/words'
+import { buildWord, fetchWordState, type Language, searchWords } from '@kotodama/core/repositories'
+import { narrowSearchItem, type WordBuildStatus, type WordListItem } from '@kotodama/core/words'
 import { revalidatePath } from 'next/cache'
 import { createServerApiClient } from '../server-api-client'
 
@@ -40,6 +40,24 @@ export async function getWordStatus(
  */
 export async function refreshWordPage(language: Language, word: string) {
   revalidatePath(`/words/${language}/${word}`)
+}
+
+/**
+ * Live palette search — the typed read the ⌘K island calls after the debounce.
+ * Returns DOMAIN items (this tier may not speak ui's view vocabulary); the
+ * client-side mapper shapes them. An unreachable backend returns `[]` — the
+ * palette simply keeps its current rows, never an error state mid-typing.
+ */
+export async function searchLibraryWords(
+  language: Language,
+  q: string,
+): Promise<readonly WordListItem[]> {
+  try {
+    const page = await searchWords(createServerApiClient(), language, { q, page: 1, limit: 8 })
+    return page.items.map(narrowSearchItem)
+  } catch {
+    return []
+  }
 }
 
 /**

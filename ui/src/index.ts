@@ -54,17 +54,14 @@ export {
   WordCommandItem,
   type WordCommandItemProps,
 } from './components/features/search-command-palette'
+export { SiteChrome, type SiteChromeProps } from './components/features/site-chrome'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/features/word-of-the-day'
 export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
   CommandTrigger,
   type CommandTriggerProps,
 } from './components/molecules/command-trigger'
-export {
-  LanguageMenu,
-  type LanguageMenuProps,
-  type LanguageOption,
-} from './components/molecules/language-menu'
+export { LanguageMenu, type LanguageMenuProps } from './components/molecules/language-menu'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
 export {
@@ -80,6 +77,7 @@ export {
   MobileTabBar,
   type MobileTabBarProps,
 } from './components/organisms/mobile-tab-bar'
+export { SiteControls, type SiteControlsProps } from './components/organisms/site-controls'
 export {
   SiteHeader,
   type SiteHeaderProps,
@@ -147,6 +145,7 @@ export { Kbd, KbdGroup } from './components/ui/kbd'
 export { Toaster } from './components/ui/sonner'
 export { pad2 } from './lib/pad2'
 export { cn } from './lib/utils'
+export type { Language } from './views/language.view'
 export type {
   GlanceSpan,
   GlanceText,
@@ -157,4 +156,4 @@ export type {
   WotdGlanceView,
   WotdView,
 } from './views/library.view'
-export type { SearchPos, SearchWordView } from './views/search.view'
+export type { SearchWordView } from './views/search.view'

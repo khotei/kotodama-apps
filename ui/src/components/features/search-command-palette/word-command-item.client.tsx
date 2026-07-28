@@ -1,6 +1,7 @@
 'use client'
 
 import { BookOpenIcon } from 'lucide-react'
+import Link from 'next/link'
 import type { SearchWordView } from '../../../views/search.view'
 import { StatusBadge } from '../../core/status-badge'
 import { CommandPaletteItem } from '../../organisms/command-palette'
@@ -14,6 +15,8 @@ export type WordCommandItemProps = {
  * A {@link CommandPaletteItem} specialised for a library word: the word over its
  * gloss, with the part-of-speech trailing when ready or a {@link StatusBadge}
  * while it's still building. `href` is the identity; the word stays the match term.
+ * The word is a real link — modified clicks open a tab natively; plain clicks and
+ * Enter both land in `onSelect`, the row's single navigation path.
  */
 export function WordCommandItem({ word, onSelect }: WordCommandItemProps) {
   const ready = word.status === 'succeeded'
@@ -34,7 +37,18 @@ export function WordCommandItem({ word, onSelect }: WordCommandItemProps) {
         )
       }
     >
-      {word.word}
+      <Link
+        href={word.href}
+        onClick={(event) => {
+          // A modified click must not ALSO select in cmdk (stopPropagation); an
+          // unmodified one defers to cmdk's select so click + Enter share one path.
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+            event.stopPropagation()
+          else event.preventDefault()
+        }}
+      >
+        {word.word}
+      </Link>
     </CommandPaletteItem>
   )
 }
