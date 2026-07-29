@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-export type AppShellProps = {
+export type AppTemplateProps = {
   children: ReactNode
 }
 
@@ -9,9 +9,9 @@ export type AppShellProps = {
  * the z-lifted content plane above it. The wrapper is one stacking context
  * (`isolate`) so the grain stays behind everything and inner z-indexes never
  * fight the rest of the document. Wrap the whole public tree in it — the app
- * layout mounts it; {@link StoryShell} reuses it for stories.
+ * layout mounts it; {@link StoryTemplate} reuses it for stories.
  */
-export function AppShell({ children }: AppShellProps) {
+export function AppTemplate({ children }: AppTemplateProps) {
   return (
     <div className="relative isolate min-h-screen">
       <div aria-hidden className="kdm-grain pointer-events-none fixed inset-0 z-0" />

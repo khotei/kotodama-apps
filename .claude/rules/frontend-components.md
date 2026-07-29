@@ -22,7 +22,7 @@ ui components either (configure by data).
 **Suffix taxonomy — the name says how smart:** `*Container` = SMART (an app-side RSC that
 fetches/maps data + binds actions, e.g. `WordOfTheDayContainer`) · `*Wrapper` = DUMB (a
 single-purpose CSS wrapper over `children`, e.g. `AppWrapper` — the max-width gutter) ·
-`*Template`/`*Shell` = a multi-slot page skeleton (`AppShell`). Never call a presentational
+`*Template` = a page-level layout skeleton (`AppTemplate`). Never call a presentational
 wrapper a `Container`.
 
 ## The moves (each a real refactor — reproduce this diff shape)
@@ -95,7 +95,7 @@ lists + callbacks); the caller owns close/clear/navigate:
   5 drifting copies); React component for structure, `@utility` only for a visual recipe. Never
   raw markup re-doing a variant (`CommandFab` = `Button variant="accent"`, not a `<button>` that
   drops focus/press states).
-- **Name for what mounts in prod** — `AppShell` mounts; `StoryShell` stays unexported. List keys
+- **Name for what mounts in prod** — `AppTemplate` mounts; `StoryTemplate` stays unexported. List keys
   from stable content (`accentedWordText(w.word)`), never a collidable field.
 
 ## Client hooks (`.client.tsx` in `ui`/`apps/web` only)

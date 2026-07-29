@@ -85,7 +85,7 @@ export {
   type MobileTabBarProps,
 } from './components/organisms/mobile-tab-bar'
 export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
-export { AppShell, type AppShellProps } from './components/templates/app-shell'
+export { AppTemplate, type AppTemplateProps } from './components/templates/app-template'
 export {
   AlertDialog,
   AlertDialogAction,

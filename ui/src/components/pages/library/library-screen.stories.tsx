@@ -2,7 +2,7 @@ import { LibraryHero, ReadingRoom, WordOfTheDay } from '@kotodama/ui'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { LIBRARY_VIEW_MOCK } from '../../../fixtures/library.fixture'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
-import { StoryShell } from '../../templates/story-shell'
+import { StoryTemplate } from '../../templates/story-template'
 import { LibraryScreen } from './library-screen'
 
 // A Page story = the slot template filled with mock-fed organisms, exactly as
@@ -14,9 +14,9 @@ const meta: Meta<typeof LibraryScreen> = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <StoryShell paletteWords={SEARCH_WORDS_MOCK}>
+      <StoryTemplate paletteWords={SEARCH_WORDS_MOCK}>
         <Story />
-      </StoryShell>
+      </StoryTemplate>
     ),
   ],
 }

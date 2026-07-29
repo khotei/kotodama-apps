@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
-import { StoryShell } from './story-shell.client'
+import { StoryTemplate } from './story-template.client'
 
-const meta: Meta<typeof StoryShell> = {
-  title: 'Templates/StoryShell',
-  component: StoryShell,
+const meta: Meta<typeof StoryTemplate> = {
+  title: 'Templates/StoryTemplate',
+  component: StoryTemplate,
   parameters: { layout: 'fullscreen' },
   args: { paletteWords: SEARCH_WORDS_MOCK },
 }
 
 export default meta
-type Story = StoryObj<typeof StoryShell>
+type Story = StoryObj<typeof StoryTemplate>
 
 const placeholder = (
   <div className="grid min-h-[60vh] place-items-center text-muted-foreground">

@@ -12,25 +12,25 @@ import type { SearchWordView } from '../../../views/search.view'
 import { AppMainWrapper } from '../../atoms/app-main-wrapper'
 import { AppChrome } from '../../features/app-chrome'
 import { Toaster } from '../../ui/sonner'
-import { AppShell } from '../app-shell'
+import { AppTemplate } from '../app-template'
 
-export type StoryShellProps = {
+export type StoryTemplateProps = {
   paletteWords?: readonly SearchWordView[]
   children: ReactNode
 }
 
 /**
  * Storybook-only harness: mounts the real {@link AppChrome} inside the
- * {@link AppShell} backdrop, so a page story renders exactly as the app mounts
+ * {@link AppTemplate} backdrop, so a page story renders exactly as the app mounts
  * it. Not for app code: the app wires real navigation in
  * `app/(public)/components/public-app-header/public-app-header.client.tsx` +
  * `app/(public)/layout.tsx`. Nothing escapes the iframe: links go through the
  * framework's next/* mocks (route via `parameters.nextjs.navigation.pathname`),
  * palette commands toast.
  */
-export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
+export function StoryTemplate({ paletteWords = [], children }: StoryTemplateProps) {
   return (
-    <AppShell>
+    <AppTemplate>
       <AppChrome
         nav={{
           homeHref: '/',
@@ -49,6 +49,6 @@ export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
       />
       <AppMainWrapper>{children}</AppMainWrapper>
       <Toaster position="bottom-right" />
-    </AppShell>
+    </AppTemplate>
   )
 }

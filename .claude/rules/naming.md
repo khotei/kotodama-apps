@@ -32,7 +32,7 @@ paths:
   confused with api-client's transport `client.ts`). Component files take **no** dotted role suffix;
   their kind rides the kebab **base name** → symbol: a smart data-fetching RSC =
   `<feature>-container.tsx` → `<Feature>Container` (loads + maps + renders a ui feature); a
-  single-purpose CSS wrapper = `*Wrapper`; a multi-slot page skeleton = `*Template`/`*Shell`. Base
+  single-purpose CSS wrapper = `*Wrapper`; a page-level layout skeleton = `*Template`. Base
   names: in `core/words` the base name is the domain noun (`word-state.model.ts`, mirroring the
   backend's dotted roles) — likewise in a `server/` data folder (`word.loaders.ts`,
   `word.requests.ts`); elsewhere in `apps/web/src/<domain>/` the base name LEADS with the domain
