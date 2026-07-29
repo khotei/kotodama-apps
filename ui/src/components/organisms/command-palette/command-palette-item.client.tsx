@@ -32,26 +32,22 @@ export type CommandPaletteItemProps = {
  * `description`, and a right-aligned `trailing` slot — the row owns the look,
  * the caller fills each slot.
  */
-export function CommandPaletteItem({
-  value,
-  keywords,
-  forceMount,
-  onSelect,
-  icon,
-  description,
-  trailing,
-  children,
-}: CommandPaletteItemProps) {
+export function CommandPaletteItem(props: CommandPaletteItemProps) {
   return (
-    <CommandItem value={value} keywords={keywords} forceMount={forceMount} onSelect={onSelect}>
-      {icon}
+    <CommandItem
+      value={props.value}
+      keywords={props.keywords}
+      forceMount={props.forceMount}
+      onSelect={props.onSelect}
+    >
+      {props.icon}
       <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-        <span className="truncate">{children}</span>
-        {description && (
-          <span className="truncate text-sm text-subtle-foreground">{description}</span>
+        <span className="truncate">{props.children}</span>
+        {props.description && (
+          <span className="truncate text-sm text-subtle-foreground">{props.description}</span>
         )}
       </span>
-      {trailing}
+      {props.trailing}
     </CommandItem>
   )
 }

@@ -55,6 +55,13 @@ paths:
   by name is a `function` declaration (`function searchWords(q) {…}`), even when it's also handed
   to a utility (a debouncer); a callback stays an arrow — an inline `.then`/`.map`/`on*`/hook
   argument (`useMount(() => searchWords(''))`) or a named `handle*` (`const handleSearch = …`).
+- **Props: destructure ≤3, namespace above.** A component with **more than three** own props takes
+  a single `props` param and reads `props.x` (no signature destructuring, defaults land at the use
+  site — `props.empty ?? 'No results.'`); three or fewer destructure in the signature. **Exception —
+  rest-spread passthrough:** a frame forwarding `...rest` to a host element (`<Link {...props}>`, a
+  DOM primitive) keeps destructuring at any count — peeling the rest off the named props is what
+  makes it structural, not stylistic (`RankRow`, `Seal`, `Badge`). Inline callback destructures
+  (`.map(({ href }) => …)`) are untouched — the rule governs the props parameter alone.
 
 ## TypeScript idioms (Biome can't enforce)
 

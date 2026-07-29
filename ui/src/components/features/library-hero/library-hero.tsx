@@ -51,7 +51,7 @@ export type LibraryHeroProps = {
 }
 
 // @todo: split into manageble components
-export function LibraryHero({ stats, tryWords, languageName, searchPath }: LibraryHeroProps) {
+export function LibraryHero(props: LibraryHeroProps) {
   return (
     <section>
       <div className="mb-xl flex items-center gap-sm">
@@ -71,10 +71,10 @@ export function LibraryHero({ stats, tryWords, languageName, searchPath }: Libra
       </p>
 
       <div className="mt-2xl max-w-[600px]">
-        <form action={searchPath}>
+        <form action={props.searchPath}>
           <SearchBox
             name="q"
-            placeholder={`Look up a word in ${languageName}…`}
+            placeholder={`Look up a word in ${props.languageName}…`}
             aria-label="Search words"
             className="border-2 border-foreground bg-popover shadow-hero"
             actions={
@@ -97,7 +97,7 @@ export function LibraryHero({ stats, tryWords, languageName, searchPath }: Libra
           </div>
           <div className="mt-sm flex flex-wrap items-baseline gap-x-sm gap-y-xs">
             <span className="font-sans text-sm text-subtle-foreground">Try</span>
-            {tryWords.map(({ word, href }, i) => (
+            {props.tryWords.map(({ word, href }, i) => (
               <Fragment key={word}>
                 {i > 0 && <span className="size-0.5 self-center rounded-full bg-border-strong" />}
                 <Link
@@ -112,7 +112,7 @@ export function LibraryHero({ stats, tryWords, languageName, searchPath }: Libra
         </div>
 
         <div className="mt-2xl flex flex-wrap gap-2xl">
-          {stats.map(({ value, label }) => (
+          {props.stats.map(({ value, label }) => (
             <div key={label}>
               <div className="font-serif text-2xl font-normal tracking-tight">{value}</div>
               <div className="mt-0.5 whitespace-nowrap text-xs text-subtle-foreground tracking-wide">

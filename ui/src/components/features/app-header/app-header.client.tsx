@@ -44,18 +44,18 @@ export type AppHeaderProps = {
  * Owns the palette state (every affordance that opens it lives here); every
  * pick is reported to the composer's `onSelect`, never acted on.
  */
-export function AppHeader({ nav, commands, words, language, theme }: AppHeaderProps) {
+export function AppHeader(props: AppHeaderProps) {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [paletteQuery, setPaletteQuery] = useState('')
 
   const handleQueryChange = (query: string) => {
     setPaletteQuery(query)
-    words.onSearch?.(query)
+    props.words.onSearch?.(query)
   }
 
   const items: readonly PaletteItem[] = [
-    ...commands.map((action): PaletteItem => ({ entity: 'action', action })),
-    ...words.list.map((word): PaletteItem => ({ entity: 'word', word })),
+    ...props.commands.map((action): PaletteItem => ({ entity: 'action', action })),
+    ...props.words.list.map((word): PaletteItem => ({ entity: 'word', word })),
   ]
 
   const handleSelect = (item: PaletteItem) => {
@@ -63,25 +63,25 @@ export function AppHeader({ nav, commands, words, language, theme }: AppHeaderPr
     handleQueryChange('')
 
     if (item.entity === 'word') {
-      words.onSelect(item.word)
+      props.words.onSelect(item.word)
     }
   }
 
   return (
     <>
       <AppBar
-        homeHref={nav.homeHref}
-        nav={nav.desktop}
+        homeHref={props.nav.homeHref}
+        nav={props.nav.desktop}
         controls={
           <AppControls
             search={{
               label: 'Search or jump…',
               shortcut: 'k',
               onTrigger: () => setPaletteOpen((open) => !open),
-              mobileHref: nav.searchHref,
+              mobileHref: props.nav.searchHref,
             }}
-            language={language}
-            theme={theme}
+            language={props.language}
+            theme={props.theme}
           />
         }
       />
@@ -95,7 +95,7 @@ export function AppHeader({ nav, commands, words, language, theme }: AppHeaderPr
       />
       <MobileTabBar
         tabs={[
-          ...nav.mobile,
+          ...props.nav.mobile,
           { icon: <SparklesIcon />, label: 'Jump', onSelect: () => setPaletteOpen(true) },
         ]}
       />

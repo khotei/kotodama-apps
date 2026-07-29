@@ -31,33 +31,26 @@ export type CommandPaletteProps = {
  * holds `query` and the result set, so every behaviour (a trailing "generate" row,
  * a domain filter) composes above this frame. Closing clears the query.
  */
-export function CommandPalette({
-  open,
-  onOpenChange,
-  query,
-  onQueryChange,
-  placeholder = 'Search…',
-  title = 'Command palette',
-  description = 'Search or run a command.',
-  empty = 'No results.',
-  shouldFilter,
-  children,
-}: CommandPaletteProps) {
+export function CommandPalette(props: CommandPaletteProps) {
   return (
     <CommandDialog
-      open={open}
+      open={props.open}
       onOpenChange={(next) => {
-        onOpenChange(next)
-        if (!next) onQueryChange('')
+        props.onOpenChange(next)
+        if (!next) props.onQueryChange('')
       }}
-      title={title}
-      description={description}
-      shouldFilter={shouldFilter}
+      title={props.title ?? 'Command palette'}
+      description={props.description ?? 'Search or run a command.'}
+      shouldFilter={props.shouldFilter}
     >
-      <CommandInput placeholder={placeholder} value={query} onValueChange={onQueryChange} />
+      <CommandInput
+        placeholder={props.placeholder ?? 'Search…'}
+        value={props.query}
+        onValueChange={props.onQueryChange}
+      />
       <CommandList>
-        <CommandEmpty>{empty}</CommandEmpty>
-        {children}
+        <CommandEmpty>{props.empty ?? 'No results.'}</CommandEmpty>
+        {props.children}
       </CommandList>
       <div className="flex items-center gap-md border-border-subtle border-t px-md py-sm font-mono text-2xs text-subtle-foreground tracking-wider">
         <span className="flex items-center gap-xs">

@@ -60,26 +60,19 @@ export type SearchCommandPaletteProps = {
  * then runs the action's own `onSelect`; `query` stays lifted. cmdk fuzzy-filters
  * the groups.
  */
-export function SearchCommandPalette({
-  open,
-  onOpenChange,
-  query,
-  onQueryChange,
-  items,
-  onSelect,
-}: SearchCommandPaletteProps) {
-  const actions = items.filter(
+export function SearchCommandPalette(props: SearchCommandPaletteProps) {
+  const actions = props.items.filter(
     (item): item is ActionItem => item.entity === 'action' && !item.action.forceMount,
   )
   // The always-offered CTAs render OUTSIDE the filtered groups: cmdk hides a
   // group whose children all filtered out EVEN with a forceMounted child (the
   // row stays keyboard-selectable while invisible), so the pinned group
   // force-mounts itself — and, scoring zero, sorts last: a matched word owns Enter.
-  const pinned = items.filter(
+  const pinned = props.items.filter(
     (item): item is ActionItem => item.entity === 'action' && item.action.forceMount === true,
   )
-  const words = items.filter((item): item is WordItem => item.entity === 'word')
-  const typed = query.trim()
+  const words = props.items.filter((item): item is WordItem => item.entity === 'word')
+  const typed = props.query.trim()
 
   function actionRow(item: ActionItem) {
     return (
@@ -91,7 +84,7 @@ export function SearchCommandPalette({
         icon={item.action.icon}
         description={item.action.description}
         onSelect={() => {
-          onSelect(item)
+          props.onSelect(item)
           item.action.onSelect?.(typed)
         }}
       >
@@ -102,10 +95,10 @@ export function SearchCommandPalette({
 
   return (
     <CommandPalette
-      open={open}
-      onOpenChange={onOpenChange}
-      query={query}
-      onQueryChange={onQueryChange}
+      open={props.open}
+      onOpenChange={props.onOpenChange}
+      query={props.query}
+      onQueryChange={props.onQueryChange}
       placeholder="Search words or jump to…"
       title="Search or jump"
       description="Jump to a word in your library or run a command."
@@ -120,7 +113,7 @@ export function SearchCommandPalette({
             <WordCommandItem
               key={item.word.href}
               word={item.word}
-              onSelect={() => onSelect(item)}
+              onSelect={() => props.onSelect(item)}
             />
           ))}
         </CommandPaletteGroup>
