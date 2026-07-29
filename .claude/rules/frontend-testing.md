@@ -27,8 +27,12 @@ commands: `tooling.md`.
 - **platform leaves** — pin real `Intl` output (`en-GB`/`ru`).
 - **core/words** — pure type derivation: nothing to unit-test until real logic lands
   (exhaustiveness = `satisfies Record<…>` at consumers).
-- **apps/web mappers** — THE unit-test locus (`library.mapper.ts`): pure, time + locale injected.
-  The server data layer is NOT jsdom-tested — its proof is `next build` + e2e.
+- **apps/web mappers** — the unit-test locus, but only where the derivation EARNS one: a pure
+  `<section>.mapper.ts` (time + locale injected) is split out and tested when the mapping is
+  non-trivial (`word-of-the-day.mapper.ts` — frequency series + axis ticks). A trivial
+  branch/delegate map (href + status note) stays inline in the container and skips the test —
+  exhaustiveness is already a `satisfies Record<…>` canary at the copy site, not a runtime assert.
+  The server data layer (loaders + containers) is NOT jsdom-tested — its proof is `next build` + e2e.
 - **ui** — a Story IS the render test + a testing-library mount; ui owns the view-branch tests.
 - **e2e** — Playwright vs a REAL backend you start yourself (`E2E_BASE_URL`); asserts JSON-LD
   STRUCTURE in raw SSR HTML, JS disabled (AC-9).

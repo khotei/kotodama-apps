@@ -19,9 +19,9 @@ paths:
 | `.entity.ts` | contract types as fetched (`WordEntity`) | `core/repositories` |
 | `.factory.ts` | test-only faker `make*` builders | `core/factories` |
 | `.model.ts` | domain model derived off the wire (`WordListItem`) | `core/words` |
-| `.loaders.ts` | `load*` reads (`loadLibraryAggregation`) | `apps/web` (`src/<domain>/server` · route `server/`) |
+| `.loaders.ts` | `load*` reads (`loadWordsOfTheDay`) | `apps/web` (`src/<domain>/server` · route `server/` · route `components/<section>/`) |
 | `.requests.ts` | `'use server'` `request*` commands — the Server Actions | `apps/web/src/<domain>/server` |
-| `.mapper.ts` | pure render mapper — the one wire→View seam (`libraryViewFromModel`) | `apps/web/src/<domain>` |
+| `.mapper.ts` | pure wire→View map (`wotdViewsFrom`) — split out only when non-trivial | `apps/web/src/<domain>` · route `components/<section>/` |
 | `.view.ts` | React render shape | `ui` (`src/views/`) |
 | `.fixture.ts` | curated design mocks for stories | `ui` (`src/fixtures/`) |
 | `.client.tsx` | a `'use client'` island | `ui` · `apps/web` |
@@ -29,7 +29,10 @@ paths:
 | `*.gen.ts` | GENERATED, never hand-edited | `platform/api-client` |
 
   Server is the default → UNmarked; only the client island is marked `.client.tsx` (not to be
-  confused with api-client's transport `client.ts`). Component files take **no** suffix. Base
+  confused with api-client's transport `client.ts`). Component files take **no** dotted role suffix;
+  their kind rides the kebab **base name** → symbol: a smart data-fetching RSC =
+  `<feature>-container.tsx` → `<Feature>Container` (loads + maps + renders a ui feature); a
+  single-purpose CSS wrapper = `*Wrapper`; a multi-slot page skeleton = `*Template`/`*Shell`. Base
   names: in `core/words` the base name is the domain noun (`word-state.model.ts`, mirroring the
   backend's dotted roles) — likewise in a `server/` data folder (`word.loaders.ts`,
   `word.requests.ts`); elsewhere in `apps/web/src/<domain>/` the base name LEADS with the domain
@@ -38,8 +41,8 @@ paths:
   subfolders where the layer has them).
 - **Symbols:** props type `<Component>Props` (a `type`, never `interface`). The data tiers own
   reserved verb prefixes — `fetch*` wire call taking `client` first (`fetchWord`), `load*` read
-  (`loadLibraryAggregation`), `request*` `'use server'` command (`requestWordBuild`); any other
-  verb is not a data function. Domain types are bare nouns (`WordState`, `LibraryAggregation`) —
+  (`loadWordsOfTheDay`), `request*` `'use server'` command (`requestWordBuild`); any other
+  verb is not a data function. Domain types are bare nouns (`WordState`, `ReadingRoomData`) —
   only the boundary tiers carry a postfix: wire `*Entity`, render `*View`. Value/enum types
   (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**
 

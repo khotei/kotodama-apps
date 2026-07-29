@@ -1,41 +1,14 @@
-// @todo: move file to (public)
-import type { Language, ReadyListWord, WordListItem } from '@kotodama/core/words'
-import { formatDayMonth, formatRelative } from '@kotodama/platform/dates'
+import type { Language, ReadyListWord } from '@kotodama/core/words'
+import { formatDayMonth } from '@kotodama/platform/dates'
 import { languageName } from '@kotodama/platform/languages'
-import type { LibraryView, RankedWordView, WotdView } from '@kotodama/ui'
-// A type-only reach into the loader — erased at compile, so no `server-only`
-// runtime crosses into the render tier.
-import type { LibraryAggregation } from '@/app/(public)/server/library.loaders'
-import { DEFAULT_LANGUAGE } from '../language/language'
-import { capitalize } from '../utils/text'
-import { wordHref } from '../words/words-hrefs'
-import { unreadyStatusNote } from '../words/words-status.mapper'
+import type { WotdView } from '@kotodama/ui'
+import { DEFAULT_LANGUAGE } from '../../../../src/language/language'
+import { capitalize } from '../../../../src/utils/text'
+import { wordHref } from '../../../../src/words/words-hrefs'
 
-// The render-tier mapper — the ONLY place the wire vocabulary meets the ui
-// vocabulary. Pure: time is injected, locale work comes from the platform Intl
-// leaves, so the unit tests (this file's locus) pin every derivation.
-
-function rankedFromItem(item: WordListItem, language: Language, now: Date): RankedWordView {
-  if (item.status === 'succeeded') {
-    return {
-      href: wordHref(language, item.word),
-      word: { pre: item.word },
-      gloss: item.coreDefinition,
-      pos: item.lexical.partOfSpeech,
-      when: formatRelative(item.createdAt, now, DEFAULT_LANGUAGE),
-      status: item.status,
-      saved: false,
-    }
-  }
-  return {
-    href: wordHref(item.language, item.word),
-    word: { pre: item.word },
-    when: formatRelative(item.createdAt, now, DEFAULT_LANGUAGE),
-    status: item.status,
-    saved: false,
-    statusNote: unreadyStatusNote(item),
-  }
-}
+// The word-of-the-day render seam: a ready wire word → ui's WotdView. The one
+// non-trivial derivation in the library (frequency series + sparkline axis
+// ticks), so it keeps its unit test — the other sections map inline.
 
 function mapWordOfDay(word: ReadyListWord, language: Language): WotdView {
   const year = word.etymology.firstAttested.year
@@ -94,21 +67,9 @@ function mapWordOfDay(word: ReadyListWord, language: Language): WotdView {
   }
 }
 
-export function libraryViewFromModel(
-  model: LibraryAggregation,
-  { language, now }: { language: Language; now: Date },
-): LibraryView {
-  const studyLanguage = capitalize(languageName(language))
-  return {
-    languageName: studyLanguage,
-    stats: [
-      { value: String(model.counts.succeeded), label: 'words ready to read' },
-      { value: String(model.counts.pending + model.counts.running), label: 'taking shape now' },
-      { value: studyLanguage, label: 'your study language' },
-    ],
-    tryWords: model.tryWords.map((w) => ({ word: w.word, href: wordHref(language, w.word) })),
-    wordsOfTheDay: model.wotd.map((w) => mapWordOfDay(w, language)),
-    mostLookedUp: model.mostLooked.map((i) => rankedFromItem(i, language, now)),
-    recentlyAdded: model.recent.map((i) => rankedFromItem(i, language, now)),
-  }
+export function wotdViewsFrom(
+  words: readonly ReadyListWord[],
+  { language }: { language: Language },
+): readonly WotdView[] {
+  return words.map((w) => mapWordOfDay(w, language))
 }

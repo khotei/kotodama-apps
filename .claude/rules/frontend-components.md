@@ -12,11 +12,17 @@ paths:
 
 Where a component lives: generic frame → kit `{atoms,molecules,organisms}`, ABSTRACT name
 (`Chip`, `Show`) · entity-bound → domain `{core,features}`, CONCRETE name (`StatusBadge`,
-`ReadingRoom`) — **a name that lies about its tier is a bug** · app-only wiring (an island binding
-loaders/actions to a feature) → route-colocated `app/(public)/components/**`, never in `ui` and
-never a `src/shared` chrome folder. `features/` assemble ONCE in ui + Storybook with namespaced
-props (`word={{…}}`); the app injects data + bound actions, NEVER re-assembles — no derived
-adapter/wrapper types around ui components either (configure by data).
+`ReadingRoom`) — **a name that lies about its tier is a bug** · app-only wiring (an RSC
+`*Container` loading a slice + mapping it, or a `*.client.tsx` island binding actions to a feature)
+→ route-colocated `app/(public)/components/<section>/**`, never in `ui` and never a `src/shared`
+chrome folder. `features/` assemble ONCE in ui + Storybook with namespaced props (`word={{…}}`);
+the app injects data + bound actions, NEVER re-assembles — no derived adapter/wrapper types around
+ui components either (configure by data).
+
+**Suffix taxonomy — the name says how smart:** `*Container` = SMART (an app-side RSC that
+fetches/maps data + binds actions, e.g. `WordOfTheDayContainer`) · `*Wrapper` = DUMB (a
+single-purpose CSS wrapper over `children` — a max-width `<main>`) · `*Template`/`*Shell` = a
+multi-slot page skeleton (`SiteShell`). Never call a presentational wrapper a `Container`.
 
 ## The moves (each a real refactor — reproduce this diff shape)
 
