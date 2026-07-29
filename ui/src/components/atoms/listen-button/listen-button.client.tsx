@@ -15,7 +15,7 @@ export type ListenButtonProps = {
 export function ListenButton({ text, lang, className }: ListenButtonProps) {
   const [playing, setPlaying] = useState(false)
 
-  const speak = () => {
+  function speak() {
     if (playing || typeof speechSynthesis === 'undefined') return
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = lang

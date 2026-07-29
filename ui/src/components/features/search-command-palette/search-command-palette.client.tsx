@@ -81,22 +81,24 @@ export function SearchCommandPalette({
   const words = items.filter((item): item is WordItem => item.entity === 'word')
   const typed = query.trim()
 
-  const actionRow = (item: ActionItem) => (
-    <CommandPaletteItem
-      key={item.action.id}
-      value={item.action.id}
-      keywords={item.action.keywords}
-      forceMount={item.action.forceMount}
-      icon={item.action.icon}
-      description={item.action.description}
-      onSelect={() => {
-        onSelect(item)
-        item.action.onSelect?.(typed)
-      }}
-    >
-      {typeof item.action.label === 'function' ? item.action.label(typed) : item.action.label}
-    </CommandPaletteItem>
-  )
+  function actionRow(item: ActionItem) {
+    return (
+      <CommandPaletteItem
+        key={item.action.id}
+        value={item.action.id}
+        keywords={item.action.keywords}
+        forceMount={item.action.forceMount}
+        icon={item.action.icon}
+        description={item.action.description}
+        onSelect={() => {
+          onSelect(item)
+          item.action.onSelect?.(typed)
+        }}
+      >
+        {typeof item.action.label === 'function' ? item.action.label(typed) : item.action.label}
+      </CommandPaletteItem>
+    )
+  }
 
   return (
     <CommandPalette

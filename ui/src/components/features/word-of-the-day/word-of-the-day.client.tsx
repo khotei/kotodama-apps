@@ -46,7 +46,9 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
   const index = Math.min(rawIndex, count - 1)
   const wotd = wotds[index]
   if (wotd == null) return null
-  const step = (delta: number) => setIndex((i) => (Math.min(i, count - 1) + delta + count) % count)
+  function step(delta: number) {
+    setIndex((i) => (Math.min(i, count - 1) + delta + count) % count)
+  }
 
   return (
     <section className="flex flex-col gap-lg">

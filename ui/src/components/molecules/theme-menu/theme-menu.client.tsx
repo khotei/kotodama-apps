@@ -21,7 +21,7 @@ const THEMES = [
 
 // The default handler flips `.dark` on <html> — the same cascade next-themes
 // drives; the app injects `setTheme` instead to persist the choice.
-const applyTheme = (theme: ThemeMode) => {
+function applyTheme(theme: ThemeMode) {
   const dark =
     theme === 'dark' ||
     (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)

@@ -15,7 +15,7 @@ import {
 // Capitalized autonym — `es` → `Español`. The menu names each language in
 // itself (the universal switcher convention), so there is no display locale
 // to inject and no label prop to drift.
-const languageLabel = (code: string) => {
+function languageLabel(code: string) {
   const name = languageName(code)
   return name.charAt(0).toLocaleUpperCase(code) + name.slice(1)
 }

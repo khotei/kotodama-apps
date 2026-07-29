@@ -47,14 +47,14 @@ export function SaveWordButton({ word, initialSaved = false, look = 'hero' }: Sa
   const [saved, setSaved] = useState(initialSaved)
   const [confirming, setConfirming] = useState(false)
 
-  const save = () => {
+  function save() {
     setSaved(true)
     toast(`Saved “${word}” for review`, {
       action: { label: 'Undo', onClick: () => setSaved(false) },
     })
   }
 
-  const remove = () => {
+  function remove() {
     setConfirming(false)
     setSaved(false)
     toast(`Removed “${word}” from saved`, {
