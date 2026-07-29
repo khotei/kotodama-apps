@@ -21,8 +21,9 @@ ui components either (configure by data).
 
 **Suffix taxonomy — the name says how smart:** `*Container` = SMART (an app-side RSC that
 fetches/maps data + binds actions, e.g. `WordOfTheDayContainer`) · `*Wrapper` = DUMB (a
-single-purpose CSS wrapper over `children` — a max-width `<main>`) · `*Template`/`*Shell` = a
-multi-slot page skeleton (`SiteShell`). Never call a presentational wrapper a `Container`.
+single-purpose CSS wrapper over `children`, e.g. `SiteWrapper` — the max-width gutter) ·
+`*Template`/`*Shell` = a multi-slot page skeleton (`SiteShell`). Never call a presentational
+wrapper a `Container`.
 
 ## The moves (each a real refactor — reproduce this diff shape)
 

@@ -7,7 +7,7 @@ import { activeHref } from '../../../lib/active-href'
 import { cn } from '../../../lib/utils'
 import { Seal } from '../../atoms/seal'
 import { Show } from '../../atoms/show'
-import { SiteContainer } from '../../atoms/site-container'
+import { SiteWrapper } from '../../atoms/site-wrapper'
 
 export type SiteNavLink = {
   label: string
@@ -42,7 +42,7 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
   )
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
-      <SiteContainer className="flex h-14 items-center justify-between md:h-[76px]">
+      <SiteWrapper className="flex h-14 items-center justify-between md:h-[76px]">
         <div className="flex items-center gap-lg lg:gap-2xl">
           <Wordmark href={homeHref} />
           <Show on="desktop">
@@ -64,7 +64,7 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
           </Show>
         </div>
         <div className="flex items-center gap-xs md:gap-md">{controls}</div>
-      </SiteContainer>
+      </SiteWrapper>
     </header>
   )
 }

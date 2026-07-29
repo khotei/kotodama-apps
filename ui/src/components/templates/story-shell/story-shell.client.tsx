@@ -9,7 +9,7 @@ import {
 } from '../../../fixtures/chrome.fixture'
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
 import type { SearchWordView } from '../../../views/search.view'
-import { SiteContainer } from '../../atoms/site-container'
+import { SiteWrapper } from '../../atoms/site-wrapper'
 import { SiteChrome } from '../../features/site-chrome'
 import { Toaster } from '../../ui/sonner'
 import { SiteShell } from '../site-shell'
@@ -23,12 +23,11 @@ export type StoryShellProps = {
  * Storybook-only harness: mounts the real {@link SiteChrome} inside the
  * {@link SiteShell} backdrop, so a page story renders exactly as the app mounts
  * it. Not for app code: the app wires real navigation in
- * `apps/web/src/shared/components/chrome/app-chrome.client.tsx` +
+ * `app/(public)/components/public-site-header/public-site-header.client.tsx` +
  * `app/(public)/layout.tsx`. Nothing escapes the iframe: links go through the
  * framework's next/* mocks (route via `parameters.nextjs.navigation.pathname`),
  * palette commands toast.
  */
-// @todo: reanem to StorybookPageContainer
 export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
   return (
     <SiteShell>
@@ -48,9 +47,9 @@ export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
         language={{ current: CURRENT_LANGUAGE_MOCK, list: LANGUAGE_OPTIONS_MOCK }}
         theme={{}}
       />
-      <SiteContainer as="main" className="pb-4xl md:pb-2xl">
+      <SiteWrapper as="main" className="pb-4xl md:pb-2xl">
         {children}
-      </SiteContainer>
+      </SiteWrapper>
       <Toaster position="bottom-right" />
     </SiteShell>
   )
