@@ -10,7 +10,7 @@ import {
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
 import type { SearchWordView } from '../../../views/search.view'
 import { AppMainWrapper } from '../../atoms/app-main-wrapper'
-import { AppChrome } from '../../features/app-chrome'
+import { AppHeader } from '../../features/app-header'
 import { Toaster } from '../../ui/sonner'
 import { AppTemplate } from '../app-template'
 
@@ -20,7 +20,7 @@ export type StoryTemplateProps = {
 }
 
 /**
- * Storybook-only harness: mounts the real {@link AppChrome} inside the
+ * Storybook-only harness: mounts the real {@link AppHeader} inside the
  * {@link AppTemplate} backdrop, so a page story renders exactly as the app mounts
  * it. Not for app code: the app wires real navigation in
  * `app/(public)/components/public-app-header/public-app-header.client.tsx` +
@@ -31,7 +31,7 @@ export type StoryTemplateProps = {
 export function StoryTemplate({ paletteWords = [], children }: StoryTemplateProps) {
   return (
     <AppTemplate>
-      <AppChrome
+      <AppHeader
         nav={{
           homeHref: '/',
           searchHref: '/search',

@@ -6,7 +6,6 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     <AppTemplate>
       <PublicAppHeader />
-
       <AppMainWrapper>{children}</AppMainWrapper>
     </AppTemplate>
   )

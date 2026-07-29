@@ -45,7 +45,11 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/core/tier-chip'
-export { AppChrome, type AppChromeProps } from './components/features/app-chrome'
+export {
+  AppHeader,
+  type AppHeaderProps,
+  type AppNavLink,
+} from './components/features/app-header'
 export { LibraryHero, type LibraryHeroProps } from './components/features/library-hero'
 export { ReadingRoom, type ReadingRoomProps } from './components/features/reading-room'
 export {
@@ -66,11 +70,6 @@ export { LanguageMenu, type LanguageMenuProps } from './components/molecules/lan
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
 export { AppControls, type AppControlsProps } from './components/organisms/app-controls'
-export {
-  AppHeader,
-  type AppHeaderProps,
-  type AppNavLink,
-} from './components/organisms/app-header'
 export {
   CommandPalette,
   CommandPaletteGroup,
@@ -145,6 +144,7 @@ export {
 export { Kbd, KbdGroup } from './components/ui/kbd'
 export { Toaster } from './components/ui/sonner'
 export { pad2 } from './lib/pad2'
+export { useDebouncedCallback } from './lib/use-debounced-callback'
 export { cn } from './lib/utils'
 export type { Language } from './views/language.view'
 export type {

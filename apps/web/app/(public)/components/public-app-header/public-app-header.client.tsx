@@ -1,11 +1,11 @@
 'use client'
 
 import type { WordListItem } from '@kotodama/core/words'
-import { AppChrome, type CommandAction } from '@kotodama/ui'
+import { AppHeader, type CommandAction, useDebouncedCallback } from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import useMount from 'react-use/esm/useMount'
 import { DEFAULT_LANGUAGE } from '@/src/language/language'
 import { loadWordSearch } from '@/src/words/server/word.loaders'
@@ -14,18 +14,29 @@ import { mapSearchWord } from '@/src/words/words-search.mapper'
 import { LANGUAGES } from './languages'
 import { DESKTOP_NAV, MOBILE_NAV } from './nav'
 
+const SEARCH_DEBOUNCE_MS = 1_000
+
 export function PublicAppHeader() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [words, setWords] = useState<readonly WordListItem[]>([])
 
-  const handleSearch = async (query: string) => {
-    setWords((await loadWordSearch(DEFAULT_LANGUAGE, query.trim())).items)
+  const requestToken = useRef('')
+
+  function searchWords(query: string) {
+    const token = crypto.randomUUID()
+    requestToken.current = token
+
+    loadWordSearch(DEFAULT_LANGUAGE, query.trim()).then((r) => {
+      // race condition fix
+      const isFresh = token === requestToken.current
+      if (isFresh) setWords(r.items)
+    })
   }
 
-  useMount(() => {
-    void handleSearch('')
-  })
+  const handleSearch = useDebouncedCallback(searchWords, SEARCH_DEBOUNCE_MS)
+
+  useMount(() => searchWords(''))
 
   const searched = words.map((item) => mapSearchWord(item, DEFAULT_LANGUAGE))
 
@@ -65,7 +76,7 @@ export function PublicAppHeader() {
   ]
 
   return (
-    <AppChrome
+    <AppHeader
       nav={{ homeHref: '/', searchHref: '/search', desktop: DESKTOP_NAV, mobile: MOBILE_NAV }}
       commands={commands}
       words={{

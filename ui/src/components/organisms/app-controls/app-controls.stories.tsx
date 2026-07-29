@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
 import { AppControls } from './app-controls'
 
-// Organisms/AppControls · the standard `controls` filling for AppHeader.
+// Organisms/AppControls · the standard `controls` filling for the header bar.
 // The <Show> gates decide which pieces render: desktop = trigger + full
 // language menu, mobile = magnifier link + compact badge.
 const meta: Meta<typeof AppControls> = {

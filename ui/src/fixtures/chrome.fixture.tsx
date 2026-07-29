@@ -1,7 +1,7 @@
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { toast } from 'sonner'
+import type { AppNavLink } from '../components/features/app-header'
 import type { CommandAction } from '../components/features/search-command-palette'
-import type { AppNavLink } from '../components/organisms/app-header'
 import type { MobileTab } from '../components/organisms/mobile-tab-bar'
 
 export const CHROME_DESKTOP_NAV_MOCK: readonly AppNavLink[] = [

@@ -14,7 +14,7 @@ export type AppNavLink = {
   href: string
 }
 
-export type AppHeaderProps = {
+export type AppBarProps = {
   homeHref: string
   nav: readonly AppNavLink[]
   /** Right-hand control cluster; the composer gates each control by viewport with `<Show>`. */
@@ -35,7 +35,7 @@ function Wordmark({ href }: { href: string }) {
   )
 }
 
-export function AppHeader({ homeHref, nav, controls }: AppHeaderProps) {
+export function AppBar({ homeHref, nav, controls }: AppBarProps) {
   const active = activeHref(
     usePathname(),
     nav.map(({ href }) => href),

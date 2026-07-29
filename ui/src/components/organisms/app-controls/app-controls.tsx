@@ -23,8 +23,8 @@ export type AppControlsProps = {
 /**
  * The header's right-hand control cluster — ⌘K trigger (desktop) / search
  * magnifier (mobile), the language menu in both densities, the theme menu —
- * each gated by viewport with {@link Show}. The standard filling for
- * `AppHeader`'s `controls` slot.
+ * each gated by viewport with {@link Show}. The standard filling for the
+ * header bar's `controls` slot.
  */
 export function AppControls({ search, language, theme }: AppControlsProps) {
   return (

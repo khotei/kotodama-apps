@@ -45,6 +45,16 @@ paths:
   verb is not a data function. Domain types are bare nouns (`WordState`, `ReadingRoomData`) —
   only the boundary tiers carry a postfix: wire `*Entity`, render `*View`. Value/enum types
   (`Language`, `JobStatus`) stay plain; **never suffix a type `<X>Schema`.**
+- **Handler vs function:** a callback wired to an `on<X>` prop is a **handler** → `handle<X>`
+  mirroring the prop (`onSearch` → `handleSearch`, `onQueryChange` → `handleQueryChange`); a
+  function that does the work and is called by name stays a plain verb (`searchWords`,
+  `languageLabel`) — never `handle`-prefix it, even when passed straight to an event
+  (`onClick={remove}`). Extract a handler to a `const` ONLY when reused (an immediate call + a
+  debounced one); a once-used handler inlines (`onOpen={() => setOpen(true)}`).
+- **`function` for workers, arrow for callbacks** (mirrors the backend): a named worker you invoke
+  by name is a `function` declaration (`function searchWords(q) {…}`), even when it's also handed
+  to a utility (a debouncer); a callback stays an arrow — an inline `.then`/`.map`/`on*`/hook
+  argument (`useMount(() => searchWords(''))`) or a named `handle*` (`const handleSearch = …`).
 
 ## TypeScript idioms (Biome can't enforce)
 
