@@ -94,18 +94,6 @@ function mapWordOfDay(word: ReadyListWord, language: Language): WotdView {
   }
 }
 
-// @todo: remvoe, library will return ready on tryWords
-function tryWordsFrom(model: LibraryAggregation, language: Language) {
-  const names = [
-    ...model.wotd.map((w) => w.word),
-    //@todo: remove filtering, word should be ready already
-    ...model.mostLooked.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
-    //@todo: remove filtering, word should be ready already
-    ...model.recent.flatMap((i) => (i.status === 'succeeded' ? [i.word] : [])),
-  ]
-  return [...new Set(names)].slice(0, 6).map((word) => ({ word, href: wordHref(language, word) }))
-}
-
 export function libraryViewFromModel(
   model: LibraryAggregation,
   { language, now }: { language: Language; now: Date },
@@ -113,15 +101,13 @@ export function libraryViewFromModel(
   const studyLanguage = capitalize(languageName(language))
   return {
     languageName: studyLanguage,
-    // @todo: think about labels. write more meaningful and frendly
     stats: [
-      { value: String(model.counts.succeeded), label: 'words in the library' },
-      { value: String(model.counts.pending + model.counts.running), label: 'being written now' },
+      { value: String(model.counts.succeeded), label: 'words ready to read' },
+      { value: String(model.counts.pending + model.counts.running), label: 'taking shape now' },
       { value: studyLanguage, label: 'your study language' },
     ],
-    tryWords: tryWordsFrom(model, language),
-    // @todo: remove slice
-    wordsOfTheDay: model.wotd.slice(0, 4).map((w) => mapWordOfDay(w, language)),
+    tryWords: model.tryWords.map((w) => ({ word: w.word, href: wordHref(language, w.word) })),
+    wordsOfTheDay: model.wotd.map((w) => mapWordOfDay(w, language)),
     mostLookedUp: model.mostLooked.map((i) => rankedFromItem(i, language, now)),
     recentlyAdded: model.recent.map((i) => rankedFromItem(i, language, now)),
   }

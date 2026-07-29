@@ -11,6 +11,7 @@ const model = (over: Partial<LibraryAggregation> = {}): LibraryAggregation => ({
   recent: [],
   mostLooked: [],
   wotd: [],
+  tryWords: [],
   ...over,
 })
 
@@ -19,8 +20,8 @@ describe('libraryViewFromModel · stats (AC-2, AC-12)', () => {
     const view = libraryViewFromModel(model(), { language: 'es', now: NOW })
 
     expect(view.stats).toHaveLength(3)
-    expect(view.stats[0]).toEqual({ value: '12', label: 'words in the library' })
-    expect(view.stats[1]).toEqual({ value: '3', label: 'being written now' })
+    expect(view.stats[0]).toEqual({ value: '12', label: 'words ready to read' })
+    expect(view.stats[1]).toEqual({ value: '3', label: 'taking shape now' })
     expect(view.stats[2]).toEqual({ value: 'Español', label: 'your study language' })
     expect(view.languageName).toBe('Español')
     for (const stat of view.stats) {
@@ -30,8 +31,8 @@ describe('libraryViewFromModel · stats (AC-2, AC-12)', () => {
 })
 
 describe('libraryViewFromModel · word of the day (AC-4)', () => {
-  it('maps the first 4 ready words off inline content — no fabricated stress, real hrefs', () => {
-    const words = Array.from({ length: 5 }, (_, i) => makeWord({ word: `palabra${i}` }))
+  it('maps each ready word off inline content — no fabricated stress, real hrefs', () => {
+    const words = Array.from({ length: 4 }, (_, i) => makeWord({ word: `palabra${i}` }))
 
     const view = libraryViewFromModel(model({ wotd: words }), {
       language: 'es',
@@ -95,20 +96,15 @@ describe('libraryViewFromModel · ranked rows (AC-10)', () => {
 })
 
 describe('libraryViewFromModel · try words', () => {
-  it('samples unique ready words across wotd + mostLookedUp, capped at 6', () => {
-    const shared = makeWord({ word: 'compartida' })
-    const wotd = [shared, makeWord({ word: 'una' })]
-    const looked = [shared, ...Array.from({ length: 6 }, (_, i) => makeWord({ word: `otra${i}` }))]
+  it('maps the invite rail straight from the aggregate — word text + real href', () => {
+    const words = [makeWord({ word: 'compartida' }), makeWord({ word: 'una' })]
 
-    const view = libraryViewFromModel(model({ wotd: wotd, mostLooked: looked }), {
+    const view = libraryViewFromModel(model({ tryWords: words }), {
       language: 'es',
       now: NOW,
     })
 
-    const names = view.tryWords.map((t) => t.word)
-    expect(names).toHaveLength(6)
-    expect(new Set(names).size).toBe(6)
-    expect(names).toContain('compartida')
+    expect(view.tryWords.map((t) => t.word)).toEqual(['compartida', 'una'])
     expect(view.tryWords[0]?.href).toBe('/words/es/compartida')
   })
 })

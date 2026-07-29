@@ -1,6 +1,6 @@
 import type { operations } from '@kotodama/platform/api-client'
 import { type ApiClient, unwrap } from '@kotodama/platform/api-client'
-import type { Language } from './word.entity'
+import type { Language, WordSearchEntity, WordSearchResultEntity } from './word.entity'
 
 // The data-access tier: bare `fetchX` functions over the transport client — the
 // ONLY code that speaks path-strings + query params. Returns plain Promises of
@@ -79,25 +79,56 @@ export function fetchWordCounts(
 
 type RecentWordsParams = Pick<SearchWordsParams, 'page' | 'limit'>
 
-// "Most looked up" and "word of the day" have no dedicated backend source yet:
-// both read recent succeeded words via search — recency, never a fabricated
-// popularity signal. Deliberately two named intents (not one shared wrapper):
-// when a real /trending or WOTD endpoint lands, only this file changes.
+// A search page whose rows are the succeeded branch. `core/repositories` can't
+// import `core/words`' `ReadyListWord` (wrong layer direction), so the ready
+// branch is restated here off the wire entity.
+type ReadyWordSearchResult = Omit<WordSearchResultEntity, 'items'> & {
+  items: Extract<WordSearchEntity, { status: 'succeeded' }>[]
+}
+
+// Four read intents over one /search endpoint — no dedicated /trending, WOTD, or
+// invite source on the backend yet. `fetchRecentWords` stays UNfiltered (building
+// words surface as unready rows); most-looked, word-of-the-day, and try-words
+// query the succeeded branch and narrow to it, so callers skip a redundant
+// runtime status guard — recency, never a fabricated popularity signal. Kept as
+// separate named intents (not one shared wrapper) so when a real endpoint lands,
+// only this file changes.
+
+export function fetchRecentWords(client: ApiClient, language: Language, params: RecentWordsParams) {
+  return searchWords(client, language, params)
+}
 
 export function fetchMostLookedUp(
   client: ApiClient,
   language: Language,
   params: RecentWordsParams,
-) {
-  return searchWords(client, language, { ...params, status: 'succeeded' })
+): Promise<ReadyWordSearchResult> {
+  return searchWords(client, language, {
+    ...params,
+    status: 'succeeded',
+  }) as Promise<ReadyWordSearchResult>
 }
 
 export function fetchWordsOfTheDay(
   client: ApiClient,
   language: Language,
   params: RecentWordsParams,
-) {
-  return searchWords(client, language, { ...params, status: 'succeeded' })
+): Promise<ReadyWordSearchResult> {
+  return searchWords(client, language, {
+    ...params,
+    status: 'succeeded',
+  }) as Promise<ReadyWordSearchResult>
+}
+
+export function fetchTryWords(
+  client: ApiClient,
+  language: Language,
+  params: RecentWordsParams,
+): Promise<ReadyWordSearchResult> {
+  return searchWords(client, language, {
+    ...params,
+    status: 'succeeded',
+  }) as Promise<ReadyWordSearchResult>
 }
 
 /** Queue (or re-queue) a build for the word — POST, no body; the state row is the reply. */

@@ -15,6 +15,8 @@ export type { SearchWordsParams, WordCountsParams } from './words/word.repo'
 export {
   buildWord,
   fetchMostLookedUp,
+  fetchRecentWords,
+  fetchTryWords,
   fetchWord,
   fetchWordCounts,
   fetchWordState,
