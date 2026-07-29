@@ -9,10 +9,10 @@ import {
 } from '../../../fixtures/chrome.fixture'
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
 import type { SearchWordView } from '../../../views/search.view'
-import { SiteWrapper } from '../../atoms/site-wrapper'
-import { SiteChrome } from '../../features/site-chrome'
+import { AppMainWrapper } from '../../atoms/app-main-wrapper'
+import { AppChrome } from '../../features/app-chrome'
 import { Toaster } from '../../ui/sonner'
-import { SiteShell } from '../site-shell'
+import { AppShell } from '../app-shell'
 
 export type StoryShellProps = {
   paletteWords?: readonly SearchWordView[]
@@ -20,18 +20,18 @@ export type StoryShellProps = {
 }
 
 /**
- * Storybook-only harness: mounts the real {@link SiteChrome} inside the
- * {@link SiteShell} backdrop, so a page story renders exactly as the app mounts
+ * Storybook-only harness: mounts the real {@link AppChrome} inside the
+ * {@link AppShell} backdrop, so a page story renders exactly as the app mounts
  * it. Not for app code: the app wires real navigation in
- * `app/(public)/components/public-site-header/public-site-header.client.tsx` +
+ * `app/(public)/components/public-app-header/public-app-header.client.tsx` +
  * `app/(public)/layout.tsx`. Nothing escapes the iframe: links go through the
  * framework's next/* mocks (route via `parameters.nextjs.navigation.pathname`),
  * palette commands toast.
  */
 export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
   return (
-    <SiteShell>
-      <SiteChrome
+    <AppShell>
+      <AppChrome
         nav={{
           homeHref: '/',
           searchHref: '/search',
@@ -47,10 +47,8 @@ export function StoryShell({ paletteWords = [], children }: StoryShellProps) {
         language={{ current: CURRENT_LANGUAGE_MOCK, list: LANGUAGE_OPTIONS_MOCK }}
         theme={{}}
       />
-      <SiteWrapper as="main" className="pb-4xl md:pb-2xl">
-        {children}
-      </SiteWrapper>
+      <AppMainWrapper>{children}</AppMainWrapper>
       <Toaster position="bottom-right" />
-    </SiteShell>
+    </AppShell>
   )
 }

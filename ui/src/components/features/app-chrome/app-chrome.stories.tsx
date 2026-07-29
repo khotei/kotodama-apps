@@ -8,14 +8,14 @@ import {
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
 import { SEARCH_WORDS_MOCK } from '../../../fixtures/search.fixture'
 import { Toaster } from '../../ui/sonner'
-import { SiteChrome } from './site-chrome.client'
+import { AppChrome } from './app-chrome.client'
 
-// Features/SiteChrome · the whole public chrome fed by data alone — the same
+// Features/AppChrome · the whole public chrome fed by data alone — the same
 // nav/commands/words the app injects, here from fixtures (commands toast). The
 // active nav link derives from the mocked pathname, never from a prop.
-const meta: Meta<typeof SiteChrome> = {
-  title: 'Features/SiteChrome',
-  component: SiteChrome,
+const meta: Meta<typeof AppChrome> = {
+  title: 'Features/AppChrome',
+  component: AppChrome,
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
@@ -43,7 +43,7 @@ const meta: Meta<typeof SiteChrome> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SiteChrome>
+type Story = StoryObj<typeof AppChrome>
 
 export const Default: Story = {}
 

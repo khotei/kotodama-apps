@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
 import { CURRENT_LANGUAGE_MOCK, LANGUAGE_OPTIONS_MOCK } from '../../../fixtures/language.fixture'
-import { SiteControls } from '../site-controls'
-import { SiteHeader } from './site-header.client'
+import { AppControls } from '../app-controls'
+import { AppHeader } from './app-header.client'
 
-// Organisms/SiteHeader · the two shapes: bare nav-only, and the filled header
-// whose `controls` slot the composer wires (here: the stock SiteControls
+// Organisms/AppHeader · the two shapes: bare nav-only, and the filled header
+// whose `controls` slot the composer wires (here: the stock AppControls
 // cluster). The active link derives from the mocked pathname
 // (`parameters.nextjs.navigation`), never from a prop.
-const meta: Meta<typeof SiteHeader> = {
-  title: 'Organisms/SiteHeader',
-  component: SiteHeader,
+const meta: Meta<typeof AppHeader> = {
+  title: 'Organisms/AppHeader',
+  component: AppHeader,
   parameters: { layout: 'fullscreen' },
   args: {
     homeHref: '/',
@@ -21,7 +21,7 @@ const meta: Meta<typeof SiteHeader> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SiteHeader>
+type Story = StoryObj<typeof AppHeader>
 
 export const Default: Story = {}
 
@@ -32,7 +32,7 @@ export const OnSearch: Story = {
 export const Controls: Story = {
   args: {
     controls: (
-      <SiteControls
+      <AppControls
         search={{
           label: 'Search or jump…',
           shortcut: 'k',

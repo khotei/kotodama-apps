@@ -1,10 +1,10 @@
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { toast } from 'sonner'
 import type { CommandAction } from '../components/features/search-command-palette'
+import type { AppNavLink } from '../components/organisms/app-header'
 import type { MobileTab } from '../components/organisms/mobile-tab-bar'
-import type { SiteNavLink } from '../components/organisms/site-header'
 
-export const CHROME_DESKTOP_NAV_MOCK: readonly SiteNavLink[] = [
+export const CHROME_DESKTOP_NAV_MOCK: readonly AppNavLink[] = [
   { label: 'Library', href: '/' },
   { label: 'Search', href: '/search' },
 ]

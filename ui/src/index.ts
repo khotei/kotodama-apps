@@ -12,6 +12,8 @@ export {
   AccentedWordMark,
   accentedWordText,
 } from './components/atoms/accented-word'
+export { AppMainWrapper, type AppMainWrapperProps } from './components/atoms/app-main-wrapper'
+export { AppWrapper, type AppWrapperProps } from './components/atoms/app-wrapper'
 export { Chip, type ChipProps, chipVariants } from './components/atoms/chip'
 export { ListenButton, type ListenButtonProps } from './components/atoms/listen-button'
 export { Overline, type OverlineProps } from './components/atoms/overline'
@@ -21,7 +23,6 @@ export { RetryLink } from './components/atoms/retry-link'
 export { Seal, type SealProps } from './components/atoms/seal'
 export { SectionRule, type SectionRuleProps } from './components/atoms/section-rule'
 export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
-export { SiteWrapper, type SiteWrapperProps } from './components/atoms/site-wrapper'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
 export { RankRow, type RankRowProps } from './components/core/rank-row'
@@ -44,6 +45,7 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/core/tier-chip'
+export { AppChrome, type AppChromeProps } from './components/features/app-chrome'
 export { LibraryHero, type LibraryHeroProps } from './components/features/library-hero'
 export { ReadingRoom, type ReadingRoomProps } from './components/features/reading-room'
 export {
@@ -54,7 +56,6 @@ export {
   WordCommandItem,
   type WordCommandItemProps,
 } from './components/features/search-command-palette'
-export { SiteChrome, type SiteChromeProps } from './components/features/site-chrome'
 export { WordOfTheDay, type WordOfTheDayProps } from './components/features/word-of-the-day'
 export { CommandFab, type CommandFabProps } from './components/molecules/command-fab'
 export {
@@ -64,6 +65,12 @@ export {
 export { LanguageMenu, type LanguageMenuProps } from './components/molecules/language-menu'
 export { SearchBox, type SearchBoxProps } from './components/molecules/search-box'
 export { ThemeMenu, type ThemeMenuProps, type ThemeMode } from './components/molecules/theme-menu'
+export { AppControls, type AppControlsProps } from './components/organisms/app-controls'
+export {
+  AppHeader,
+  type AppHeaderProps,
+  type AppNavLink,
+} from './components/organisms/app-header'
 export {
   CommandPalette,
   CommandPaletteGroup,
@@ -77,14 +84,8 @@ export {
   MobileTabBar,
   type MobileTabBarProps,
 } from './components/organisms/mobile-tab-bar'
-export { SiteControls, type SiteControlsProps } from './components/organisms/site-controls'
-export {
-  SiteHeader,
-  type SiteHeaderProps,
-  type SiteNavLink,
-} from './components/organisms/site-header'
 export { LibraryScreen, type LibraryScreenProps } from './components/pages/library'
-export { SiteShell, type SiteShellProps } from './components/templates/site-shell'
+export { AppShell, type AppShellProps } from './components/templates/app-shell'
 export {
   AlertDialog,
   AlertDialogAction,

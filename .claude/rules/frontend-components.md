@@ -21,8 +21,8 @@ ui components either (configure by data).
 
 **Suffix taxonomy — the name says how smart:** `*Container` = SMART (an app-side RSC that
 fetches/maps data + binds actions, e.g. `WordOfTheDayContainer`) · `*Wrapper` = DUMB (a
-single-purpose CSS wrapper over `children`, e.g. `SiteWrapper` — the max-width gutter) ·
-`*Template`/`*Shell` = a multi-slot page skeleton (`SiteShell`). Never call a presentational
+single-purpose CSS wrapper over `children`, e.g. `AppWrapper` — the max-width gutter) ·
+`*Template`/`*Shell` = a multi-slot page skeleton (`AppShell`). Never call a presentational
 wrapper a `Container`.
 
 ## The moves (each a real refactor — reproduce this diff shape)
@@ -47,7 +47,7 @@ group props one namespace per sub-concern, data + its callbacks travelling toget
 group reuses the child's props type verbatim; kit leaves stay FLAT:
 
 ```tsx
-// ✓ feature (SiteChrome): nav: { homeHref, desktop, mobile } · words: { list, onSearch?, onSelect }
+// ✓ feature (AppChrome): nav: { homeHref, desktop, mobile } · words: { list, onSearch?, onSelect }
 //                         · theme: ThemeMenuProps            — the child's type, not a re-declaration
 // ✓ kit leaf (RankRow):   { index, word, gloss, meta }       — flat; no nesting a leaf never needs
 ```
@@ -65,7 +65,7 @@ lists + callbacks); the caller owns close/clear/navigate:
 
 ```tsx
 // ✗ nav.map(({ href, active }) => …)                      — an `active` prop drifts from the router
-// ✓ const active = activeHref(usePathname(), hrefs)       — organisms/site-header.client.tsx
+// ✓ const active = activeHref(usePathname(), hrefs)       — organisms/app-header/app-header.client.tsx
 ```
 
 **Inject what data can source** — the `*View` carries display values; the component interpolates:
@@ -90,12 +90,12 @@ lists + callbacks); the caller owns close/clear/navigate:
 - **Frame + composition** — when "a new variant" means editing the primitive, split into a
   `children`-slotting frame + concrete pieces above (`CommandPalette ◄ CommandPaletteItem ◄
   WordCommandItem ◄ SearchCommandPalette`). Slot granularity = what the arrangement needs
-  (`SiteHeader` has ONE `controls` slot; the composer gates with `<Show>`).
-- **Extract on drift, not on sight** — a primitive after duplication DIVERGES (`SiteContainer`,
+  (`AppHeader` has ONE `controls` slot; the composer gates with `<Show>`).
+- **Extract on drift, not on sight** — a primitive after duplication DIVERGES (`AppWrapper`,
   5 drifting copies); React component for structure, `@utility` only for a visual recipe. Never
   raw markup re-doing a variant (`CommandFab` = `Button variant="accent"`, not a `<button>` that
   drops focus/press states).
-- **Name for what mounts in prod** — `SiteShell` mounts; `StoryShell` stays unexported. List keys
+- **Name for what mounts in prod** — `AppShell` mounts; `StoryShell` stays unexported. List keys
   from stable content (`accentedWordText(w.word)`), never a collidable field.
 
 ## Client hooks (`.client.tsx` in `ui`/`apps/web` only)

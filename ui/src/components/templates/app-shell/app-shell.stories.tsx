@@ -1,21 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { SiteShell } from './site-shell'
+import { AppShell } from './app-shell'
 
-const meta: Meta<typeof SiteShell> = {
-  title: 'Templates/SiteShell',
-  component: SiteShell,
+const meta: Meta<typeof AppShell> = {
+  title: 'Templates/AppShell',
+  component: AppShell,
   parameters: { layout: 'fullscreen' },
 }
 
 export default meta
-type Story = StoryObj<typeof SiteShell>
+type Story = StoryObj<typeof AppShell>
 
 export const Default: Story = {
   render: () => (
-    <SiteShell>
+    <AppShell>
       <div className="grid min-h-screen place-items-center text-muted-foreground">
-        Site content sits on the paper-grain backdrop
+        App content sits on the paper-grain backdrop
       </div>
-    </SiteShell>
+    </AppShell>
   ),
 }

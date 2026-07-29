@@ -1,7 +1,7 @@
-import type { MobileTab, SiteNavLink } from '@kotodama/ui'
+import type { AppNavLink, MobileTab } from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, SearchIcon } from 'lucide-react'
 
-export const DESKTOP_NAV: readonly SiteNavLink[] = [
+export const DESKTOP_NAV: readonly AppNavLink[] = [
   { label: 'Library', href: '/' },
   { label: 'Search', href: '/search' },
 ]

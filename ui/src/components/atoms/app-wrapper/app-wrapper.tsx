@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 import { cn } from '../../../lib/utils'
 
-export type SiteWrapperProps<E extends ElementType = 'div'> = {
+export type AppWrapperProps<E extends ElementType = 'div'> = {
   as?: E
 } & ComponentPropsWithoutRef<E>
 
@@ -11,11 +11,11 @@ export type SiteWrapperProps<E extends ElementType = 'div'> = {
  * its content in it so the max-width and page margin can't drift between call
  * sites. Renders a `<div>` — pass `as="main"` for the page's semantic region.
  */
-export function SiteWrapper<E extends ElementType = 'div'>({
+export function AppWrapper<E extends ElementType = 'div'>({
   as,
   className,
   ...props
-}: SiteWrapperProps<E>) {
+}: AppWrapperProps<E>) {
   const Component = as ?? 'div'
   return (
     <Component className={cn('mx-auto max-w-[1160px] px-lg md:px-2xl', className)} {...props} />

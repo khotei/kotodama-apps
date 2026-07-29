@@ -1,7 +1,7 @@
 'use client'
 
 import type { WordListItem } from '@kotodama/core/words'
-import { type CommandAction, SiteChrome } from '@kotodama/ui'
+import { AppChrome, type CommandAction } from '@kotodama/ui'
 import { BookmarkIcon, HouseIcon, PlusIcon, SearchIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -14,7 +14,7 @@ import { mapSearchWord } from '@/src/words/words-search.mapper'
 import { LANGUAGES } from './languages'
 import { DESKTOP_NAV, MOBILE_NAV } from './nav'
 
-export function PublicSiteHeader() {
+export function PublicAppHeader() {
   const router = useRouter()
   const { theme, setTheme } = useTheme()
   const [words, setWords] = useState<readonly WordListItem[]>([])
@@ -65,7 +65,7 @@ export function PublicSiteHeader() {
   ]
 
   return (
-    <SiteChrome
+    <AppChrome
       nav={{ homeHref: '/', searchHref: '/search', desktop: DESKTOP_NAV, mobile: MOBILE_NAV }}
       commands={commands}
       words={{

@@ -5,18 +5,18 @@ import { usePathname } from 'next/navigation'
 import type { ReactNode } from 'react'
 import { activeHref } from '../../../lib/active-href'
 import { cn } from '../../../lib/utils'
+import { AppWrapper } from '../../atoms/app-wrapper'
 import { Seal } from '../../atoms/seal'
 import { Show } from '../../atoms/show'
-import { SiteWrapper } from '../../atoms/site-wrapper'
 
-export type SiteNavLink = {
+export type AppNavLink = {
   label: string
   href: string
 }
 
-export type SiteHeaderProps = {
+export type AppHeaderProps = {
   homeHref: string
-  nav: readonly SiteNavLink[]
+  nav: readonly AppNavLink[]
   /** Right-hand control cluster; the composer gates each control by viewport with `<Show>`. */
   controls?: ReactNode
 }
@@ -35,14 +35,14 @@ function Wordmark({ href }: { href: string }) {
   )
 }
 
-export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
+export function AppHeader({ homeHref, nav, controls }: AppHeaderProps) {
   const active = activeHref(
     usePathname(),
     nav.map(({ href }) => href),
   )
   return (
     <header className="sticky top-0 z-40 border-border-subtle border-b bg-background/80 backdrop-blur-[8px]">
-      <SiteWrapper className="flex h-14 items-center justify-between md:h-[76px]">
+      <AppWrapper className="flex h-14 items-center justify-between md:h-[76px]">
         <div className="flex items-center gap-lg lg:gap-2xl">
           <Wordmark href={homeHref} />
           <Show on="desktop">
@@ -64,7 +64,7 @@ export function SiteHeader({ homeHref, nav, controls }: SiteHeaderProps) {
           </Show>
         </div>
         <div className="flex items-center gap-xs md:gap-md">{controls}</div>
-      </SiteWrapper>
+      </AppWrapper>
     </header>
   )
 }

@@ -7,7 +7,7 @@ import { LanguageMenu } from '../../molecules/language-menu'
 import { ThemeMenu, type ThemeMenuProps } from '../../molecules/theme-menu'
 import { Button } from '../../ui/button'
 
-export type SiteControlsProps = {
+export type AppControlsProps = {
   /** The ⌘K affordance: the desktop trigger + where the mobile magnifier links. */
   search: { label: string; shortcut: string; onTrigger: () => void; mobileHref: string }
   /** Bare catalogue codes; {@link LanguageMenu} derives the display labels. */
@@ -24,9 +24,9 @@ export type SiteControlsProps = {
  * The header's right-hand control cluster — ⌘K trigger (desktop) / search
  * magnifier (mobile), the language menu in both densities, the theme menu —
  * each gated by viewport with {@link Show}. The standard filling for
- * `SiteHeader`'s `controls` slot.
+ * `AppHeader`'s `controls` slot.
  */
-export function SiteControls({ search, language, theme }: SiteControlsProps) {
+export function AppControls({ search, language, theme }: AppControlsProps) {
   return (
     <>
       <Show on="desktop">

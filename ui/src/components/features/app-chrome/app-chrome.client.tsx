@@ -7,9 +7,9 @@ import type { Language } from '../../../views/language.view'
 import type { SearchWordView } from '../../../views/search.view'
 import { CommandFab } from '../../molecules/command-fab'
 import type { ThemeMenuProps } from '../../molecules/theme-menu'
+import { AppControls } from '../../organisms/app-controls'
+import { AppHeader, type AppNavLink } from '../../organisms/app-header'
 import { type MobileTab, MobileTabBar } from '../../organisms/mobile-tab-bar'
-import { SiteControls } from '../../organisms/site-controls'
-import { SiteHeader, type SiteNavLink } from '../../organisms/site-header'
 import {
   type CommandAction,
   type PaletteItem,
@@ -18,11 +18,11 @@ import {
 
 const SEARCH_DEBOUNCE_MS = 1_000
 
-export type SiteChromeProps = {
+export type AppChromeProps = {
   nav: {
     homeHref: string
     searchHref: string
-    desktop: readonly SiteNavLink[]
+    desktop: readonly AppNavLink[]
     mobile: readonly MobileTab[]
   }
   commands: readonly CommandAction[]
@@ -45,7 +45,7 @@ export type SiteChromeProps = {
  * Owns the palette state (every affordance that opens it lives here); every
  * pick is reported to the composer's `onSelect`, never acted on.
  */
-export function SiteChrome({ nav, commands, words, language, theme }: SiteChromeProps) {
+export function AppChrome({ nav, commands, words, language, theme }: AppChromeProps) {
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [paletteQuery, setPaletteQuery] = useState('')
 
@@ -74,11 +74,11 @@ export function SiteChrome({ nav, commands, words, language, theme }: SiteChrome
 
   return (
     <>
-      <SiteHeader
+      <AppHeader
         homeHref={nav.homeHref}
         nav={nav.desktop}
         controls={
-          <SiteControls
+          <AppControls
             search={{
               label: 'Search or jump…',
               shortcut: 'k',
