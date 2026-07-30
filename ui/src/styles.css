@@ -260,6 +260,48 @@
   --spacing-4xl: 6rem; /* 96px */
   --spacing-5xl: 8rem; /* 128px */
 
+  /* Width t-shirt keys → Tailwind's default --container-* scale, NOT our
+     --spacing-*. In v4 the width utilities read --spacing before --container
+     (tailwindcss#17777), so our named gap/p/m steps otherwise shadow max-w-xl
+     down to the 32px spacing step instead of a 36rem reading width. The
+     dedicated --max-width, --width and --min-width namespaces outrank
+     --spacing, so mapping them to var(--container-…) restores container widths
+     while gap-<key> keeps its spacing step. Only the keys our --spacing-* scale
+     collides with need this — 3xs/6xl/7xl have no spacing twin and already
+     resolve to --container natively. Native numeric/arbitrary/keyword forms
+     (max-w-4, max-w-[600px], w-full) are untouched. --container-* itself is
+     Tailwind's default, unredeclared. */
+  --max-width-2xs: var(--container-2xs);
+  --max-width-xs: var(--container-xs);
+  --max-width-sm: var(--container-sm);
+  --max-width-md: var(--container-md);
+  --max-width-lg: var(--container-lg);
+  --max-width-xl: var(--container-xl);
+  --max-width-2xl: var(--container-2xl);
+  --max-width-3xl: var(--container-3xl);
+  --max-width-4xl: var(--container-4xl);
+  --max-width-5xl: var(--container-5xl);
+  --width-2xs: var(--container-2xs);
+  --width-xs: var(--container-xs);
+  --width-sm: var(--container-sm);
+  --width-md: var(--container-md);
+  --width-lg: var(--container-lg);
+  --width-xl: var(--container-xl);
+  --width-2xl: var(--container-2xl);
+  --width-3xl: var(--container-3xl);
+  --width-4xl: var(--container-4xl);
+  --width-5xl: var(--container-5xl);
+  --min-width-2xs: var(--container-2xs);
+  --min-width-xs: var(--container-xs);
+  --min-width-sm: var(--container-sm);
+  --min-width-md: var(--container-md);
+  --min-width-lg: var(--container-lg);
+  --min-width-xl: var(--container-xl);
+  --min-width-2xl: var(--container-2xl);
+  --min-width-3xl: var(--container-3xl);
+  --min-width-4xl: var(--container-4xl);
+  --min-width-5xl: var(--container-5xl);
+
   /* Motion: the design's house easing + durations. */
   --ease-kdm: cubic-bezier(0.2, 0.6, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
