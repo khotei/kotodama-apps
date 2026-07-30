@@ -70,7 +70,7 @@ export function LibraryHero(props: LibraryHeroProps) {
         not just a gloss. And a quiet library that remembers for you.
       </p>
 
-      <div className="mt-2xl max-w-[600px]">
+      <div className="mt-2xl max-w-xl">
         <form action={props.searchPath}>
           <SearchBox
             name="q"
