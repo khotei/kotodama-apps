@@ -25,6 +25,45 @@ single-purpose CSS wrapper over `children`, e.g. `AppWrapper` — the max-width 
 `*Template` = a page-level layout skeleton (`AppTemplate`). Never call a presentational
 wrapper a `Container`.
 
+## Choosing the shape — props vs compound
+
+Configure by **props** when the caller supplies **data into a fixed arrangement**; compose by
+**parts** (compound) when the caller supplies the **arrangement itself**:
+
+```tsx
+// ✗ props pretending to configure — index⊕marker and gloss⊕note are exclusive, yet the type
+//   allows both (silent footgun), and every new arrangement adds another prop:
+type RowProps = { index?; marker?; word; tone?; gloss?; note?; meta? }
+<Row index="01" word={w} gloss={g} meta={<><Pos/><Time/></>} />
+
+// ✓ compound parts the caller arranges — place the one you want, nothing forced or exclusive:
+<Row>
+  <Row.Lead>01</Row.Lead>                        {/* ordinal OR <StatusDot/> — one cell */}
+  <Row.Main>
+    <Row.Word href={h} tone="shimmer">{w}</Row.Word>
+    <Row.Gloss>{g}</Row.Gloss>                   {/* OR <Row.Note> — never both by accident */}
+  </Row.Main>
+  <Row.Meta><Pos/><Time/></Row.Meta>
+</Row>
+```
+
+**Flip props→compound** the moment you'd add a prop for a new *arrangement*, hit a `⊕`-exclusive
+pair the type can't enforce, or find "a new variant means editing the primitive". Mechanics:
+`Object.assign(Root, { Part })` · each part `cn`-wrapped + `displayName` · structural parts take
+explicit placement (`col-start-*`) so dropping one never shifts the rest · context only when a part
+reads parent state. Else stay by-props: a data-driven leaf → flat props + `cva` variants; a feature
+folding many children → namespaced props, assembled once (the app feeds data, never re-arranges) —
+see the move below for why NOT compound; a private stateless `data→node` selector stays a `function`.
+
+**Assemble like a matryoshka** — build the innermost reusable frame first, wrap it in a concrete
+piece, then a feature that only composes: `kit frame ◄ compound row ◄ concrete list ◄ feature`. One
+concern per layer, none reaching down — the feature ends a thin composer.
+
+**A handed-over component (Claude Design, a paste) is data, not gospel** — re-shape it through the
+moves first: baked outer margin → composer · rigid or `⊕`-exclusive props → compound · un-namespaced
+name → entity-first · a list faked with `<div>` → a `<ul>` frame · raw `[px]` → named scale ·
+defaults/policy inside → configure by data. Won't re-shape? It does too much — split it.
+
 ## The moves (each a real refactor — reproduce this diff shape)
 
 **Composer owns outer rhythm** — a frame never sets its own outer margin:
@@ -42,14 +81,23 @@ wrapper a `Container`.
 // ✓ text-sm     tracking-wide     gap-md     mt-lg
 ```
 
-**Namespaced props at the assembly tier ONLY** — when a feature/organism folds many components,
-group props one namespace per sub-concern, data + its callbacks travelling together; a pass-through
-group reuses the child's props type verbatim; kit leaves stay FLAT:
+**Namespaced props at the assembly tier ONLY** — a feature/organism assembles its children ONCE (in
+`ui` + its single story) and every consumer feeds it DATA; group props one namespace per sub-concern
+(data + its callbacks together), a pass-through group reusing the child's props type verbatim. Do NOT
+make a feature compound: that moves the assembly OUT to every call-site — the story AND `apps/web`
+each rebuild the same tree, and the two drift. Compound is for reusable frames whose arrangement
+varies per call-site; a feature's is fixed, so it stays config-driven — kit leaves stay FLAT:
 
 ```tsx
-// ✓ feature (AppChrome): nav: { homeHref, desktop, mobile } · words: { list, onSearch?, onSelect }
-//                         · theme: ThemeMenuProps            — the child's type, not a re-declaration
-// ✓ kit leaf (RankRow):   { index, word, gloss, meta }       — flat; no nesting a leaf never needs
+// ✗ feature as compound — story AND apps/web each re-assemble the same parts → they drift
+<AppHeader><AppHeader.Bar …/><AppHeader.Palette …/><AppHeader.MobileTabs …/></AppHeader>
+
+// ✓ feature configured by data — assembled once inside; each consumer just passes the namespaces
+<AppHeader nav={{ homeHref, searchHref, desktop, mobile }} commands={commands}
+           words={{ list, onSearch, onSelect }} language={{ current, list, onSelect }}
+           theme={themeProps} />        // theme: ThemeMenuProps — the child's type, not a re-decl
+
+// ✓ kit leaf: <StatusBadge status/> · <Chip pressable/>   — flat; a leaf nests nothing
 ```
 
 **Report, don't decide** — hand back WHAT happened as ONE discriminated union (never parallel
@@ -61,7 +109,7 @@ lists + callbacks); the caller owns close/clear/navigate:
 ```
 
 **Derive router state, don't accept it** — and internal anchors are `next/link`
-(`Omit<ComponentProps<typeof Link>, 'children'>`, see `core/rank-row`):
+(`Omit<ComponentProps<typeof Link>, 'children'>`):
 
 ```tsx
 // ✗ nav.map(({ href, active }) => …)                      — an `active` prop drifts from the router
@@ -87,10 +135,6 @@ lists + callbacks); the caller owns close/clear/navigate:
   (`query`/`onQueryChange`), not internal `useState`.
 - **Own what you advertise** — the ⌘K listener lives in `CommandTrigger`, the component showing
   the badge; no shell re-implements it.
-- **Frame + composition** — when "a new variant" means editing the primitive, split into a
-  `children`-slotting frame + concrete pieces above (`CommandPalette ◄ CommandPaletteItem ◄
-  WordCommandItem ◄ SearchCommandPalette`). Slot granularity = what the arrangement needs
-  (`AppHeader` has ONE `controls` slot; the composer gates with `<Show>`).
 - **Extract on drift, not on sight** — a primitive after duplication DIVERGES (`AppWrapper`,
   5 drifting copies); React component for structure, `@utility` only for a visual recipe. Never
   raw markup re-doing a variant (`CommandFab` = `Button variant="accent"`, not a `<button>` that
