@@ -15,6 +15,7 @@ export {
 export { AppMainWrapper, type AppMainWrapperProps } from './components/atoms/app-main-wrapper'
 export { AppWrapper, type AppWrapperProps } from './components/atoms/app-wrapper'
 export { Chip, type ChipProps, chipVariants } from './components/atoms/chip'
+export { List, ListItem, type ListItemProps, type ListProps } from './components/atoms/list'
 export { ListenButton, type ListenButtonProps } from './components/atoms/listen-button'
 export { Overline, type OverlineProps } from './components/atoms/overline'
 export { PosPill } from './components/atoms/pos-pill'
@@ -25,7 +26,7 @@ export { SectionRule, type SectionRuleProps } from './components/atoms/section-r
 export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
-export { RankRow, type RankRowProps } from './components/core/rank-row'
+export { Timestamp } from './components/atoms/timestamp'
 export {
   SaveWordButton,
   type SaveWordButtonProps,
@@ -45,6 +46,13 @@ export {
   type TierDotProps,
   type WordTier,
 } from './components/core/tier-chip'
+export { WordRankList, type WordRankListProps } from './components/core/word-rank-list'
+export {
+  type RetryHandler,
+  WordRecentList,
+  type WordRecentListProps,
+} from './components/core/word-recent-list'
+export { WordRow, type WordRowProps, type WordRowTone } from './components/core/word-row'
 export {
   AppHeader,
   type AppHeaderProps,
