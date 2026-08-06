@@ -1,4 +1,4 @@
-import type { WordStatus } from '../components/core/status-badge'
+import type { WordStatus } from '../components/core/word-status'
 
 export type SearchWordView = {
   href: string

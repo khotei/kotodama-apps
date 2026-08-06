@@ -1,6 +1,6 @@
 import type { AccentedWord } from '../components/atoms/accented-word'
-import type { WordStatus } from '../components/core/status-badge'
-import type { WordTier } from '../components/core/tier-chip'
+import type { WordStatus } from '../components/core/word-status'
+import type { WordTier } from '../components/core/word-tier'
 
 export type LibraryStat = {
   value: string

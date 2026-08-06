@@ -11,8 +11,8 @@ import { ListenButton } from '../../atoms/listen-button'
 import { Overline } from '../../atoms/overline'
 import { SectionRule } from '../../atoms/section-rule'
 import { Sparkline } from '../../atoms/sparkline'
-import { SaveWordButton } from '../../core/save-word-button'
-import { TierDot } from '../../core/tier-chip'
+import { WordSaveButton } from '../../core/word-save-button'
+import { WordTierDot } from '../../core/word-tier'
 import { Button } from '../../ui/button'
 
 function Glance({ value }: { value: GlanceText }) {
@@ -129,7 +129,7 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
                 Read the full entry <ArrowRightIcon />
               </Link>
             </Button>
-            <SaveWordButton
+            <WordSaveButton
               word={accentedWordText(wotd.word)}
               initialSaved={wotd.saved}
               look="wotd"
@@ -153,7 +153,7 @@ export function WordOfTheDay({ wotds }: WordOfTheDayProps) {
             <dt className="font-sans text-sm text-faint-foreground">Tier coverage</dt>
             <dd className="m-0 flex items-center gap-xs">
               {wotd.glance.tiers.map((tier) => (
-                <TierDot key={tier} tier={tier} />
+                <WordTierDot key={tier} tier={tier} />
               ))}
               <span className="ml-2xs text-xs text-muted-foreground">{wotd.glance.tiersLabel}</span>
             </dd>

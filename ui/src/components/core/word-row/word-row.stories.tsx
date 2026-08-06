@@ -3,8 +3,8 @@ import { BookmarkIcon } from 'lucide-react'
 import { PosPill } from '../../atoms/pos-pill'
 import { RetryLink } from '../../atoms/retry-link'
 import { Timestamp } from '../../atoms/timestamp'
-import { StatusBadge, StatusDot } from '../status-badge'
-import { StatusNote } from '../status-note'
+import { WordStatusBadge, WordStatusDot } from '../word-status'
+import { WordStatusNote } from '../word-status-note'
 import { WordRow } from './word-row'
 
 const meta: Meta<typeof WordRow> = {
@@ -40,7 +40,7 @@ export const RecentSaved: Story = {
   render: () => (
     <WordRow>
       <WordRow.Lead>
-        <StatusDot status="succeeded" className="ml-2xs" />
+        <WordStatusDot status="succeeded" className="ml-2xs" />
       </WordRow.Lead>
       <WordRow.Main>
         <WordRow.Word href="#">madrugar</WordRow.Word>
@@ -59,18 +59,18 @@ export const Arriving: Story = {
   render: () => (
     <WordRow>
       <WordRow.Lead>
-        <StatusDot status="running" className="ml-2xs" />
+        <WordStatusDot status="running" className="ml-2xs" />
       </WordRow.Lead>
       <WordRow.Main>
         <WordRow.Word href="#" tone="shimmer">
           empalagar
         </WordRow.Word>
         <WordRow.Note>
-          <StatusNote note="Spanish · arriving" status="running" />
+          <WordStatusNote note="Spanish · arriving" status="running" />
         </WordRow.Note>
       </WordRow.Main>
       <WordRow.Meta>
-        <StatusBadge status="running" />
+        <WordStatusBadge status="running" />
         <Timestamp>just now</Timestamp>
       </WordRow.Meta>
     </WordRow>
@@ -82,14 +82,14 @@ export const Failed: Story = {
   render: () => (
     <WordRow>
       <WordRow.Lead>
-        <StatusDot status="failed" className="ml-2xs" />
+        <WordStatusDot status="failed" className="ml-2xs" />
       </WordRow.Lead>
       <WordRow.Main>
         <WordRow.Word href="#" tone="muted">
           merendar
         </WordRow.Word>
         <WordRow.Note>
-          <StatusNote note="Spanish · didn’t settle" status="failed" />
+          <WordStatusNote note="Spanish · didn’t settle" status="failed" />
         </WordRow.Note>
       </WordRow.Main>
       <WordRow.Meta>

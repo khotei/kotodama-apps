@@ -3,7 +3,7 @@
 import { BookOpenIcon } from 'lucide-react'
 import Link from 'next/link'
 import type { SearchWordView } from '../../../views/search.view'
-import { StatusBadge } from '../../core/status-badge'
+import { WordStatusBadge } from '../../core/word-status'
 import { CommandPaletteItem } from '../../organisms/command-palette'
 
 export type WordCommandItemProps = {
@@ -13,7 +13,7 @@ export type WordCommandItemProps = {
 
 /**
  * A {@link CommandPaletteItem} specialised for a library word: the word over its
- * gloss, with the part-of-speech trailing when ready or a {@link StatusBadge}
+ * gloss, with the part-of-speech trailing when ready or a {@link WordStatusBadge}
  * while it's still building. `href` is the identity; the word stays the match term.
  * The word is a real link — modified clicks open a tab natively; plain clicks and
  * Enter both land in `onSelect`, the row's single navigation path.
@@ -33,7 +33,7 @@ export function WordCommandItem({ word, onSelect }: WordCommandItemProps) {
             <span className="text-sm text-subtle-foreground">{word.posLabel}</span>
           )
         ) : (
-          <StatusBadge status={word.status} />
+          <WordStatusBadge status={word.status} />
         )
       }
     >

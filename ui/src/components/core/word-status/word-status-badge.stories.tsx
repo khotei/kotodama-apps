@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { StatusBadge } from './status-badge'
+import { WordStatusBadge } from './word-status'
 
-const meta: Meta<typeof StatusBadge> = {
-  title: 'Core/StatusBadge',
-  component: StatusBadge,
+const meta: Meta<typeof WordStatusBadge> = {
+  title: 'Core/WordStatusBadge',
+  component: WordStatusBadge,
   argTypes: {
     status: { control: 'select', options: ['succeeded', 'running', 'pending', 'failed'] },
   },
@@ -11,7 +11,7 @@ const meta: Meta<typeof StatusBadge> = {
 
 export default meta
 
-type Story = StoryObj<typeof StatusBadge>
+type Story = StoryObj<typeof WordStatusBadge>
 
 export const Ready: Story = { args: { status: 'succeeded' } }
 export const Generating: Story = { args: { status: 'running' } }
@@ -25,10 +25,10 @@ export const CustomLabel: Story = {
 export const All: Story = {
   render: () => (
     <div className="flex flex-wrap items-center gap-sm">
-      <StatusBadge status="succeeded" />
-      <StatusBadge status="running" />
-      <StatusBadge status="pending" />
-      <StatusBadge status="failed" />
+      <WordStatusBadge status="succeeded" />
+      <WordStatusBadge status="running" />
+      <WordStatusBadge status="pending" />
+      <WordStatusBadge status="failed" />
     </div>
   ),
 }

@@ -15,7 +15,7 @@ import {
 } from '../../ui/alert-dialog'
 import { Button } from '../../ui/button'
 
-export type SaveWordButtonProps = {
+export type WordSaveButtonProps = {
   word: string
   initialSaved?: boolean
   /**
@@ -26,7 +26,7 @@ export type SaveWordButtonProps = {
 }
 
 const LOOK: Record<
-  NonNullable<SaveWordButtonProps['look']>,
+  NonNullable<WordSaveButtonProps['look']>,
   { unsavedLabel: string; variant: 'accent' | 'outline' | 'ghost'; className?: string }
 > = {
   hero: { unsavedLabel: 'Save word', variant: 'accent' },
@@ -43,7 +43,7 @@ const LOOK: Record<
  * un-saving asks first (AlertDialog), then offers Undo too. State is local
  * until a saved-words backend exists — the seam is this island's interior.
  */
-export function SaveWordButton({ word, initialSaved = false, look = 'hero' }: SaveWordButtonProps) {
+export function WordSaveButton({ word, initialSaved = false, look = 'hero' }: WordSaveButtonProps) {
   const [saved, setSaved] = useState(initialSaved)
   const [confirming, setConfirming] = useState(false)
 

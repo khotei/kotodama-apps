@@ -6,9 +6,9 @@ import { List, ListItem } from '../../atoms/list'
 import { PosPill } from '../../atoms/pos-pill'
 import { RetryButton } from '../../atoms/retry-button'
 import { Timestamp } from '../../atoms/timestamp'
-import { StatusBadge, StatusDot, type WordStatus } from '../status-badge'
-import { StatusNote } from '../status-note'
 import { WordRow, type WordRowTone } from '../word-row'
+import { type WordStatus, WordStatusBadge, WordStatusDot } from '../word-status'
+import { WordStatusNote } from '../word-status-note'
 
 export type RetryHandler = (word: string) => void | Promise<void>
 
@@ -25,7 +25,7 @@ function recentSub(word: RankedWordView): ReactNode {
   }
   return word.statusNote != null ? (
     <WordRow.Note>
-      <StatusNote note={word.statusNote} status={word.status} />
+      <WordStatusNote note={word.statusNote} status={word.status} />
     </WordRow.Note>
   ) : null
 }
@@ -37,7 +37,7 @@ function recentMeta(word: RankedWordView, onRetry?: RetryHandler): ReactNode {
   // No re-queue wired ⇒ the failed row degrades to a plain Failed badge, never a
   // dead Retry that looks clickable but does nothing.
   if (word.status !== 'succeeded') {
-    return <StatusBadge status={word.status} />
+    return <WordStatusBadge status={word.status} />
   }
   if (word.saved) {
     return <BookmarkIcon className="size-4 fill-seal text-seal" />
@@ -64,7 +64,7 @@ export function WordRecentList({ words, onRetry }: WordRecentListProps) {
         <ListItem key={word.href}>
           <WordRow>
             <WordRow.Lead>
-              <StatusDot status={word.status} className="ml-2xs" />
+              <WordStatusDot status={word.status} className="ml-2xs" />
             </WordRow.Lead>
             <WordRow.Main>
               <WordRow.Word href={word.href} tone={WORD_TONE[word.status]}>

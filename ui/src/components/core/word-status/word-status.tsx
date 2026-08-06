@@ -8,7 +8,7 @@ import { Badge, type BadgeProps } from '../../ui/badge'
 
 /** The one word-lifecycle status vocabulary — the wire's own union, read
  *  type-only off the contract so a backend status change breaks these Records
- *  at compile time. Display copy stays this component's ({@link StatusBadge}
+ *  at compile time. Display copy stays this component's ({@link WordStatusBadge}
  *  renders `running` as “Generating…”). */
 export type WordStatus = NonNullable<
   NonNullable<operations['words.search']['parameters']['query']>['status']
@@ -39,11 +39,11 @@ const STATUS_GLYPH: Record<WordStatus, ReactNode> = {
   failed: <TriangleAlertIcon className="size-3" />,
 }
 
-export type StatusBadgeProps = Omit<BadgeProps, 'variant'> & {
+export type WordStatusBadgeProps = Omit<BadgeProps, 'variant'> & {
   status: WordStatus
 }
 
-export function StatusBadge({ status, className, children, ...props }: StatusBadgeProps) {
+export function WordStatusBadge({ status, className, children, ...props }: WordStatusBadgeProps) {
   return (
     <Badge className={cn(statusBadgeVariants({ status }), className)} {...props}>
       {STATUS_GLYPH[status]}
@@ -52,7 +52,7 @@ export function StatusBadge({ status, className, children, ...props }: StatusBad
   )
 }
 
-const statusDotVariants = cva('size-2 shrink-0 rounded-full', {
+const statusDotVariants = cva('inline-block size-2 shrink-0 rounded-full', {
   variants: {
     status: {
       succeeded: 'bg-border-strong',
@@ -63,11 +63,11 @@ const statusDotVariants = cva('size-2 shrink-0 rounded-full', {
   },
 })
 
-export type StatusDotProps = Omit<ComponentProps<'span'>, 'children'> & {
+export type WordStatusDotProps = Omit<ComponentProps<'span'>, 'children'> & {
   status: WordStatus
 }
 
 /** The dot form of the status vocabulary — a bare glyph for dense list rows. */
-export function StatusDot({ status, className, ...props }: StatusDotProps) {
+export function WordStatusDot({ status, className, ...props }: WordStatusDotProps) {
   return <span className={cn(statusDotVariants({ status }), className)} {...props} />
 }

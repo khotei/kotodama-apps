@@ -27,25 +27,6 @@ export { Show, type ShowOn, type ShowProps } from './components/atoms/show'
 export { Sparkline, type SparklineProps } from './components/atoms/sparkline'
 export { Spinner } from './components/atoms/spinner'
 export { Timestamp } from './components/atoms/timestamp'
-export {
-  SaveWordButton,
-  type SaveWordButtonProps,
-} from './components/core/save-word-button'
-export {
-  StatusBadge,
-  type StatusBadgeProps,
-  StatusDot,
-  type StatusDotProps,
-  type WordStatus,
-} from './components/core/status-badge'
-export { StatusNote, type StatusNoteProps } from './components/core/status-note'
-export {
-  TierChip,
-  type TierChipProps,
-  TierDot,
-  type TierDotProps,
-  type WordTier,
-} from './components/core/tier-chip'
 export { WordRankList, type WordRankListProps } from './components/core/word-rank-list'
 export {
   type RetryHandler,
@@ -53,6 +34,19 @@ export {
   type WordRecentListProps,
 } from './components/core/word-recent-list'
 export { WordRow, type WordRowProps, type WordRowTone } from './components/core/word-row'
+export {
+  WordSaveButton,
+  type WordSaveButtonProps,
+} from './components/core/word-save-button'
+export {
+  type WordStatus,
+  WordStatusBadge,
+  type WordStatusBadgeProps,
+  WordStatusDot,
+  type WordStatusDotProps,
+} from './components/core/word-status'
+export { WordStatusNote, type WordStatusNoteProps } from './components/core/word-status-note'
+export { type WordTier, WordTierDot, type WordTierDotProps } from './components/core/word-tier'
 export {
   AppHeader,
   type AppHeaderProps,

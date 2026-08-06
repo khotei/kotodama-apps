@@ -24,7 +24,7 @@ type ChipOwnProps = { leading?: ReactNode }
  * The neutral pill frame: an uppercase outline chip that colours from
  * `text-current`, so a composer sets the hue with a `text-*` class. Policy-free —
  * it owns its look and nothing else; the tier vocabulary and filter semantics
- * live in wrappers above ({@link TierChip}).
+ * live in wrappers above ({@link WordTierDot}).
  *
  * `pressable` swaps the rendered element: a static `span` by default, a Radix
  * `Toggle` (real `aria-pressed` + `pressed`/`onPressedChange`) when set — the one

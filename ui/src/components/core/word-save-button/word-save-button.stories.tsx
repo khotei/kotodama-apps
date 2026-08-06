@@ -1,10 +1,10 @@
 import { Toaster } from '@kotodama/ui'
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { SaveWordButton } from './save-word-button.client'
+import { WordSaveButton } from './word-save-button.client'
 
-const meta: Meta<typeof SaveWordButton> = {
-  title: 'Core/SaveWordButton',
-  component: SaveWordButton,
+const meta: Meta<typeof WordSaveButton> = {
+  title: 'Core/WordSaveButton',
+  component: WordSaveButton,
   decorators: [
     (Story) => (
       <>
@@ -16,7 +16,7 @@ const meta: Meta<typeof SaveWordButton> = {
 }
 
 export default meta
-type Story = StoryObj<typeof SaveWordButton>
+type Story = StoryObj<typeof WordSaveButton>
 
 export const Hero: Story = { args: { word: 'mariposa', look: 'hero' } }
 export const HeroSaved: Story = { args: { word: 'mariposa', look: 'hero', initialSaved: true } }

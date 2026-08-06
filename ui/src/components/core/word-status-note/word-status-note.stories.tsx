@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { StatusNote } from './status-note'
+import { WordStatusNote } from './word-status-note'
 
-const meta: Meta<typeof StatusNote> = {
-  title: 'Core/StatusNote',
-  component: StatusNote,
+const meta: Meta<typeof WordStatusNote> = {
+  title: 'Core/WordStatusNote',
+  component: WordStatusNote,
   decorators: [
     (Story) => (
       <span className="font-mono text-xs uppercase tracking-widest">
@@ -14,7 +14,7 @@ const meta: Meta<typeof StatusNote> = {
 }
 
 export default meta
-type Story = StoryObj<typeof StatusNote>
+type Story = StoryObj<typeof WordStatusNote>
 
 export const Arriving: Story = { args: { note: 'Spanish · arriving', status: 'running' } }
 export const Queued: Story = { args: { note: 'Spanish · queued', status: 'pending' } }
